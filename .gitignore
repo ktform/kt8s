@@ -1,0 +1,53 @@
+# VSCode
+.vscode/
+.vscode/**
+
+# Keep the code styles.
+.idea/**
+!.idea/codeStyles
+!.idea/codeStyles/Project.xml
+!.idea/codeStyles/codeStyleConfig.xml
+!.idea/copyright/*
+!.idea/icon*
+
+.gradle/
+.gradle/**
+.kotlin/
+.kotlin/**
+
+# MacOS
+.DS_Store
+*.pem
+
+# Env
+.env*
+*.local
+local.properties
+
+# Testing
+coverage/
+reports/
+captures
+
+# Rust 
+target
+
+# Logs
+logs
+*.log
+*.log*
+
+# Build
+build/
+dist/
+.externalNativeBuild
+
+# XCode
+xcuserdata
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcodeproj/project.xcworkspace/
+!*.xcworkspace/contents.xcworkspacedata
+**/xcshareddata/WorkspaceSettings.xcsettings
+.cxx

@@ -1,0 +1,59 @@
+package dev.ktform.kt8s.resources
+
+import dev.ktform.kt8s.resources.IntOrString
+import dev.ktform.kt8s.resources.KubernetesMicroTime
+import dev.ktform.kt8s.resources.KubernetesTime
+import dev.ktform.kt8s.resources.RawJsonObject
+import dev.ktform.kt8s.resources.Resource
+import dev.ktform.kt8s.resources.StringOrNumber
+import kotlin.String
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+
+/**
+ * @param expression expression will be evaluated by CEL to create an apply configuration. ref: https://github.com/google/cel-spec
+ *
+ * Apply configurations are declared in CEL using object initialization. For example, this CEL expression returns an apply configuration to set a single field:
+ *
+ * 	Object{
+ * 	  spec: Object.spec{
+ * 	    serviceAccountName: "example"
+ * 	  }
+ * 	}
+ *
+ * Apply configurations may not modify atomic structs, maps or arrays due to the risk of accidental deletion of values not included in the apply configuration.
+ *
+ * CEL expressions have access to the object types needed to create apply configurations:
+ *
+ * - 'Object' - CEL type of the resource object. - 'Object.<fieldName>' - CEL type of object field (such as 'Object.spec') - 'Object.<fieldName1>.<fieldName2>...<fieldNameN>` - CEL type of nested field (such as 'Object.spec.containers')
+ *
+ * CEL expressions have access to the contents of the API request, organized into CEL variables as well as some other useful variables:
+ *
+ * - 'object' - The object from the incoming request. The value is null for DELETE requests. - 'oldObject' - The existing object. The value is null for CREATE requests. - 'request' - Attributes of the API request([ref](/pkg/apis/admission/types.go#AdmissionRequest)). - 'params' - Parameter resource referred to by the policy binding being evaluated. Only populated if the policy has a ParamKind. - 'namespaceObject' - The namespace object that the incoming object belongs to. The value is null for cluster-scoped resources. - 'variables' - Map of composited variables, from its name to its lazily evaluated value.
+ *   For example, a variable named 'foo' can be accessed as 'variables.foo'.
+ * - 'authorizer' - A CEL Authorizer. May be used to perform authorization checks for the principal (user or service account) of the request.
+ *   See https://pkg.go.dev/k8s.io/apiserver/pkg/cel/library#Authz
+ * - 'authorizer.requestResource' - A CEL ResourceCheck constructed from the 'authorizer' and configured with the
+ *   request resource.
+ *
+ * The `apiVersion`, `kind`, `metadata.name` and `metadata.generateName` are always accessible from the root of the object. No other metadata properties are accessible.
+ *
+ * Only property names of the form `[a-zA-Z_.-/][a-zA-Z0-9_.-/]*` are accessible. Required.
+ */
+@Serializable
+public data class ApplyConfiguration(
+  public val expression: String,
+) : Resource {
+  @SerialName("apiVersion")
+  override val apiVersion: String = "io.k8s.api.admissionregistration/v1alpha1"
+
+  @Transient
+  override val group: String = "io.k8s.api.admissionregistration"
+
+  @Transient
+  override val version: String = "v1alpha1"
+
+  @SerialName("kind")
+  override val kind: String = "ApplyConfiguration"
+}
