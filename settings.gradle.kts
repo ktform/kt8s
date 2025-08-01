@@ -10,6 +10,7 @@ pluginManagement {
   }
 }
 
+@Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
   repositories {
     mavenCentral()
@@ -21,13 +22,14 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "kt8s"
-
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
+include(":kt8s-client")
+include(":kt8s-compiler")
 
-check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_24)) {
+check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_21)) {
   """
-    Sumicare requires JDK 24 but it is currently using JDK ${JavaVersion.current()}.
+    Sumicare requires JDK 21 but it is currently using JDK ${JavaVersion.current()}.
     Java Home: [${System.getProperty("java.home")}]
   """.trimIndent()
 }

@@ -4,19 +4,67 @@
 
 [versions]
 kotlin = "2.2.0"
-kotlinxDatetime = "0.6.1"
-kotlinxSerializationJSON = "1.7.3"
-kotlinxCoroutines = "1.9.0"
+kotlin-datetime = "0.6.1"
+kotlin-coroutines = "1.9.0"
+kotlin-immutable = "0.4.0"
+kotlin-serialization-json = "1.9.0"
+plugins-version-catalog-update = "1.0.0"
+plugins-spotless = "7.2.1"
+plugins-ksp = "2.2.0-2.0.2"
+testing-junit = "4.13.2"
+testing-intstrumented-core = "1.7.0"
+testing-intstrumented-rules = "1.7.0"
+testing-intstrumented-runner = "1.7.0"
+testing-robolectric = "4.15.1"
+ktor = "3.2.3"
+plugins-android = "8.10.0"
+# @keep
+settings-buildTools = "36.0.0"
+# @keep
+settings-compileSdk = "36"
+# @keep
+settings-minSdk = "33"
+# @keep
+settings-versionName = "1.0.0"
 
 [libraries]
-kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-kotlinxDatetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
-kotlinxSerialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJSON" }
-kotlinxCoroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlin-datetime" }
+kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
+kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
+kotlin-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlin-immutable" }
+kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization-json" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-apache = { module = "io.ktor:ktor-client-apache", version.ref = "ktor" }
+ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
+testing-kotlin-jb = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+testing-junit = { module = "junit:junit", version.ref = "testing-junit" }
+testing-instrumented-core = { module = "androidx.test:core", version.ref = "testing-intstrumented-core" }
+testing-instrumented-core-ktx = { module = "androidx.test:core-ktx", version.ref = "testing-intstrumented-core" }
+testing-instrumented-rules = { module = "androidx.test:rules", version.ref = "testing-intstrumented-rules" }
+testing-instrumented-runner = { module = "androidx.test:runner", version.ref = "testing-intstrumented-runner" }
+testing-robolectric = { module = "org.robolectric:robolectric", version.ref = "testing-robolectric" }
 
-# Libraries can be bundled together for easier import
 [bundles]
-kotlinxEcosystem = ["kotlinxDatetime", "kotlinxSerialization", "kotlinxCoroutines"]
+common = ["kotlin-datetime", "kotlin-serialization-json", "kotlin-coroutines-core", "kotlin-immutable", "ktor-client-core"]
+common-testing = ["kotlin-coroutines-test", "testing-kotlin-jb"]
+jvm = ["ktor-client-apache"]
+jvm-testing = ["testing-junit"]
+js = ["ktor-client-js"]
+js-testing = []
+native = ["ktor-client-cio"]
+native-testing = []
+android = ["ktor-client-android", "testing-junit"]
+android-testing = ["testing-instrumented-core", "testing-instrumented-core-ktx", "testing-instrumented-rules", "testing-instrumented-runner", "testing-robolectric"]
+ios = ["ktor-client-cio"]
+ios-testing = []
 
 [plugins]
-kotlinPluginSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "plugins-ksp" }
+spotless = { id = "com.diffplug.spotless", version.ref = "plugins-spotless" }
+version-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "plugins-version-catalog-update" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
+android-library = { id = "com.android.library", version.ref = "plugins-android" }
