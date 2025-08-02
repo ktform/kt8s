@@ -1,5 +1,3 @@
-import dev.ktform.kt8s.build.kspKmp
-
 plugins {
   alias(libs.plugins.android.library)
   alias(libs.plugins.ksp)
@@ -10,11 +8,11 @@ plugins {
   id("maven-publish")
 }
 
-group = "dev.ktform.kt8s"
+group = "dev.ktform.kt8s.charts"
 version = libs.versions.settings.versionName.get()
 
 android {
-  namespace = "dev.ktform.kt8s"
+  namespace = "dev.ktform.kt8s.charts"
   compileSdk = libs.versions.settings.compileSdk.get().toInt()
   buildToolsVersion = libs.versions.settings.buildTools.get()
 
@@ -84,5 +82,5 @@ kotlin {
 }
 
 dependencies {
-  kspKmp(libs.arrow.optics.compiler)
+
 }

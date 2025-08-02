@@ -23,4 +23,6 @@ buildscript {
 dependencies {
   implementation(libs.bundles.compiler)
   implementation(libs.bundles.arrow)
+
+  ksp(libs.arrow.optics.compiler)
 }

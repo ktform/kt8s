@@ -49,6 +49,7 @@ kotlin {
     }
     commonTest.dependencies {
       implementation(libs.bundles.common.testing)
+
     }
     androidMain.dependencies {
       implementation(libs.bundles.android)

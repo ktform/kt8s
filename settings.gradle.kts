@@ -24,8 +24,14 @@ dependencyResolutionManagement {
 rootProject.name = "kt8s"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
+include(":kt8s-app")
+include(":kt8s-charts")
 include(":kt8s-client")
 include(":kt8s-compiler")
+include(":kt8s-controller")
+include(":kt8s-dashboard")
+include(":kt8s-image-compiler")
+include(":kt8s-ui")
 
 check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_21)) {
   """

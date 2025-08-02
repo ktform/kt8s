@@ -3,9 +3,11 @@
 # https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
 
 [versions]
+arrow = "2.1.2"
+android-desugar = "2.1.5"
 kotlin = "2.2.0"
-kotlin-datetime = "0.6.1"
-kotlin-coroutines = "1.9.0"
+kotlin-datetime = "0.6.2"
+kotlin-coroutines = "1.10.2"
 kotlin-immutable = "0.4.0"
 kotlin-serialization-json = "1.9.0"
 plugins-version-catalog-update = "1.0.0"
@@ -18,6 +20,7 @@ testing-intstrumented-runner = "1.7.0"
 testing-robolectric = "4.15.1"
 ktor = "3.2.3"
 plugins-android = "8.10.0"
+plugins-maven-publish = "0.34.0"
 # @keep
 settings-buildTools = "36.0.0"
 # @keep
@@ -38,6 +41,7 @@ ktor-client-apache = { module = "io.ktor:ktor-client-apache", version.ref = "kto
 ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
+compiler-ksp = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "plugins-ksp" }
 testing-kotlin-jb = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 testing-junit = { module = "junit:junit", version.ref = "testing-junit" }
 testing-instrumented-core = { module = "androidx.test:core", version.ref = "testing-intstrumented-core" }
@@ -45,8 +49,13 @@ testing-instrumented-core-ktx = { module = "androidx.test:core-ktx", version.ref
 testing-instrumented-rules = { module = "androidx.test:rules", version.ref = "testing-intstrumented-rules" }
 testing-instrumented-runner = { module = "androidx.test:runner", version.ref = "testing-intstrumented-runner" }
 testing-robolectric = { module = "org.robolectric:robolectric", version.ref = "testing-robolectric" }
+arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
+arrow-fx-coroutines = { module = "io.arrow-kt:arrow-fx-coroutines", version.ref = "arrow" }
+arrow-optics = { module = "io.arrow-kt:arrow-optics", version.ref = "arrow" }
+arrow-optics-compiler = { module = "io.arrow-kt:arrow-optics-ksp-plugin", version.ref = "arrow" }
 
 [bundles]
+arrow = ["arrow-core", "arrow-fx-coroutines", "arrow-optics"]
 common = ["kotlin-datetime", "kotlin-serialization-json", "kotlin-coroutines-core", "kotlin-immutable", "ktor-client-core"]
 common-testing = ["kotlin-coroutines-test", "testing-kotlin-jb"]
 jvm = ["ktor-client-apache"]
@@ -59,6 +68,8 @@ android = ["ktor-client-android", "testing-junit"]
 android-testing = ["testing-instrumented-core", "testing-instrumented-core-ktx", "testing-instrumented-rules", "testing-instrumented-runner", "testing-robolectric"]
 ios = ["ktor-client-cio"]
 ios-testing = []
+compiler = ["compiler-ksp"]
+compiler-test = []
 
 [plugins]
 ksp = { id = "com.google.devtools.ksp", version.ref = "plugins-ksp" }
@@ -68,3 +79,4 @@ kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref 
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 android-library = { id = "com.android.library", version.ref = "plugins-android" }
+maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "plugins-maven-publish" }

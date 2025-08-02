@@ -5,7 +5,7 @@ plugins {
   alias(libs.plugins.ktor)
   alias(libs.plugins.maven.publish)
   kotlin("jvm")
-
+  application
 }
 
 spotless {
@@ -20,7 +20,11 @@ buildscript {
   }
 }
 
+application {
+  mainClass.set("dev.ktform.kt8s.controller.MainKt")
+}
+
 dependencies {
-  implementation(libs.bundles.compiler)
+  implementation(libs.bundles.common)
   implementation(libs.bundles.arrow)
 }
