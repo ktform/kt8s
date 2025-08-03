@@ -11,20 +11,11 @@
 
 package dev.ktform.kt8s
 
-import android.os.Build
-import org.junit.Assert
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
+import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.shouldBe
 
-@RunWith(RobolectricTestRunner::class)
-@Config(
-  sdk = [Build.VERSION_CODES.TIRAMISU],
-)
-class K8SClientAndroidTest {
-  @Test
-  fun addition_isCorrect() {
-      Assert.assertEquals(4, 2 + 2)
+class K8SClientAndroidTest : FunSpec({
+  test("dumb test") {
+    (2 + 2) shouldBe 4
   }
-}
+})

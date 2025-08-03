@@ -9,6 +9,7 @@ plugins {
   alias(libs.plugins.kotlin.multiplatform)
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.maven.publish)
+  alias(libs.plugins.kotest)
   id("maven-publish")
 }
 
@@ -47,6 +48,7 @@ kotlin {
   sourceSets {
     commonMain.dependencies {
       implementation(libs.bundles.common)
+      implementation(libs.testing.kotest.engine)
       implementation(libs.bundles.arrow)
     }
     commonTest.dependencies {

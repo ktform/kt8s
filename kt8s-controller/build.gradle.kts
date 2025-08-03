@@ -24,7 +24,14 @@ application {
   mainClass.set("dev.ktform.kt8s.controller.MainKt")
 }
 
+tasks.withType<Test>().configureEach {
+  useJUnitPlatform()
+}
+
 dependencies {
   implementation(libs.bundles.common)
   implementation(libs.bundles.arrow)
+
+  testImplementation(libs.bundles.common.testing)
+  testImplementation(libs.bundles.jvm.testing)
 }

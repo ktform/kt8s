@@ -11,15 +11,11 @@
 
 package dev.ktform.kt8s
 
-import io.ktor.client.request.*
-import io.ktor.http.*
-import kotlin.test.Test
-import kotlin.test.assertEquals
+import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.shouldBe
 
-class K8SClientTest {
-
-  @Test
-  fun dumbTest() {
-      assertEquals(4, 2+2)
+class K8SClientTest : FunSpec({
+  test("dumb test") {
+    (2 + 2) shouldBe 4
   }
-}
+})
