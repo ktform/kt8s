@@ -13,7 +13,6 @@ kotlin-serialization-json = "1.9.0"
 plugins-version-catalog-update = "1.0.0"
 plugins-spotless = "7.2.1"
 plugins-ksp = "2.2.0-2.0.2"
-testing-junit = "4.13.2"
 testing-intstrumented-core = "1.7.0"
 testing-intstrumented-rules = "1.7.0"
 testing-intstrumented-runner = "1.7.0"
@@ -22,7 +21,11 @@ testing-kotest-junit = "6.0.0.M9"
 testing-kotest-property = "6.0.0.M9"
 testing-kotest-property-jvm = "6.0.0.M9"
 testing-kotest-engine = "6.0.0.M9"
+testing-kotest-assertions-core = "6.0.0.M9"
 testing-kotest-multiplatform = "5.9.1"
+testing-kotest-assertions-arrow = "2.0.0"
+testing-kotest-property-arrow = "2.0.0"
+testing-kotest-property-arrow-optics = "2.0.0"
 ktor = "3.2.3"
 plugins-android = "8.10.0"
 plugins-maven-publish = "0.34.0"
@@ -47,11 +50,14 @@ ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "k
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
 compiler-ksp = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "plugins-ksp" }
-testing-kotest-junit = { module = "io.kotest:kotest-runner-junit4", version.ref = "testing-kotest-junit" }
+testing-kotest-junit = { module = "io.kotest:kotest-runner-junit5", version.ref = "testing-kotest-junit" }
 testing-kotest-property = { module = "io.kotest:kotest-property", version.ref = "testing-kotest-property" }
 testing-kotest-property-jvm = { module = "io.kotest:kotest-property-jvm", version.ref = "testing-kotest-property-jvm" }
 testing-kotest-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "testing-kotest-engine" }
-testing-junit = { module = "junit:junit", version.ref = "testing-junit" }
+testing-kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "testing-kotest-assertions-core" }
+testing-kotest-assertions-arrow = { module = "io.kotest.extensions:kotest-assertions-arrow", version.ref = "testing-kotest-assertions-arrow" }
+testing-kotest-property-arrow = { module = "io.kotest.extensions:kotest-property-arrow", version.ref = "testing-kotest-property-arrow" }
+testing-kotest-property-arrow-optics = { module = "io.kotest.extensions:kotest-property-arrow-optics", version.ref = "testing-kotest-property-arrow-optics" }
 testing-instrumented-core = { module = "androidx.test:core", version.ref = "testing-intstrumented-core" }
 testing-instrumented-core-ktx = { module = "androidx.test:core-ktx", version.ref = "testing-intstrumented-core" }
 testing-instrumented-rules = { module = "androidx.test:rules", version.ref = "testing-intstrumented-rules" }
@@ -65,15 +71,15 @@ arrow-optics-compiler = { module = "io.arrow-kt:arrow-optics-ksp-plugin", versio
 [bundles]
 arrow = ["arrow-core", "arrow-fx-coroutines", "arrow-optics"]
 common = ["kotlin-datetime", "kotlin-serialization-json", "kotlin-coroutines-core", "kotlin-immutable", "ktor-client-core", "testing-kotest-property"]
-common-testing = ["kotlin-coroutines-test"]
+common-testing = ["kotlin-coroutines-test", "testing-kotest-assertions-core", "testing-kotest-assertions-arrow", "testing-kotest-property-arrow", "testing-kotest-property-arrow-optics"]
 jvm = ["ktor-client-apache"]
-jvm-testing = ["testing-junit", "testing-kotest-junit", "testing-kotest-property-jvm"]
+jvm-testing = ["testing-kotest-junit", "testing-kotest-property-jvm"]
 js = ["ktor-client-js"]
 js-testing = ["testing-kotest-property"]
 native = ["ktor-client-cio"]
 native-testing = ["testing-kotest-property"]
 android = ["ktor-client-android"]
-android-testing = ["testing-instrumented-core", "testing-instrumented-core-ktx", "testing-instrumented-rules", "testing-instrumented-runner", "testing-robolectric", "testing-junit", "testing-kotest-junit", "testing-kotest-property-jvm"]
+android-testing = ["testing-instrumented-core", "testing-instrumented-core-ktx", "testing-instrumented-rules", "testing-instrumented-runner", "testing-robolectric", "testing-kotest-junit", "testing-kotest-property-jvm"]
 ios = ["ktor-client-cio"]
 ios-testing = ["testing-kotest-property"]
 compiler = ["compiler-ksp"]

@@ -5,7 +5,6 @@ plugins {
   alias(libs.plugins.ktor)
   alias(libs.plugins.maven.publish)
   kotlin("jvm")
-
 }
 
 spotless {
@@ -18,6 +17,10 @@ buildscript {
   dependencies {
     classpath(kotlin("gradle-plugin", version = "2.2.0"))
   }
+}
+
+tasks.withType<Test>().configureEach {
+  useJUnitPlatform()
 }
 
 dependencies {

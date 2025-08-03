@@ -20,6 +20,10 @@ buildscript {
   }
 }
 
+tasks.withType<Test>().configureEach {
+  useJUnitPlatform()
+}
+
 dependencies {
   implementation(libs.bundles.compiler)
   implementation(libs.bundles.arrow)

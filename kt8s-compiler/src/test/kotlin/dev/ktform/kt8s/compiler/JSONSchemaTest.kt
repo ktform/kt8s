@@ -6,12 +6,16 @@ import arrow.core.raise.ensure
 import dev.ktform.kt8s.compiler.JSONSchema.getDefinitionsByGroupVersion
 import dev.ktform.kt8s.compiler.JSONSchema.getDefinitionsByKind
 import dev.ktform.kt8s.compiler.JSONSchema.resolveReference
-import kotlin.test.*
+import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.assertions.arrow.core.shouldBeRight
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.nulls.shouldNotBeNull
 
-class JSONSchemaTest {
+class JSONSchemaTest : FunSpec({
 
-  @Test
-  fun `test schema parsing functionally`() {
+  test("schema parsing functionally") {
     data class SchemaTest(
       val name: String,
       val schema: String,
@@ -118,25 +122,17 @@ class JSONSchemaTest {
     )
 
     schemaTests.forEach { test ->
-      either {
-        val definitions = JSONSchema.parseSchemaString(test.schema)
-          .mapLeft { "Parse failed: $it" }
-          .bind()
-
-        ensure(definitions.size == test.expectedCount) {
-          "Expected ${test.expectedCount} definitions, got ${definitions.size}"
+      JSONSchema.parseSchemaString(test.schema).fold(
+        ifLeft = { error -> throw AssertionError("${test.name}: $error") },
+        ifRight = { definitions ->
+          definitions shouldHaveSize test.expectedCount
+          test.validate(definitions) shouldBeRight Unit
         }
-
-        test.validate(definitions).bind()
-      }.fold(
-        ifLeft = { error -> fail("${test.name}: $error") },
-        ifRight = { /* success */ }
       )
     }
   }
 
-  @Test
-  fun `test property parsing functionally`() {
+  test("property parsing functionally") {
     data class PropertyTest(
       val name: String,
       val json: String,
@@ -168,20 +164,19 @@ class JSONSchemaTest {
       """.trimIndent()
 
       JSONSchema.parseSchemaString(schema).fold(
-        ifLeft = { error -> fail("${test.name}: Parse failed: $error") },
+        ifLeft = { error -> ("${test.name}: Parse failed: $error") },
         ifRight = { definitions ->
           val testObject = definitions.find { it.name == "TestObject" }!!
           val property = testObject.properties[0]
 
-          assertEquals(test.expectedType, property.type, "${test.name}: Wrong type")
-          assertEquals(test.expectedFormat, property.format, "${test.name}: Wrong format")
+          property.type shouldBe test.expectedType
+          property.format shouldBe test.expectedFormat
         }
       )
     }
   }
 
-  @Test
-  fun `test object references`() {
+  test("object references") {
     val schema = $$"""
       {
         "definitions": {
@@ -209,20 +204,19 @@ class JSONSchemaTest {
     """.trimIndent()
 
     JSONSchema.parseSchemaString(schema).fold(
-      ifLeft = { error -> fail("Parse failed: $error") },
+      ifLeft = { error -> error("Parse failed: $error") },
       ifRight = { definitions ->
         val person = definitions.find { it.name == "Person" }!!
         val addressProperty = person.properties.find { it.name == "address" }!!
 
-        assertEquals(JSONSchema.Type.OBJECT, addressProperty.type)
-        assertEquals(Some(JSONSchema.Format.OBJECT_REF), addressProperty.format)
-        assertEquals(Some("Address"), addressProperty.ref)
+        addressProperty.type shouldBe JSONSchema.Type.OBJECT
+        addressProperty.format shouldBe Some(JSONSchema.Format.OBJECT_REF)
+        addressProperty.ref shouldBe Some("Address")
       }
     )
   }
 
-  @Test
-  fun `test array properties`() {
+  test("array properties") {
     val schema = """
       {
         "definitions": {
@@ -240,20 +234,19 @@ class JSONSchemaTest {
     """.trimIndent()
 
     JSONSchema.parseSchemaString(schema).fold(
-      ifLeft = { error -> fail("Parse failed: $error") },
+      ifLeft = { error -> error("Parse failed: $error") },
       ifRight = { definitions ->
         val container = definitions.find { it.name == "Container" }!!
         val itemsProperty = container.properties[0]
 
-        assertEquals(JSONSchema.Type.ARRAY, itemsProperty.type)
-        assertTrue(itemsProperty.items.isSome())
-        assertEquals(JSONSchema.Type.STRING, itemsProperty.items.getOrNull()?.type)
+        itemsProperty.type shouldBe JSONSchema.Type.ARRAY
+        itemsProperty.items.isSome().shouldBeTrue()
+        itemsProperty.items.getOrNull()?.type shouldBe JSONSchema.Type.STRING
       }
     )
   }
 
-  @Test
-  fun `test error handling functionally`() {
+  test("error handling functionally") {
     data class ErrorTest(
       val name: String,
       val schema: String,
@@ -276,15 +269,14 @@ class JSONSchemaTest {
     errorTests.forEach { test ->
       JSONSchema.parseSchemaString(test.schema).fold(
         ifLeft = { error ->
-          assertTrue(test.expectedError(error), "${test.name}: Expected different error type, got ${error::class.simpleName}")
+          test.expectedError(error).shouldBeTrue()
         },
-        ifRight = { fail("${test.name}: Should have failed") }
+        ifRight = { error("${test.name}: Expected parse error, but parsing succeeded") }
       )
     }
   }
 
-  @Test
-  fun `test query operations`() {
+  test("query operations") {
     val schema = """
       {
         "definitions": {
@@ -307,20 +299,19 @@ class JSONSchemaTest {
     """.trimIndent()
 
     JSONSchema.parseSchemaString(schema).fold(
-      ifLeft = { error -> fail("Parse failed: $error") },
+      ifLeft = { error -> error("Parse failed: $error") },
       ifRight = { definitions ->
         val podDefinitions = definitions.getDefinitionsByKind("Pod")
-        assertEquals(1, podDefinitions.size)
-        assertEquals("Pod", podDefinitions[0].kubernetesGroupVersionKind[0].third)
+        podDefinitions shouldHaveSize 1
+        podDefinitions[0].kubernetesGroupVersionKind[0].third shouldBe "Pod"
 
         val v1Definitions = definitions.getDefinitionsByGroupVersion("", "v1")
-        assertEquals(2, v1Definitions.size)
+        v1Definitions shouldHaveSize 2
       }
     )
   }
 
-  @Test
-  fun `test loading`() {
+  test("loading") {
     val (failed, successful) = JSONSchema.Version.entries
       .map { version -> version to JSONSchema.load(version) }
       .partition { (_, result) -> result.isLeft() }
@@ -338,48 +329,38 @@ class JSONSchemaTest {
     failed.forEach { (version, result) ->
       result.fold(
         ifLeft = { error ->
-          assertTrue(
-            error is JSONSchema.ParseError.FileError || error is JSONSchema.ParseError.InvalidSchema,
-            "Unexpected error for ${version.value}: $error"
-          )
+          (error is JSONSchema.ParseError.FileError || error is JSONSchema.ParseError.InvalidSchema).shouldBeTrue()
         },
-        ifRight = { /* should not happen */ }
+        ifRight = { error("Failed to load ${version.value}") }
       )
     }
 
-    assertTrue(failed.isEmpty(), "Expected no failed versions (got ${failed})")
-    assertTrue(successful.size + failed.size == JSONSchema.Version.entries.size)
+    failed.isEmpty().shouldBeTrue()
+    (successful.size + failed.size) shouldBe JSONSchema.Version.entries.size
   }
 
-  @Test
-  fun `test single version loading`() {
+  test("single version loading") {
     JSONSchema.Version.entries.forEach { version ->
       JSONSchema.load(version).fold(
         ifLeft = { error ->
-          assertTrue(
-            error is JSONSchema.ParseError.FileError || error is JSONSchema.ParseError.InvalidSchema,
-            "Unexpected error for ${version.value}: $error"
-          )
+          (error is JSONSchema.ParseError.FileError || error is JSONSchema.ParseError.InvalidSchema).shouldBeTrue()
         },
         ifRight = { definitions ->
-          assertTrue(definitions.isNotEmpty(), "No definitions loaded for ${version.value}")
+          definitions.isNotEmpty().shouldBeTrue()
           definitions.forEach { definition ->
-            assertNotNull(definition.name, "Definition name should not be null")
+            definition.name.shouldNotBeNull()
           }
         }
       )
     }
   }
 
-  @Test
-  fun `test nested definitions are resolved correctly`() {
+  test("nested definitions are resolved correctly") {
     // Test with a specific version to avoid running this on all versions
     val version = JSONSchema.Version.V1_32_0
 
     JSONSchema.load(version).fold(
-      ifLeft = { error ->
-        fail("Failed to load schema version ${version.value}: $error")
-      },
+      ifLeft = { error -> error("Failed to load schema version ${version.value}: $error") },
       ifRight = { definitions ->
         // Track all object references to ensure they can be resolved
         val objectRefs = mutableListOf<Pair<String, String>>() // (from, to)
@@ -389,7 +370,7 @@ class JSONSchemaTest {
           definition.properties.forEach { property ->
             if (property.format == Some(JSONSchema.Format.OBJECT_REF)) {
               property.ref.fold(
-                { fail("Property ${property.name} in ${definition.name} has OBJECT_REF format but no ref value") },
+                { throw AssertionError("Property ${property.name} in ${definition.name} has OBJECT_REF format but no ref value") },
                 { refValue ->
                   objectRefs.add(definition.name to refValue)
                 }
@@ -399,20 +380,20 @@ class JSONSchemaTest {
         }
 
         // Ensure we found at least some object references
-        assertTrue(objectRefs.isNotEmpty(), "No object references found in schema")
+        objectRefs.isNotEmpty().shouldBeTrue()
         println("Found ${objectRefs.size} object references")
 
         // Verify all references can be resolved
         objectRefs.forEach { (fromDef, toDef) ->
           val resolved = definitions.resolveReference(toDef)
-          assertTrue(resolved.isSome(), "Failed to resolve reference from $fromDef to $toDef")
+          (fromDef to resolved.isSome()) shouldBe (fromDef to true)
+          resolved.map { it.name }.getOrNull() shouldBe toDef
         }
       }
     )
   }
 
-  @Test
-  fun `test format parsing with table-driven tests`() {
+  test("format parsing with table-driven tests") {
     data class FormatTest(
       val name: String,
       val type: String,
@@ -484,15 +465,15 @@ class JSONSchemaTest {
       """.trimIndent()
 
       JSONSchema.parseSchemaString(schema).fold(
-        ifLeft = { error -> fail("${test.name}: Parse failed: $error") },
+        ifLeft = { error -> error("${test.name}: Parse failed: $error") },
         ifRight = { definitions ->
           val testType = definitions.find { it.name == "TestType" }!!
           val valueProp = testType.properties.find { it.name == "value" }!!
 
-          assertEquals(test.expectedType, valueProp.type, "${test.name}: Wrong type")
-          assertEquals(test.expectedFormat, valueProp.format, "${test.name}: Wrong format")
+          valueProp.type shouldBe test.expectedType
+          valueProp.format shouldBe test.expectedFormat
         }
       )
     }
   }
-}
+})
