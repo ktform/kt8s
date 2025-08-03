@@ -18,6 +18,7 @@ testing-intstrumented-core = "1.7.0"
 testing-intstrumented-rules = "1.7.0"
 testing-intstrumented-runner = "1.7.0"
 testing-robolectric = "4.15.1"
+testing-truthish = "1.0.3"
 ktor = "3.2.3"
 plugins-android = "8.10.0"
 plugins-maven-publish = "0.34.0"
@@ -49,6 +50,7 @@ testing-instrumented-core-ktx = { module = "androidx.test:core-ktx", version.ref
 testing-instrumented-rules = { module = "androidx.test:rules", version.ref = "testing-intstrumented-rules" }
 testing-instrumented-runner = { module = "androidx.test:runner", version.ref = "testing-intstrumented-runner" }
 testing-robolectric = { module = "org.robolectric:robolectric", version.ref = "testing-robolectric" }
+testing-truthish = { module = "com.varabyte.truthish:truthish", version.ref = "testing-truthish" }
 arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
 arrow-fx-coroutines = { module = "io.arrow-kt:arrow-fx-coroutines", version.ref = "arrow" }
 arrow-optics = { module = "io.arrow-kt:arrow-optics", version.ref = "arrow" }
@@ -57,7 +59,7 @@ arrow-optics-compiler = { module = "io.arrow-kt:arrow-optics-ksp-plugin", versio
 [bundles]
 arrow = ["arrow-core", "arrow-fx-coroutines", "arrow-optics"]
 common = ["kotlin-datetime", "kotlin-serialization-json", "kotlin-coroutines-core", "kotlin-immutable", "ktor-client-core"]
-common-testing = ["kotlin-coroutines-test", "testing-kotlin-jb"]
+common-testing = ["kotlin-coroutines-test", "testing-kotlin-jb", "testing-truthish"]
 jvm = ["ktor-client-apache"]
 jvm-testing = ["testing-junit"]
 js = ["ktor-client-js"]
@@ -69,7 +71,7 @@ android-testing = ["testing-instrumented-core", "testing-instrumented-core-ktx",
 ios = ["ktor-client-cio"]
 ios-testing = []
 compiler = ["compiler-ksp"]
-compiler-test = []
+compiler-testing = []
 
 [plugins]
 ksp = { id = "com.google.devtools.ksp", version.ref = "plugins-ksp" }
