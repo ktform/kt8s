@@ -46,12 +46,10 @@ kotlin {
   sourceSets {
     commonMain.dependencies {
       implementation(libs.bundles.common)
-      implementation(libs.testing.kotest.engine)
       implementation(libs.bundles.arrow)
     }
     commonTest.dependencies {
       implementation(libs.bundles.common.testing)
-
     }
     androidMain.dependencies {
       implementation(libs.bundles.android)
@@ -69,7 +67,7 @@ kotlin {
       implementation(libs.bundles.native)
     }
     nativeTest.dependencies {
-      implementation(libs.bundles.native.testing)
+//      implementation(libs.bundles.native.testing)
     }
     jsMain.dependencies {
       implementation(libs.bundles.js)
@@ -81,7 +79,7 @@ kotlin {
       implementation(libs.bundles.ios)
     }
     iosTest.dependencies {
-      implementation(libs.bundles.ios.testing)
+//      implementation(libs.bundles.ios.testing)
     }
   }
 }

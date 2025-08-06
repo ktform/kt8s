@@ -28,7 +28,7 @@ dependencies {
   implementation(libs.bundles.common)
   implementation(libs.bundles.arrow)
 
-  testImplementation(libs.bundles.compiler.testing)
+//  testImplementation(libs.bundles.compiler.testing)
   testImplementation(libs.bundles.common.testing)
   testImplementation(libs.bundles.jvm.testing)
 

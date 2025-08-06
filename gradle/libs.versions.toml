@@ -1,34 +1,21 @@
 # Version catalog is a central place for you to declare and version dependencies
 # https://docs.gradle.org/current/userguide/platforms.html#sub:version-catalog
 # https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
-
 [versions]
 arrow = "2.1.2"
-
 kotlin = "2.2.0"
-kotlin-datetime = "0.6.2"
 kotlin-coroutines = "1.10.2"
+kotlin-datetime = "0.7.1"
 kotlin-immutable = "0.4.0"
+kotlin-io = "0.8.0"
+kotlin-io-bytestring = "0.8.0"
 kotlin-serialization-json = "1.9.0"
-plugins-version-catalog-update = "1.0.0"
-plugins-spotless = "7.2.1"
-plugins-ksp = "2.2.0-2.0.2"
-testing-intstrumented-core = "1.7.0"
-testing-intstrumented-rules = "1.7.0"
-testing-intstrumented-runner = "1.7.0"
-testing-robolectric = "4.15.1"
-testing-kotest-junit = "6.0.0.M9"
-testing-kotest-property = "6.0.0.M9"
-testing-kotest-property-jvm = "6.0.0.M9"
-testing-kotest-engine = "6.0.0.M9"
-testing-kotest-assertions-core = "6.0.0.M9"
-testing-kotest-multiplatform = "5.9.1"
-testing-kotest-assertions-arrow = "2.0.0"
-testing-kotest-property-arrow = "2.0.0"
-testing-kotest-property-arrow-optics = "2.0.0"
 ktor = "3.2.3"
-plugins-android = "8.10.0"
+plugins-android = "8.11.1"
+plugins-ksp = "2.2.0-2.0.2"
 plugins-maven-publish = "0.34.0"
+plugins-spotless = "7.2.1"
+plugins-version-catalog-update = "1.0.0"
 # @keep
 settings-buildTools = "36.0.0"
 # @keep
@@ -37,61 +24,122 @@ settings-compileSdk = "36"
 settings-minSdk = "33"
 # @keep
 settings-versionName = "1.0.0"
+testing-intstrumented-core = "1.7.0"
+testing-intstrumented-rules = "1.7.0"
+testing-intstrumented-runner = "1.7.0"
+testing-kotest-assertions-arrow = "2.0.0"
+testing-kotest-assertions-core = "6.0.0.M10"
+testing-kotest-engine = "6.0.0.M10"
+testing-kotest-junit = "6.0.0.M10"
+testing-kotest-multiplatform = "5.9.1"
+testing-kotest-property = "6.0.0.M10"
+testing-kotest-property-arrow = "2.0.0"
+testing-kotest-property-arrow-optics = "2.0.0"
+testing-kotest-property-jvm = "6.0.0.M10"
+testing-robolectric = "4.15.1"
 
 [libraries]
-kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlin-datetime" }
-kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
-kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
-kotlin-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlin-immutable" }
-kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization-json" }
-ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
-ktor-client-apache = { module = "io.ktor:ktor-client-apache", version.ref = "ktor" }
-ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
-ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
-ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
-compiler-ksp = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "plugins-ksp" }
-testing-kotest-junit = { module = "io.kotest:kotest-runner-junit5", version.ref = "testing-kotest-junit" }
-testing-kotest-property = { module = "io.kotest:kotest-property", version.ref = "testing-kotest-property" }
-testing-kotest-property-jvm = { module = "io.kotest:kotest-property-jvm", version.ref = "testing-kotest-property-jvm" }
-testing-kotest-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "testing-kotest-engine" }
-testing-kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "testing-kotest-assertions-core" }
-testing-kotest-assertions-arrow = { module = "io.kotest.extensions:kotest-assertions-arrow", version.ref = "testing-kotest-assertions-arrow" }
-testing-kotest-property-arrow = { module = "io.kotest.extensions:kotest-property-arrow", version.ref = "testing-kotest-property-arrow" }
-testing-kotest-property-arrow-optics = { module = "io.kotest.extensions:kotest-property-arrow-optics", version.ref = "testing-kotest-property-arrow-optics" }
-testing-instrumented-core = { module = "androidx.test:core", version.ref = "testing-intstrumented-core" }
-testing-instrumented-core-ktx = { module = "androidx.test:core-ktx", version.ref = "testing-intstrumented-core" }
-testing-instrumented-rules = { module = "androidx.test:rules", version.ref = "testing-intstrumented-rules" }
-testing-instrumented-runner = { module = "androidx.test:runner", version.ref = "testing-intstrumented-runner" }
-testing-robolectric = { module = "org.robolectric:robolectric", version.ref = "testing-robolectric" }
 arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
 arrow-fx-coroutines = { module = "io.arrow-kt:arrow-fx-coroutines", version.ref = "arrow" }
 arrow-optics = { module = "io.arrow-kt:arrow-optics", version.ref = "arrow" }
 arrow-optics-compiler = { module = "io.arrow-kt:arrow-optics-ksp-plugin", version.ref = "arrow" }
+compiler-ksp = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "plugins-ksp" }
+kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
+kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
+kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlin-datetime" }
+kotlin-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlin-immutable" }
+kotlin-io = { module = "org.jetbrains.kotlinx:kotlinx-io-core", version.ref = "kotlin-io" }
+kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization-json" }
+kotlinx-io-bytestring = { module = "org.jetbrains.kotlinx:kotlinx-io-bytestring", version.ref = "kotlin-io-bytestring" }
+ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
+ktor-client-apache = { module = "io.ktor:ktor-client-apache", version.ref = "ktor" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
+testing-instrumented-core = { module = "androidx.test:core", version.ref = "testing-intstrumented-core" }
+testing-instrumented-core-ktx = { module = "androidx.test:core-ktx", version.ref = "testing-intstrumented-core" }
+testing-instrumented-rules = { module = "androidx.test:rules", version.ref = "testing-intstrumented-rules" }
+testing-instrumented-runner = { module = "androidx.test:runner", version.ref = "testing-intstrumented-runner" }
+testing-kotest-assertions-arrow = { module = "io.kotest.extensions:kotest-assertions-arrow", version.ref = "testing-kotest-assertions-arrow" }
+testing-kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "testing-kotest-assertions-core" }
+testing-kotest-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "testing-kotest-engine" }
+testing-kotest-junit = { module = "io.kotest:kotest-runner-junit5", version.ref = "testing-kotest-junit" }
+testing-kotest-property = { module = "io.kotest:kotest-property", version.ref = "testing-kotest-property" }
+testing-kotest-property-arrow = { module = "io.kotest.extensions:kotest-property-arrow", version.ref = "testing-kotest-property-arrow" }
+testing-kotest-property-arrow-optics = { module = "io.kotest.extensions:kotest-property-arrow-optics", version.ref = "testing-kotest-property-arrow-optics" }
+testing-kotest-property-jvm = { module = "io.kotest:kotest-property-jvm", version.ref = "testing-kotest-property-jvm" }
+testing-robolectric = { module = "org.robolectric:robolectric", version.ref = "testing-robolectric" }
+testing-junit = { module = "org.junit.jupiter:junit-jupiter-api", version = "5.13.4" }
+testing-junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version = "5.13.4" }
 
 [bundles]
-arrow = ["arrow-core", "arrow-fx-coroutines", "arrow-optics"]
-common = ["kotlin-datetime", "kotlin-serialization-json", "kotlin-coroutines-core", "kotlin-immutable", "ktor-client-core", "testing-kotest-property"]
-common-testing = ["kotlin-coroutines-test", "testing-kotest-assertions-core", "testing-kotest-assertions-arrow", "testing-kotest-property-arrow", "testing-kotest-property-arrow-optics"]
-jvm = ["ktor-client-apache"]
-jvm-testing = ["testing-kotest-junit", "testing-kotest-property-jvm"]
-js = ["ktor-client-js"]
-js-testing = ["testing-kotest-property"]
-native = ["ktor-client-cio"]
-native-testing = ["testing-kotest-property"]
-android = ["ktor-client-android"]
-android-testing = ["testing-instrumented-core", "testing-instrumented-core-ktx", "testing-instrumented-rules", "testing-instrumented-runner", "testing-robolectric", "testing-kotest-junit", "testing-kotest-property-jvm"]
-ios = ["ktor-client-cio"]
-ios-testing = ["testing-kotest-property"]
-compiler = ["compiler-ksp"]
-compiler-testing = ["testing-kotest-property"]
+android = [
+    "ktor-client-android",
+]
+android-testing = [
+    "testing-instrumented-core",
+    "testing-instrumented-core-ktx",
+    "testing-instrumented-rules",
+    "testing-instrumented-runner",
+    "testing-kotest-junit",
+    "testing-kotest-property-jvm",
+    "testing-robolectric",
+    "testing-junit"
+]
+arrow = [
+    "arrow-core",
+    "arrow-fx-coroutines",
+    "arrow-optics",
+]
+common = [
+    "kotlin-coroutines-core",
+    "kotlin-datetime",
+    "kotlin-immutable",
+    "kotlin-io",
+    "kotlin-serialization-json",
+    "kotlinx-io-bytestring",
+    "ktor-client-core",
+]
+common-testing = [
+    "kotlin-coroutines-test",
+    "testing-kotest-assertions-arrow",
+    "testing-kotest-assertions-core",
+    "testing-kotest-engine",
+    "testing-kotest-property",
+    "testing-kotest-property-arrow",
+    "testing-kotest-property-arrow-optics",
+]
+compiler = [
+    "compiler-ksp",
+]
+ios = [
+    "ktor-client-cio",
+]
+js = [
+    "ktor-client-js",
+]
+js-testing = [
+    "ktor-client-js",
+]
+jvm = [
+    "ktor-client-apache",
+]
+jvm-testing = [
+    "testing-kotest-junit",
+    "testing-kotest-property-jvm",
+    "testing-junit"
+]
+native = [
+    "ktor-client-cio",
+]
 
 [plugins]
-ksp = { id = "com.google.devtools.ksp", version.ref = "plugins-ksp" }
-spotless = { id = "com.diffplug.spotless", version.ref = "plugins-spotless" }
-version-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "plugins-version-catalog-update" }
+android-library = { id = "com.android.library", version.ref = "plugins-android" }
+kotest = { id = "io.kotest.multiplatform", version.ref = "testing-kotest-multiplatform" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "plugins-ksp" }
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
-android-library = { id = "com.android.library", version.ref = "plugins-android" }
 maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "plugins-maven-publish" }
-kotest = { id = "io.kotest.multiplatform", version.ref = "testing-kotest-multiplatform" }
+spotless = { id = "com.diffplug.spotless", version.ref = "plugins-spotless" }
+version-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "plugins-version-catalog-update" }
