@@ -12,273 +12,170 @@
 package dev.ktform.kt8s.container
 
 import arrow.core.*
+import dev.ktform.kt8s.container.dsl.*
 
-/**
- * Enhanced Image DSL with distro-specific configuration
- */
 @ImageDsl
 class Image {
-  data class BuildStep(
-    val before: List<String> = emptyList(),
-    val commands: List<String> = emptyList(),
-    val after: List<String> = emptyList(),
-  )
+  private var packageName: Option<String> = none()
+  private var repo: Option<String> = none()
 
-  data class BuildConfig(
-    val all: BuildStep = BuildStep(),
-    val distroSpecific: Map<Distro, BuildStep> = emptyMap(),
-  )
+  private val distros = mutableMapOf<Distro, ImageDistroBuilder.DistroConfig>()
+  private var endpoints = ImageEndpointsBuilder.Endpoints()
+  private var probes = ImageProbesBuilder.Probes()
+  private var signals = ImageSignalConfigBuilder.Signals()
 
-  data class Endpoints(
-    val healthcheck: Option<String> = none(),
-    val metrics: Option<String> = none(),
-    val service: Option<String> = none(),
-  )
+  private var runtime: Boolean = false
+  private var providers: NonEmptyList<Environment.Provider> = Environment.Provider.all
 
-  data class Probes(
-    val liveness: Option<String> = none(),
-    val readiness: Option<String> = none(),
-    val startup: Option<String> = none(),
-  )
+  private var flavours = mutableListOf<Package>()
 
-  data class SignalConfig(
-    val stopGracefully: Option<Signal> = none(),
-    val stopImmediately: Option<Signal> = none(),
-    val reloadConfig: Option<Signal> = none(),
-  )
+  private var repoVersion: Option<(String, toRepo: Boolean) -> String> = none()
+  private val availableVersions: Option<(Environment) -> List<String>> = none()
 
-  data class Dependencies(
-    val build: List<String> = emptyList(),
-    val run: List<String> = emptyList(),
-    val buildAndRun: List<String> = emptyList(),
-  ) {
-    fun getAllDependencies(): List<String> = (build + run + buildAndRun).distinct()
-    fun getBuildDependencies(): List<String> = (build + buildAndRun).distinct()
-    fun getRunDependencies(): List<String> = (run + buildAndRun).distinct()
+  fun name(name: String) {
+    packageName = name.some()
   }
 
-  data class DistroConfig(
-    val distro: Distro,
-    val dependencies: Dependencies = Dependencies(),
-    val buildConfig: BuildConfig = BuildConfig(),
-    val endpoints: Endpoints = Endpoints(),
-    val probes: Probes = Probes(),
-    val signalConfig: SignalConfig = SignalConfig(),
-  )
-
-  @ImageDsl
-  class DistroBuilder(private val distro: Distro) {
-    private var dependencies = Dependencies()
-    private var buildConfig = BuildConfig()
-    private var endpoints = Endpoints()
-    private var probes = Probes()
-    private var signalConfig = SignalConfig()
-
-    fun dependencies(block: DependenciesBuilder.() -> Unit) {
-      val builder = DependenciesBuilder()
-      builder.block()
-      dependencies = builder.build()
-    }
-
-    fun build(block: BuildConfigBuilder.() -> Unit) {
-      val builder = BuildConfigBuilder()
-      builder.block()
-      buildConfig = builder.build()
-    }
-
-    fun endpoints(block: EndpointsBuilder.() -> Unit) {
-      val builder = EndpointsBuilder()
-      builder.block()
-      endpoints = builder.build()
-    }
-
-    fun probes(block: ProbesBuilder.() -> Unit) {
-      val builder = ProbesBuilder()
-      builder.block()
-      probes = builder.build()
-    }
-
-    fun stopGracefullySignal(signal: Signal) {
-      signalConfig = signalConfig.copy(stopGracefully = signal.some())
-    }
-
-    fun stopImmediatelySignal(signal: Signal) {
-      signalConfig = signalConfig.copy(stopImmediately = signal.some())
-    }
-
-    fun reloadConfigSignal(signal: Signal) {
-      signalConfig = signalConfig.copy(reloadConfig = signal.some())
-    }
-
-    internal fun build(): DistroConfig = DistroConfig(
-      distro = distro,
-      dependencies = dependencies,
-      buildConfig = buildConfig,
-      endpoints = endpoints,
-      probes = probes,
-      signalConfig = signalConfig,
-    )
+  fun repo(repo: String) {
+    this.repo = repo.some()
   }
 
-  @ImageDsl
-  class DependenciesBuilder {
-    private val buildDeps = mutableListOf<String>()
-    private val runDeps = mutableListOf<String>()
-    private val buildAndRunDeps = mutableListOf<String>()
-
-    fun buildAndRun(vararg packages: String) {
-      buildAndRunDeps.addAll(packages)
-    }
-
-    fun build(vararg packages: String) {
-      buildDeps.addAll(packages)
-    }
-
-    fun run(vararg packages: String) {
-      runDeps.addAll(packages)
-    }
-
-    internal fun build(): Dependencies = Dependencies(
-      build = buildDeps.toList(),
-      run = runDeps.toList(),
-      buildAndRun = buildAndRunDeps.toList(),
-    )
+  fun runtime() {
+    runtime = true
   }
 
-  @ImageDsl
-  class BuildConfigBuilder {
-    private var allStep = BuildStep()
-    private val distroSteps = mutableMapOf<Distro, BuildStep>()
-
-    fun all(vararg commands: String) {
-      allStep = BuildStep(commands = commands.toList())
+  fun local() {
+    if (providers.all == providers) {
+      providers = nonEmptyListOf(Environment.Provider.Local)
+    } else {
+      providers += Environment.Provider.Local
     }
-
-    fun debian(vararg commands: String) {
-      distroSteps[Distro.Debian] = BuildStep(commands = commands.toList())
-    }
-
-    fun alpine(vararg commands: String) {
-      distroSteps[Distro.Alpine] = BuildStep(commands = commands.toList())
-    }
-
-    internal fun build(): BuildConfig = BuildConfig(
-      all = allStep,
-      distroSpecific = distroSteps.toMap(),
-    )
   }
 
-  @ImageDsl
-  class EndpointsBuilder {
-    private var healthcheckUrl: Option<String> = none()
-    private var metricsUrl: Option<String> = none()
-    private var serviceUrl: Option<String> = none()
-
-    fun healthcheck(url: String) {
-      healthcheckUrl = url.some()
+  fun aws() {
+    if (providers.all == providers) {
+      providers = nonEmptyListOf(Environment.Provider.AWS)
+    } else {
+      providers += Environment.Provider.AWS
     }
-
-    fun metrics(url: String) {
-      metricsUrl = url.some()
-    }
-
-    fun service(url: String) {
-      serviceUrl = url.some()
-    }
-
-    internal fun build(): Endpoints = Endpoints(
-      healthcheck = healthcheckUrl,
-      metrics = metricsUrl,
-      service = serviceUrl,
-    )
   }
 
-  @ImageDsl
-  class ProbesBuilder {
-    private var livenessProbe: Option<String> = none()
-    private var readinessProbe: Option<String> = none()
-    private var startupProbe: Option<String> = none()
-
-    fun liveness(command: String) {
-      livenessProbe = command.some()
+  fun gcp() {
+    if (providers.all == providers) {
+      providers = nonEmptyListOf(Environment.Provider.GCP)
+    } else {
+      providers += Environment.Provider.GCP
     }
-
-    fun readiness(command: String) {
-      readinessProbe = command.some()
-    }
-
-    fun startup(command: String) {
-      startupProbe = command.some()
-    }
-
-    internal fun build(): Probes = Probes(
-      liveness = livenessProbe,
-      readiness = readinessProbe,
-      startup = startupProbe,
-    )
   }
 
-  @ImageDsl
-  class SignalConfigBuilder {
-    private var stopGracefully: Option<Signal> = none()
-    private var stopImmediately: Option<Signal> = none()
-    private var reloadConfig: Option<Signal> = none()
-
-    fun stopGracefully(signal: Signal) {
-      stopGracefully = signal.some()
+  fun digitalOcean() {
+    if (providers.all == providers) {
+      providers = nonEmptyListOf(Environment.Provider.DigitalOcean)
+    } else {
+      providers += Environment.Provider.DigitalOcean
     }
-
-    fun stopImmediately(signal: Signal) {
-      stopImmediately = signal.some()
-    }
-
-    fun reloadConfig(signal: Signal) {
-      reloadConfig = signal.some()
-    }
-
-    internal fun build(): SignalConfig = SignalConfig(
-      stopGracefully = stopGracefully,
-      stopImmediately = stopImmediately,
-      reloadConfig = reloadConfig,
-    )
   }
 
-  private val distroConfigs = mutableMapOf<Distro, DistroConfig>()
-
-  fun distro(name: String, block: DistroBuilder.() -> Unit) {
-    val distro = when (name.lowercase()) {
-      "alpine" -> Distro.Alpine
-      "debian" -> Distro.Debian
-      else -> throw IllegalArgumentException("Unknown distro: $name. Supported: alpine, ubuntu, debian, centos, fedora")
+  fun azure() {
+    if (providers.all == providers) {
+      providers = nonEmptyListOf(Environment.Provider.Azure)
+    } else {
+      providers += Environment.Provider.Azure
     }
+  }
 
-    val builder = DistroBuilder(distro)
+  fun vultr() {
+    if (providers.all == providers) {
+      providers = nonEmptyListOf(Environment.Provider.Vultr)
+    } else {
+      providers += Environment.Provider.Vultr
+    }
+  }
+
+  fun hetzner() {
+    if (providers.all == providers) {
+      providers = nonEmptyListOf(Environment.Provider.Hetzner)
+    } else {
+      providers += Environment.Provider.Hetzner
+    }
+  }
+
+  fun alpine(block: ImageDistroBuilder.() -> Unit) {
+    val builder = ImageDistroBuilder(Distro.Alpine)
     builder.block()
-    distroConfigs[distro] = builder.build()
+    distros[Distro.Alpine] = builder.build()
   }
 
-  fun toPackage(name: String): Package {
-    // Convert the enhanced DSL configuration to Package format
+  fun debian(block: ImageDistroBuilder.() -> Unit) {
+    val builder = ImageDistroBuilder(Distro.Debian)
+    builder.block()
+    distros[Distro.Debian] = builder.build()
+  }
+
+  fun photon(block: ImageDistroBuilder.() -> Unit) {
+    val builder = ImageDistroBuilder(Distro.Photon)
+    builder.block()
+    distros[Distro.Photon] = builder.build()
+  }
+
+  fun oracle(block: ImageDistroBuilder.() -> Unit) {
+    val builder = ImageDistroBuilder(Distro.Oracle)
+    builder.block()
+    distros[Distro.Oracle] = builder.build()
+  }
+
+  fun rocky(block: ImageDistroBuilder.() -> Unit) {
+    val builder = ImageDistroBuilder(Distro.Rocky)
+    builder.block()
+    distros[Distro.Rocky] = builder.build()
+  }
+
+  fun ubi(block: ImageDistroBuilder.() -> Unit) {
+    val builder = ImageDistroBuilder(Distro.UBI)
+    builder.block()
+    distros[Distro.UBI] = builder.build()
+  }
+
+  fun flavours(vararg flavours: Package) {
+    if (flavours.isEmpty()) {
+      this.flavours.addAll(flavours)
+    } else {
+      throw IllegalArgumentException("Flavours already set")
+    }
+  }
+
+  fun endpoints(block: ImageEndpointsBuilder.() -> Unit) {
+    val builder = ImageEndpointsBuilder()
+    builder.block()
+    endpoints = builder.build()
+  }
+
+  fun probes(block: ImageProbesBuilder.() -> Unit) {
+    val builder = ImageProbesBuilder()
+    builder.block()
+    probes = builder.build()
+  }
+
+  fun signals(block: ImageSignalConfigBuilder.() -> Unit) {
+    val builder = ImageSignalConfigBuilder()
+    builder.block()
+    signals = builder.build()
+  }
+
+  fun toPackage(): Package {
     val allDependencies = mutableMapOf<Distro, NonEmptyList<Package>>()
     val buildCommands = mutableMapOf<Distro, NonEmptyList<String>>()
 
-    distroConfigs.forEach { (distro, config) ->
-      // Convert dependencies to packages
+    distros.forEach { (distro, config) ->
       val deps = config.dependencies.getAllDependencies().mapNotNull { depName ->
         Package.all[depName]
       }
+
       if (deps.isNotEmpty()) {
         allDependencies[distro] = deps.toNonEmptyListOrThrow()
       }
 
-      // Build commands - combine all steps in order
       val commands = mutableListOf<String>()
-
-      // Add global commands
-      commands.addAll(config.buildConfig.all.commands)
-
-      // Add distro-specific commands
-      config.buildConfig.distroSpecific[distro]?.commands?.let { commands.addAll(it) }
 
       if (commands.isNotEmpty()) {
         buildCommands[distro] = commands.toNonEmptyListOrThrow()
@@ -286,10 +183,9 @@ class Image {
     }
 
     return Package(
-      packageName = name,
-      runtime = true,
-      dependencies = allDependencies,
-      build = buildCommands,
+      packageName = packageName.getOrElse { throw Exception("Unable to determine package name") },
+//      dependencies = allDependencies,
+//      build = buildCommands,
     )
   }
 }

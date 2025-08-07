@@ -11,6 +11,7 @@
 
 package dev.ktform.kt8s.container
 
+import dev.ktform.kt8s.container.dsl.DockerfileDsl
 import kotlinx.io.files.Path
 import kotlinx.io.files.SystemFileSystem
 

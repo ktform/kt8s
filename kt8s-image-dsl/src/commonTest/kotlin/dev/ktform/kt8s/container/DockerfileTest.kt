@@ -12,6 +12,7 @@
 package dev.ktform.kt8s.container
 
 import dev.ktform.kt8s.container.GoldenFileTestCases.Companion.getOrUpdateExpected
+import dev.ktform.kt8s.container.dsl.dockerfile
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
@@ -506,18 +507,18 @@ class DockerfileTest : FunSpec(
     context("Method chaining fluency") {
       test("should support fluent method chaining") {
         val dockerfile = dockerfile {
-          from("node", "18-alpine")
-            .workdir("/app")
-            .copy("package*.json", "./")
-            .run("npm ci --only=production") {
-              cacheMount("/root/.npm", id = "npm-cache")
-              network(Dockerfile.RunNetwork.DEFAULT)
-            }
-            .copy(".", ".")
-            .expose(3000)
-            .env("NODE_ENV", "production")
-            .user("node")
-            .cmd("npm", "start")
+            from("node", "18-alpine")
+                .workdir("/app")
+                .copy("package*.json", "./")
+                .run("npm ci --only=production") {
+                    cacheMount("/root/.npm", id = "npm-cache")
+                    network(Dockerfile.RunNetwork.DEFAULT)
+                }
+                .copy(".", ".")
+                .expose(3000)
+                .env("NODE_ENV", "production")
+                .user("node")
+                .cmd("npm", "start")
         }
 
         val expected = """FROM node:18-alpine

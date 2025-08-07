@@ -12,25 +12,31 @@
 package dev.ktform.kt8s.container
 
 import arrow.core.*
-import dev.ktform.kt8s.container.packages.*
 import dev.ktform.kt8s.container.packages.languages.*
 
 data class Package(
   val packageName: String,
+  val repo: String,
   val runtime: Boolean = false,
   val providers: NonEmptyList<Environment.Provider> = Environment.Provider.all.toNonEmptyListOrThrow(),
-  val build: Map<Distro, NonEmptyList<String>> = emptyMap(),
-  val distroless: Map<Distro, NonEmptyList<String>> = emptyMap(),
-  val buildDependencies: Map<Distro, NonEmptyList<Package>> = emptyMap(),
-  val dependencies: Map<Distro, NonEmptyList<Package>> = emptyMap(),
-  val flavours: List<Package> = emptyList(),
+
+  val buildDependencies: Map<Distro, NonEmptyList<String>> = emptyMap(),
+  val runDependencies: Map<Distro, NonEmptyList<String>> = emptyMap(),
+
+  val buildPackageDependencies: Map<Distro, NonEmptyList<Package>> = emptyMap(),
+  val runPackageDependencies: Map<Distro, NonEmptyList<Package>> = emptyMap(),
+  val flavours: Set<Package> = emptySet(),
   val defaultFlavour: Option<Package> = none(),
+
   val buildCommand: (Environment, List<Package>) -> String = { _, _ -> "" },
   val buildDistroless: (Environment, List<Package>) -> String = { _, _ -> "" },
-  val repo: Option<String> = none(),
-  val repoVersion: Option<String> = none(),
-  val repoVersionFilter: (String) -> String = { it },
+
+  val repoVersion: (String, toRepo: Boolean) -> String = { it, _ -> it },
   val availableVersions: (Environment) -> List<String> = { emptyList() },
+
+  val stopGracefullySignal: Signal= Signal.SIGTERM,
+  val stopImmediatelySignal: Signal = Signal.SIGINT,
+  val reloadConfigSignal: Signal = Signal.SIGHUP
 ) : Renderable {
 
   override fun latestVersion(env: Environment): String =
@@ -59,35 +65,35 @@ data class Package(
       "ruby" to Ruby.`package`,
       "rust" to Rust.`package`,
 
-      // CLI Tools
-      "argo" to Argo.`package`,
-      "awscli" to AwsCli.`package`,
-      "aws-cli" to AwsCli.`package`,
-      "bazel" to Bazel.`package`,
-      "cilium" to Cilium.`package`,
-      "cmake" to Cmake.`package`,
-      "cosign" to Cosign.`package`,
-      "doctl" to DoCtl.`package`,
-      "firebase" to Firebase.`package`,
-      "gcloud" to GCloud.`package`,
-      "gradle" to Gradle.`package`,
-      "grype" to Grype.`package`,
-      "helm" to Helm.`package`,
-      "k9s" to K9s.`package`,
-      "kind" to Kind.`package`,
-      "kubectl" to KubeCtl.`package`,
-      "minikube" to Minikube.`package`,
-      "opentofu" to OpenTofu.`package`,
-      "pipx" to PipX.`package`,
-      "podman" to Podman.`package`,
-      "protoc" to Protoc.`package`,
-      "scala" to ScalaSbt.`package`,
-      "sbt" to ScalaSbt.`package`,
-      "supabase" to Supabase.`package`,
-      "syft" to Syft.`package`,
-      "terraform" to Terraform.`package`,
-      "trivy" to Trivy.`package`,
-      "uv" to UV.`package`,
+//      // CLI Tools
+//      "argo" to Argo.`package`,
+//      "awscli" to AwsCli.`package`,
+//      "aws-cli" to AwsCli.`package`,
+//      "bazel" to Bazel.`package`,
+//      "cilium" to Cilium.`package`,
+//      "cmake" to Cmake.`package`,
+//      "cosign" to Cosign.`package`,
+//      "doctl" to DoCtl.`package`,
+//      "firebase" to Firebase.`package`,
+//      "gcloud" to GCloud.`package`,
+//      "gradle" to Gradle.`package`,
+//      "grype" to Grype.`package`,
+//      "helm" to Helm.`package`,
+//      "k9s" to K9s.`package`,
+//      "kind" to Kind.`package`,
+//      "kubectl" to KubeCtl.`package`,
+//      "minikube" to Minikube.`package`,
+//      "opentofu" to OpenTofu.`package`,
+//      "pipx" to PipX.`package`,
+//      "podman" to Podman.`package`,
+//      "protoc" to Protoc.`package`,
+//      "scala" to ScalaSbt.`package`,
+//      "sbt" to ScalaSbt.`package`,
+//      "supabase" to Supabase.`package`,
+//      "syft" to Syft.`package`,
+//      "terraform" to Terraform.`package`,
+//      "trivy" to Trivy.`package`,
+//      "uv" to UV.`package`,
     )
   }
 }

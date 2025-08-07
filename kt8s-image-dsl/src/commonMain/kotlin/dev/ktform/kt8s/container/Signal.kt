@@ -23,5 +23,6 @@ enum class Signal(val value: Int, val description: String) {
   SIGUSR1(10, "User-defined signal 1"),
   SIGUSR2(12, "User-defined signal 2");
 
+
   override fun toString(): String = name
 }

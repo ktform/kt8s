@@ -30,23 +30,23 @@ val kt8sImage = image {
       all('yarn', 'yarn build', 'yarn cleanup')
       debian('yarn', 'yarn build', 'yarn cleanup', 'yarn cleanup-debian')
     }
-    
-    endpoints {
-      healthcheck("https://service:3000/health")
-      metrics("https://service:3000/metrics")
-      service("https://service:8080")
-    }
-    
-    probes {
-      liveness("curl -f http://localhost:3000/health")
-      readiness("curl -f http://localhost:8080/health")
-      startup("curl -f http://localhost:3000")  
-    }
-    
-    stopGracefullySignal(Signal.SIGTERM)
-    stopImmediatelySignal(Signal.SIGKILL)
-    reloadConfigSignal(Signal.SIGHUP)
   }
+
+  endpoints {
+    healthcheck("https://service:3000/health")
+    metrics("https://service:3000/metrics")
+    service("https://service:8080")
+  }
+
+  probes {
+    liveness("curl -f http://localhost:3000/health")
+    readiness("curl -f http://localhost:8080/health")
+    startup("curl -f http://localhost:3000")
+  }
+
+  stopGracefullySignal(Signal.SIGTERM)
+  stopImmediatelySignal(Signal.SIGKILL)
+  reloadConfigSignal(Signal.SIGHUP)
 }
 
 ```

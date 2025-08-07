@@ -11,9 +11,11 @@
 
 package dev.ktform.kt8s.container
 
+import arrow.core.NonEmptyList
 import arrow.core.Option
 import arrow.core.none
 import arrow.core.some
+import arrow.core.toNonEmptyListOrThrow
 import dev.ktform.kt8s.container.packages.languages.jdk.GraalVMJdk
 import dev.ktform.kt8s.container.packages.languages.jdk.OpenJ9Jdk
 import dev.ktform.kt8s.container.packages.languages.jdk.TemurinJdk
@@ -86,7 +88,7 @@ data class Environment(
     Hetzner;
 
     companion object {
-      val all: List<Provider> = Provider.entries
+      val all: NonEmptyList<Provider> = Provider.entries.toNonEmptyListOrThrow()
 
       fun fromString(str: String): Option<Provider> = when (str.toLowerCasePreservingASCIIRules()) {
         "local" -> Local.some()

@@ -12,16 +12,17 @@
 package dev.ktform.kt8s.container.packages
 
 import dev.ktform.kt8s.container.Environment
-import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
+import dev.ktform.kt8s.container.dsl.image
 
 class UV(val version: String = `package`.latestVersion(Environment.default)) : Renderable {
   override fun versions(env: Environment): List<String> = `package`.versions(env)
   override fun render(version: String, env: Environment): String = `package`.render(version, env)
 
   companion object {
-    val `package` = Package(
-      packageName = "uv",
-    )
+    val `package` = image {
+
+
+    }.toPackage()
   }
 }
