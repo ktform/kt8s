@@ -13,10 +13,9 @@ package dev.ktform.kt8s.container.packages.languages.rust
 
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
-import dev.ktform.kt8s.container.packages.Argo
 import kotlin.test.Test
 
-class StableRustTest{
+class StableRustTest {
 
   @Test
   fun testStableRust() {

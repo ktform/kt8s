@@ -1,8 +1,8 @@
 package dev.ktform.kt8s.container
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.GoldenFileTestCases.Companion.getOrUpdateExpected
 import kotlinx.io.files.Path
-import com.varabyte.truthish.*
 
 data class PackageTestCase(
   val name: String,
@@ -12,6 +12,11 @@ data class PackageTestCase(
   private val goldenFile = Path("src/commonTest/resources/packages/${name.lowercase().replace(" ", "_")}.json")
 
   fun isExpected() {
-    assertThat(rendered).isEqualTo(rendered.getOrUpdateExpected(env.provider.name.lowercase() + "_" + env.distro.name.lowercase(), goldenFile))
+    assertThat(rendered).isEqualTo(
+      rendered.getOrUpdateExpected(
+        env.provider.name.lowercase() + "_" + env.distro.name.lowercase(),
+        goldenFile,
+      ),
+    )
   }
 }

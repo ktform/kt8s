@@ -13,10 +13,9 @@ package dev.ktform.kt8s.container.packages.languages
 
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
-import dev.ktform.kt8s.container.packages.Argo
 import kotlin.test.Test
 
-class JavaJdkTest{
+class JavaJdkTest {
 
   @Test
   fun testJavaJdk() {

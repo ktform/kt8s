@@ -13,11 +13,10 @@ package dev.ktform.kt8s.container.packages.languages.jre
 
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
-import dev.ktform.kt8s.container.packages.Argo
 import kotlin.test.Test
 
 
-class OpenJ9JreTest{
+class OpenJ9JreTest {
 
   @Test
   fun testOpenJ9Jre() {

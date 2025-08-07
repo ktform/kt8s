@@ -18,13 +18,13 @@ import arrow.core.toOption
 import kotlinx.io.buffered
 import kotlinx.io.files.Path
 import kotlinx.io.files.SystemFileSystem
+import kotlinx.io.readByteArray
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import kotlin.collections.set
-import kotlin.use
+
 @Serializable
 data class GoldenFileTestCases(
-  val cases: MutableMap<String, String> = mutableMapOf()
+  val cases: MutableMap<String, String> = mutableMapOf(),
 ) {
   companion object {
     private val json = Json { prettyPrint = true }
@@ -37,44 +37,52 @@ data class GoldenFileTestCases(
         GoldenFileTestCases().right()
       } else {
         Either.catch {
-          SystemFileSystem.source(goldenFile).buffered().use { source ->
-            json.decodeFromString<GoldenFileTestCases>(source.readString())
+          val content = SystemFileSystem.source(goldenFile).use { source ->
+            source.buffered().readByteArray().decodeToString()
+          }
+          try {
+            json.decodeFromString<GoldenFileTestCases>(content)
+          } catch (e: Exception) {
+            throw Exception("Failed to parse JSON content: '${content.take(100)}...' - ${e.message}", e)
           }
         }.mapLeft { "Failed to read golden file: ${it.message}" }
       }
 
     private fun writeGoldenFile(cases: GoldenFileTestCases, goldenFile: Path): Either<String, Unit> =
       Either.catch {
-        SystemFileSystem.sink(goldenFile).buffered().use { sink ->
-          sink.writeString(json.encodeToString(cases))
+        val jsonString = json.encodeToString(cases)
+        val bytes = jsonString.encodeToByteArray()
+        SystemFileSystem.sink(goldenFile).use { sink ->
+          val buffer = sink.buffered()
+          buffer.write(bytes, 0, bytes.size)
+          buffer.flush()
         }
       }.mapLeft { "Failed to write golden file: ${it.message}" }
 
     fun String.getOrUpdateExpected(key: String, goldenFile: Path) = readGoldenFile(goldenFile)
-        .map { cases ->
-          cases.cases[key].toOption().fold(
-            ifEmpty = {
-              cases.cases[key] = this
-              writeGoldenFile(cases, goldenFile).fold(
-                { println("Warning: $it") },
-                { println("Added new golden test case: $key") }
-              )
-              this
-            },
-            ifSome = { expected ->
-              if (expected != this) {
-                println("Golden file mismatch for key '$key':")
-                println("Expected:\n$expected")
-                println("Actual:\n$this")
-                println("To update golden file, delete the entry for '$key' and re-run tests")
-              }
-              expected
+      .map { cases ->
+        cases.cases[key].toOption().fold(
+          ifEmpty = {
+            cases.cases[key] = this
+            writeGoldenFile(cases, goldenFile).fold(
+              { println("Warning: $it") },
+              { println("Added new golden test case: $key") },
+            )
+            this
+          },
+          ifSome = { expected ->
+            if (expected != this) {
+              println("Golden file mismatch for key '$key':")
+              println("Expected:\n$expected")
+              println("Actual:\n$this")
+              println("To update golden file, delete the entry for '$key' and re-run tests")
             }
-          )
-        }
-        .getOrElse {
-          println("Warning: $it, using current output")
-          this
-        }
+            expected
+          },
+        )
+      }
+      .getOrElse {
+        throw Exception("Failed to get golden test case: $it")
+      }
   }
 }

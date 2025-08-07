@@ -1,4 +1,4 @@
-package dev.ktform.kt8s.contrainer
+package dev.ktform.kt8s.container
 
 import kotlinx.io.files.Path
 

@@ -52,6 +52,15 @@ kotlin {
     publishLibraryVariants("release")
     publishLibraryVariantsGroupedByFlavor = true
   }
+
+  targets.configureEach {
+    compilations.configureEach {
+      compileTaskProvider.configure {
+        compilerOptions.freeCompilerArgs.add("-Xexpect-actual-classes")
+      }
+    }
+  }
+
   sourceSets {
     androidMain.dependencies {
       implementation(libs.bundles.android)

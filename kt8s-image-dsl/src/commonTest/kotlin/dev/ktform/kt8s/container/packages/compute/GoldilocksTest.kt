@@ -13,20 +13,14 @@ package dev.ktform.kt8s.container.packages.compute
 
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+import kotlin.test.Test
 
-class GoldilocksTest: FunSpec(
-  {
-    context("Goldilocks") {
-      withData(
-        nameFn = { "Goldilocks for ${it.name} ${it.env.distro.name} ${it.env.provider.name} should render correctly" },
-        Environment.all.map { env ->
-          PackageTestCase("goldilocks", env, rendered = ClusterAutoscaler().render())
-        },
-      ) {
-        it.isExpected()
-      }
+class GoldilocksTest  {
+
+  @Test
+  fun testGoldilocks() {
+    Environment.all.forEach { env ->
+      PackageTestCase("goldilocks", env, rendered = Goldilocks().render()).isExpected()
     }
-  },
-)
+  }
+}

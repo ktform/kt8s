@@ -4,8 +4,8 @@ import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 
-class Stackgres(val version: String = `package`.latestVersion(Environment.Companion.default)) :
-    Renderable {
+class Stackgres(val version: String = `package`.latestVersion(Environment.default)) :
+  Renderable {
   override fun versions(env: Environment): List<String> =
     `package`.versions(env)
 
@@ -14,8 +14,8 @@ class Stackgres(val version: String = `package`.latestVersion(Environment.Compan
 
   companion object {
     val `package` = Package(
-        packageName = "stackgres",
-        repo = "",
+      packageName = "stackgres",
+      repo = "",
     )
   }
 }

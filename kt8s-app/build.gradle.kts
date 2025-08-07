@@ -8,7 +8,7 @@ plugins {
   alias(libs.plugins.maven.publish)
 
 
-  alias(libs.plugins.compose.hot.reload)
+//  alias(libs.plugins.compose.hot.reload)
   alias(libs.plugins.compose.multiplatform)
   alias(libs.plugins.compose.compiler)
   kotlin("multiplatform")

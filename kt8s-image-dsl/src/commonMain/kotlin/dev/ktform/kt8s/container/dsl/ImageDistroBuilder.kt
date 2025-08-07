@@ -1,7 +1,6 @@
 package dev.ktform.kt8s.container.dsl
 
 import dev.ktform.kt8s.container.Distro
-import kotlinx.io.files.Path
 
 @ImageDsl
 class ImageDistroBuilder(private val distro: Distro) {

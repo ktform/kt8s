@@ -13,20 +13,14 @@ package dev.ktform.kt8s.container.packages.compute
 
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+import kotlin.test.Test
 
-class KedaTest: FunSpec(
-  {
-    context("Keda") {
-      withData(
-        nameFn = { "Keda for ${it.name} ${it.env.distro.name} ${it.env.provider.name} should render correctly" },
-        Environment.all.map { env ->
-          PackageTestCase("keda", env, rendered = ClusterAutoscaler().render())
-        },
-      ) {
-        it.isExpected()
-      }
+class KedaTest {
+
+  @Test
+  fun testKeda() {
+    Environment.all.forEach { env ->
+      PackageTestCase("keda", env, rendered = Karpenter().render()).isExpected()
     }
-  },
-)
+  }
+}

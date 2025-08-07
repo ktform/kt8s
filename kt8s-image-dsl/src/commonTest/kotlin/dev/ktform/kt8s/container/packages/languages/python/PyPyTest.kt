@@ -13,10 +13,9 @@ package dev.ktform.kt8s.container.packages.languages.python
 
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
-import dev.ktform.kt8s.container.packages.Argo
 import kotlin.test.Test
 
-class PyPyTest{
+class PyPyTest {
 
   @Test
   fun testPyPy() {

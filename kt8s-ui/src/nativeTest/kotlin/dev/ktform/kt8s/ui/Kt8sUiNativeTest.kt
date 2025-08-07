@@ -1,10 +1,12 @@
 package dev.ktform.kt8s.ui
 
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.matchers.shouldBe
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-class Kt8sUiNativeTest : FunSpec({
-  test("dumb test") {
-    (2 + 2) shouldBe 4
+class Kt8sUiNativeTest  {
+
+  @Test
+  fun testDumbTest() {
+    assertEquals(4, 2 + 2)
   }
-})
+}

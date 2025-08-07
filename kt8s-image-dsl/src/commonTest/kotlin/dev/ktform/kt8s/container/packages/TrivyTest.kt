@@ -15,7 +15,7 @@ import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
 import kotlin.test.Test
 
-class TrivyTest  {
+class TrivyTest {
 
   @Test
   fun testTrivy() {

@@ -13,21 +13,14 @@ package dev.ktform.kt8s.container.packages.compute.karpenter
 
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+import kotlin.test.Test
 
-class KarpenterAWSTest: FunSpec(
-  {
-    context("Karpenter AWS") {
-      withData(
-        nameFn = { "Karpenter AWS for ${it.name} ${it.env.distro.name} ${it.env.provider.name} should render correctly" },
-        Environment.all.map { env ->
-          PackageTestCase("karpenter aws", env, rendered = KarpenterAWS()
-              .render())
-        },
-      ) {
-        it.isExpected()
-      }
+class KarpenterAWSTest {
+
+  @Test
+  fun testKarpenterAWSTest() {
+    Environment.all.forEach { env ->
+      PackageTestCase("karpenter aws", env, rendered = KarpenterAWS().render()).isExpected()
     }
-  },
-)
+  }
+}

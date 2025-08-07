@@ -9,11 +9,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.matchers.shouldBe
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-class K8SClientNativeTest : FunSpec({
-  test("dumb test") {
-    (2 + 2) shouldBe 4
+class K8SClientNativeTest  {
+
+  @Test
+  fun testDumbTest() {
+    assertEquals(4, 2 + 2)
   }
-})
+}

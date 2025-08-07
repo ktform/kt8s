@@ -12,27 +12,29 @@
 package dev.ktform.kt8s.container
 
 import dev.ktform.kt8s.container.dsl.dockerfile
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.matchers.shouldBe
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-class BasicDockerfileTest : FunSpec(
-  {
-    context("Check basic JS processing") {
-      test("should support fluent method chaining") {
-        dockerfile {
-            from("node", "18-alpine")
-                .workdir("/app")
-                .copy("package*.json", "./")
-                .run("npm ci --only=production") {
-                    cacheMount("/root/.npm", id = "npm-cache")
-                    network(Dockerfile.RunNetwork.DEFAULT)
-                }
-                .copy(".", ".")
-                .expose(3000)
-                .env("NODE_ENV", "production")
-                .user("node")
-                .cmd("npm", "start")
-        }.buildString() shouldBe """FROM node:18-alpine
+class BasicDockerfileTest {
+
+  @Test
+  fun testFluentMethodChaining() {
+    val result = dockerfile {
+      from("node", "18-alpine")
+        .workdir("/app")
+        .copy("package*.json", "./")
+        .run("npm ci --only=production") {
+          cacheMount("/root/.npm", id = "npm-cache")
+          network(Dockerfile.RunNetwork.DEFAULT)
+        }
+        .copy(".", ".")
+        .expose(3000)
+        .env("NODE_ENV", "production")
+        .user("node")
+        .cmd("npm", "start")
+    }.buildString()
+
+    val expected = """FROM node:18-alpine
 WORKDIR /app
 COPY package*.json ./
 RUN --mount=type=cache,target=/root/.npm,id=npm-cache,sharing=shared --network=default npm ci --only=production
@@ -41,6 +43,7 @@ EXPOSE 3000/tcp
 ENV NODE_ENV=production
 USER node
 CMD ["npm", "start"]"""
-      }
-    }
-  })
+
+    assertEquals(expected, result)
+  }
+}
