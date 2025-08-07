@@ -24,7 +24,5 @@ class ScalaSbt(val version: String = `package`.latestVersion(Environment.default
       packageName = "scala",
       repo = "",
     )
-
-
   }
 }

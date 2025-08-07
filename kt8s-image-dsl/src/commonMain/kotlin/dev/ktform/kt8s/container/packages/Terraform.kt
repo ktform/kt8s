@@ -24,7 +24,5 @@ class Terraform(val version: String = `package`.latestVersion(Environment.defaul
       packageName = "terraform",
       repo = "",
     )
-
-
   }
 }

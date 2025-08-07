@@ -24,7 +24,5 @@ class PipX(val version: String = `package`.latestVersion(Environment.default)) :
       packageName = "pipx",
       repo = "",
     )
-
-
   }
 }

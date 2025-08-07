@@ -53,6 +53,8 @@ ktor-client-apache = { module = "io.ktor:ktor-client-apache", version.ref = "kto
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 testing-instrumented-core = { module = "androidx.test:core", version.ref = "testing-intstrumented-core" }
 testing-instrumented-core-ktx = { module = "androidx.test:core-ktx", version.ref = "testing-intstrumented-core" }
 testing-instrumented-rules = { module = "androidx.test:rules", version.ref = "testing-intstrumented-rules" }
@@ -91,6 +93,8 @@ common = [
     "kotlin-serialization-json",
     "kotlinx-io-bytestring",
     "ktor-client-core",
+    "ktor-client-content-negotiation",
+    "ktor-serialization-json"
 ]
 common-testing = [
     "kotlin-coroutines-test",

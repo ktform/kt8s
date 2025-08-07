@@ -24,7 +24,5 @@ class Protoc(val version: String = `package`.latestVersion(Environment.default))
       packageName = "protoc",
       repo = "",
     )
-
-
   }
 }

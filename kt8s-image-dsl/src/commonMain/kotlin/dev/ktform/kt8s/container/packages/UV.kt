@@ -21,8 +21,12 @@ class UV(val version: String = `package`.latestVersion(Environment.default)) : R
 
   companion object {
     val `package` = image {
+      name("uv")
+      repo("git@github.com:astral-sh/uv.git")
 
-
+      availableVersions { _ ->
+        listOf("v1.0.0")
+      }
     }.toPackage()
   }
 }

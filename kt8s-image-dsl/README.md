@@ -2,9 +2,9 @@
 
 Constructs dockerfiles's using an opinionated Kotlin DSL.
 
-Targets multiple Linux container distributions, provides simple and efficient [Distroless](https://github.com/GoogleContainerTools/distroless) packaging, 
-relevant [slsa.dev](https://slsa.dev) security attestations and container image signing. Does not rely on any custom package management, or tooling due to added Total Cost Of Ownership.
-
+Targets multiple Linux container distributions, provides simple and efficient [Distroless](https://github.com/GoogleContainerTools/distroless) packaging,
+relevant [slsa.dev](https://slsa.dev) security attestations and container image signing. Does not rely on any custom package management, or tooling due to added Total Cost Of
+Ownership.
 
 ## 🦋 Usage
 
@@ -25,7 +25,7 @@ val kt8sImage = image {
       build("yarn", "terraform")
       run("aws-cli", "curl")
     }
-    
+
     build {
       all('yarn', 'yarn build', 'yarn cleanup')
       debian('yarn', 'yarn build', 'yarn cleanup', 'yarn cleanup-debian')
@@ -55,7 +55,7 @@ val kt8sImage = image {
 
 [Distroless](https://github.com/GoogleContainerTools/distroless) is mostly about packaging Debian with Bazel, for Google needs.
 
-[Chainguard](https://www.chainguard.dev/) is mostly about upselling various forms of Alpine overengineering, not necessarily bad, but not applicable to any other distros. 
+[Chainguard](https://www.chainguard.dev/) is mostly about upselling various forms of Alpine overengineering, not necessarily bad, but not applicable to any other distros.
 
 Broadcom ~~killed~~ discontinued [Bitnami](https://github.com/bitnami/charts/issues/35164) charts.
 

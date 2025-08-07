@@ -24,7 +24,5 @@ class Podman(val version: String = `package`.latestVersion(Environment.default))
       packageName = "podman",
       repo = "",
     )
-
-
   }
 }
