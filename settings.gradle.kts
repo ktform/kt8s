@@ -15,6 +15,7 @@ dependencyResolutionManagement {
   repositories {
     mavenCentral()
     google()
+    gradlePluginPortal()
     maven {
       url = uri("https://packages.confluent.io/maven/")
     }

@@ -20,11 +20,11 @@ data class Package(
   val runtime: Boolean = false,
   val providers: NonEmptyList<Environment.Provider> = Environment.Provider.all.toNonEmptyListOrThrow(),
 
-  val buildDependencies: Map<Distro, List<String>> = emptyMap(),
-  val runDependencies: Map<Distro, List<String>> = emptyMap(),
+  val buildDependencies: Map<Distro, Set<String>> = emptyMap(),
+  val runDependencies: Map<Distro, Set<String>> = emptyMap(),
 
-  val buildPackageDependencies: Map<Distro, List<Package>> = emptyMap(),
-  val runPackageDependencies: Map<Distro, List<Package>> = emptyMap(),
+  val buildPackageDependencies: Map<Distro, Set<Package>> = emptyMap(),
+  val runPackageDependencies: Map<Distro, Set<Package>> = emptyMap(),
 
   val flavours: Set<Package> = emptySet(),
   val defaultFlavour: Option<Package> = none(),
@@ -35,9 +35,9 @@ data class Package(
   val repoVersion: (String, toRepo: Boolean) -> String = { it, _ -> it },
   val availableVersions: (Environment) -> List<String> = { emptyList() },
 
-  val stopGracefullySignal: Signal= defaultStopGracefullySignal,
+  val stopGracefullySignal: Signal = defaultStopGracefullySignal,
   val stopImmediatelySignal: Signal = defaultStopImmediatelySignal,
-  val reloadConfigSignal: Signal = defaultReloadConfigSignal
+  val reloadConfigSignal: Signal = defaultReloadConfigSignal,
 ) : Renderable {
 
   override fun latestVersion(env: Environment): String =

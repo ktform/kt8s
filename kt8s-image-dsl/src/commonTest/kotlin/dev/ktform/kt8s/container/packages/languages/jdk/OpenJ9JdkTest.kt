@@ -13,21 +13,15 @@ package dev.ktform.kt8s.container.packages.languages.jdk
 
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+import kotlin.test.Test
 
 
-class OpenJ9JdkTest: FunSpec(
-  {
-    context("OpenJ9 JDK") {
-      withData(
-        nameFn = { "openj9 jdk for ${it.name} ${it.env.distro.name} ${it.env.provider.name} should render correctly" },
-        Environment.all.map { env ->
-          PackageTestCase("openj9 jdk", env, rendered = OpenJ9Jdk().render())
-        },
-      ) {
-        it.isExpected()
-      }
+class OpenJ9JdkTest {
+
+  @Test
+  fun testOpenJ9Jdk() {
+    Environment.all.forEach { env ->
+      PackageTestCase("openj9 jdk", env, rendered = OpenJ9Jdk().render()).isExpected()
     }
-  },
-)
+  }
+}

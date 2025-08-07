@@ -13,20 +13,14 @@ package dev.ktform.kt8s.container.packages
 
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+import kotlin.test.Test
 
-class ScalaSbtTest : FunSpec(
-  {
-    context("ScalaSbt") {
-      withData(
-        nameFn = { "ScalaSbt for ${it.name} ${it.env.distro.name} ${it.env.provider.name} should render correctly" },
-        Environment.all.map { env ->
-          PackageTestCase("scalasbt", env, rendered = ScalaSbt().render())
-        },
-      ) {
-        it.isExpected()
-      }
+class ScalaSbtTest  {
+
+  @Test
+  fun testScalaSbt() {
+    Environment.all.forEach { env ->
+      PackageTestCase("scala", env, rendered = ScalaSbt().render()).isExpected()
     }
-  },
-)
+  }
+}

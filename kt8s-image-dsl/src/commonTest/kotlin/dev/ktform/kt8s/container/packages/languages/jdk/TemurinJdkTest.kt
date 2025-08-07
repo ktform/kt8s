@@ -14,21 +14,15 @@ package dev.ktform.kt8s.container.packages.languages.jdk
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
 import dev.ktform.kt8s.container.packages.Argo
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+import kotlin.test.Test
 
 
-class TemurinJdkTest: FunSpec(
-  {
-    context("Temurin JDK") {
-      withData(
-        nameFn = { "temurin jdk for ${it.name} ${it.env.distro.name} ${it.env.provider.name} should render correctly" },
-        Environment.all.map { env ->
-          PackageTestCase("temurin jdk", env, rendered = TemurinJdk().render())
-        },
-      ) {
-        it.isExpected()
-      }
+class TemurinJdkTest {
+
+  @Test
+  fun testTemurinJdk() {
+    Environment.all.forEach { env ->
+      PackageTestCase("temurin jdk", env, rendered = TemurinJdk().render()).isExpected()
     }
-  },
-)
+  }
+}

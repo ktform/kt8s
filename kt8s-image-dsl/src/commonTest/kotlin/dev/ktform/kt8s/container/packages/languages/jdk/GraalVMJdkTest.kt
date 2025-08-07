@@ -14,21 +14,15 @@ package dev.ktform.kt8s.container.packages.languages.jdk
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
 import dev.ktform.kt8s.container.packages.Argo
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+import kotlin.test.Test
 
 
-class GraalVMJdkTest: FunSpec(
-  {
-    context("GraalVM JDK") {
-      withData(
-        nameFn = { "graalvm jdk for ${it.name} ${it.env.distro.name} ${it.env.provider.name} should render correctly" },
-        Environment.all.map { env ->
-          PackageTestCase("graalvm jdk", env, rendered = GraalVMJdk().render())
-        },
-      ) {
-        it.isExpected()
-      }
+class GraalVMJdkTest {
+
+  @Test
+  fun testGraalVMJdk() {
+    Environment.all.forEach { env ->
+      PackageTestCase("graalvm jdk", env, rendered = GraalVMJdk().render()).isExpected()
     }
-  },
-)
+  }
+}

@@ -6,11 +6,14 @@ plugins {
   alias(libs.plugins.android.library)
   alias(libs.plugins.ksp)
   alias(libs.plugins.spotless)
-  alias(libs.plugins.kotlin.multiplatform)
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.maven.publish)
-  alias(libs.plugins.kotest)
-  id("maven-publish")
+
+
+//  alias(libs.plugins.compose.hot.reload)
+//  alias(libs.plugins.compose.multiplatform)
+//  alias(libs.plugins.compose.compiler)
+  kotlin("multiplatform")
 }
 
 group = "dev.ktform.kt8s.ui"

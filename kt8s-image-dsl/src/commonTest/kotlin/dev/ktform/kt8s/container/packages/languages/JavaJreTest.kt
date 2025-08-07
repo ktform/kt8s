@@ -14,20 +14,14 @@ package dev.ktform.kt8s.container.packages.languages
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
 import dev.ktform.kt8s.container.packages.Argo
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+import kotlin.test.Test
 
-class JavaJreTest: FunSpec(
-  {
-    context("Java Jre") {
-      withData(
-        nameFn = { "Java Jre for ${it.name} ${it.env.distro.name} ${it.env.provider.name} should render correctly" },
-        Environment.all.map { env ->
-          PackageTestCase("java_jre", env, rendered = JavaJre().render())
-        },
-      ) {
-        it.isExpected()
-      }
+class JavaJreTest{
+
+  @Test
+  fun testJavaJre() {
+    Environment.all.forEach { env ->
+      PackageTestCase("java jre", env, rendered = JavaJre().render()).isExpected()
     }
-  },
-)
+  }
+}

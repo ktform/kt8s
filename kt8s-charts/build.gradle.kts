@@ -2,11 +2,10 @@ plugins {
   alias(libs.plugins.android.library)
   alias(libs.plugins.ksp)
   alias(libs.plugins.spotless)
-  alias(libs.plugins.kotlin.multiplatform)
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.maven.publish)
-  alias(libs.plugins.kotest)
-  id("maven-publish")
+
+  kotlin("multiplatform")
 }
 
 group = "dev.ktform.kt8s.charts"
@@ -30,6 +29,7 @@ android {
 kotlin {
   jvm()
   js {
+    outputModuleName = "kt8s-charts"
     browser()
     nodejs()
   }

@@ -4,10 +4,10 @@ plugins {
   alias(libs.plugins.android.library)
   alias(libs.plugins.ksp)
   alias(libs.plugins.spotless)
-  alias(libs.plugins.kotlin.multiplatform)
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.maven.publish)
-  alias(libs.plugins.kotest)
+
+  kotlin("multiplatform")
 }
 
 group = "dev.ktform.kt8s.container"
@@ -42,11 +42,12 @@ kotlin {
   }
   js {
     nodejs()
-    browser()
+    useEsModules()
   }
   iosX64()
   iosArm64()
   iosSimulatorArm64()
+
   androidTarget {
     publishLibraryVariants("release")
     publishLibraryVariantsGroupedByFlavor = true
@@ -80,6 +81,16 @@ kotlin {
     }
     jvmTest.dependencies {
       implementation(libs.bundles.jvm.testing)
+    }
+    iosMain.dependencies {
+      implementation(libs.bundles.ios)
+    }
+    iosTest.dependencies {
+    }
+    nativeMain.dependencies {
+      implementation(libs.bundles.ios)
+    }
+    nativeTest.dependencies {
     }
   }
 }

@@ -1,6 +1,7 @@
 package dev.ktform.kt8s.container.dsl
 
 import dev.ktform.kt8s.container.Distro
+import kotlinx.io.files.Path
 
 @ImageDsl
 class ImageDistroBuilder(private val distro: Distro) {
@@ -8,7 +9,7 @@ class ImageDistroBuilder(private val distro: Distro) {
     val distro: Distro,
     val dependencies: ImageDistroDependenciesBuilder.DistroDependencies = ImageDistroDependenciesBuilder.DistroDependencies(),
     val buildCommands: List<String> = emptyList(),
-    val distrolessCommands: List<String> = emptyList()
+    val distrolessCommands: List<String> = emptyList(),
   )
 
   private var dependencies = ImageDistroDependenciesBuilder.DistroDependencies()
@@ -41,6 +42,6 @@ class ImageDistroBuilder(private val distro: Distro) {
     distro = distro,
     dependencies = dependencies,
     buildCommands = buildCommands,
-    distrolessCommands = distrolessCommands
+    distrolessCommands = distrolessCommands,
   )
 }

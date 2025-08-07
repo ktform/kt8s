@@ -22,7 +22,7 @@ class Kind(val version: String = `package`.latestVersion(Environment.default)) :
   companion object {
     val `package` = Package(
       packageName = "kind",
-      repo = ""
+      repo = "",
     )
 
 

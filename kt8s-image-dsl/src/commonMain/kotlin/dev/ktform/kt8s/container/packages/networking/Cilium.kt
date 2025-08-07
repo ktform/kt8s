@@ -4,14 +4,18 @@ import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 
-class Cilium  (val version: String = dev.ktform.kt8s.container.packages.networking.Cilium.Companion.`package`.latestVersion(Environment.default)) : Renderable {
-  override fun versions(env: Environment): List<String> = dev.ktform.kt8s.container.packages.networking.Cilium.Companion.`package`.versions(env)
-  override fun render(version: String, env: Environment): String = dev.ktform.kt8s.container.packages.networking.Cilium.Companion.`package`.render(version, env)
+class Cilium(val version: String = `package`.latestVersion(Environment.default)) :
+  Renderable {
+  override fun versions(env: Environment): List<String> =
+    `package`.versions(env)
+
+  override fun render(version: String, env: Environment): String =
+    `package`.render(version, env)
 
   companion object {
     val `package` = Package(
       packageName = "cilium",
-      repo = ""
+      repo = "",
     )
   }
 }

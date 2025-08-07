@@ -14,20 +14,14 @@ package dev.ktform.kt8s.container.packages.languages
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
 import dev.ktform.kt8s.container.packages.Argo
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+import kotlin.test.Test
 
-class JavaJdkTest: FunSpec(
-  {
-    context("Java Jdk") {
-      withData(
-        nameFn = { "Java Jdk for ${it.name} ${it.env.distro.name} ${it.env.provider.name} should render correctly" },
-        Environment.all.map { env ->
-          PackageTestCase("java_jdk", env, rendered = JavaJdk().render())
-        },
-      ) {
-        it.isExpected()
-      }
+class JavaJdkTest{
+
+  @Test
+  fun testJavaJdk() {
+    Environment.all.forEach { env ->
+      PackageTestCase("java jdk", env, rendered = JavaJdk().render()).isExpected()
     }
-  },
-)
+  }
+}

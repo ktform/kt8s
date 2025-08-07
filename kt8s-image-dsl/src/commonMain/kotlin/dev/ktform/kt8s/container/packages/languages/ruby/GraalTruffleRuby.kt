@@ -22,7 +22,7 @@ class GraalTruffleRuby(val version: String = `package`.latestVersion(Environment
   companion object {
     val `package` = Package(
       packageName = "truffleruby",
-      repo = ""
+      repo = "",
     )
   }
 }

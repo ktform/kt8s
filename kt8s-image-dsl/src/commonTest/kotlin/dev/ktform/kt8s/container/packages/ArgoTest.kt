@@ -13,20 +13,14 @@ package dev.ktform.kt8s.container.packages
 
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+import kotlin.test.Test
 
-class ArgoTest : FunSpec(
-  {
-    context("Argo CLI tools") {
-      withData(
-        nameFn = { "Argo CLI Tools for ${it.name} ${it.env.distro.name} ${it.env.provider.name} should render correctly" },
-        Environment.all.map { env ->
-          PackageTestCase("argo", env, rendered = Argo().render())
-        },
-      ) {
-        it.isExpected()
-      }
+class ArgoTest {
+
+  @Test
+  fun testArgoCliTools() {
+    Environment.all.forEach { env ->
+      PackageTestCase("argo", env, rendered = Argo().render()).isExpected()
     }
-  },
-)
+  }
+}

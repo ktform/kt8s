@@ -14,20 +14,14 @@ package dev.ktform.kt8s.container.packages.languages.ruby
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
 import dev.ktform.kt8s.container.packages.Argo
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+import kotlin.test.Test
 
-class RbxTest: FunSpec(
-  {
-    context("rbx") {
-      withData(
-        nameFn = { "rbx for ${it.name} ${it.env.distro.name} ${it.env.provider.name} should render correctly" },
-        Environment.all.map { env ->
-          PackageTestCase("rbx", env, rendered = Rbx().render())
-        },
-      ) {
-        it.isExpected()
-      }
+class RbxTest {
+
+  @Test
+  fun testRbx() {
+    Environment.all.forEach { env ->
+      PackageTestCase("rbx", env, rendered = Rbx().render()).isExpected()
     }
-  },
-)
+  }
+}

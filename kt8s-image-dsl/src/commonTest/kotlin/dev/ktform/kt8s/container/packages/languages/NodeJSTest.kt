@@ -14,20 +14,14 @@ package dev.ktform.kt8s.container.packages.languages
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
 import dev.ktform.kt8s.container.packages.Argo
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+import kotlin.test.Test
 
-class NodeJSTest: FunSpec(
-  {
-    context("NodeJS") {
-      withData(
-        nameFn = { "NodeJS for ${it.name} ${it.env.distro.name} ${it.env.provider.name} should render correctly" },
-        Environment.all.map { env ->
-          PackageTestCase("nodejs", env, rendered = NodeJS().render())
-        },
-      ) {
-        it.isExpected()
-      }
+class NodeJSTest{
+
+  @Test
+  fun testNodeJS() {
+    Environment.all.forEach { env ->
+      PackageTestCase("nodejs", env, rendered = NodeJS().render()).isExpected()
     }
-  },
-)
+  }
+}

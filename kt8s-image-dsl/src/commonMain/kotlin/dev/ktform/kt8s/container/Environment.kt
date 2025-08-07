@@ -11,12 +11,7 @@
 
 package dev.ktform.kt8s.container
 
-import arrow.core.NonEmptyList
-import arrow.core.Option
-import arrow.core.nonEmptyListOf
-import arrow.core.none
-import arrow.core.some
-import arrow.core.toNonEmptyListOrThrow
+import arrow.core.*
 import dev.ktform.kt8s.container.packages.languages.jdk.GraalVMJdk
 import dev.ktform.kt8s.container.packages.languages.jdk.OpenJ9Jdk
 import dev.ktform.kt8s.container.packages.languages.jdk.TemurinJdk

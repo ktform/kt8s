@@ -13,20 +13,14 @@ package dev.ktform.kt8s.container.packages
 
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+import kotlin.test.Test
 
-class K9sTest : FunSpec(
-  {
-    context("k9s") {
-      withData(
-        nameFn = { "k9s for ${it.name} ${it.env.distro.name} ${it.env.provider.name} should render correctly" },
-        Environment.all.map { env ->
-          PackageTestCase("k9s", env, rendered = K9s().render())
-        },
-      ) {
-        it.isExpected()
-      }
+class K9sTest {
+
+  @Test
+  fun testK9s() {
+    Environment.all.forEach { env ->
+      PackageTestCase("k9s", env, rendered = K9s().render()).isExpected()
     }
-  },
-)
+  }
+}

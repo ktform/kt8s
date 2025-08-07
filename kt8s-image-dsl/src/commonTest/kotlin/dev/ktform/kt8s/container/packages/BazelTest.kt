@@ -13,20 +13,14 @@ package dev.ktform.kt8s.container.packages
 
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+import kotlin.test.Test
 
-class BazelTest : FunSpec(
-  {
-    context("Bazel") {
-      withData(
-        nameFn = { "Bazel Tools for ${it.name} ${it.env.distro.name} ${it.env.provider.name} should render correctly" },
-        Environment.all.map { env ->
-          PackageTestCase("bazel", env, rendered = Bazel().render())
-        },
-      ) {
-        it.isExpected()
-      }
+class BazelTest {
+
+  @Test
+  fun testBazelTools() {
+    Environment.all.forEach { env ->
+      PackageTestCase("bazel", env, rendered = Bazel().render()).isExpected()
     }
-  },
-)
+  }
+}

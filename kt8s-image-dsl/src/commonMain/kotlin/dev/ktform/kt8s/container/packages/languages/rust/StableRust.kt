@@ -22,7 +22,7 @@ class StableRust(val version: String = `package`.latestVersion(Environment.defau
   companion object {
     val `package` = Package(
       packageName = "stablerust",
-      repo = ""
+      repo = "",
     )
 
 

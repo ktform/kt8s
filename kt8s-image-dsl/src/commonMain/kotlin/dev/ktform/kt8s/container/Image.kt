@@ -13,7 +13,6 @@ package dev.ktform.kt8s.container
 
 import arrow.core.*
 import dev.ktform.kt8s.container.dsl.*
-import kotlin.Boolean
 
 @ImageDsl
 class Image {
@@ -180,18 +179,18 @@ class Image {
   }
 
   fun toPackage(): Package {
-    val buildDependencies = mutableMapOf<Distro, List<String>>()
-    val runDependencies = mutableMapOf<Distro, List<String>>()
-    val buildPackageDependencies = mutableMapOf<Distro, List<Package>>()
-    val runPackageDependencies = mutableMapOf<Distro, List<Package>>()
+    val buildDependencies = mutableMapOf<Distro, Set<String>>()
+    val runDependencies = mutableMapOf<Distro, Set<String>>()
+    val buildPackageDependencies = mutableMapOf<Distro, Set<Package>>()
+    val runPackageDependencies = mutableMapOf<Distro, Set<Package>>()
     val buildCommands = mutableMapOf<Distro, List<String>>()
     val distrolessCommands = mutableMapOf<Distro, List<String>>()
 
     distros.forEach { (distro, config) ->
-      buildDependencies[distro] = config.dependencies.getBuildDependencies().toList()
-      runDependencies[distro] = config.dependencies.getRunDependencies().toList()
-      buildPackageDependencies[distro] = config.dependencies.getPackageBuildDependencies().toList()
-      runPackageDependencies[distro] = config.dependencies.getPackageRunDependencies().toList()
+      buildDependencies[distro] = config.dependencies.getBuildDependencies()
+      runDependencies[distro] = config.dependencies.getRunDependencies()
+      buildPackageDependencies[distro] = config.dependencies.getPackageBuildDependencies()
+      runPackageDependencies[distro] = config.dependencies.getPackageRunDependencies()
       buildCommands[distro] = config.buildCommands
       distrolessCommands[distro] = config.distrolessCommands
     }

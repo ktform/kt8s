@@ -22,7 +22,7 @@ class Terraform(val version: String = `package`.latestVersion(Environment.defaul
   companion object {
     val `package` = Package(
       packageName = "terraform",
-      repo = ""
+      repo = "",
     )
 
 

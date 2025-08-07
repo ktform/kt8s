@@ -13,20 +13,14 @@ package dev.ktform.kt8s.container.packages
 
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+import kotlin.test.Test
 
-class MinikubeTest : FunSpec(
-  {
-    context("minikube") {
-      withData(
-        nameFn = { "minikube for ${it.name} ${it.env.distro.name} ${it.env.provider.name} should render correctly" },
-        Environment.all.map { env ->
-          PackageTestCase("minikube", env, rendered = Minikube().render())
-        },
-      ) {
-        it.isExpected()
-      }
+class MinikubeTest {
+
+  @Test
+  fun testMinikube() {
+    Environment.all.forEach { env ->
+      PackageTestCase("minikube", env, rendered = Minikube().render()).isExpected()
     }
-  },
-)
+  }
+}

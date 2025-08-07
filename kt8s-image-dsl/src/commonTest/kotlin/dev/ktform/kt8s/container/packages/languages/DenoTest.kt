@@ -14,20 +14,14 @@ package dev.ktform.kt8s.container.packages.languages
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
 import dev.ktform.kt8s.container.packages.Argo
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+import kotlin.test.Test
 
-class DenoTest: FunSpec(
-  {
-    context("Deno") {
-      withData(
-        nameFn = { "deno for ${it.name} ${it.env.distro.name} ${it.env.provider.name} should render correctly" },
-        Environment.all.map { env ->
-          PackageTestCase("deno", env, rendered = Deno().render())
-        },
-      ) {
-        it.isExpected()
-      }
+class DenoTest{
+
+  @Test
+  fun testDeno() {
+    Environment.all.forEach { env ->
+      PackageTestCase("deno", env, rendered = Deno().render()).isExpected()
     }
-  },
-)
+  }
+}

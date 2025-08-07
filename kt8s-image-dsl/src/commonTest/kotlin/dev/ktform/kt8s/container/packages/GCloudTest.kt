@@ -13,20 +13,14 @@ package dev.ktform.kt8s.container.packages
 
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+import kotlin.test.Test
 
-class GCloudTest : FunSpec(
-  {
-    context("GCloud CLI") {
-      withData(
-        nameFn = { "GCloud CLI for ${it.name} ${it.env.distro.name} ${it.env.provider.name} should render correctly" },
-        Environment.all.map { env ->
-          PackageTestCase("gcloud", env, rendered = GCloud().render())
-        },
-      ) {
-        it.isExpected()
-      }
+class GCloudTest {
+
+  @Test
+  fun testGCloud() {
+    Environment.all.forEach { env ->
+      PackageTestCase("gcloud", env, rendered = GCloud().render()).isExpected()
     }
-  },
-)
+  }
+}

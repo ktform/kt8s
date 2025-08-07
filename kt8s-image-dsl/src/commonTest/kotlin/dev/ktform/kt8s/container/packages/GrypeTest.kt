@@ -13,20 +13,14 @@ package dev.ktform.kt8s.container.packages
 
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+import kotlin.test.Test
 
-class GrypeTest : FunSpec(
-  {
-    context("Grype") {
-      withData(
-        nameFn = { "Grype for ${it.name} ${it.env.distro.name} ${it.env.provider.name} should render correctly" },
-        Environment.all.map { env ->
-          PackageTestCase("Grype", env, rendered = Grype().render())
-        },
-      ) {
-        it.isExpected()
-      }
+class GrypeTest {
+
+  @Test
+  fun testGrype() {
+    Environment.all.forEach { env ->
+      PackageTestCase("grype", env, rendered = Grype().render()).isExpected()
     }
-  },
-)
+  }
+}

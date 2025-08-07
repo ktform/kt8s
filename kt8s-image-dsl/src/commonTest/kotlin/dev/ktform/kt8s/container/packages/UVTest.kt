@@ -13,20 +13,14 @@ package dev.ktform.kt8s.container.packages
 
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+import kotlin.test.Test
 
-class UVTest : FunSpec(
-  {
-    context("uv cli") {
-      withData(
-        nameFn = { "uv cli for ${it.name} ${it.env.distro.name} ${it.env.provider.name} should render correctly" },
-        Environment.all.map { env ->
-          PackageTestCase("uv", env, UV().render())
-        },
-      ) {
-        it.isExpected()
-      }
+class UVTest {
+
+  @Test
+  fun testUV() {
+    Environment.all.forEach { env ->
+      PackageTestCase("uv", env, rendered = UV().render()).isExpected()
     }
-  },
-)
+  }
+}

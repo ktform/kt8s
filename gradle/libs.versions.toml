@@ -16,6 +16,9 @@ plugins-ksp = "2.2.0-2.0.2"
 plugins-maven-publish = "0.34.0"
 plugins-spotless = "7.2.1"
 plugins-version-catalog-update = "1.0.0"
+plugins-compose-hot-reload = "1.0.0-beta04"
+plugins-compose-multiplatform = "1.8.2"
+
 # @keep
 settings-buildTools = "36.0.0"
 # @keep
@@ -27,16 +30,10 @@ settings-versionName = "1.0.0"
 testing-intstrumented-core = "1.7.0"
 testing-intstrumented-rules = "1.7.0"
 testing-intstrumented-runner = "1.7.0"
-testing-kotest-assertions-arrow = "2.0.0"
-testing-kotest-assertions-core = "6.0.0.M10"
-testing-kotest-engine = "6.0.0.M10"
-testing-kotest-junit = "6.0.0.M10"
-testing-kotest-multiplatform = "5.9.1"
-testing-kotest-property = "6.0.0.M10"
-testing-kotest-property-arrow = "2.0.0"
-testing-kotest-property-arrow-optics = "2.0.0"
-testing-kotest-property-jvm = "6.0.0.M10"
 testing-robolectric = "4.15.1"
+testing-junit = "5.13.4"
+testing-truethish = "1.0.3"
+compose = "1.8.3"
 
 [libraries]
 arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
@@ -60,17 +57,13 @@ testing-instrumented-core = { module = "androidx.test:core", version.ref = "test
 testing-instrumented-core-ktx = { module = "androidx.test:core-ktx", version.ref = "testing-intstrumented-core" }
 testing-instrumented-rules = { module = "androidx.test:rules", version.ref = "testing-intstrumented-rules" }
 testing-instrumented-runner = { module = "androidx.test:runner", version.ref = "testing-intstrumented-runner" }
-testing-kotest-assertions-arrow = { module = "io.kotest.extensions:kotest-assertions-arrow", version.ref = "testing-kotest-assertions-arrow" }
-testing-kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "testing-kotest-assertions-core" }
-testing-kotest-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "testing-kotest-engine" }
-testing-kotest-junit = { module = "io.kotest:kotest-runner-junit5", version.ref = "testing-kotest-junit" }
-testing-kotest-property = { module = "io.kotest:kotest-property", version.ref = "testing-kotest-property" }
-testing-kotest-property-arrow = { module = "io.kotest.extensions:kotest-property-arrow", version.ref = "testing-kotest-property-arrow" }
-testing-kotest-property-arrow-optics = { module = "io.kotest.extensions:kotest-property-arrow-optics", version.ref = "testing-kotest-property-arrow-optics" }
-testing-kotest-property-jvm = { module = "io.kotest:kotest-property-jvm", version.ref = "testing-kotest-property-jvm" }
 testing-robolectric = { module = "org.robolectric:robolectric", version.ref = "testing-robolectric" }
-testing-junit = { module = "org.junit.jupiter:junit-jupiter-api", version = "5.13.4" }
-testing-junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version = "5.13.4" }
+testing-junit = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "testing-junit" }
+testing-junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "testing-junit" }
+testing-kotlin = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+testing-truethish = { module = "com.varabyte.truthish:truthish", version.ref = "testing-truethish" } 
+
+jetpack-compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
 
 [bundles]
 android = [
@@ -81,8 +74,7 @@ android-testing = [
     "testing-instrumented-core-ktx",
     "testing-instrumented-rules",
     "testing-instrumented-runner",
-    "testing-kotest-junit",
-    "testing-kotest-property-jvm",
+    "testing-kotlin",
     "testing-robolectric",
     "testing-junit"
 ]
@@ -102,12 +94,8 @@ common = [
 ]
 common-testing = [
     "kotlin-coroutines-test",
-    "testing-kotest-assertions-arrow",
-    "testing-kotest-assertions-core",
-    "testing-kotest-engine",
-    "testing-kotest-property",
-    "testing-kotest-property-arrow",
-    "testing-kotest-property-arrow-optics",
+    "testing-kotlin",
+    "testing-truethish"
 ]
 compiler = [
     "compiler-ksp",
@@ -125,8 +113,7 @@ jvm = [
     "ktor-client-apache",
 ]
 jvm-testing = [
-    "testing-kotest-junit",
-    "testing-kotest-property-jvm",
+    "testing-kotlin",
     "testing-junit"
 ]
 native = [
@@ -135,7 +122,6 @@ native = [
 
 [plugins]
 android-library = { id = "com.android.library", version.ref = "plugins-android" }
-kotest = { id = "io.kotest.multiplatform", version.ref = "testing-kotest-multiplatform" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "plugins-ksp" }
@@ -143,3 +129,6 @@ ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "plugins-maven-publish" }
 spotless = { id = "com.diffplug.spotless", version.ref = "plugins-spotless" }
 version-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "plugins-version-catalog-update" }
+compose-hot-reload = { id = "org.jetbrains.compose.hot-reload", version.ref = "plugins-compose-hot-reload" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "plugins-compose-multiplatform" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

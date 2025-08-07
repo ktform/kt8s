@@ -13,20 +13,14 @@ package dev.ktform.kt8s.container.packages
 
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+import kotlin.test.Test
 
-class DoCtlTest : FunSpec(
-  {
-    context("Digital Ocean CLI") {
-      withData(
-        nameFn = { "Digital Ocean CLI for ${it.name} ${it.env.distro.name} ${it.env.provider.name} should render correctly" },
-        Environment.all.map { env ->
-          PackageTestCase("doctl", env, rendered = DoCtl().render())
-        },
-      ) {
-        it.isExpected()
-      }
+class DoCtlTest {
+
+  @Test
+  fun testDoCtl() {
+    Environment.all.forEach { env ->
+      PackageTestCase("doctl", env, rendered = DoCtl().render()).isExpected()
     }
-  },
-)
+  }
+}

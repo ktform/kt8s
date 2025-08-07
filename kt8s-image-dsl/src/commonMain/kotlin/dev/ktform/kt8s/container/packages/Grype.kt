@@ -22,7 +22,7 @@ class Grype(val version: String = `package`.latestVersion(Environment.default)) 
   companion object {
     val `package` = Package(
       packageName = "grype",
-      repo = ""
+      repo = "",
     )
 
 

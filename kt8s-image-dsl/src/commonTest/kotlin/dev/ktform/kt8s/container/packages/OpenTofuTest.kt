@@ -13,20 +13,14 @@ package dev.ktform.kt8s.container.packages
 
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+import kotlin.test.Test
 
-class OpenTofuTest : FunSpec(
-  {
-    context("opentofu") {
-      withData(
-        nameFn = { "opentofu for ${it.name} ${it.env.distro.name} ${it.env.provider.name} should render correctly" },
-        Environment.all.map { env ->
-          PackageTestCase("opentofu", env, rendered = OpenTofu().render())
-        },
-      ) {
-        it.isExpected()
-      }
+class OpenTofuTest {
+
+  @Test
+  fun testOpenTofu() {
+    Environment.all.forEach { env ->
+      PackageTestCase("openTofu", env, rendered = OpenTofu().render()).isExpected()
     }
-  },
-)
+  }
+}

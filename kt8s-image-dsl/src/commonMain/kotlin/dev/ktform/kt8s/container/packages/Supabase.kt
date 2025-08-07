@@ -22,7 +22,7 @@ class Supabase(val version: String = `package`.latestVersion(Environment.default
   companion object {
     val `package` = Package(
       packageName = "supabase",
-      repo = ""
+      repo = "",
     )
 
 

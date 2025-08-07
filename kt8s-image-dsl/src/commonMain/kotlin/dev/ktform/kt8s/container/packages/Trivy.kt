@@ -22,7 +22,7 @@ class Trivy(val version: String = `package`.latestVersion(Environment.default)) 
   companion object {
     val `package` = Package(
       packageName = "trivy",
-      repo = ""
+      repo = "",
     )
 
 

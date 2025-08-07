@@ -14,20 +14,14 @@ package dev.ktform.kt8s.container.packages.languages.python
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
 import dev.ktform.kt8s.container.packages.Argo
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+import kotlin.test.Test
 
-class PyPyTest: FunSpec(
-  {
-    context("PyPy") {
-      withData(
-        nameFn = { "pypy for ${it.name} ${it.env.distro.name} ${it.env.provider.name} should render correctly" },
-        Environment.all.map { env ->
-          PackageTestCase("pypy", env, rendered = PyPy().render())
-        },
-      ) {
-        it.isExpected()
-      }
+class PyPyTest{
+
+  @Test
+  fun testPyPy() {
+    Environment.all.forEach { env ->
+      PackageTestCase("py py", env, rendered = PyPy().render()).isExpected()
     }
-  },
-)
+  }
+}

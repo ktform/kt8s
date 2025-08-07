@@ -22,7 +22,7 @@ class OpenJ9Jdk(val version: String = `package`.latestVersion(Environment.defaul
   companion object {
     val `package` = Package(
       packageName = "openj9jdk",
-      repo = ""
+      repo = "",
     )
 
 

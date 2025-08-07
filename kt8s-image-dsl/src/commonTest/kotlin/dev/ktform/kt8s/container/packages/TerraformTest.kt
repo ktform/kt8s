@@ -13,20 +13,14 @@ package dev.ktform.kt8s.container.packages
 
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+import kotlin.test.Test
 
-class TerraformTest : FunSpec(
-  {
-    context("Terraform CLI") {
-      withData(
-        nameFn = { "Terraform CLI for ${it.name} ${it.env.distro.name} ${it.env.provider.name} should render correctly" },
-        Environment.all.map { env ->
-          PackageTestCase("terraform", env, rendered = Terraform().render())
-        },
-      ) {
-        it.isExpected()
-      }
+class TerraformTest {
+
+  @Test
+  fun testTerraform() {
+    Environment.all.forEach { env ->
+      PackageTestCase("terraform", env, rendered = Terraform().render()).isExpected()
     }
-  },
-)
+  }
+}

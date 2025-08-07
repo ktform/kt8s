@@ -13,7 +13,6 @@ class ImageDistroDependenciesBuilder {
     val packageBuildDependencies: List<Package> = emptyList(),
     val packageRunDependencies: List<Package> = emptyList(),
   ) {
-    fun getAllDependencies(): Set<String> = (build + run + buildAndRun).distinct().toSet()
     fun getBuildDependencies(): Set<String> = (build + buildAndRun).distinct().toSet()
     fun getRunDependencies(): Set<String> = (run + buildAndRun).distinct().toSet()
 
@@ -52,6 +51,6 @@ class ImageDistroDependenciesBuilder {
     run = runDeps.toList(),
     buildAndRun = buildAndRunDeps.toList(),
     packageRunDependencies = packageRunDependencies,
-    packageBuildDependencies = packageBuildDependencies
+    packageBuildDependencies = packageBuildDependencies,
   )
 }

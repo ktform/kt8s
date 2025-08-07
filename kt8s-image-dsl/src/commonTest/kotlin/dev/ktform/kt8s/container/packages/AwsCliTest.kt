@@ -13,20 +13,14 @@ package dev.ktform.kt8s.container.packages
 
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+import kotlin.test.Test
 
-class AwsCliTest : FunSpec(
-  {
-    context("AWS CLI tools") {
-      withData(
-        nameFn = { "AWS CLI Tools for ${it.name} ${it.env.distro.name} ${it.env.provider.name} should render correctly" },
-        Environment.all.map { env ->
-          PackageTestCase("aws cli", env, rendered = AwsCli().render())
-        },
-      ) {
-        it.isExpected()
-      }
+class AwsCliTest {
+
+  @Test
+  fun testAwsCliTools() {
+    Environment.all.forEach { env ->
+      PackageTestCase("aws cli", env, rendered = AwsCli().render()).isExpected()
     }
-  },
-)
+  }
+}

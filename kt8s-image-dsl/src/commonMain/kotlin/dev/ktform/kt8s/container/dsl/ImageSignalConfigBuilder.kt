@@ -28,7 +28,7 @@ class ImageSignalConfigBuilder {
     reloadConfig = signal.some()
   }
 
-  internal fun build(): ImageSignalConfigBuilder.Signals = Signals(
+  internal fun build(): Signals = Signals(
     stopGracefully = stopGracefully,
     stopImmediately = stopImmediately,
     reloadConfig = reloadConfig,

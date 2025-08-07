@@ -22,7 +22,7 @@ class DotNet(val version: String = `package`.latestVersion(Environment.default))
   companion object {
     val `package` = Package(
       packageName = "dotnet",
-      repo = ""
+      repo = "",
     )
 
     fun latestVersion(env: Environment = Environment.default): String = `package`.latestVersion(env)

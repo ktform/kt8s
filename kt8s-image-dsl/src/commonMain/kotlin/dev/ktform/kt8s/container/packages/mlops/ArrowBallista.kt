@@ -15,14 +15,21 @@ import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 
-class ArrowBallista (val version: String = dev.ktform.kt8s.container.packages.mlops.ArrowBallista.Companion.`package`.latestVersion(Environment.default)) : Renderable {
-  override fun versions(env: Environment): List<String> = dev.ktform.kt8s.container.packages.mlops.ArrowBallista.Companion.`package`.versions(env)
-  override fun render(version: String, env: Environment): String = dev.ktform.kt8s.container.packages.mlops.ArrowBallista.Companion.`package`.render(version, env)
+class ArrowBallista(
+  val version: String = `package`.latestVersion(
+    Environment.default,
+  ),
+) : Renderable {
+  override fun versions(env: Environment): List<String> =
+    `package`.versions(env)
+
+  override fun render(version: String, env: Environment): String =
+    `package`.render(version, env)
 
   companion object {
     val `package` = Package(
       packageName = "arrowballista",
-      repo = ""
+      repo = "",
     )
   }
 }

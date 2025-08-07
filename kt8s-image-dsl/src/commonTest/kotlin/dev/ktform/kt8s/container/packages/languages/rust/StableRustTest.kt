@@ -14,20 +14,14 @@ package dev.ktform.kt8s.container.packages.languages.rust
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
 import dev.ktform.kt8s.container.packages.Argo
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+import kotlin.test.Test
 
-class StableRustTest: FunSpec(
-  {
-    context("Stable Rust") {
-      withData(
-        nameFn = { "Stable Rust for ${it.name} ${it.env.distro.name} ${it.env.provider.name} should render correctly" },
-        Environment.all.map { env ->
-          PackageTestCase("stable rust", env, rendered = StableRust().render())
-        },
-      ) {
-        it.isExpected()
-      }
+class StableRustTest{
+
+  @Test
+  fun testStableRust() {
+    Environment.all.forEach { env ->
+      PackageTestCase("stable rust", env, rendered = StableRust().render()).isExpected()
     }
-  },
-)
+  }
+}

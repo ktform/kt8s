@@ -22,7 +22,7 @@ class TemurinJdk(val version: String = `package`.latestVersion(Environment.defau
   companion object {
     val `package` = Package(
       packageName = "temurinjdk",
-      repo = ""
+      repo = "",
     )
 
 

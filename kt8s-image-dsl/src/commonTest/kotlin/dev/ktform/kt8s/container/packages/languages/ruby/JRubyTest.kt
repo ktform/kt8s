@@ -14,21 +14,14 @@ package dev.ktform.kt8s.container.packages.languages.ruby
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
 import dev.ktform.kt8s.container.packages.Argo
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+import kotlin.test.Test
 
+class JRubyTest {
 
-class JRubyTest: FunSpec(
-  {
-    context("jruby") {
-      withData(
-        nameFn = { "jruby for ${it.name} ${it.env.distro.name} ${it.env.provider.name} should render correctly" },
-        Environment.all.map { env ->
-          PackageTestCase("jruby", env, rendered = JRuby().render())
-        },
-      ) {
-        it.isExpected()
-      }
+  @Test
+  fun testJRuby() {
+    Environment.all.forEach { env ->
+      PackageTestCase("jruby", env, rendered = JRuby().render()).isExpected()
     }
-  },
-)
+  }
+}
