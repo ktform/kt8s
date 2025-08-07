@@ -22,6 +22,7 @@ class ArgoCD(val version: String = dev.ktform.kt8s.container.packages.gitops.Arg
   companion object {
     val `package` = Package(
       packageName = "argocd",
+      repo = ""
     )
   }
 }

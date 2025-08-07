@@ -22,6 +22,7 @@ class Keda (val version: String = dev.ktform.kt8s.container.packages.compute.Ked
   companion object {
     val `package` = Package(
       packageName = "keda",
+      repo = ""
     )
   }
 }

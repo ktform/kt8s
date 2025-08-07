@@ -22,6 +22,7 @@ class NightlyRust(val version: String = `package`.latestVersion(Environment.defa
   companion object {
     val `package` = Package(
       packageName = "nightlyrust",
+      repo = ""
     )
 
 

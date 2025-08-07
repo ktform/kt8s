@@ -22,6 +22,7 @@ class Podman(val version: String = `package`.latestVersion(Environment.default))
   companion object {
     val `package` = Package(
       packageName = "podman",
+      repo = ""
     )
 
 

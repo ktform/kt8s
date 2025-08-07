@@ -22,6 +22,7 @@ class Volcano (val version: String = dev.ktform.kt8s.container.packages.mlops.Vo
   companion object {
     val `package` = Package(
       packageName = "volcano",
+      repo = ""
     )
   }
 }

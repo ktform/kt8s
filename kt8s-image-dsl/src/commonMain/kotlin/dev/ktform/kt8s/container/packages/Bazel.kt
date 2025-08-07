@@ -22,6 +22,7 @@ class Bazel(val version: String = `package`.latestVersion(Environment.default)) 
   companion object {
     val `package` = Package(
       packageName = "bazel",
+      repo = ""
     )
 
 

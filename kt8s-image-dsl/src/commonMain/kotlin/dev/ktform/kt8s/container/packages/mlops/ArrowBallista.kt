@@ -22,6 +22,7 @@ class ArrowBallista (val version: String = dev.ktform.kt8s.container.packages.ml
   companion object {
     val `package` = Package(
       packageName = "arrowballista",
+      repo = ""
     )
   }
 }

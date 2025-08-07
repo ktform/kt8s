@@ -11,6 +11,7 @@ class ExternalDNS (val version: String = dev.ktform.kt8s.container.packages.netw
   companion object {
     val `package` = Package(
       packageName = "externaldns",
+      repo = ""
     )
   }
 }

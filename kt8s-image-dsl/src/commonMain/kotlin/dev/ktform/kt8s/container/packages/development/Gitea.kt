@@ -22,6 +22,7 @@ class Gitea (val version: String = dev.ktform.kt8s.container.packages.developmen
   companion object {
     val `package` = Package(
       packageName = "gitea",
+      repo = ""
     )
   }
 }

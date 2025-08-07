@@ -22,6 +22,7 @@ class PostgreSQL (val version: String = dev.ktform.kt8s.container.packages.stora
   companion object {
     val `package` = Package(
       packageName = "postgresql",
+      repo = ""
     )
   }
 }

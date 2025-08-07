@@ -22,6 +22,7 @@ class KarpenterAzure(val version: String = dev.ktform.kt8s.container.packages.co
   companion object {
     val `package` = Package(
       packageName = "karpenterazure",
+      repo = ""
     )
   }
 }

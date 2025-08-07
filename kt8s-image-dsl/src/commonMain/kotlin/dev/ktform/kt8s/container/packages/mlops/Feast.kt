@@ -22,6 +22,7 @@ class Feast(val version: String = dev.ktform.kt8s.container.packages.mlops.Feast
   companion object {
     val `package` = Package(
       packageName = "feast",
+      repo = ""
     )
   }
 }

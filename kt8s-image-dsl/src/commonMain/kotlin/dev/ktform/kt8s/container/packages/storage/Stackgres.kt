@@ -22,6 +22,7 @@ class Stackgres  (val version: String = dev.ktform.kt8s.container.packages.stora
   companion object {
     val `package` = Package(
       packageName = "stackgres",
+      repo = ""
     )
   }
 }

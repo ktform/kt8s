@@ -13,6 +13,7 @@ package dev.ktform.kt8s.container
 
 import arrow.core.*
 import dev.ktform.kt8s.container.dsl.*
+import kotlin.Boolean
 
 @ImageDsl
 class Image {
@@ -30,7 +31,7 @@ class Image {
   private var flavours = mutableListOf<Package>()
 
   private var repoVersion: Option<(String, toRepo: Boolean) -> String> = none()
-  private val availableVersions: Option<(Environment) -> List<String>> = none()
+  private var availableVersions: Option<(Environment) -> List<String>> = none()
 
   fun name(name: String) {
     packageName = name.some()
@@ -38,6 +39,22 @@ class Image {
 
   fun repo(repo: String) {
     this.repo = repo.some()
+  }
+
+  fun repoVersion(repoVersion: (String, toRepo: Boolean) -> String) {
+    if (this.repoVersion.isNone()) {
+      this.repoVersion = repoVersion.some()
+    } else {
+      throw IllegalArgumentException("Repo version converter already set")
+    }
+  }
+
+  fun availableVersions(availableVersions: (Environment) -> List<String>) {
+    if (this.availableVersions.isNone()) {
+      this.availableVersions = availableVersions.some()
+    } else {
+      throw IllegalArgumentException("Available versions getter already set")
+    }
   }
 
   fun runtime() {
@@ -163,29 +180,46 @@ class Image {
   }
 
   fun toPackage(): Package {
-    val allDependencies = mutableMapOf<Distro, NonEmptyList<Package>>()
-    val buildCommands = mutableMapOf<Distro, NonEmptyList<String>>()
+    val buildDependencies = mutableMapOf<Distro, List<String>>()
+    val runDependencies = mutableMapOf<Distro, List<String>>()
+    val buildPackageDependencies = mutableMapOf<Distro, List<Package>>()
+    val runPackageDependencies = mutableMapOf<Distro, List<Package>>()
+    val buildCommands = mutableMapOf<Distro, List<String>>()
+    val distrolessCommands = mutableMapOf<Distro, List<String>>()
 
     distros.forEach { (distro, config) ->
-      val deps = config.dependencies.getAllDependencies().mapNotNull { depName ->
-        Package.all[depName]
-      }
-
-      if (deps.isNotEmpty()) {
-        allDependencies[distro] = deps.toNonEmptyListOrThrow()
-      }
-
-      val commands = mutableListOf<String>()
-
-      if (commands.isNotEmpty()) {
-        buildCommands[distro] = commands.toNonEmptyListOrThrow()
-      }
+      buildDependencies[distro] = config.dependencies.getBuildDependencies().toList()
+      runDependencies[distro] = config.dependencies.getRunDependencies().toList()
+      buildPackageDependencies[distro] = config.dependencies.getPackageBuildDependencies().toList()
+      runPackageDependencies[distro] = config.dependencies.getPackageRunDependencies().toList()
+      buildCommands[distro] = config.buildCommands
+      distrolessCommands[distro] = config.distrolessCommands
     }
 
     return Package(
       packageName = packageName.getOrElse { throw Exception("Unable to determine package name") },
-//      dependencies = allDependencies,
-//      build = buildCommands,
+      repo = this.repo.getOrElse { throw Exception("Unable to determine repo") },
+      runtime = this.runtime,
+
+      buildDependencies = buildDependencies,
+      runDependencies = runDependencies,
+
+      buildPackageDependencies = emptyMap(),
+      runPackageDependencies = emptyMap(),
+
+      repoVersion = this.repoVersion.getOrElse { { it, _ -> it } },
+      availableVersions = this.availableVersions.getOrElse { throw Exception("Unable to determine available versions") },
+
+      providers = this.providers,
+      flavours = this.flavours.toSet(),
+      defaultFlavour = this.flavours.firstOrNone(), // NOTE: assuming first flavour is the default one
+
+      buildCommands = { env, _ -> buildCommands[env.distro].orEmpty() }, // NOTE: we're ignoring flavour handling for most use cases()
+      distrolessCommands = { env, _ -> distrolessCommands[env.distro].orEmpty() },
+
+      stopGracefullySignal = this.signals.stopGracefully.getOrElse { Package.defaultStopGracefullySignal },
+      stopImmediatelySignal = this.signals.stopImmediately.getOrElse { Package.defaultStopImmediatelySignal },
+      reloadConfigSignal = this.signals.reloadConfig.getOrElse { Package.defaultReloadConfigSignal },
     )
   }
 }

@@ -13,6 +13,7 @@ package dev.ktform.kt8s.container
 
 import arrow.core.NonEmptyList
 import arrow.core.Option
+import arrow.core.nonEmptyListOf
 import arrow.core.none
 import arrow.core.some
 import arrow.core.toNonEmptyListOrThrow
@@ -49,15 +50,15 @@ data class Environment(
       listOf(),
     )
 
-    val defaultFlavours = setOf(
+    val defaultFlavours: NonEmptyList<Package> = nonEmptyListOf(
       OpenJ9Jdk.`package`,
       OpenJ9Jre.`package`,
       CPython.`package`,
       CRuby.`package`,
       StableRust.`package`,
-    ).toSet()
+    )
 
-    val availableFlavours = setOf(
+    val availableFlavours: NonEmptyList<Package> = nonEmptyListOf(
       GraalVMJdk.`package`,
       OpenJ9Jdk.`package`,
       TemurinJdk.`package`,

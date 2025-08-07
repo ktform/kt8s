@@ -22,6 +22,7 @@ class KarpenterAWS(val version: String = dev.ktform.kt8s.container.packages.comp
   companion object {
     val `package` = Package(
       packageName = "karpenteraws",
+      repo = ""
     )
   }
 }

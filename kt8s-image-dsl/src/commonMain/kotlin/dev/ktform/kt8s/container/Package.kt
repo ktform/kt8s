@@ -20,23 +20,24 @@ data class Package(
   val runtime: Boolean = false,
   val providers: NonEmptyList<Environment.Provider> = Environment.Provider.all.toNonEmptyListOrThrow(),
 
-  val buildDependencies: Map<Distro, NonEmptyList<String>> = emptyMap(),
-  val runDependencies: Map<Distro, NonEmptyList<String>> = emptyMap(),
+  val buildDependencies: Map<Distro, List<String>> = emptyMap(),
+  val runDependencies: Map<Distro, List<String>> = emptyMap(),
 
-  val buildPackageDependencies: Map<Distro, NonEmptyList<Package>> = emptyMap(),
-  val runPackageDependencies: Map<Distro, NonEmptyList<Package>> = emptyMap(),
+  val buildPackageDependencies: Map<Distro, List<Package>> = emptyMap(),
+  val runPackageDependencies: Map<Distro, List<Package>> = emptyMap(),
+
   val flavours: Set<Package> = emptySet(),
   val defaultFlavour: Option<Package> = none(),
 
-  val buildCommand: (Environment, List<Package>) -> String = { _, _ -> "" },
-  val buildDistroless: (Environment, List<Package>) -> String = { _, _ -> "" },
+  val buildCommands: (Environment, List<Package>) -> List<String> = { _, _ -> emptyList() },
+  val distrolessCommands: (Environment, List<Package>) -> List<String> = { _, _ -> emptyList() },
 
   val repoVersion: (String, toRepo: Boolean) -> String = { it, _ -> it },
   val availableVersions: (Environment) -> List<String> = { emptyList() },
 
-  val stopGracefullySignal: Signal= Signal.SIGTERM,
-  val stopImmediatelySignal: Signal = Signal.SIGINT,
-  val reloadConfigSignal: Signal = Signal.SIGHUP
+  val stopGracefullySignal: Signal= defaultStopGracefullySignal,
+  val stopImmediatelySignal: Signal = defaultStopImmediatelySignal,
+  val reloadConfigSignal: Signal = defaultReloadConfigSignal
 ) : Renderable {
 
   override fun latestVersion(env: Environment): String =
@@ -52,6 +53,10 @@ data class Package(
   override fun versions(env: Environment): List<String> = availableVersions.invoke(env)
 
   companion object {
+    val defaultStopGracefullySignal = Signal.SIGTERM
+    val defaultStopImmediatelySignal = Signal.SIGINT
+    val defaultReloadConfigSignal = Signal.SIGHUP
+
     val all: Map<String, Package> = mapOf(
       // Languages
       "deno" to Deno.`package`,

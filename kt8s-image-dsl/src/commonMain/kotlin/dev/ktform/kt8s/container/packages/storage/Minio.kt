@@ -22,6 +22,7 @@ class Minio (val version: String = dev.ktform.kt8s.container.packages.storage.Mi
   companion object {
     val `package` = Package(
       packageName = "minio",
+      repo = ""
     )
   }
 }

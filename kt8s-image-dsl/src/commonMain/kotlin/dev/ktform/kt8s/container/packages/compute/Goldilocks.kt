@@ -22,6 +22,7 @@ class Goldilocks(val version: String = dev.ktform.kt8s.container.packages.comput
   companion object {
     val `package` = Package(
       packageName = "goldilocks",
+      repo = ""
     )
   }
 }

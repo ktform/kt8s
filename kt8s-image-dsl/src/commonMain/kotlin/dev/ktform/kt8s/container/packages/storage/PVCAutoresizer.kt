@@ -22,6 +22,7 @@ class PVCAutoresizer (val version: String = dev.ktform.kt8s.container.packages.s
   companion object {
     val `package` = Package(
       packageName = "pvcautoresizer",
+      repo = ""
     )
   }
 }

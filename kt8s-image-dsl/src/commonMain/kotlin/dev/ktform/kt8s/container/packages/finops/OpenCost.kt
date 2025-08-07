@@ -22,6 +22,7 @@ class OpenCost (val version: String = dev.ktform.kt8s.container.packages.finops.
   companion object {
     val `package` = Package(
       packageName = "opencost",
+      repo = ""
     )
   }
 }

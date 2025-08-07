@@ -22,6 +22,7 @@ class Velero  (val version: String = dev.ktform.kt8s.container.packages.storage.
   companion object {
     val `package` = Package(
       packageName = "velero",
+      repo = ""
     )
   }
 }

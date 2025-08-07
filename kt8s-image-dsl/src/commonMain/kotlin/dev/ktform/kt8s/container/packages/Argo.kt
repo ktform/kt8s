@@ -22,6 +22,7 @@ data class Argo(val version: String = `package`.latestVersion(Environment.defaul
   companion object {
     val `package` = Package(
       packageName = "argo",
+      repo = ""
     )
   }
 }

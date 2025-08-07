@@ -22,6 +22,7 @@ class Descheduler(val version: String = dev.ktform.kt8s.container.packages.compu
   companion object {
     val `package` = Package(
       packageName = "descheduler",
+      repo = ""
     )
   }
 }

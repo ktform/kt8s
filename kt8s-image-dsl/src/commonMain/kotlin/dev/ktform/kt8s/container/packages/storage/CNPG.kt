@@ -22,6 +22,7 @@ class CNPG  (val version: String = dev.ktform.kt8s.container.packages.storage.CN
   companion object {
     val `package` = Package(
       packageName = "cnpg",
+      repo = ""
     )
   }
 }

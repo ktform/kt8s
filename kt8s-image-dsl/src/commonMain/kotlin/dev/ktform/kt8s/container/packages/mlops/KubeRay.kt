@@ -22,6 +22,7 @@ class KubeRay (val version: String = dev.ktform.kt8s.container.packages.mlops.Ku
   companion object {
     val `package` = Package(
       packageName = "kuberay",
+      repo = ""
     )
   }
 }

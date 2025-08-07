@@ -22,6 +22,7 @@ class OpenTofu(val version: String = `package`.latestVersion(Environment.default
   companion object {
     val `package` = Package(
       packageName = "opentofu",
+      repo = ""
     )
 
 

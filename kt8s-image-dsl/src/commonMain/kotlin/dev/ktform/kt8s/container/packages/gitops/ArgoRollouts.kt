@@ -22,6 +22,7 @@ class ArgoRollouts (val version: String = dev.ktform.kt8s.container.packages.git
   companion object {
     val `package` = Package(
       packageName = "argorollouts",
+      repo = ""
     )
   }
 }

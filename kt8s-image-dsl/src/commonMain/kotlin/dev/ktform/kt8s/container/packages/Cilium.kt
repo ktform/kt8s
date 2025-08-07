@@ -22,6 +22,7 @@ class Cilium(val version: String = `package`.latestVersion(Environment.default))
   companion object {
     val `package` = Package(
       packageName = "cilium",
+      repo = ""
     )
 
 

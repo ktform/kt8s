@@ -22,6 +22,7 @@ class GraalPython(val version: String = `package`.latestVersion(Environment.defa
   companion object {
     val `package` = Package(
       packageName = "graalpython",
+      repo = ""
     )
 
 

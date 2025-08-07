@@ -22,6 +22,7 @@ class LocalPathProvisioner  (val version: String = dev.ktform.kt8s.container.pac
   companion object {
     val `package` = Package(
       packageName = "localpathprovisioner",
+      repo = ""
     )
   }
 }

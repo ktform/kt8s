@@ -22,6 +22,7 @@ class VPA (val version: String = dev.ktform.kt8s.container.packages.compute.VPA.
   companion object {
     val `package` = Package(
       packageName = "vpa",
+      repo = ""
     )
   }
 }

@@ -11,6 +11,7 @@ class Coraza (val version: String = dev.ktform.kt8s.container.packages.networkin
   companion object {
     val `package` = Package(
       packageName = "coraza",
+      repo = ""
     )
   }
 }

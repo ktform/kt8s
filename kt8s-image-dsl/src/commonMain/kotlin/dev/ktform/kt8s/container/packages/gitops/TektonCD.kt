@@ -22,6 +22,7 @@ class TektonCD  (val version: String = dev.ktform.kt8s.container.packages.gitops
   companion object {
     val `package` = Package(
       packageName = "tektoncd",
+      repo = ""
     )
   }
 }

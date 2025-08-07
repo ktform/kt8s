@@ -42,6 +42,7 @@ kotlin {
   }
   js {
     nodejs()
+    browser()
   }
   iosX64()
   iosArm64()

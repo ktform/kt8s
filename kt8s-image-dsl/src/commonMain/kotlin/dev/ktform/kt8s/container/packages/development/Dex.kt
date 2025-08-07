@@ -22,6 +22,7 @@ class Dex (val version: String = dev.ktform.kt8s.container.packages.development.
   companion object {
     val `package` = Package(
       packageName = "dex",
+      repo = ""
     )
   }
 }

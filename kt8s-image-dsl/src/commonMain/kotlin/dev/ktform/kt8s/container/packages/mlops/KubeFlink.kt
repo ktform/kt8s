@@ -22,6 +22,7 @@ class KubeFlink (val version: String = dev.ktform.kt8s.container.packages.mlops.
   companion object {
     val `package` = Package(
       packageName = "kubeflink",
+      repo = ""
     )
   }
 }

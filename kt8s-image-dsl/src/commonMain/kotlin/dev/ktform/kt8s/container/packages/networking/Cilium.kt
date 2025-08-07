@@ -11,6 +11,7 @@ class Cilium  (val version: String = dev.ktform.kt8s.container.packages.networki
   companion object {
     val `package` = Package(
       packageName = "cilium",
+      repo = ""
     )
   }
 }
