@@ -11,16 +11,31 @@
 
 package dev.ktform.kt8s.container.packages.languages
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
 class NodeJSTest {
 
   @Test
   fun testNodeJS() {
-    Environment.all.forEach { env ->
-      PackageTestCase("nodejs", env, rendered = NodeJS().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = NodeJS.`package`.latestVersion()
+        PackageTestCase("nodejs", env, rendered = NodeJS(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testNodeJSLatestVersions() {
+    runTest {
+      val latestNVersions = NodeJS.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(NodeJS.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(NodeJS.DEFAULT_VERSIONS)
     }
   }
 }

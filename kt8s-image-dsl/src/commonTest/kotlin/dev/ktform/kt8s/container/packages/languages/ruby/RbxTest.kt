@@ -11,16 +11,31 @@
 
 package dev.ktform.kt8s.container.packages.languages.ruby
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
 class RbxTest {
 
   @Test
   fun testRbx() {
-    Environment.all.forEach { env ->
-      PackageTestCase("rbx", env, rendered = Rbx().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = Rbx.`package`.latestVersion()
+        PackageTestCase("rbx", env, rendered = Rbx(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testRbxLatestVersions() {
+    runTest {
+      val latestNVersions = Rbx.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(Rbx.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(Rbx.DEFAULT_VERSIONS)
     }
   }
 }

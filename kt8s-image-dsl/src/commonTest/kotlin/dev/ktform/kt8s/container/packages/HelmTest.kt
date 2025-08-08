@@ -11,16 +11,30 @@
 
 package dev.ktform.kt8s.container.packages
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
-
 class HelmTest {
 
   @Test
   fun testHelm() {
-    Environment.all.forEach { env ->
-      PackageTestCase("helm", env, rendered = Helm().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = Helm.`package`.latestVersion()
+        PackageTestCase("helm", env, rendered = Helm(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testHelmLatestVersions() {
+    runTest {
+      val latestNVersions = Helm.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(Helm.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(Helm.DEFAULT_VERSIONS)
     }
   }
 }

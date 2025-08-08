@@ -11,16 +11,31 @@
 
 package dev.ktform.kt8s.container.packages.languages
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
 class DenoTest {
 
   @Test
   fun testDeno() {
-    Environment.all.forEach { env ->
-      PackageTestCase("deno", env, rendered = Deno().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = Deno.`package`.latestVersion()
+        PackageTestCase("deno", env, rendered = Deno(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testDenoLatestVersions() {
+    runTest {
+      val latestNVersions = Deno.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(Deno.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(Deno.DEFAULT_VERSIONS)
     }
   }
 }

@@ -11,16 +11,31 @@
 
 package dev.ktform.kt8s.container.packages.languages
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
 class PythonTest {
 
   @Test
   fun testPython() {
-    Environment.all.forEach { env ->
-      PackageTestCase("python", env, rendered = Python().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = Python.`package`.latestVersion()
+        PackageTestCase("python", env, rendered = Python(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testPythonLatestVersions() {
+    runTest {
+      val latestNVersions = Python.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(Python.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(Python.DEFAULT_VERSIONS)
     }
   }
 }

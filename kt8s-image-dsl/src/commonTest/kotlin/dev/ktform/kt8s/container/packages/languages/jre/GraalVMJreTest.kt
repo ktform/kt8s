@@ -11,17 +11,31 @@
 
 package dev.ktform.kt8s.container.packages.languages.jre
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
-
 
 class GraalVMJreTest {
 
   @Test
   fun testGraalVMJre() {
-    Environment.all.forEach { env ->
-      PackageTestCase("graalvm jre", env, rendered = GraalVMJre().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = GraalVMJre.`package`.latestVersion()
+        PackageTestCase("graalvm jre", env, rendered = GraalVMJre(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testGraalVMJreLatestVersions() {
+    runTest {
+      val latestNVersions = GraalVMJre.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(GraalVMJre.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(GraalVMJre.DEFAULT_VERSIONS)
     }
   }
 }

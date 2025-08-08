@@ -11,16 +11,31 @@
 
 package dev.ktform.kt8s.container.packages.compute
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
 class KedaTest {
 
   @Test
   fun testKeda() {
-    Environment.all.forEach { env ->
-      PackageTestCase("keda", env, rendered = Karpenter().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = Keda.`package`.latestVersion()
+        PackageTestCase("keda", env, rendered = Keda(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testKedaLatestVersions() {
+    runTest {
+      val latestNVersions = Keda.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(Keda.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(Keda.DEFAULT_VERSIONS)
     }
   }
 }

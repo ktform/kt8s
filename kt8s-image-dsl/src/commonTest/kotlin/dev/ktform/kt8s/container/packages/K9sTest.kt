@@ -11,16 +11,31 @@
 
 package dev.ktform.kt8s.container.packages
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
 class K9sTest {
 
   @Test
   fun testK9s() {
-    Environment.all.forEach { env ->
-      PackageTestCase("k9s", env, rendered = K9s().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = K9s.`package`.latestVersion()
+        PackageTestCase("k9s", env, rendered = K9s(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testK9sLatestVersions() {
+    runTest {
+      val latestNVersions = K9s.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(K9s.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(K9s.DEFAULT_VERSIONS)
     }
   }
 }

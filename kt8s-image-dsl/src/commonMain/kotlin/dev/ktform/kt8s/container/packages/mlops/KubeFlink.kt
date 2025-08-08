@@ -11,22 +11,43 @@
 
 package dev.ktform.kt8s.container.packages.mlops
 
+import arrow.core.getOrElse
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
+import dev.ktform.kt8s.container.github.GithubClient
+import dev.ktform.kt8s.container.packages.gitops.ArgoWorkflows
 
-class KubeFlink(val version: String = `package`.latestVersion(Environment.default)) :
+class KubeFlink(val version: String ) :
   Renderable {
-  override fun versions(env: Environment): List<String> =
-    `package`.versions(env)
-
-  override fun render(version: String, env: Environment): String =
+  override suspend fun versions(env: Environment): List<String> = `package`.versions(env)
+  override suspend fun render(version: String, env: Environment): String =
     `package`.render(version, env)
 
+  override suspend fun versions(): List<String> = `package`.versions(Environment.default)
+  override suspend fun render(): String = `package`.render(version, Environment.default)
+
   companion object {
+    const val REPO = "https://github.com/apache/flink-kubernetes-operator"
+
+    val DEFAULT_VERSIONS = listOf(
+      "2.5.0",
+      "2.4.0",
+      "2.3.0",
+    )
+
     val `package` = Package(
-      packageName = "kubeflink",
-      repo = "",
+      packageName = "flink-kubernetes-operator",
+      repo = REPO,
+      availableVersions = {
+        val client = GithubClient()
+        client.getTags(REPO)
+          .getOrElse { DEFAULT_VERSIONS }
+          .filter { !it.contains("-") && !it.contains("rc") }
+          .map { it.removePrefix("v") }
+          .distinct()
+      },
+      repoVersion = Package.withVPrefix
     )
   }
 }

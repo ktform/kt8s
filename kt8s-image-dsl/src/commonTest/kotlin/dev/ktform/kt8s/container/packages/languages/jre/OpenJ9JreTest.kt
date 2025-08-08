@@ -11,17 +11,32 @@
 
 package dev.ktform.kt8s.container.packages.languages.jre
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
-
 
 class OpenJ9JreTest {
 
+
   @Test
   fun testOpenJ9Jre() {
-    Environment.all.forEach { env ->
-      PackageTestCase("openj9 jre", env, rendered = OpenJ9Jre().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = OpenJ9Jre.`package`.latestVersion()
+        PackageTestCase("openj9 jre", env, rendered = OpenJ9Jre(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testOpenJ9JreLatestVersions() {
+    runTest {
+      val latestNVersions = OpenJ9Jre.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(OpenJ9Jre.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(OpenJ9Jre.DEFAULT_VERSIONS)
     }
   }
 }

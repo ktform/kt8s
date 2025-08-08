@@ -13,10 +13,15 @@ package dev.ktform.kt8s.container
 
 import arrow.core.getOrElse
 import arrow.core.toOption
+import dev.ktform.kt8s.container.packages.ArgoCD.Companion.`package`
 
 interface Renderable {
-  fun versions(env: Environment = Environment.default): List<String>
-  fun render(version: String = latestVersion(), env: Environment = Environment.default): String
-  fun latestVersion(env: Environment = Environment.default): String =
+  suspend fun versions(env: Environment = Environment.default): List<String>
+  suspend fun render(version: String, env: Environment = Environment.default): String
+
+  suspend fun versions(): List<String>
+  suspend fun render(): String
+
+  suspend fun latestVersion(env: Environment = Environment.default): String =
     versions(env).maxByOrNull { it }.toOption().getOrElse { throw Exception("Unable to determine latest version") }
 }

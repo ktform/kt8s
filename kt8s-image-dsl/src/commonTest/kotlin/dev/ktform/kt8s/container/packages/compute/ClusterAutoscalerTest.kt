@@ -11,16 +11,31 @@
 
 package dev.ktform.kt8s.container.packages.compute
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
 class ClusterAutoscalerTest {
 
   @Test
   fun testClusterAutoscaler() {
-    Environment.all.forEach { env ->
-      PackageTestCase("cluster autoscaler", env, rendered = ClusterAutoscaler().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = ClusterAutoscaler.`package`.latestVersion()
+        PackageTestCase("cluster autoscaler", env, rendered = ClusterAutoscaler(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testClusterAutoscalerLatestVersions() {
+    runTest {
+      val latestNVersions = ClusterAutoscaler.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(ClusterAutoscaler.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(ClusterAutoscaler.DEFAULT_VERSIONS)
     }
   }
 }

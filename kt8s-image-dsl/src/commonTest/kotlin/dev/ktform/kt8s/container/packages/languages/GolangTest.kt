@@ -11,16 +11,31 @@
 
 package dev.ktform.kt8s.container.packages.languages
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
-
 class GolangTest {
+
 
   @Test
   fun testGolang() {
-    Environment.all.forEach { env ->
-      PackageTestCase("golang", env, rendered = Golang().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = Golang.`package`.latestVersion()
+        PackageTestCase("golang", env, rendered = Golang(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testGolangLatestVersions() {
+    runTest {
+      val latestNVersions = Golang.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(Golang.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(Golang.DEFAULT_VERSIONS)
     }
   }
 }

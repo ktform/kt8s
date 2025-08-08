@@ -11,25 +11,43 @@
 
 package dev.ktform.kt8s.container.packages.mlops
 
+import arrow.core.getOrElse
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
+import dev.ktform.kt8s.container.github.GithubClient
+import dev.ktform.kt8s.container.packages.gitops.ArgoWorkflows
 
-class ArrowBallista(
-  val version: String = `package`.latestVersion(
-    Environment.default,
-  ),
-) : Renderable {
-  override fun versions(env: Environment): List<String> =
-    `package`.versions(env)
-
-  override fun render(version: String, env: Environment): String =
+class ArrowBallista(val version: String ) :
+  Renderable {
+  override suspend fun versions(env: Environment): List<String> = `package`.versions(env)
+  override suspend fun render(version: String, env: Environment): String =
     `package`.render(version, env)
 
+  override suspend fun versions(): List<String> = `package`.versions(Environment.default)
+  override suspend fun render(): String = `package`.render(version, Environment.default)
+
   companion object {
+    const val REPO = "https://github.com/apache/arrow-ballista"
+
+    val DEFAULT_VERSIONS = listOf(
+      "0.11.0",
+      "0.10.0",
+      "0.9.0",
+    )
+
     val `package` = Package(
-      packageName = "arrowballista",
-      repo = "",
+      packageName = "ballista",
+      repo = REPO,
+      availableVersions = {
+        val client = GithubClient()
+        client.getTags(REPO)
+          .getOrElse { DEFAULT_VERSIONS }
+          .filter { !it.contains("-") && !it.contains("rc") }
+          .map { it.removePrefix("v") }
+          .distinct()
+      },
+      repoVersion = Package.withVPrefix
     )
   }
 }

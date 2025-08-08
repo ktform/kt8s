@@ -11,16 +11,31 @@
 
 package dev.ktform.kt8s.container.packages.languages.ruby
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
 class MRubyTest {
 
   @Test
   fun testMRuby() {
-    Environment.all.forEach { env ->
-      PackageTestCase("mruby", env, rendered = MRuby().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = MRuby.`package`.latestVersion()
+        PackageTestCase("mruby", env, rendered = MRuby(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testMRubyLatestVersions() {
+    runTest {
+      val latestNVersions = MRuby.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(MRuby.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(MRuby.DEFAULT_VERSIONS)
     }
   }
 }

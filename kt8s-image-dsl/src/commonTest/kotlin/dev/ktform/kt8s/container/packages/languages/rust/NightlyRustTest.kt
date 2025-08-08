@@ -11,17 +11,31 @@
 
 package dev.ktform.kt8s.container.packages.languages.rust
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
-
 
 class NightlyRustTest {
 
   @Test
   fun testNightlyRust() {
-    Environment.all.forEach { env ->
-      PackageTestCase("nightly rust", env, rendered = NightlyRust().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = NightlyRust.`package`.latestVersion()
+        PackageTestCase("nightly rust", env, rendered = NightlyRust(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testNightlyRustLatestVersions() {
+    runTest {
+      val latestNVersions = NightlyRust.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(NightlyRust.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(NightlyRust.DEFAULT_VERSIONS)
     }
   }
 }

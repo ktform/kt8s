@@ -11,16 +11,31 @@
 
 package dev.ktform.kt8s.container.packages
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
 class MinikubeTest {
 
   @Test
   fun testMinikube() {
-    Environment.all.forEach { env ->
-      PackageTestCase("minikube", env, rendered = Minikube().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = Minikube.`package`.latestVersion()
+        PackageTestCase("minikube", env, rendered = Minikube(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testMinikubeLatestVersions() {
+    runTest {
+      val latestNVersions = Minikube.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(Minikube.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(Minikube.DEFAULT_VERSIONS)
     }
   }
 }

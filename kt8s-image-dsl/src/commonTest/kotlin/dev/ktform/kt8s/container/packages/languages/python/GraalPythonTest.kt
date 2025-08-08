@@ -11,17 +11,31 @@
 
 package dev.ktform.kt8s.container.packages.languages.python
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
-
 
 class GraalPythonTest {
 
   @Test
   fun testGraalPython() {
-    Environment.all.forEach { env ->
-      PackageTestCase("graal python", env, rendered = GraalPython().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = GraalPython.`package`.latestVersion()
+        PackageTestCase("graal python", env, rendered = GraalPython(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testGraalPythonLatestVersions() {
+    runTest {
+      val latestNVersions = GraalPython.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(GraalPython.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(GraalPython.DEFAULT_VERSIONS)
     }
   }
 }

@@ -11,16 +11,31 @@
 
 package dev.ktform.kt8s.container.packages.languages
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
 class JavaJreTest {
 
   @Test
   fun testJavaJre() {
-    Environment.all.forEach { env ->
-      PackageTestCase("java jre", env, rendered = JavaJre().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = JavaJre.`package`.latestVersion()
+        PackageTestCase("java jre", env, rendered = JavaJre(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testJavaJreLatestVersions() {
+    runTest {
+      val latestNVersions = JavaJre.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(JavaJre.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(JavaJre.DEFAULT_VERSIONS)
     }
   }
 }

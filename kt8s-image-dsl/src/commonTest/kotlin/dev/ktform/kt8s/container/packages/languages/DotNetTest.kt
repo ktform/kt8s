@@ -11,16 +11,31 @@
 
 package dev.ktform.kt8s.container.packages.languages
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
 class DotNetTest {
 
   @Test
   fun testDotNet() {
-    Environment.all.forEach { env ->
-      PackageTestCase("dotnet", env, rendered = DotNet().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = DotNet.`package`.latestVersion()
+        PackageTestCase("dotnet", env, rendered = DotNet(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testDotNetLatestVersions() {
+    runTest {
+      val latestNVersions = DotNet.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(DotNet.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(DotNet.DEFAULT_VERSIONS)
     }
   }
 }

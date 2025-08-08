@@ -14,19 +14,41 @@ package dev.ktform.kt8s.container.packages.development
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
+import arrow.core.getOrElse
+import dev.ktform.kt8s.container.github.GithubClient
 
-class Theia(val version: String = `package`.latestVersion(Environment.default)) :
+class Theia(val version: String ) :
   Renderable {
-  override fun versions(env: Environment): List<String> =
+  override suspend fun versions(env: Environment): List<String> =
     `package`.versions(env)
 
-  override fun render(version: String, env: Environment): String =
+  override suspend fun render(version: String, env: Environment): String =
     `package`.render(version, env)
 
+  override suspend fun versions(): List<String> = `package`.versions(Environment.default)
+  override suspend fun render(): String = `package`.render(version, Environment.default)
+
   companion object {
+    const val REPO = "https://github.com/eclipse-theia/theia"
+
+    val DEFAULT_VERSIONS = listOf(
+      "1.48.0",
+      "1.47.0",
+      "1.46.0",
+    )
+
     val `package` = Package(
       packageName = "theia",
-      repo = "",
+      repo = REPO,
+      availableVersions = {
+        val client = GithubClient()
+        client.getTags(REPO)
+          .getOrElse { DEFAULT_VERSIONS }
+          .filter { !it.contains("-") && !it.contains("rc") }
+          .map { it.removePrefix("v") }
+          .distinct()
+      },
+      repoVersion = Package.withVPrefix
     )
   }
 }

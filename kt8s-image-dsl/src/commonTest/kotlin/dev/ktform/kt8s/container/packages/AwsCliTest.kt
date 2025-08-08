@@ -11,16 +11,31 @@
 
 package dev.ktform.kt8s.container.packages
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
 class AwsCliTest {
 
   @Test
   fun testAwsCliTools() {
-    Environment.all.forEach { env ->
-      PackageTestCase("aws cli", env, rendered = AwsCli().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = AwsCli.`package`.latestVersion()
+        PackageTestCase("awscli", env, rendered = AwsCli(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testAwsCliToolsLatestVersions() {
+    runTest {
+      val latestNVersions = AwsCli.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(AwsCli.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(AwsCli.DEFAULT_VERSIONS)
     }
   }
 }

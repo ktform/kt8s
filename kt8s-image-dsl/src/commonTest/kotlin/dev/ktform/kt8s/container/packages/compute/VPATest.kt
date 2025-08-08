@@ -11,16 +11,31 @@
 
 package dev.ktform.kt8s.container.packages.compute
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
 class VPATest {
 
   @Test
-  fun testVPATest() {
-    Environment.all.forEach { env ->
-      PackageTestCase("vpa", env, rendered = VPA().render()).isExpected()
+  fun testVPA() {
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = VPA.`package`.latestVersion()
+        PackageTestCase("vpa", env, rendered = VPA(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testVLatestVersions() {
+    runTest {
+      val latestNVersions = VPA.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(VPA.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(VPA.DEFAULT_VERSIONS)
     }
   }
 }

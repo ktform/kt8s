@@ -33,29 +33,37 @@ data class Package(
   val distrolessCommands: (Environment, List<Package>) -> List<String> = { _, _ -> emptyList() },
 
   val repoVersion: (String, toRepo: Boolean) -> String = { it, _ -> it },
-  val availableVersions: (Environment) -> List<String> = { emptyList() },
+  val availableVersions: suspend (Environment) -> List<String> = { emptyList() },
 
   val stopGracefullySignal: Signal = defaultStopGracefullySignal,
   val stopImmediatelySignal: Signal = defaultStopImmediatelySignal,
   val reloadConfigSignal: Signal = defaultReloadConfigSignal,
 ) : Renderable {
 
-  override fun latestVersion(env: Environment): String =
-    availableVersions(env)
-      .maxByOrNull { it }
-      .toOption()
-      .getOrElse { throw Exception("Unable to determine $packageName latest version") }
-
-  override fun render(version: String, env: Environment): String = buildString {
+  override suspend fun render(version: String, env: Environment): String = buildString {
     ""
   }
 
-  override fun versions(env: Environment): List<String> = availableVersions.invoke(env)
+  override suspend fun versions(env: Environment): List<String> = availableVersions.invoke(env)
+
+  override suspend fun render(): String = render(latestVersion())
+
+  override suspend fun versions(): List<String> = availableVersions.invoke(Environment.default)
 
   companion object {
     val defaultStopGracefullySignal = Signal.SIGTERM
     val defaultStopImmediatelySignal = Signal.SIGINT
     val defaultReloadConfigSignal = Signal.SIGHUP
+
+    val asIs: (String, toRepo: Boolean) -> String = { version, _ -> version }
+
+    val withVPrefix: (String, toRepo: Boolean) -> String = { version, toRepo ->
+      if (toRepo) {
+        "v$version"
+      } else {
+        version
+      }
+    }
 
     val all: Map<String, Package> = mapOf(
       // Languages

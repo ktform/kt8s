@@ -11,16 +11,31 @@
 
 package dev.ktform.kt8s.container.packages.languages.rust
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
 class StableRustTest {
 
   @Test
   fun testStableRust() {
-    Environment.all.forEach { env ->
-      PackageTestCase("stable rust", env, rendered = StableRust().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = StableRust.`package`.latestVersion()
+        PackageTestCase("stable rust", env, rendered = StableRust(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testStableRustLatestVersions() {
+    runTest {
+      val latestNVersions = StableRust.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(StableRust.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(StableRust.DEFAULT_VERSIONS)
     }
   }
 }

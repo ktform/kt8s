@@ -11,16 +11,31 @@
 
 package dev.ktform.kt8s.container.packages
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
 class GCloudTest {
 
   @Test
   fun testGCloud() {
-    Environment.all.forEach { env ->
-      PackageTestCase("gcloud", env, rendered = GCloud().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = GCloud.`package`.latestVersion()
+        PackageTestCase("gcloud", env, rendered = GCloud(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testGCloudLatestVersions() {
+    runTest {
+      val latestNVersions = GCloud.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(GCloud.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(GCloud.DEFAULT_VERSIONS)
     }
   }
 }

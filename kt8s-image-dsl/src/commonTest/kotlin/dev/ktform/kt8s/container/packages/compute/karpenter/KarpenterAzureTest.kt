@@ -11,16 +11,31 @@
 
 package dev.ktform.kt8s.container.packages.compute.karpenter
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
 class KarpenterAzureTest {
 
   @Test
-  fun testKarpenterAzureTest() {
-    Environment.all.forEach { env ->
-      PackageTestCase("karpenter azure", env, rendered = KarpenterAzure().render()).isExpected()
+  fun testKarpenterAzure() {
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = KarpenterAzure.`package`.latestVersion()
+        PackageTestCase("karpenter azure", env, rendered = KarpenterAzure(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testKarpenterAzureLatestVersions() {
+    runTest {
+      val latestNVersions = KarpenterAzure.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(KarpenterAzure.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(KarpenterAzure.DEFAULT_VERSIONS)
     }
   }
 }

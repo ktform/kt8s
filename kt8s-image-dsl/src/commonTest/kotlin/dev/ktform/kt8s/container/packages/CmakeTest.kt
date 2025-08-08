@@ -11,16 +11,31 @@
 
 package dev.ktform.kt8s.container.packages
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
 class CmakeTest {
 
   @Test
   fun testCmake() {
-    Environment.all.forEach { env ->
-      PackageTestCase("cmake", env, rendered = Cmake().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = Cmake.`package`.latestVersion()
+        PackageTestCase("cmake", env, rendered = Cmake(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testCmakeLatestVersions() {
+    runTest {
+      val latestNVersions = Cmake.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(Cmake.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(Cmake.DEFAULT_VERSIONS)
     }
   }
 }

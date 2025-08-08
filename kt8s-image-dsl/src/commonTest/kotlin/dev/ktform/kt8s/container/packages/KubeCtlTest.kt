@@ -11,16 +11,31 @@
 
 package dev.ktform.kt8s.container.packages
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
 class KubeCtlTest {
 
   @Test
   fun testKubeCtl() {
-    Environment.all.forEach { env ->
-      PackageTestCase("kubectl", env, rendered = KubeCtl().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = KubeCtl.`package`.latestVersion()
+        PackageTestCase("kubectl", env, rendered = KubeCtl(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testKubeCtlLatestVersions() {
+    runTest {
+      val latestNVersions = KubeCtl.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(KubeCtl.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(KubeCtl.DEFAULT_VERSIONS)
     }
   }
 }

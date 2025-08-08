@@ -11,16 +11,31 @@
 
 package dev.ktform.kt8s.container.packages
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
 class ScalaSbtTest {
 
   @Test
   fun testScalaSbt() {
-    Environment.all.forEach { env ->
-      PackageTestCase("scala", env, rendered = ScalaSbt().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = ScalaSbt.`package`.latestVersion()
+        PackageTestCase("scala", env, rendered = ScalaSbt(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testScalaSbtLatestVersions() {
+    runTest {
+      val latestNVersions = ScalaSbt.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(ScalaSbt.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(ScalaSbt.DEFAULT_VERSIONS)
     }
   }
 }

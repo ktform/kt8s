@@ -11,16 +11,31 @@
 
 package dev.ktform.kt8s.container.packages
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
 class SupabaseTest {
 
   @Test
   fun testSupabase() {
-    Environment.all.forEach { env ->
-      PackageTestCase("supabase", env, rendered = Supabase().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = Supabase.`package`.latestVersion()
+        PackageTestCase("supabase", env, rendered = Supabase(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testSupabaseLatestVersions() {
+    runTest {
+      val latestNVersions = Supabase.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(Supabase.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(Supabase.DEFAULT_VERSIONS)
     }
   }
 }

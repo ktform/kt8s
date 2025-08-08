@@ -11,16 +11,31 @@
 
 package dev.ktform.kt8s.container.packages.compute
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
 class GoldilocksTest {
 
   @Test
   fun testGoldilocks() {
-    Environment.all.forEach { env ->
-      PackageTestCase("goldilocks", env, rendered = Goldilocks().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = Goldilocks.`package`.latestVersion()
+        PackageTestCase("goldilocks", env, rendered = Goldilocks(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testGoldilocksLatestVersions() {
+    runTest {
+      val latestNVersions = Goldilocks.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(Goldilocks.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(Goldilocks.DEFAULT_VERSIONS)
     }
   }
 }

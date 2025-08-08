@@ -11,16 +11,31 @@
 
 package dev.ktform.kt8s.container.packages
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
 class TerraformTest {
 
   @Test
   fun testTerraform() {
-    Environment.all.forEach { env ->
-      PackageTestCase("terraform", env, rendered = Terraform().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = Terraform.`package`.latestVersion()
+        PackageTestCase("terraform", env, rendered = Terraform(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testTerraformLatestVersions() {
+    runTest {
+      val latestNVersions = Terraform.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(Terraform.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(Terraform.DEFAULT_VERSIONS)
     }
   }
 }

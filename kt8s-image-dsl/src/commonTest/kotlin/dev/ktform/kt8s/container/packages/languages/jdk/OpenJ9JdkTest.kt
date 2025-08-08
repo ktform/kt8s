@@ -11,17 +11,31 @@
 
 package dev.ktform.kt8s.container.packages.languages.jdk
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
-
 
 class OpenJ9JdkTest {
 
   @Test
   fun testOpenJ9Jdk() {
-    Environment.all.forEach { env ->
-      PackageTestCase("openj9 jdk", env, rendered = OpenJ9Jdk().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = OpenJ9Jdk.`package`.latestVersion()
+        PackageTestCase("openj9 jdk", env, rendered = OpenJ9Jdk(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testOpenJ9JdkLatestVersions() {
+    runTest {
+      val latestNVersions = OpenJ9Jdk.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(OpenJ9Jdk.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(OpenJ9Jdk.DEFAULT_VERSIONS)
     }
   }
 }

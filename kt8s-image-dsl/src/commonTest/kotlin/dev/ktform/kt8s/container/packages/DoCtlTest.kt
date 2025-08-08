@@ -11,16 +11,31 @@
 
 package dev.ktform.kt8s.container.packages
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 
 class DoCtlTest {
 
   @Test
   fun testDoCtl() {
-    Environment.all.forEach { env ->
-      PackageTestCase("doctl", env, rendered = DoCtl().render()).isExpected()
+    runTest {
+      Environment.all.forEach { env ->
+        val latest = DoCtl.`package`.latestVersion()
+        PackageTestCase("doctl", env, rendered = DoCtl(latest).render()).isExpected()
+      }
+    }
+  }
+
+  @Test
+  fun testDoCtlLatestVersions() {
+    runTest {
+      val latestNVersions = DoCtl.`package`.availableVersions(Environment.default)
+        .sortedByDescending { it }
+        .take(DoCtl.DEFAULT_VERSIONS.size)
+      assertThat(latestNVersions).isEqualTo(DoCtl.DEFAULT_VERSIONS)
     }
   }
 }
