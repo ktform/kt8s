@@ -11,30 +11,33 @@
 
 package dev.ktform.kt8s.container.packages
 
+import arrow.core.getOrElse
 import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
+import kotlin.time.Duration.Companion.seconds
 
 class ProtocTest {
 
   @Test
   fun testProtoc() {
-    runTest {
+    runTest(timeout = 10.seconds) {
+      val latest = Protoc.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
+
       Environment.all.forEach { env ->
-        val latest = Protoc.`package`.latestVersion()
-        PackageTestCase("protoc", env, rendered = Protoc(latest).render()).isExpected()
+        PackageTestCase("protoc", env, rendered = Protoc(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
       }
     }
   }
 
   @Test
   fun testProtocLatestVersions() {
-    runTest {
-      val latestNVersions = Protoc.`package`.availableVersions(Environment.default)
-        .sortedByDescending { it }
+    runTest(timeout = 10.seconds) {
+      val latestNVersions = Protoc.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(Protoc.DEFAULT_VERSIONS.size)
+
       assertThat(latestNVersions).isEqualTo(Protoc.DEFAULT_VERSIONS)
     }
   }

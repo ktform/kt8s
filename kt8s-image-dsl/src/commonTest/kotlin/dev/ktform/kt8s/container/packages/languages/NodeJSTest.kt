@@ -11,30 +11,33 @@
 
 package dev.ktform.kt8s.container.packages.languages
 
+import arrow.core.getOrElse
 import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
+import kotlin.time.Duration.Companion.seconds
 
 class NodeJSTest {
 
   @Test
   fun testNodeJS() {
-    runTest {
+    runTest(timeout = 10.seconds) {
+      val latest = NodeJS.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
+
       Environment.all.forEach { env ->
-        val latest = NodeJS.`package`.latestVersion()
-        PackageTestCase("nodejs", env, rendered = NodeJS(latest).render()).isExpected()
+        PackageTestCase("nodejs", env, rendered = NodeJS(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
       }
     }
   }
 
   @Test
   fun testNodeJSLatestVersions() {
-    runTest {
-      val latestNVersions = NodeJS.`package`.availableVersions(Environment.default)
-        .sortedByDescending { it }
+    runTest(timeout = 10.seconds) {
+      val latestNVersions = NodeJS.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(NodeJS.DEFAULT_VERSIONS.size)
+
       assertThat(latestNVersions).isEqualTo(NodeJS.DEFAULT_VERSIONS)
     }
   }

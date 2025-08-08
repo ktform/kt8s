@@ -18,6 +18,7 @@ import arrow.core.right
 import dev.ktform.kt8s.HttpClient
 import io.ktor.client.call.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -69,77 +70,85 @@ class GithubClient {
     else -> "Network request failed: ${throwable.message}"
   }
 
-  private suspend inline fun <reified T> fetchPage(
-    endpoint: String,
-    owner: String,
-    repo: String,
-    page: Int,
+  private data class PageResult<T>(val items: List<T>, val nextUrl: String?)
+
+  private fun parseNextLink(linkHeader: String?): String? {
+    if (linkHeader.isNullOrBlank()) return null
+    return linkHeader.split(',')
+      .map { it.trim() }
+      .firstOrNull { it.contains("rel=\"next\"") }
+      ?.let { segment ->
+        val start = segment.indexOf('<')
+        val end = segment.indexOf('>')
+        if (start in 0..<end) segment.substring(start + 1, end) else null
+      }
+  }
+
+  private suspend inline fun <reified T> fetchPageByUrl(
+    url: String,
     authToken: String?,
     client: io.ktor.client.HttpClient,
-  ): Either<String, List<T>> = Either.catch {
-    val response = client.request("https://api.github.com/repos/$owner/$repo/$endpoint") {
+  ): Either<String, PageResult<T>> = Either.catch {
+    val response = client.request(url) {
       method = io.ktor.http.HttpMethod.Get
       header("X-GitHub-Api-Version", API_VERSION)
       header("Accept", "application/vnd.github.v3+json")
-      authToken?.let { token ->
-        header("Authorization", "Bearer $token")
-      }
-      parameter("page", page)
-      parameter("per_page", 100)
+      authToken?.let { token -> header("Authorization", "Bearer $token") }
     }
 
     if (response.status.value == 200) {
-      response.body<List<T>>()
+      val items = response.body<List<T>>()
+      val next = parseNextLink(response.headers["Link"])
+      PageResult(items, next)
     } else {
       return "HTTP ${response.status.value}: ${response.status.description}".left()
     }
   }.mapLeft(::mapError)
 
-  private suspend fun fetchTagsPage(
+  private suspend inline fun <reified T> fetchAll(
     owner: String,
     repo: String,
-    page: Int,
+    endpoint: String,
     authToken: String?,
     client: io.ktor.client.HttpClient,
-  ): Either<String, List<GitTagsResponse>> =
-    fetchPage("git/refs/tags", owner, repo, page, authToken, client)
+    limit: Int? = null,
+  ): Either<String, List<T>> {
+    if (limit != null && limit <= 0) return emptyList<T>().right()
 
-  private suspend fun fetchReleasesPage(
-    owner: String,
-    repo: String,
-    page: Int,
-    authToken: String?,
-    client: io.ktor.client.HttpClient,
-  ): Either<String, List<GitReleaseResponse>> =
-    fetchPage("releases", owner, repo, page, authToken, client)
+    var url = "https://api.github.com/repos/$owner/$repo/$endpoint?per_page=1000"
+    val acc = mutableListOf<T>()
 
-  private suspend fun <T> fetchAllPages(
-    owner: String,
-    repo: String,
-    authToken: String?,
-    client: io.ktor.client.HttpClient,
-    page: Int = 1,
-    accumulator: List<T> = emptyList(),
-    getter: suspend (
-      owner: String,
-      repo: String,
-      page: Int,
-      authToken: String?,
-      client: io.ktor.client.HttpClient,
-    ) -> Either<String, List<T>>,
-  ): Either<String, List<T>> =
-    getter(owner, repo, page, authToken, client).flatMap { data ->
-      val newAccumulator = accumulator + data
-      when {
-        data.isEmpty() || data.size < 100 -> newAccumulator.right()
-        else -> fetchAllPages(owner, repo, authToken, client, page + 1, newAccumulator, getter)
+    while (true) {
+      val remaining = limit?.let { it - acc.size } ?: Int.MAX_VALUE
+      if (remaining <= 0) break
+
+      when (val page = fetchPageByUrl<T>(url, authToken, client)) {
+        is Either.Left -> return page
+        is Either.Right -> {
+          val items = page.value.items
+          if (items.isEmpty()) break
+          val toAdd = if (remaining < items.size) items.take(remaining) else items
+          acc.addAll(toAdd)
+          val next = page.value.nextUrl
+          if (next == null) break else url = next
+        }
       }
     }
+
+    return acc.toList().right()
+  }
 
   private suspend fun <T> fetchAllFromRepo(
     url: String,
     authToken: String?,
-    getter: suspend (String, String, Int, String?, io.ktor.client.HttpClient) -> Either<String, List<T>>,
+    getter: suspend (
+      owner: String,
+      repo: String,
+      authToken: String?,
+      client: io.ktor.client.HttpClient,
+      limit: Int?,
+    ) -> Either<String, List<T>>,
+    limit: Int? = null,
     transform: (T) -> String,
   ): Either<String, List<String>> =
     getOwnerRepoFrom(url).let { (owner, repo) ->
@@ -147,17 +156,32 @@ class GithubClient {
         owner.isBlank() || repo.isBlank() -> "Invalid URL: $url".left()
         else -> {
           val client = HttpClient.getInstance()
-          fetchAllPages(owner, repo, authToken, client, getter = getter)
-            .map { items -> items.map(transform) }
+          getter(owner, repo, authToken, client, limit)
+            .map { items ->
+              val mapped = items.map(transform).sortedDescending()
+              limit?.let { mapped.take(it) } ?: mapped
+            }
         }
       }
     }
 
-  suspend fun getTags(url: String, authToken: String? = getGithubToken()): Either<String, List<String>> =
-    fetchAllFromRepo(url, authToken, ::fetchTagsPage) { it.ref.removePrefix("refs/tags/") }
+  suspend fun getTags(url: String, authToken: String? = getGithubToken(), limit: Int? = null): Either<String, List<String>> =
+    fetchAllFromRepo(url, authToken,
+      getter = { owner, repo, token, client, lim ->
+        fetchAll<GitTagsResponse>(owner, repo, "git/refs/tags", token, client, lim)
+      },
+      limit = limit,
+      transform = { it.ref.removePrefix("refs/tags/") }
+    )
 
-  suspend fun getReleases(url: String, authToken: String? = getGithubToken()): Either<String, List<String>> =
-    fetchAllFromRepo(url, authToken, ::fetchReleasesPage) { it.tagName }
+  suspend fun getReleases(url: String, authToken: String? = getGithubToken(), limit: Int? = null): Either<String, List<String>> =
+    fetchAllFromRepo(url, authToken,
+      getter = { owner, repo, token, client, lim ->
+        fetchAll<GitReleaseResponse>(owner, repo, "releases", token, client, lim)
+      },
+      limit = limit,
+      transform = { it.tagName }
+    )
 
   companion object {
     const val API_VERSION = "2022-11-28"

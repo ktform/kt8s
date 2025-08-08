@@ -11,31 +11,34 @@
 
 package dev.ktform.kt8s.container.packages
 
+import arrow.core.getOrElse
 import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
 import dev.ktform.kt8s.container.packages.networking.Cilium
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
+import kotlin.time.Duration.Companion.seconds
 
 class CiliumTest {
 
   @Test
   fun testCilium() {
-    runTest {
+    runTest(timeout = 10.seconds) {
+      val latest = Cilium.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
+
       Environment.all.forEach { env ->
-        val latest = Cilium.`package`.latestVersion()
-        PackageTestCase("cilium", env, rendered = Cilium(latest).render()).isExpected()
+        PackageTestCase("cilium", env, rendered = Cilium(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
       }
     }
   }
 
   @Test
   fun testCiliumLatestVersions() {
-    runTest {
-      val latestNVersions = Cilium.`package`.availableVersions(Environment.default)
-        .sortedByDescending { it }
+    runTest(timeout = 10.seconds) {
+      val latestNVersions = Cilium.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(Cilium.DEFAULT_VERSIONS.size)
+
       assertThat(latestNVersions).isEqualTo(Cilium.DEFAULT_VERSIONS)
     }
   }

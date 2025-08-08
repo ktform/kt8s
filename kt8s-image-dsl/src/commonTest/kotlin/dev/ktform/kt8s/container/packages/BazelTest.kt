@@ -11,29 +11,32 @@
 
 package dev.ktform.kt8s.container.packages
 
+import arrow.core.getOrElse
 import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
+import kotlin.time.Duration.Companion.seconds
 
 class BazelTest {
   @Test
   fun testBazel() {
-    runTest {
+    runTest(timeout = 10.seconds) {
+      val latest = Bazel.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
+
       Environment.all.forEach { env ->
-        val latest = Bazel.`package`.latestVersion()
-        PackageTestCase("bazel", env, rendered = Bazel(latest).render()).isExpected()
+        PackageTestCase("bazel", env, rendered = Bazel(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
       }
     }
   }
 
   @Test
   fun testBazelLatestVersions() {
-    runTest {
-      val latestNVersions = Bazel.`package`.availableVersions(Environment.default)
-        .sortedByDescending { it }
+    runTest(timeout = 10.seconds) {
+      val latestNVersions = Bazel.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(Bazel.DEFAULT_VERSIONS.size)
+
       assertThat(latestNVersions).isEqualTo(Bazel.DEFAULT_VERSIONS)
     }
   }

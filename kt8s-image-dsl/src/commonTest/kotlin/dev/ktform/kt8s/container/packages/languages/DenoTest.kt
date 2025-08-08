@@ -11,30 +11,33 @@
 
 package dev.ktform.kt8s.container.packages.languages
 
+import arrow.core.getOrElse
 import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
+import kotlin.time.Duration.Companion.seconds
 
 class DenoTest {
 
   @Test
   fun testDeno() {
-    runTest {
+    runTest(timeout = 10.seconds) {
+      val latest = Deno.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
+
       Environment.all.forEach { env ->
-        val latest = Deno.`package`.latestVersion()
-        PackageTestCase("deno", env, rendered = Deno(latest).render()).isExpected()
+        PackageTestCase("deno", env, rendered = Deno(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
       }
     }
   }
 
   @Test
   fun testDenoLatestVersions() {
-    runTest {
-      val latestNVersions = Deno.`package`.availableVersions(Environment.default)
-        .sortedByDescending { it }
+    runTest(timeout = 10.seconds) {
+      val latestNVersions = Deno.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(Deno.DEFAULT_VERSIONS.size)
+
       assertThat(latestNVersions).isEqualTo(Deno.DEFAULT_VERSIONS)
     }
   }

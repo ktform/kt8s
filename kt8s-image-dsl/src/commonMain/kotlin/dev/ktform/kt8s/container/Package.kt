@@ -12,7 +12,10 @@
 package dev.ktform.kt8s.container
 
 import arrow.core.*
+import dev.ktform.kt8s.container.github.GithubClient
 import dev.ktform.kt8s.container.packages.languages.*
+import io.github.z4kn4fein.semver.Version
+import io.github.z4kn4fein.semver.toVersion
 
 data class Package(
   val packageName: String,
@@ -32,23 +35,39 @@ data class Package(
   val buildCommands: (Environment, List<Package>) -> List<String> = { _, _ -> emptyList() },
   val distrolessCommands: (Environment, List<Package>) -> List<String> = { _, _ -> emptyList() },
 
-  val repoVersion: (String, toRepo: Boolean) -> String = { it, _ -> it },
-  val availableVersions: suspend (Environment) -> List<String> = { emptyList() },
+  val repoVersion: (String, toRepo: Boolean) -> String = withVPrefix,
+  val availableVersions: suspend (Environment) -> Either<String, List<String>> = { _ ->
+    val client = GithubClient()
+    client.getTags(repo)
+      .map { all ->
+        all.map { it.removePrefix("v").trim() }
+          .mapNotNull { s -> runCatching { s.toVersion() }.getOrNull() }
+          .filter { it.isStable }
+          .sortedDescending()
+          .map { it.toString() }
+          .toList()
+      }
 
+//      .getOrElse { fallback }
+//
+//
+//      .distinct()
+//      .sortedDescending()
+  },
   val stopGracefullySignal: Signal = defaultStopGracefullySignal,
   val stopImmediatelySignal: Signal = defaultStopImmediatelySignal,
   val reloadConfigSignal: Signal = defaultReloadConfigSignal,
 ) : Renderable {
 
-  override suspend fun render(version: String, env: Environment): String = buildString {
+  override suspend fun render(version: String, env: Environment): Either<String, String> = buildString {
     ""
-  }
+  }.right()
 
-  override suspend fun versions(env: Environment): List<String> = availableVersions.invoke(env)
+  override suspend fun versions(env: Environment): Either<String, List<String>> = availableVersions.invoke(env)
 
-  override suspend fun render(): String = render(latestVersion())
+  override suspend fun render(): Either<String, String> = latestVersion().flatMap { render(it, Environment.default) }
 
-  override suspend fun versions(): List<String> = availableVersions.invoke(Environment.default)
+  override suspend fun versions(): Either<String, List<String>> = availableVersions.invoke(Environment.default)
 
   companion object {
     val defaultStopGracefullySignal = Signal.SIGTERM

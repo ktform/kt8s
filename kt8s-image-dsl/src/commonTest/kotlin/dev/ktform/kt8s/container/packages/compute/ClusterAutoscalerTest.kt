@@ -11,30 +11,33 @@
 
 package dev.ktform.kt8s.container.packages.compute
 
+import arrow.core.getOrElse
 import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
+import kotlin.time.Duration.Companion.seconds
 
 class ClusterAutoscalerTest {
 
   @Test
   fun testClusterAutoscaler() {
-    runTest {
+    runTest(timeout = 10.seconds) {
+      val latest = ClusterAutoscaler.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
+
       Environment.all.forEach { env ->
-        val latest = ClusterAutoscaler.`package`.latestVersion()
-        PackageTestCase("cluster autoscaler", env, rendered = ClusterAutoscaler(latest).render()).isExpected()
+        PackageTestCase("cluster autoscaler", env, rendered = ClusterAutoscaler(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
       }
     }
   }
 
   @Test
   fun testClusterAutoscalerLatestVersions() {
-    runTest {
-      val latestNVersions = ClusterAutoscaler.`package`.availableVersions(Environment.default)
-        .sortedByDescending { it }
+    runTest(timeout = 10.seconds) {
+      val latestNVersions = ClusterAutoscaler.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(ClusterAutoscaler.DEFAULT_VERSIONS.size)
+
       assertThat(latestNVersions).isEqualTo(ClusterAutoscaler.DEFAULT_VERSIONS)
     }
   }

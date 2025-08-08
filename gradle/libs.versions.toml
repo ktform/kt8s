@@ -34,6 +34,7 @@ testing-robolectric = "4.15.1"
 testing-junit = "5.13.4"
 testing-truethish = "1.0.3"
 compose = "1.8.3"
+semver = "3.0.0"
 
 [libraries]
 arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
@@ -63,8 +64,8 @@ testing-robolectric = { module = "org.robolectric:robolectric", version.ref = "t
 testing-junit = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "testing-junit" }
 testing-junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "testing-junit" }
 testing-kotlin = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-testing-truethish = { module = "com.varabyte.truthish:truthish", version.ref = "testing-truethish" } 
-
+testing-truethish = { module = "com.varabyte.truthish:truthish", version.ref = "testing-truethish" }
+semver = { module = "io.github.z4kn4fein:semver", version.ref = "semver" }
 jetpack-compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
 
 [bundles]
@@ -94,7 +95,8 @@ common = [
     "kotlinx-io-bytestring",
     "ktor-client-core",
     "ktor-client-content-negotiation",
-    "ktor-serialization-json"
+    "ktor-serialization-json",
+    "semver",
 ]
 common-testing = [
     "kotlin-coroutines-test",

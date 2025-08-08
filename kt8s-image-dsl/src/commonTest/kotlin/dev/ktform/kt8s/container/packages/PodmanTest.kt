@@ -11,30 +11,33 @@
 
 package dev.ktform.kt8s.container.packages
 
+import arrow.core.getOrElse
 import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
+import kotlin.time.Duration.Companion.seconds
 
 class PodmanTest {
 
   @Test
   fun testPodman() {
-    runTest {
+    runTest(timeout = 10.seconds) {
+      val latest = Podman.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
+
       Environment.all.forEach { env ->
-        val latest = Podman.`package`.latestVersion()
-        PackageTestCase("podman", env, rendered = Podman(latest).render()).isExpected()
+        PackageTestCase("podman", env, rendered = Podman(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
       }
     }
   }
 
   @Test
   fun testPodmanLatestVersions() {
-    runTest {
-      val latestNVersions = Podman.`package`.availableVersions(Environment.default)
-        .sortedByDescending { it }
+    runTest(timeout = 10.seconds) {
+      val latestNVersions = Podman.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(Podman.DEFAULT_VERSIONS.size)
+
       assertThat(latestNVersions).isEqualTo(Podman.DEFAULT_VERSIONS)
     }
   }

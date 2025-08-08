@@ -11,30 +11,33 @@
 
 package dev.ktform.kt8s.container.packages
 
+import arrow.core.getOrElse
 import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
+import kotlin.time.Duration.Companion.seconds
 
 class KubeCtlTest {
 
   @Test
   fun testKubeCtl() {
-    runTest {
+    runTest(timeout = 10.seconds) {
+      val latest = KubeCtl.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
+
       Environment.all.forEach { env ->
-        val latest = KubeCtl.`package`.latestVersion()
-        PackageTestCase("kubectl", env, rendered = KubeCtl(latest).render()).isExpected()
+        PackageTestCase("kubectl", env, rendered = KubeCtl(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
       }
     }
   }
 
   @Test
   fun testKubeCtlLatestVersions() {
-    runTest {
-      val latestNVersions = KubeCtl.`package`.availableVersions(Environment.default)
-        .sortedByDescending { it }
+    runTest(timeout = 10.seconds) {
+      val latestNVersions = KubeCtl.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(KubeCtl.DEFAULT_VERSIONS.size)
+
       assertThat(latestNVersions).isEqualTo(KubeCtl.DEFAULT_VERSIONS)
     }
   }

@@ -11,30 +11,34 @@
 
 package dev.ktform.kt8s.container.packages
 
+import arrow.core.getOrElse
+import arrow.core.getOrElse
 import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
+import kotlin.time.Duration.Companion.seconds
 
 class BazeliskTest {
 
   @Test
   fun testBazelisk() {
-    runTest {
+    runTest(timeout = 10.seconds) {
+      val latest = Bazelisk.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
+
       Environment.all.forEach { env ->
-        val latest = Bazelisk.`package`.latestVersion()
-        PackageTestCase("bazelisk", env, rendered = Bazelisk(latest).render()).isExpected()
+        PackageTestCase("bazelisk", env, rendered = Bazelisk(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
       }
     }
   }
 
   @Test
   fun testBazeliskLatestVersions() {
-    runTest {
-      val latestNVersions = Bazelisk.`package`.availableVersions(Environment.default)
-        .sortedByDescending { it }
+    runTest(timeout = 10.seconds) {
+      val latestNVersions = Bazelisk.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(Bazelisk.DEFAULT_VERSIONS.size)
+
       assertThat(latestNVersions).isEqualTo(Bazelisk.DEFAULT_VERSIONS)
     }
   }

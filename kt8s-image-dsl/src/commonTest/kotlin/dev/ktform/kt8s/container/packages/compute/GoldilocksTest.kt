@@ -11,29 +11,31 @@
 
 package dev.ktform.kt8s.container.packages.compute
 
+import arrow.core.getOrElse
 import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
+import kotlin.time.Duration.Companion.seconds
 
 class GoldilocksTest {
 
   @Test
   fun testGoldilocks() {
-    runTest {
+    runTest(timeout = 10.seconds) {
+      val latest = Goldilocks.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
+
       Environment.all.forEach { env ->
-        val latest = Goldilocks.`package`.latestVersion()
-        PackageTestCase("goldilocks", env, rendered = Goldilocks(latest).render()).isExpected()
+        PackageTestCase("goldilocks", env, rendered = Goldilocks(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
       }
     }
   }
 
   @Test
   fun testGoldilocksLatestVersions() {
-    runTest {
-      val latestNVersions = Goldilocks.`package`.availableVersions(Environment.default)
-        .sortedByDescending { it }
+    runTest(timeout = 10.seconds) {
+      val latestNVersions = Goldilocks.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(Goldilocks.DEFAULT_VERSIONS.size)
       assertThat(latestNVersions).isEqualTo(Goldilocks.DEFAULT_VERSIONS)
     }

@@ -11,30 +11,33 @@
 
 package dev.ktform.kt8s.container.packages.compute
 
+import arrow.core.getOrElse
 import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
+import kotlin.time.Duration.Companion.seconds
 
 class DeschedulerTest {
 
   @Test
   fun testDescheduler() {
-    runTest {
+    runTest(timeout = 10.seconds) {
+      val latest = Descheduler.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
+
       Environment.all.forEach { env ->
-        val latest = Descheduler.`package`.latestVersion()
-        PackageTestCase("descheduler", env, rendered = Descheduler(latest).render()).isExpected()
+        PackageTestCase("descheduler", env, rendered = Descheduler(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
       }
     }
   }
 
   @Test
   fun testDeschedulerLatestVersions() {
-    runTest {
-      val latestNVersions = Descheduler.`package`.availableVersions(Environment.default)
-        .sortedByDescending { it }
+    runTest(timeout = 10.seconds) {
+      val latestNVersions = Descheduler.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(Descheduler.DEFAULT_VERSIONS.size)
+
       assertThat(latestNVersions).isEqualTo(Descheduler.DEFAULT_VERSIONS)
     }
   }

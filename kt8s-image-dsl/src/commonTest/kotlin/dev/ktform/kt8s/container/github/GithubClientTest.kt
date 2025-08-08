@@ -49,11 +49,11 @@ class GithubClientTest {
     githubClient.getTags("https://github.com/astral-sh/uv.git").let {
       it.fold(
         { err ->
-            assertThat(err).isEmpty()
+          assertThat(err).isEmpty()
         },
         { tags ->
           assertThat(tags).isNotEmpty()
-        }
+        },
       )
     }
   }
@@ -63,11 +63,11 @@ class GithubClientTest {
     githubClient.getReleases("https://github.com/astral-sh/uv.git").let {
       it.fold(
         { err ->
-            assertThat(err).isEmpty()
+          assertThat(err).isEmpty()
         },
         { releases ->
           assertThat(releases).isNotEmpty()
-        }
+        },
       )
     }
   }

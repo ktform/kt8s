@@ -11,30 +11,33 @@
 
 package dev.ktform.kt8s.container.packages
 
+import arrow.core.getOrElse
 import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.PackageTestCase
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
+import kotlin.time.Duration.Companion.seconds
 
 class FirebaseTest {
 
   @Test
   fun testFirebase() {
-    runTest {
+    runTest(timeout = 10.seconds) {
+      val latest = Firebase.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
+
       Environment.all.forEach { env ->
-        val latest = Firebase.`package`.latestVersion()
-        PackageTestCase("firebase", env, rendered = Firebase(latest).render()).isExpected()
+        PackageTestCase("firebase", env, rendered = Firebase(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
       }
     }
   }
 
   @Test
   fun testFirebaseLatestVersions() {
-    runTest {
-      val latestNVersions = Firebase.`package`.availableVersions(Environment.default)
-        .sortedByDescending { it }
+    runTest(timeout = 10.seconds) {
+      val latestNVersions = Firebase.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(Firebase.DEFAULT_VERSIONS.size)
+
       assertThat(latestNVersions).isEqualTo(Firebase.DEFAULT_VERSIONS)
     }
   }

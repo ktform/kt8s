@@ -11,17 +11,19 @@
 
 package dev.ktform.kt8s.container
 
+import arrow.core.Either
 import arrow.core.getOrElse
 import arrow.core.toOption
-import dev.ktform.kt8s.container.packages.ArgoCD.Companion.`package`
 
 interface Renderable {
-  suspend fun versions(env: Environment = Environment.default): List<String>
-  suspend fun render(version: String, env: Environment = Environment.default): String
+  suspend fun versions(env: Environment = Environment.default): Either<String, List<String>>
+  suspend fun render(version: String, env: Environment = Environment.default): Either<String, String>
 
-  suspend fun versions(): List<String>
-  suspend fun render(): String
+  suspend fun versions(): Either<String, List<String>>
+  suspend fun render(): Either<String, String>
 
-  suspend fun latestVersion(env: Environment = Environment.default): String =
-    versions(env).maxByOrNull { it }.toOption().getOrElse { throw Exception("Unable to determine latest version") }
+  suspend fun latestVersion(env: Environment = Environment.default): Either<String, String> =
+    versions(env).map {
+      it.maxBy { v -> v }
+    }
 }

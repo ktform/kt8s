@@ -30,7 +30,7 @@ class Image {
   private var flavours = mutableListOf<Package>()
 
   private var repoVersion: Option<(String, toRepo: Boolean) -> String> = none()
-  private var availableVersions: Option<(Environment) -> List<String>> = none()
+  private var availableVersions: Option<(Environment) -> Either<String, List<String>>> = none()
 
   fun name(name: String) {
     packageName = name.some()
@@ -48,7 +48,7 @@ class Image {
     }
   }
 
-  fun availableVersions(availableVersions: (Environment) -> List<String>) {
+  fun availableVersions(availableVersions: (Environment) -> Either<String, List<String>>) {
     if (this.availableVersions.isNone()) {
       this.availableVersions = availableVersions.some()
     } else {
