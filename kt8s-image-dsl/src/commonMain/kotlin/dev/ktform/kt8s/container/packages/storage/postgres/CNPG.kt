@@ -26,15 +26,15 @@ class CNPG(val version: String) :
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = ""
-
     val DEFAULT_VERSIONS = listOf(
-      "",
+      "1.26.1",
+      "1.26.0",
+      "1.25.3",
     )
 
     val `package` = Package(
-      packageName = "",
-      repo = REPO,
+      packageName = "cloudnative-pg",
+      repo = "https://github.com/cloudnative-pg/cloudnative-pg",
       repoVersion = Package.withVPrefix,
     )
   }

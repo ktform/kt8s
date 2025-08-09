@@ -14,15 +14,15 @@ class Tempo(val version: String) :
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = ""
-
     val DEFAULT_VERSIONS = listOf(
-      "",
+      "2.8.2",
+      "2.8.1",
+      "2.8.0",
     )
 
     val `package` = Package(
-      packageName = "uv",
-      repo = "",
+      packageName = "tempo",
+      repo = "https://github.com/grafana/tempo",
       repoVersion = Package.withVPrefix,
     )
   }

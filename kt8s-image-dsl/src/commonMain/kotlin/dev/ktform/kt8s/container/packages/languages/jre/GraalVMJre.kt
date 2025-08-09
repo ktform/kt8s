@@ -15,6 +15,7 @@ import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
+import dev.ktform.kt8s.container.github.GithubClient
 
 class GraalVMJre(val version: String) :
   Renderable {
@@ -25,17 +26,29 @@ class GraalVMJre(val version: String) :
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = ""
+    const val REPO = "https://github.com/oracle/graal"
+
+    const val CE_PREFIX = "vm-ce-"
 
     val DEFAULT_VERSIONS = listOf(
       "",
     )
 
     val `package` = Package(
-      packageName = "uv",
-      repo = "",
+      packageName = "graalvmjre",
+      repo = REPO,
 
-      repoVersion = Package.withVPrefix,
+      repoVersion = { version, toRepo ->
+        if (toRepo) {
+          "$CE_PREFIX$version"
+        } else {
+          version
+        }
+      },
+      availableVersions = { _ ->
+        val client = GithubClient()
+        client.getTags(REPO).map { it.filter { v -> v.startsWith(CE_PREFIX) }.map { v -> v.substringAfter(CE_PREFIX) }}
+      }
     )
   }
 }

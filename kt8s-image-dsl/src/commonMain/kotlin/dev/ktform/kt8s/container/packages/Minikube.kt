@@ -25,9 +25,9 @@ class Minikube(val version: String) : Renderable {
 
   companion object {
     val DEFAULT_VERSIONS = listOf(
-      "1.33.1",
-      "1.33.0",
-      "1.32.0",
+      "1.36.0",
+      "1.35.0",
+      "1.34.0",
     )
 
     val `package` = Package(

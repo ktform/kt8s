@@ -25,17 +25,19 @@ class NightlyRust(val version: String) :
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = ""
+    const val REPO = "https://github.com/rust-lang/rust"
 
     val DEFAULT_VERSIONS = listOf(
-      "",
+      "1.89.0",
+      "1.88.0",
+      "1.87.0",
     )
 
     val `package` = Package(
-      packageName = "uv",
+      packageName = "nightlyrust",
       repo = "",
 
-      repoVersion = Package.withVPrefix,
+      repoVersion = Package.asIs,
     )
   }
 }

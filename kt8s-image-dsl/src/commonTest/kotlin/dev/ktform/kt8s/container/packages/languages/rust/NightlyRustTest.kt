@@ -27,7 +27,11 @@ class NightlyRustTest {
       val latest = NightlyRust.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
 
       Environment.all.forEach { env ->
-        PackageTestCase("nightly rust", env, rendered = NightlyRust(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
+        PackageTestCase(
+          "nightly rust",
+          env,
+          rendered = NightlyRust(latest).render().getOrElse { err -> throw Exception("Unable to render: $err") },
+        ).isExpected()
       }
     }
   }
@@ -35,7 +39,8 @@ class NightlyRustTest {
   @Test
   fun testNightlyRustLatestVersions() {
     runTest(timeout = 10.seconds) {
-      val latestNVersions = NightlyRust.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
+      val latestNVersions = NightlyRust.`package`.availableVersions(Environment.default)
+        .getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(NightlyRust.DEFAULT_VERSIONS.size)
 
       assertThat(latestNVersions).isEqualTo(NightlyRust.DEFAULT_VERSIONS)

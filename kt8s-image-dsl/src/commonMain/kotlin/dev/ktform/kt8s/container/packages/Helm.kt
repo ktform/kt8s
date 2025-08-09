@@ -25,9 +25,8 @@ class Helm(val version: String) : Renderable {
 
   companion object {
     val DEFAULT_VERSIONS = listOf(
-      "3.15.3",
-      "3.15.2",
-      "3.15.1",
+      "3.18.4",
+      "3.18.3",
     )
 
     val `package` = Package(

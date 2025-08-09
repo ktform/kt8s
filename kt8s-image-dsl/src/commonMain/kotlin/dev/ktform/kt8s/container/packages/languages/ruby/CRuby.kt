@@ -15,6 +15,9 @@ import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
+import dev.ktform.kt8s.container.github.GithubClient
+import io.github.z4kn4fein.semver.Version
+import io.github.z4kn4fein.semver.toVersion
 
 class CRuby(val version: String) :
   Renderable {
@@ -25,17 +28,35 @@ class CRuby(val version: String) :
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = ""
+    const val REPO = "https://github.com/ruby/ruby"
 
     val DEFAULT_VERSIONS = listOf(
-      "",
+      "3.4.5",
+      "3.4.4",
+      "3.4.3",
     )
 
     val `package` = Package(
-      packageName = "uv",
-      repo = "",
-
-      repoVersion = Package.withVPrefix,
+      packageName = "ruby",
+      repo = REPO,
+      repoVersion = { version, toRepo ->
+        if (toRepo) {
+          "v${version.replace(".", "_")}"
+        } else {
+          version
+        }
+      },
+      availableVersions = { _ ->
+        val client = GithubClient()
+        client.getTags(REPO).map { all ->
+          all.map { it.removePrefix("v").replace("_", ".").trim() }
+            .mapNotNull { s -> runCatching { s.toVersion() }.getOrNull() }
+            .filter { it.isStable }
+            .sortedDescending()
+            .map { it.toString() }
+            .toList()
+        }
+      },
     )
   }
 }

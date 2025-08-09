@@ -9,7 +9,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package dev.ktform.kt8s.container.packages
+package dev.ktform.kt8s.container.packages.gitops
 
 import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
@@ -30,10 +30,6 @@ data class ArgoRollouts(val version: String) : Renderable {
       "1.8.3",
       "1.8.2",
       "1.8.1",
-      "1.8.0",
-      "1.7.2",
-      "1.7.1",
-      "1.7.0",
     )
 
     val `package` = Package(

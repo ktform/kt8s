@@ -31,9 +31,8 @@ class Keda(val version: String) :
     const val REPO = "https://github.com/kedacore/keda"
 
     val DEFAULT_VERSIONS = listOf(
-      "2.14.0",
-      "2.13.2",
-      "2.13.1",
+      "2.17.2",
+      "2.17.1",
     )
 
     val `package` = Package(

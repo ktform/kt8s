@@ -27,7 +27,11 @@ class NodeJSTest {
       val latest = NodeJS.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
 
       Environment.all.forEach { env ->
-        PackageTestCase("nodejs", env, rendered = NodeJS(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
+        PackageTestCase(
+          "nodejs",
+          env,
+          rendered = NodeJS(latest).render().getOrElse { err -> throw Exception("Unable to render: $err") },
+        ).isExpected()
       }
     }
   }
@@ -35,7 +39,8 @@ class NodeJSTest {
   @Test
   fun testNodeJSLatestVersions() {
     runTest(timeout = 10.seconds) {
-      val latestNVersions = NodeJS.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
+      val latestNVersions = NodeJS.`package`.availableVersions(Environment.default)
+        .getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(NodeJS.DEFAULT_VERSIONS.size)
 
       assertThat(latestNVersions).isEqualTo(NodeJS.DEFAULT_VERSIONS)

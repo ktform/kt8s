@@ -24,10 +24,15 @@ class ClusterAutoscalerTest {
   @Test
   fun testClusterAutoscaler() {
     runTest(timeout = 10.seconds) {
-      val latest = ClusterAutoscaler.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
+      val latest =
+        ClusterAutoscaler.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
 
       Environment.all.forEach { env ->
-        PackageTestCase("cluster autoscaler", env, rendered = ClusterAutoscaler(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
+        PackageTestCase(
+          "cluster autoscaler",
+          env,
+          rendered = ClusterAutoscaler(latest).render().getOrElse { err -> throw Exception("Unable to render: $err") },
+        ).isExpected()
       }
     }
   }
@@ -35,7 +40,8 @@ class ClusterAutoscalerTest {
   @Test
   fun testClusterAutoscalerLatestVersions() {
     runTest(timeout = 10.seconds) {
-      val latestNVersions = ClusterAutoscaler.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
+      val latestNVersions = ClusterAutoscaler.`package`.availableVersions(Environment.default)
+        .getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(ClusterAutoscaler.DEFAULT_VERSIONS.size)
 
       assertThat(latestNVersions).isEqualTo(ClusterAutoscaler.DEFAULT_VERSIONS)

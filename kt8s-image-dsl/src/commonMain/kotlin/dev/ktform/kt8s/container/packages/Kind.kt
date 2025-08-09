@@ -25,9 +25,8 @@ class Kind(val version: String) : Renderable {
 
   companion object {
     val DEFAULT_VERSIONS = listOf(
-      "0.23.0",
-      "0.22.0",
-      "0.21.0",
+      "0.29.0",
+      "0.28.0",
     )
 
     val `package` = Package(

@@ -24,15 +24,15 @@ class Syft(val version: String) : Renderable {
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = ""
-
     val DEFAULT_VERSIONS = listOf(
-      "",
+      "1.30.0",
+      "1.29.1",
+      "1.29.0",
     )
 
     val `package` = Package(
-      packageName = "gcloud",
-      repo = "",
+      packageName = "syft",
+      repo = "https://github.com/anchore/syft",
       repoVersion = Package.withVPrefix,
     )
   }

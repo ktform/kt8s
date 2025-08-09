@@ -25,9 +25,8 @@ class UV(val version: String) : Renderable {
 
   companion object {
     val DEFAULT_VERSIONS = listOf(
-      "0.4.18",
-      "0.4.17",
-      "0.4.16",
+      "0.8.8",
+      "0.8.7",
     )
 
     val `package` = Package(

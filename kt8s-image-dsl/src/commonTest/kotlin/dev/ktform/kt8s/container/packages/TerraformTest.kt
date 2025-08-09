@@ -27,7 +27,11 @@ class TerraformTest {
       val latest = Terraform.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
 
       Environment.all.forEach { env ->
-        PackageTestCase("terraform", env, rendered = Terraform(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
+        PackageTestCase(
+          "terraform",
+          env,
+          rendered = Terraform(latest).render().getOrElse { err -> throw Exception("Unable to render: $err") },
+        ).isExpected()
       }
     }
   }
@@ -35,7 +39,8 @@ class TerraformTest {
   @Test
   fun testTerraformLatestVersions() {
     runTest(timeout = 10.seconds) {
-      val latestNVersions = Terraform.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
+      val latestNVersions = Terraform.`package`.availableVersions(Environment.default)
+        .getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(Terraform.DEFAULT_VERSIONS.size)
 
       assertThat(latestNVersions).isEqualTo(Terraform.DEFAULT_VERSIONS)

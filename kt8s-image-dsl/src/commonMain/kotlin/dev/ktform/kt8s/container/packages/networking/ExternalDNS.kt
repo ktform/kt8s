@@ -14,16 +14,15 @@ class ExternalDNS(val version: String) :
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = ""
-
     val DEFAULT_VERSIONS = listOf(
-      "",
+      "0.18.0",
+      "0.17.0",
+      "0.16.1",
     )
 
     val `package` = Package(
-      packageName = "uv",
-      repo = "",
-
+      packageName = "external-dns",
+      repo = "https://github.com/kubernetes-sigs/external-dns",
       repoVersion = Package.withVPrefix,
     )
   }

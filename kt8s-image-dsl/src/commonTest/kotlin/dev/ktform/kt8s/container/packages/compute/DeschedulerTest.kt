@@ -27,7 +27,11 @@ class DeschedulerTest {
       val latest = Descheduler.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
 
       Environment.all.forEach { env ->
-        PackageTestCase("descheduler", env, rendered = Descheduler(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
+        PackageTestCase(
+          "descheduler",
+          env,
+          rendered = Descheduler(latest).render().getOrElse { err -> throw Exception("Unable to render: $err") },
+        ).isExpected()
       }
     }
   }
@@ -35,7 +39,8 @@ class DeschedulerTest {
   @Test
   fun testDeschedulerLatestVersions() {
     runTest(timeout = 10.seconds) {
-      val latestNVersions = Descheduler.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
+      val latestNVersions = Descheduler.`package`.availableVersions(Environment.default)
+        .getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(Descheduler.DEFAULT_VERSIONS.size)
 
       assertThat(latestNVersions).isEqualTo(Descheduler.DEFAULT_VERSIONS)

@@ -25,9 +25,8 @@ class Supabase(val version: String) : Renderable {
 
   companion object {
     val DEFAULT_VERSIONS = listOf(
-      "1.197.4",
-      "1.197.3",
-      "1.197.2",
+      "2.34.1",
+      "2.34.0",
     )
 
     val `package` = Package(

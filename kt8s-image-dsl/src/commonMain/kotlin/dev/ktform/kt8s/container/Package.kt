@@ -41,18 +41,12 @@ data class Package(
     client.getTags(repo)
       .map { all ->
         all.map { it.removePrefix("v").trim() }
-          .mapNotNull { s -> runCatching { s.toVersion() }.getOrNull() }
-          .filter { it.isStable }
+          .mapNotNull { s -> Either.catch { s.toVersion() }.getOrNull() }
+          .filter { v -> !v.isPreRelease && (v.major == 0 || v.isStable) }
           .sortedDescending()
-          .map { it.toString() }
+          .map(Version::toString)
           .toList()
       }
-
-//      .getOrElse { fallback }
-//
-//
-//      .distinct()
-//      .sortedDescending()
   },
   val stopGracefullySignal: Signal = defaultStopGracefullySignal,
   val stopImmediatelySignal: Signal = defaultStopImmediatelySignal,

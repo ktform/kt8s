@@ -29,15 +29,15 @@ class LocalPathProvisioner(
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = ""
-
     val DEFAULT_VERSIONS = listOf(
-      "",
+      "0.0.32",
+      "0.0.31",
+      "0.0.30",
     )
 
     val `package` = Package(
-      packageName = "uv",
-      repo = "",
+      packageName = "local-path-provisioner",
+      repo = "https://github.com/rancher/local-path-provisioner",
       repoVersion = Package.withVPrefix,
     )
   }

@@ -25,9 +25,8 @@ class Firebase(val version: String) : Renderable {
 
   companion object {
     val DEFAULT_VERSIONS = listOf(
-      "13.16.0",
-      "13.15.0",
-      "13.14.0",
+      "14.12.0",
+      "14.11.2",
     )
 
     val `package` = Package(

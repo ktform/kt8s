@@ -14,10 +14,10 @@ package dev.ktform.kt8s.container
 import arrow.core.*
 import dev.ktform.kt8s.container.packages.languages.jdk.GraalVMJdk
 import dev.ktform.kt8s.container.packages.languages.jdk.OpenJ9Jdk
-import dev.ktform.kt8s.container.packages.languages.jdk.TemurinJdk
+import dev.ktform.kt8s.container.packages.languages.jdk.OpenJdk
 import dev.ktform.kt8s.container.packages.languages.jre.GraalVMJre
 import dev.ktform.kt8s.container.packages.languages.jre.OpenJ9Jre
-import dev.ktform.kt8s.container.packages.languages.jre.TemurinJre
+import dev.ktform.kt8s.container.packages.languages.jre.OpenJdkJre
 import dev.ktform.kt8s.container.packages.languages.python.CPython
 import dev.ktform.kt8s.container.packages.languages.python.GraalPython
 import dev.ktform.kt8s.container.packages.languages.python.PyPy
@@ -56,10 +56,10 @@ data class Environment(
     val availableFlavours: NonEmptyList<Package> = nonEmptyListOf(
       GraalVMJdk.`package`,
       OpenJ9Jdk.`package`,
-      TemurinJdk.`package`,
+      OpenJdk.`package`,
       GraalVMJre.`package`,
       OpenJ9Jre.`package`,
-      TemurinJre.`package`,
+      OpenJdkJre.`package`,
       CPython.`package`,
       GraalPython.`package`,
       PyPy.`package`,
@@ -67,8 +67,6 @@ data class Environment(
       GraalTruffleRuby.`package`,
       JRuby.`package`,
       MRuby.`package`,
-      Rbx.`package`,
-      Ree.`package`,
       NightlyRust.`package`,
       StableRust.`package`,
     )

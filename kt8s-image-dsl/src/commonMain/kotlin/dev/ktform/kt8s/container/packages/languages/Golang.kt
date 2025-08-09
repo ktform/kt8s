@@ -15,6 +15,9 @@ import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
+import dev.ktform.kt8s.container.github.GithubClient
+import io.github.z4kn4fein.semver.Version
+import io.github.z4kn4fein.semver.toVersion
 
 class Golang(val version: String) :
   Renderable {
@@ -25,17 +28,36 @@ class Golang(val version: String) :
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = ""
+    const val REPO = "https://github.com/golang/go"
+    const val RELEASE_PREFIX = "go"
 
     val DEFAULT_VERSIONS = listOf(
-      "",
+      "1.24.6",
+      "1.24.5",
     )
 
     val `package` = Package(
-      packageName = "uv",
-      repo = "",
+      packageName = "go",
+      repo = REPO,
 
-      repoVersion = Package.withVPrefix,
+      repoVersion = { version, toRepo ->
+        if (toRepo) {
+          "$RELEASE_PREFIX$version"
+        } else {
+          version
+        }
+      },
+      availableVersions = { _ ->
+        val client = GithubClient()
+        client.getTags(REPO)
+          .map { all -> all.filter { v -> v.startsWith(RELEASE_PREFIX) }.map { v -> v.substringAfter(RELEASE_PREFIX) }
+            .mapNotNull { s -> Either.catch { s.toVersion() }.getOrNull() }
+            .filter { v -> !v.isPreRelease && (v.major == 0 || v.isStable) }
+            .sortedDescending()
+            .map(Version::toString)
+            .toList()
+          }
+      }
     )
   }
 }

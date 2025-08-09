@@ -27,7 +27,11 @@ class JavaJreTest {
       val latest = JavaJre.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
 
       Environment.all.forEach { env ->
-        PackageTestCase("java jre", env, rendered = JavaJre(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
+        PackageTestCase(
+          "java jre",
+          env,
+          rendered = JavaJre(latest).render().getOrElse { err -> throw Exception("Unable to render: $err") },
+        ).isExpected()
       }
     }
   }
@@ -35,7 +39,8 @@ class JavaJreTest {
   @Test
   fun testJavaJreLatestVersions() {
     runTest(timeout = 10.seconds) {
-      val latestNVersions = JavaJre.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
+      val latestNVersions = JavaJre.`package`.availableVersions(Environment.default)
+        .getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(JavaJre.DEFAULT_VERSIONS.size)
 
       assertThat(latestNVersions).isEqualTo(JavaJre.DEFAULT_VERSIONS)

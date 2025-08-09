@@ -25,9 +25,8 @@ class DoCtl(val version: String) : Renderable {
 
   companion object {
     val DEFAULT_VERSIONS = listOf(
-      "1.116.0",
-      "1.115.0",
-      "1.114.0",
+      "1.138.0",
+      "1.137.0",
     )
 
     val `package` = Package(

@@ -25,9 +25,8 @@ class OpenTofu(val version: String) : Renderable {
 
   companion object {
     val DEFAULT_VERSIONS = listOf(
-      "1.8.8",
-      "1.8.7",
-      "1.8.6",
+      "1.10.5",
+      "1.10.4",
     )
 
     val `package` = Package(

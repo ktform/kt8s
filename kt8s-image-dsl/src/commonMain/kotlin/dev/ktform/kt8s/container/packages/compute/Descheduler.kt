@@ -28,9 +28,8 @@ class Descheduler(val version: String) :
     const val REPO = "https://github.com/kubernetes-sigs/descheduler"
 
     val DEFAULT_VERSIONS = listOf(
-      "0.30.1",
-      "0.30.0",
-      "0.29.0",
+      "0.33.0",
+      "0.32.2",
     )
 
     val `package` = Package(

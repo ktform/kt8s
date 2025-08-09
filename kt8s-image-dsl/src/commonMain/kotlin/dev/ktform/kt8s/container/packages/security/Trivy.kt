@@ -24,15 +24,15 @@ class Trivy(val version: String) : Renderable {
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = ""
-
     val DEFAULT_VERSIONS = listOf(
-      "",
+      "0.65.0",
+      "0.64.1",
+      "0.64.0",
     )
 
     val `package` = Package(
-      packageName = "gcloud",
-      repo = "",
+      packageName = "trivy",
+      repo = "https://github.com/aquasecurity/trivy",
       repoVersion = Package.withVPrefix,
     )
   }

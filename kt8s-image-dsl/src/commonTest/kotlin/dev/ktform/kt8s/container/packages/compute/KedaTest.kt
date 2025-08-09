@@ -27,7 +27,11 @@ class KedaTest {
       val latest = Keda.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
 
       Environment.all.forEach { env ->
-        PackageTestCase("keda", env, rendered = Keda(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
+        PackageTestCase(
+          "keda",
+          env,
+          rendered = Keda(latest).render().getOrElse { err -> throw Exception("Unable to render: $err") },
+        ).isExpected()
       }
     }
   }
@@ -35,7 +39,8 @@ class KedaTest {
   @Test
   fun testKedaLatestVersions() {
     runTest(timeout = 10.seconds) {
-      val latestNVersions = Keda.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
+      val latestNVersions = Keda.`package`.availableVersions(Environment.default)
+        .getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(Keda.DEFAULT_VERSIONS.size)
 
       assertThat(latestNVersions).isEqualTo(Keda.DEFAULT_VERSIONS)

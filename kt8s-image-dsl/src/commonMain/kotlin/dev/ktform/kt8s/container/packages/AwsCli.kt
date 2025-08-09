@@ -25,9 +25,9 @@ class AwsCli(val version: String) : Renderable {
 
   companion object {
     val DEFAULT_VERSIONS = listOf(
+      "2.28.6",
       "2.28.5",
       "2.28.4",
-      "2.28.3",
     )
 
     val `package` = Package(

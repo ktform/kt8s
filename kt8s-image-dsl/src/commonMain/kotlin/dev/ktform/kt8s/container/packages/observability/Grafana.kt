@@ -14,15 +14,15 @@ class Grafana(val version: String) :
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = ""
-
     val DEFAULT_VERSIONS = listOf(
-      "",
+      "12.1.0",
+      "12.0.3",
+      "12.0.2+security-01",
     )
 
     val `package` = Package(
-      packageName = "uv",
-      repo = "",
+      packageName = "grafana",
+      repo = "https://github.com/grafana/grafana",
 
       repoVersion = Package.withVPrefix,
     )

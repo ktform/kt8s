@@ -28,9 +28,8 @@ class Dex(val version: String) :
     const val REPO = "https://github.com/dexidp/dex"
 
     val DEFAULT_VERSIONS = listOf(
-      "2.41.0",
-      "2.40.0",
-      "2.39.1",
+      "2.43.1",
+      "2.43.0",
     )
 
     val `package` = Package(

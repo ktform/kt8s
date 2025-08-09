@@ -28,15 +28,15 @@ class TopoLVM(val version: String) :
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = ""
-
     val DEFAULT_VERSIONS = listOf(
-      "",
+      "0.37.0",
+      "0.36.5",
+      "0.36.4",
     )
 
     val `package` = Package(
-      packageName = "uv",
-      repo = "",
+      packageName = "topolvm",
+      repo = "https://github.com/topolvm/topolvm",
 
       repoVersion = Package.withVPrefix,
     )

@@ -25,17 +25,15 @@ class Feast(val version: String) :
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = "https://github.com/feast-dev/feast"
-
     val DEFAULT_VERSIONS = listOf(
-      "0.45.0",
-      "0.44.0",
-      "0.43.1",
+      "0.51.1",
+      "0.50.0",
+      "0.49.0",
     )
 
     val `package` = Package(
       packageName = "feast",
-      repo = REPO,
+      repo = "https://github.com/feast-dev/feast",
 
       repoVersion = Package.withVPrefix,
     )

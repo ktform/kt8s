@@ -28,9 +28,8 @@ class Gitea(val version: String) :
     const val REPO = "https://github.com/go-gitea/gitea"
 
     val DEFAULT_VERSIONS = listOf(
-      "1.22.3",
-      "1.22.2",
-      "1.21.11",
+      "1.24.4",
+      "1.24.3",
     )
 
     val `package` = Package(

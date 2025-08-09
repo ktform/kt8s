@@ -28,9 +28,9 @@ class KubeRay(val version: String) :
     const val REPO = "https://github.com/ray-project/kuberay"
 
     val DEFAULT_VERSIONS = listOf(
-      "1.3.0",
-      "1.2.1",
-      "1.2.0",
+      "1.4.2",
+      "1.4.1",
+      "1.4.0",
     )
 
     val `package` = Package(

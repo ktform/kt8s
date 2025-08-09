@@ -1,3 +1,14 @@
+/*
+ * Copyright (C) 2016-2025 Yuriy Yarosh
+ * All rights reserved.
+ *
+ * SPDX-License-Identifier: MPL-2.0
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package dev.ktform.kt8s.container.packages.gitops
 
 import arrow.core.Either
@@ -18,14 +29,12 @@ data class ArgoWorkflows(val version: String) : Renderable {
     val DEFAULT_VERSIONS = listOf(
       "3.7.0",
       "3.6.10",
-      "3.6.9",
-      "3.6.8",
     )
 
     val `package` = Package(
       packageName = "argo-workflows",
       repo = REPO,
-      repoVersion = Package.Companion.withVPrefix,
+      repoVersion = Package.withVPrefix,
     )
   }
 }

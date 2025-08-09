@@ -32,7 +32,7 @@ class JavaJre(val version: String) :
     )
 
     val `package` = Package(
-      packageName = "uv",
+      packageName = "javajre",
       repo = "",
 
       repoVersion = Package.withVPrefix,

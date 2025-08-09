@@ -15,6 +15,7 @@ import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
+import dev.ktform.kt8s.container.github.GithubClient
 
 class KubeFlink(val version: String) :
   Renderable {
@@ -25,19 +26,31 @@ class KubeFlink(val version: String) :
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
+    const val RELEASE_PREFIX = "release-"
+
     const val REPO = "https://github.com/apache/flink-kubernetes-operator"
 
     val DEFAULT_VERSIONS = listOf(
-      "2.5.0",
-      "2.4.0",
-      "2.3.0",
+      "1.12.1",
+      "1.12.0",
+      "1.11.0",
     )
 
     val `package` = Package(
       packageName = "flink-kubernetes-operator",
       repo = REPO,
 
-      repoVersion = Package.withVPrefix,
+      repoVersion = { version, toRepo ->
+        if (toRepo) {
+          "$RELEASE_PREFIX$version"
+        } else {
+          version
+        }
+      },
+      availableVersions = { _ ->
+        val client = GithubClient()
+        client.getTags(REPO).map { it.filter { v -> v.startsWith(RELEASE_PREFIX) }.map { v -> v.substringAfter(RELEASE_PREFIX) }}
+      }
     )
   }
 }

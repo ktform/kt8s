@@ -25,17 +25,16 @@ class MRuby(val version: String) :
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = ""
-
     val DEFAULT_VERSIONS = listOf(
-      "",
+      "3.4.0",
+      "3.3.0",
+      "3.2.0",
     )
 
     val `package` = Package(
-      packageName = "uv",
-      repo = "",
-
-      repoVersion = Package.withVPrefix,
+      packageName = "mruby",
+      repo = "https://github.com/mruby/mruby",
+      repoVersion = Package.asIs,
     )
   }
 }

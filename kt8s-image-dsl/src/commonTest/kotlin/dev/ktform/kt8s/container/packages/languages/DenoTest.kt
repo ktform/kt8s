@@ -27,7 +27,11 @@ class DenoTest {
       val latest = Deno.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
 
       Environment.all.forEach { env ->
-        PackageTestCase("deno", env, rendered = Deno(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
+        PackageTestCase(
+          "deno",
+          env,
+          rendered = Deno(latest).render().getOrElse { err -> throw Exception("Unable to render: $err") },
+        ).isExpected()
       }
     }
   }
@@ -35,7 +39,8 @@ class DenoTest {
   @Test
   fun testDenoLatestVersions() {
     runTest(timeout = 10.seconds) {
-      val latestNVersions = Deno.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
+      val latestNVersions = Deno.`package`.availableVersions(Environment.default)
+        .getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(Deno.DEFAULT_VERSIONS.size)
 
       assertThat(latestNVersions).isEqualTo(Deno.DEFAULT_VERSIONS)

@@ -27,7 +27,11 @@ class GraalPythonTest {
       val latest = GraalPython.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
 
       Environment.all.forEach { env ->
-        PackageTestCase("graal python", env, rendered = GraalPython(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
+        PackageTestCase(
+          "graal python",
+          env,
+          rendered = GraalPython(latest).render().getOrElse { err -> throw Exception("Unable to render: $err") },
+        ).isExpected()
       }
     }
   }
@@ -35,7 +39,8 @@ class GraalPythonTest {
   @Test
   fun testGraalPythonLatestVersions() {
     runTest(timeout = 10.seconds) {
-      val latestNVersions = GraalPython.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
+      val latestNVersions = GraalPython.`package`.availableVersions(Environment.default)
+        .getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(GraalPython.DEFAULT_VERSIONS.size)
       assertThat(latestNVersions).isEqualTo(GraalPython.DEFAULT_VERSIONS)
     }

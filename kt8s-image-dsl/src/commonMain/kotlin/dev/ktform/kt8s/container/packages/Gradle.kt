@@ -25,9 +25,8 @@ class Gradle(val version: String) : Renderable {
 
   companion object {
     val DEFAULT_VERSIONS = listOf(
-      "8.10",
-      "8.9",
-      "8.8",
+      "9.0.0",
+      "8.14.3",
     )
 
     val `package` = Package(

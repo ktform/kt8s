@@ -25,9 +25,8 @@ class Podman(val version: String) : Renderable {
 
   companion object {
     val DEFAULT_VERSIONS = listOf(
-      "5.1.1",
-      "5.1.0",
-      "5.0.2",
+      "5.5.2",
+      "5.5.1",
     )
 
     val `package` = Package(

@@ -27,7 +27,11 @@ class KarpenterGCPTest {
       val latest = KarpenterGCP.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
 
       Environment.all.forEach { env ->
-        PackageTestCase("karpenter gcp", env, rendered = KarpenterGCP(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
+        PackageTestCase(
+          "karpenter gcp",
+          env,
+          rendered = KarpenterGCP(latest).render().getOrElse { err -> throw Exception("Unable to render: $err") },
+        ).isExpected()
       }
     }
   }
@@ -35,7 +39,8 @@ class KarpenterGCPTest {
   @Test
   fun testKarpenterGCLatestVersions() {
     runTest(timeout = 10.seconds) {
-      val latestNVersions = KarpenterGCP.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
+      val latestNVersions = KarpenterGCP.`package`.availableVersions(Environment.default)
+        .getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(KarpenterGCP.DEFAULT_VERSIONS.size)
 
       assertThat(latestNVersions).isEqualTo(KarpenterGCP.DEFAULT_VERSIONS)

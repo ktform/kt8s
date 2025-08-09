@@ -25,12 +25,12 @@ class Karpenter(val version: String) :
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = "https://github.com/karpenter/karpenter"
+    const val REPO = "https://github.com/kubernetes-sigs/karpenter"
 
     val DEFAULT_VERSIONS = listOf(
-      "1.2.0",
-      "1.1.0",
-      "1.0.5",
+      "1.6.1",
+      "1.6.0",
+      "1.5.3",
     )
 
     val `package` = Package(

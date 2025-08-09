@@ -28,9 +28,8 @@ class OpenCost(val version: String) :
     const val REPO = "https://github.com/opencost/opencost"
 
     val DEFAULT_VERSIONS = listOf(
-      "1.116.0",
-      "1.115.0",
-      "1.114.0",
+      "2.5.3",
+      "2.5.2",
     )
 
     val `package` = Package(

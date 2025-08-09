@@ -27,7 +27,11 @@ class MinikubeTest {
       val latest = Minikube.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
 
       Environment.all.forEach { env ->
-        PackageTestCase("minikube", env, rendered = Minikube(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
+        PackageTestCase(
+          "minikube",
+          env,
+          rendered = Minikube(latest).render().getOrElse { err -> throw Exception("Unable to render: $err") },
+        ).isExpected()
       }
     }
   }
@@ -35,7 +39,8 @@ class MinikubeTest {
   @Test
   fun testMinikubeLatestVersions() {
     runTest(timeout = 10.seconds) {
-      val latestNVersions = Minikube.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
+      val latestNVersions = Minikube.`package`.availableVersions(Environment.default)
+        .getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(Minikube.DEFAULT_VERSIONS.size)
 
       assertThat(latestNVersions).isEqualTo(Minikube.DEFAULT_VERSIONS)

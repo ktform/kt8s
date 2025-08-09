@@ -28,9 +28,8 @@ class Theia(val version: String) :
     const val REPO = "https://github.com/eclipse-theia/theia"
 
     val DEFAULT_VERSIONS = listOf(
-      "1.48.0",
-      "1.47.0",
-      "1.46.0",
+      "1.64.1",
+      "1.64.0",
     )
 
     val `package` = Package(

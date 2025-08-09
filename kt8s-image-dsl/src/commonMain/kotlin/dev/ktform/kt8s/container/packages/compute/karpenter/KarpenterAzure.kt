@@ -26,15 +26,13 @@ class KarpenterAzure(
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = ""
-
     val DEFAULT_VERSIONS = listOf(
       "",
     )
 
     val `package` = Package(
-      packageName = "uv",
-      repo = "",
+      packageName = "karpenter-provider-azure",
+      repo = "https://github.com/Azure/karpenter-provider-azure",
 
       repoVersion = Package.withVPrefix,
     )

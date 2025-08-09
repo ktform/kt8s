@@ -14,15 +14,15 @@ class Alloy(val version: String) :
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = ""
-
     val DEFAULT_VERSIONS = listOf(
-      "",
+      "1.10.1",
+      "1.10.0",
+      "1.9.2",
     )
 
     val `package` = Package(
-      packageName = "",
-      repo = "",
+      packageName = "alloy",
+      repo = "https://github.com/grafana/alloy",
 
       repoVersion = Package.withVPrefix,
     )

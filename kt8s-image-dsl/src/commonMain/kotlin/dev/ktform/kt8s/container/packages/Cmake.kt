@@ -25,9 +25,8 @@ class Cmake(val version: String) : Renderable {
 
   companion object {
     val DEFAULT_VERSIONS = listOf(
-      "3.30.2",
-      "3.30.1",
-      "3.29.6",
+      "4.1.0",
+      "4.0.3",
     )
 
     val `package` = Package(

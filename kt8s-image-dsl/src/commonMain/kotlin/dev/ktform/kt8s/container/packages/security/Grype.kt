@@ -15,6 +15,8 @@ import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
+import dev.ktform.kt8s.container.github.GithubClient
+import io.github.z4kn4fein.semver.toVersion
 
 class Grype(val version: String) : Renderable {
   override suspend fun versions(env: Environment): Either<String, List<String>> = `package`.versions(env)
@@ -24,17 +26,16 @@ class Grype(val version: String) : Renderable {
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = ""
-
     val DEFAULT_VERSIONS = listOf(
-      "",
+      "0.97.2",
+      "0.97.1",
+      "0.97.0",
     )
 
     val `package` = Package(
-      packageName = "gcloud",
-      repo = "",
+      packageName = "grype",
+      repo = "https://github.com/anchore/grype",
       repoVersion = Package.withVPrefix,
     )
-
   }
 }

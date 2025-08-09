@@ -28,15 +28,13 @@ class ScyllaDB(val version: String) :
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = ""
-
     val DEFAULT_VERSIONS = listOf(
       "",
     )
 
     val `package` = Package(
-      packageName = "uv",
-      repo = "",
+      packageName = "scylladb",
+      repo = "https://github.com/scylladb/scylladb",
       repoVersion = Package.withVPrefix,
     )
   }

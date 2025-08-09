@@ -14,15 +14,15 @@ class Loki(val version: String) :
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = ""
-
     val DEFAULT_VERSIONS = listOf(
-      "",
+      "3.5.3",
+      "3.5.2",
+      "3.5.1",
     )
 
     val `package` = Package(
-      packageName = "uv",
-      repo = "",
+      packageName = "loki",
+      repo = "https://github.com/grafana/loki",
 
       repoVersion = Package.withVPrefix,
     )

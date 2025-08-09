@@ -25,15 +25,15 @@ class Deno(val version: String) :
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = ""
-
     val DEFAULT_VERSIONS = listOf(
-      "",
+      "2.4.3",
+      "2.4.2",
+      "2.4.1",
     )
 
     val `package` = Package(
-      packageName = "uv",
-      repo = "",
+      packageName = "deno",
+      repo = "https://github.com/denoland/deno",
 
       repoVersion = Package.withVPrefix,
     )

@@ -16,9 +16,8 @@ class Cosign(val version: String) : Renderable {
     const val REPO = "https://github.com/sigstore/cosign"
 
     val DEFAULT_VERSIONS = listOf(
-      "2.4.1",
-      "2.4.0",
-      "2.3.0",
+      "2.5.3",
+      "2.5.2",
     )
 
     val `package` = Package(

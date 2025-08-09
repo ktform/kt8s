@@ -14,15 +14,16 @@ class Prometheus(val version: String) :
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = ""
-
     val DEFAULT_VERSIONS = listOf(
-      "",
+      "3.5.0",
+      "3.4.2",
+      "3.4.1",
+      "3.4.0",
     )
 
     val `package` = Package(
-      packageName = "uv",
-      repo = "",
+      packageName = "prometheus",
+      repo = "https://github.com/prometheus/prometheus",
 
       repoVersion = Package.withVPrefix,
     )

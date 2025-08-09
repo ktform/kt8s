@@ -28,15 +28,14 @@ class Velero(val version: String) :
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = ""
-
     val DEFAULT_VERSIONS = listOf(
-      "",
+      "1.16.2",
+      "1.16.1",
     )
 
     val `package` = Package(
-      packageName = "uv",
-      repo = "",
+      packageName = "velero",
+      repo = "https://github.com/vmware-tanzu/velero",
       repoVersion = Package.withVPrefix,
     )
   }

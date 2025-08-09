@@ -27,7 +27,11 @@ class GolangTest {
       val latest = Golang.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
 
       Environment.all.forEach { env ->
-        PackageTestCase("golang", env, rendered = Golang(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
+        PackageTestCase(
+          "golang",
+          env,
+          rendered = Golang(latest).render().getOrElse { err -> throw Exception("Unable to render: $err") },
+        ).isExpected()
       }
     }
   }
@@ -35,7 +39,8 @@ class GolangTest {
   @Test
   fun testGolangLatestVersions() {
     runTest(timeout = 10.seconds) {
-      val latestNVersions = Golang.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
+      val latestNVersions = Golang.`package`.availableVersions(Environment.default)
+        .getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(Golang.DEFAULT_VERSIONS.size)
 
       assertThat(latestNVersions).isEqualTo(Golang.DEFAULT_VERSIONS)

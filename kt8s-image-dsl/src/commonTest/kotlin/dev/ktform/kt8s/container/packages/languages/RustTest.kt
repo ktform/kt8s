@@ -27,7 +27,11 @@ class RustTest {
       val latest = Rust.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
 
       Environment.all.forEach { env ->
-        PackageTestCase("rust", env, rendered = Rust(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
+        PackageTestCase(
+          "rust",
+          env,
+          rendered = Rust(latest).render().getOrElse { err -> throw Exception("Unable to render: $err") },
+        ).isExpected()
       }
     }
   }
@@ -35,7 +39,8 @@ class RustTest {
   @Test
   fun testRustLatestVersions() {
     runTest(timeout = 10.seconds) {
-      val latestNVersions = Rust.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
+      val latestNVersions = Rust.`package`.availableVersions(Environment.default)
+        .getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(Rust.DEFAULT_VERSIONS.size)
 
       assertThat(latestNVersions).isEqualTo(Rust.DEFAULT_VERSIONS)

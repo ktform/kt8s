@@ -27,7 +27,11 @@ class KarpenterAzureTest {
       val latest = KarpenterAzure.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
 
       Environment.all.forEach { env ->
-        PackageTestCase("karpenter azure", env, rendered = KarpenterAzure(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
+        PackageTestCase(
+          "karpenter azure",
+          env,
+          rendered = KarpenterAzure(latest).render().getOrElse { err -> throw Exception("Unable to render: $err") },
+        ).isExpected()
       }
     }
   }
@@ -35,7 +39,8 @@ class KarpenterAzureTest {
   @Test
   fun testKarpenterAzureLatestVersions() {
     runTest(timeout = 10.seconds) {
-      val latestNVersions = KarpenterAzure.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
+      val latestNVersions = KarpenterAzure.`package`.availableVersions(Environment.default)
+        .getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(KarpenterAzure.DEFAULT_VERSIONS.size)
 
       assertThat(latestNVersions).isEqualTo(KarpenterAzure.DEFAULT_VERSIONS)

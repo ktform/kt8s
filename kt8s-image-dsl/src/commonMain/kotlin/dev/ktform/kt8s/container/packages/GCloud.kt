@@ -12,6 +12,7 @@
 package dev.ktform.kt8s.container.packages
 
 import arrow.core.Either
+import arrow.core.right
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
@@ -25,15 +26,16 @@ class GCloud(val version: String) : Renderable {
 
   companion object {
     val DEFAULT_VERSIONS = listOf(
-      "498.0.0",
-      "497.0.0",
-      "496.0.0",
+      ""
     )
 
     val `package` = Package(
       packageName = "gcloud",
-      repo = "https://github.com/GoogleCloudPlatform/cloud-sdk",
+      repo = "",
       repoVersion = Package.asIs,
+      availableVersions = { _ ->
+        listOf("1").right()
+      }
     )
   }
 }

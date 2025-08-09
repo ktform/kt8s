@@ -15,6 +15,10 @@ import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
+import dev.ktform.kt8s.container.github.GithubClient
+import io.github.z4kn4fein.semver.toVersion
+import kotlin.compareTo
+import kotlin.toString
 
 class PostgreSQL(val version: String) :
   Renderable {
@@ -28,16 +32,32 @@ class PostgreSQL(val version: String) :
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = ""
-
+    const val REPO = "https://github.com/postgres/postgres"
+    const val RELEASE_PREFIX = "REL_"
     val DEFAULT_VERSIONS = listOf(
-      "",
+      "17.5",
+      "17.4",
     )
 
     val `package` = Package(
-      packageName = "uv",
-      repo = "",
-      repoVersion = Package.withVPrefix,
+      packageName = "postgresql",
+      repo = REPO,
+      repoVersion = { version, toRepo ->
+        if (toRepo) {
+          "$RELEASE_PREFIX${version.replace(".", "_")}"
+        } else {
+          version
+        }
+      },
+      availableVersions = { _ ->
+        val client = GithubClient()
+        client.getTags(REPO).map { all ->
+          all.filter { v -> v.startsWith(RELEASE_PREFIX) }
+            .map { v -> v.substringAfter(RELEASE_PREFIX).replace("_", ".") }
+            .filter { v -> !v.lowercase().contains("beta") && !v.lowercase().contains("rc") }
+            .sortedDescending()
+        }
+      }
     )
   }
 }

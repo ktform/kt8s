@@ -24,10 +24,15 @@ class GraalTruffleRubyTest {
   @Test
   fun testGraalTruffleRuby() {
     runTest(timeout = 10.seconds) {
-      val latest = GraalTruffleRuby.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
+      val latest =
+        GraalTruffleRuby.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
 
       Environment.all.forEach { env ->
-        PackageTestCase("graal truffle ruby", env, rendered = GraalTruffleRuby(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
+        PackageTestCase(
+          "graal truffle ruby",
+          env,
+          rendered = GraalTruffleRuby(latest).render().getOrElse { err -> throw Exception("Unable to render: $err") },
+        ).isExpected()
       }
     }
   }
@@ -35,7 +40,8 @@ class GraalTruffleRubyTest {
   @Test
   fun testGraalTruffleRubyLatestVersions() {
     runTest(timeout = 10.seconds) {
-      val latestNVersions = GraalTruffleRuby.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
+      val latestNVersions = GraalTruffleRuby.`package`.availableVersions(Environment.default)
+        .getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(GraalTruffleRuby.DEFAULT_VERSIONS.size)
 
       assertThat(latestNVersions).isEqualTo(GraalTruffleRuby.DEFAULT_VERSIONS)

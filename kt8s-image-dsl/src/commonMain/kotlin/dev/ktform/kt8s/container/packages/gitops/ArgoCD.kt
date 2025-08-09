@@ -9,7 +9,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package dev.ktform.kt8s.container.packages
+package dev.ktform.kt8s.container.packages.gitops
 
 import arrow.core.Either
 import dev.ktform.kt8s.container.Environment

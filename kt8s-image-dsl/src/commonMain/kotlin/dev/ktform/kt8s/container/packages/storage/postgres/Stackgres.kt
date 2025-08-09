@@ -28,15 +28,15 @@ class Stackgres(val version: String) :
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = ""
-
     val DEFAULT_VERSIONS = listOf(
-      "",
+      "1.17.1",
+      "1.17.0",
+      "1.16.3",
     )
 
     val `package` = Package(
-      packageName = "uv",
-      repo = REPO,
+      packageName = "stackgres",
+      repo = "https://github.com/ongres/stackgres",
       repoVersion = Package.withVPrefix,
     )
   }

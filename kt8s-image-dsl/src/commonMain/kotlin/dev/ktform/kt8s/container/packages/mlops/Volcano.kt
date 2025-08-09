@@ -28,9 +28,9 @@ class Volcano(val version: String) :
     const val REPO = "https://github.com/volcano-sh/volcano"
 
     val DEFAULT_VERSIONS = listOf(
-      "1.10.0",
-      "1.9.0",
-      "1.8.2",
+      "1.12.1",
+      "1.11.2",
+      "1.11.1",
     )
 
     val `package` = Package(

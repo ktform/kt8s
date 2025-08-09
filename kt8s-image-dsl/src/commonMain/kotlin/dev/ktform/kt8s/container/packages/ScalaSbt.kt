@@ -25,9 +25,8 @@ class ScalaSbt(val version: String) : Renderable {
 
   companion object {
     val DEFAULT_VERSIONS = listOf(
-      "1.10.1",
-      "1.10.0",
-      "1.9.9",
+      "1.11.4",
+      "1.11.3",
     )
 
     val `package` = Package(

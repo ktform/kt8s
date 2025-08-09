@@ -32,7 +32,7 @@ class JavaJdk(val version: String) :
     )
 
     val `package` = Package(
-      packageName = "uv",
+      packageName = "javajdk",
       repo = "",
 
       repoVersion = Package.withVPrefix,

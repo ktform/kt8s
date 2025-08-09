@@ -25,17 +25,14 @@ class NodeJS(val version: String) :
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = "https://github.com/nodejs/node"
-
     val DEFAULT_VERSIONS = listOf(
-      "22.6.0",
-      "20.15.1",
-      "18.20.4",
+      "24.5.0",
+      "24.4.1",
     )
 
     val `package` = Package(
       packageName = "nodejs",
-      repo = REPO,
+      repo = "https://github.com/nodejs/node",
 
       repoVersion = Package.withVPrefix,
     )

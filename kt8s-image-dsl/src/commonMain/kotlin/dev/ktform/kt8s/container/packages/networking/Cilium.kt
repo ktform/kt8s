@@ -14,15 +14,14 @@ class Cilium(val version: String) :
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = ""
-
     val DEFAULT_VERSIONS = listOf(
-      "",
+      "1.18.0",
+      "1.17.6",
     )
 
     val `package` = Package(
-      packageName = "uv",
-      repo = "",
+      packageName = "cilium",
+      repo = "https://github.com/cilium/cilium",
 
       repoVersion = Package.withVPrefix,
     )

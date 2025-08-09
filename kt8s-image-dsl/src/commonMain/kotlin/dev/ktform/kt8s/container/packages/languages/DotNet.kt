@@ -32,7 +32,7 @@ class DotNet(val version: String) :
     )
 
     val `package` = Package(
-      packageName = "uv",
+      packageName = "dotnet",
       repo = "",
 
       repoVersion = Package.withVPrefix,

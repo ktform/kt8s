@@ -25,18 +25,15 @@ class Python(val version: String) :
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = "https://github.com/python/cpython"
-
     val DEFAULT_VERSIONS = listOf(
-      "3.12.5",
-      "3.11.9",
-      "3.10.14",
+      "3.13.6",
+      "3.13.5",
+      "3.13.4",
     )
 
     val `package` = Package(
       packageName = "python",
-      repo = REPO,
-
+      repo = "https://github.com/python/cpython",
       repoVersion = Package.withVPrefix,
     )
   }

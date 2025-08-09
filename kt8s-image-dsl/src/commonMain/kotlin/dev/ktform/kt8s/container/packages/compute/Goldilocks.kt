@@ -28,9 +28,8 @@ class Goldilocks(val version: String) :
     const val REPO = "https://github.com/FairwindsOps/goldilocks"
 
     val DEFAULT_VERSIONS = listOf(
-      "8.0.2",
-      "8.0.1",
-      "8.0.0",
+      "4.14.2",
+      "4.14.1",
     )
 
     val `package` = Package(

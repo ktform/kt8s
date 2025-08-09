@@ -25,9 +25,8 @@ class K9s(val version: String) : Renderable {
 
   companion object {
     val DEFAULT_VERSIONS = listOf(
-      "0.32.5",
-      "0.32.4",
-      "0.32.3",
+      "0.50.9",
+      "0.50.8",
     )
 
     val `package` = Package(

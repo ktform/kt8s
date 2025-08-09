@@ -29,15 +29,15 @@ class PVCAutoresizer(
   override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
 
   companion object {
-    const val REPO = ""
-
     val DEFAULT_VERSIONS = listOf(
-      "",
+      "0.17.5",
+      "0.17.4",
+      "0.17.3",
     )
 
     val `package` = Package(
-      packageName = "uv",
-      repo = "",
+      packageName = "pvc-autoresizer",
+      repo = "https://github.com/topolvm/pvc-autoresizer",
       repoVersion = Package.withVPrefix,
     )
   }

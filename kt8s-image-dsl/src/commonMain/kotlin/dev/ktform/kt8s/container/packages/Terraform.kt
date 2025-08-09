@@ -25,9 +25,8 @@ class Terraform(val version: String) : Renderable {
 
   companion object {
     val DEFAULT_VERSIONS = listOf(
-      "1.9.5",
-      "1.9.4",
-      "1.9.3",
+      "1.12.2",
+      "1.12.1",
     )
 
     val `package` = Package(

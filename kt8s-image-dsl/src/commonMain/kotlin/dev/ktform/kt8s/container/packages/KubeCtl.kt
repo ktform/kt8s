@@ -25,9 +25,8 @@ class KubeCtl(val version: String) : Renderable {
 
   companion object {
     val DEFAULT_VERSIONS = listOf(
-      "1.30.4",
-      "1.30.3",
-      "1.29.8",
+      "1.33.3",
+      "1.33.2",
     )
 
     val `package` = Package(

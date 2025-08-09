@@ -27,7 +27,11 @@ class PipXTest {
       val latest = PipX.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
 
       Environment.all.forEach { env ->
-        PackageTestCase("pipx", env, rendered = PipX(latest).render().getOrElse { err ->throw Exception("Unable to render: $err") }).isExpected()
+        PackageTestCase(
+          "pipx",
+          env,
+          rendered = PipX(latest).render().getOrElse { err -> throw Exception("Unable to render: $err") },
+        ).isExpected()
       }
     }
   }
@@ -35,7 +39,8 @@ class PipXTest {
   @Test
   fun testPipXLatestVersions() {
     runTest(timeout = 10.seconds) {
-      val latestNVersions = PipX.`package`.availableVersions(Environment.default).getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
+      val latestNVersions = PipX.`package`.availableVersions(Environment.default)
+        .getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
         .take(PipX.DEFAULT_VERSIONS.size)
 
       assertThat(latestNVersions).isEqualTo(PipX.DEFAULT_VERSIONS)
