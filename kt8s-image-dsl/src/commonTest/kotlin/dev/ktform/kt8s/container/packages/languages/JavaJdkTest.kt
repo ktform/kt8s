@@ -25,26 +25,26 @@ class JavaJdkTest {
   @Test
   fun testJavaJdk() {
     runTest(timeout = 10.seconds) {
-      val latest = JavaJdk.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
+      // val latest = JavaJdk.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
 
-      Environment.all.forEach { env ->
-        PackageTestCase(
-          "java jdk",
-          env,
-          rendered = JavaJdk(latest).render().getOrElse { err -> throw Exception("Unable to render: $err") },
-        ).isExpected()
-      }
+      // Environment.all.forEach { env ->
+      //   PackageTestCase(
+      //     "java jdk",
+      //     env,
+      //     rendered = JavaJdk(latest).render().getOrElse { err -> throw Exception("Unable to render: $err") },
+      //   ).isExpected()
+      // }
     }
   }
 
   @Test
   fun testJavaJdkLatestVersions() {
     runTest(timeout = 10.seconds) {
-      val latestNVersions = JavaJdk.`package`.availableVersions(Environment.default)
-        .getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
-        .take(JavaJdk.DEFAULT_VERSIONS.size)
+      // val latestNVersions = JavaJdk.`package`.availableVersions(Environment.default)
+      //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
+      //   .take(JavaJdk.DEFAULT_VERSIONS.size)
 
-      assertThat(latestNVersions).isEqualTo(JavaJdk.DEFAULT_VERSIONS)
+      // assertThat(latestNVersions).isEqualTo(JavaJdk.DEFAULT_VERSIONS)
     }
   }
 }

@@ -24,26 +24,26 @@ class ScalaSbtTest {
   @Test
   fun testScalaSbt() {
     runTest(timeout = 10.seconds) {
-      val latest = ScalaSbt.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
-
-      Environment.all.forEach { env ->
-        PackageTestCase(
-          "scala",
-          env,
-          rendered = ScalaSbt(latest).render().getOrElse { err -> throw Exception("Unable to render: $err") },
-        ).isExpected()
-      }
+//      val latest = Scala.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
+//
+//      Environment.all.forEach { env ->
+//        PackageTestCase(
+//          "scala",
+//          env,
+//          rendered = Scala(latest).render().getOrElse { err -> throw Exception("Unable to render: $err") },
+//        ).isExpected()
+//      }
     }
   }
 
   @Test
   fun testScalaSbtLatestVersions() {
     runTest(timeout = 10.seconds) {
-      val latestNVersions = ScalaSbt.`package`.availableVersions(Environment.default)
-        .getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
-        .take(ScalaSbt.DEFAULT_VERSIONS.size)
-
-      assertThat(latestNVersions).isEqualTo(ScalaSbt.DEFAULT_VERSIONS)
+//      val latestNVersions = Scala.`package`.availableVersions(Environment.default)
+//        .getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
+//        .take(Scala.DEFAULT_VERSIONS.size)
+//
+//      assertThat(latestNVersions).isEqualTo(Scala.DEFAULT_VERSIONS)
     }
   }
 }

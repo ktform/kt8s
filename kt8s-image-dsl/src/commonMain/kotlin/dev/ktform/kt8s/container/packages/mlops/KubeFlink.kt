@@ -16,14 +16,15 @@ import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.github.GithubClient
+import dev.ktform.kt8s.container.Versions
+import dev.ktform.kt8s.container.fetchers.KubeFlinkVersionFetcher
 
-class KubeFlink(val version: String) :
-  Renderable {
-  override suspend fun versions(env: Environment): Either<String, List<String>> = `package`.versions(env)
-  override suspend fun render(version: String, env: Environment): Either<String, String> = `package`.render(version, env)
+class KubeFlink(val versions: Versions.KubeFlinkVersion) : Renderable  {
 
-  override suspend fun versions(): Either<String, List<String>> = `package`.versions(Environment.default)
-  override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
+  override fun render(
+    env: Environment,
+  ): Either<String, String> = `package`.render(versions, KubeFlinkVersionFetcher, env)
+
 
   companion object {
     const val RELEASE_PREFIX = "release-"
@@ -36,21 +37,22 @@ class KubeFlink(val version: String) :
       "1.11.0",
     )
 
+    val latest = DEFAULT_VERSIONS.first()
+
     val `package` = Package(
       packageName = "flink-kubernetes-operator",
-      repo = REPO,
-
-      repoVersion = { version, toRepo ->
-        if (toRepo) {
-          "$RELEASE_PREFIX$version"
-        } else {
-          version
-        }
-      },
-      availableVersions = { _ ->
-        val client = GithubClient()
-        client.getTags(REPO).map { it.filter { v -> v.startsWith(RELEASE_PREFIX) }.map { v -> v.substringAfter(RELEASE_PREFIX) }}
-      }
+      // repo = REPO,
+      // repoVersion = { version, toRepo ->
+      //   if (toRepo) {
+      //     "$RELEASE_PREFIX$version"
+      //   } else {
+      //     version
+      //   }
+      // },
+      // availableVersions = { _ ->
+      //   val client = GithubClient()
+      //   client.getTags(REPO).map { it.filter { v -> v.startsWith(RELEASE_PREFIX) }.map { v -> v.substringAfter(RELEASE_PREFIX) }}
+      // }
     )
   }
 }

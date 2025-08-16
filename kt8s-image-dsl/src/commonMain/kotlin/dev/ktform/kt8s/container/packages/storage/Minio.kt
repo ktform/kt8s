@@ -15,20 +15,14 @@ import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
-import dev.ktform.kt8s.container.github.GithubClient
-import dev.ktform.kt8s.container.packages.mlops.KubeFlink.Companion.RELEASE_PREFIX
-import dev.ktform.kt8s.container.packages.mlops.KubeFlink.Companion.REPO
+import dev.ktform.kt8s.container.Versions
+import dev.ktform.kt8s.container.fetchers.MinioVersionFetcher
 
-class Minio(val version: String) :
-  Renderable {
-  override suspend fun versions(env: Environment): Either<String, List<String>> =
-    `package`.versions(env)
+class Minio(val versions: Versions.MinioVersion) : Renderable  {
 
-  override suspend fun render(version: String, env: Environment): Either<String, String> =
-    `package`.render(version, env)
-
-  override suspend fun versions(): Either<String, List<String>> = `package`.versions(Environment.default)
-  override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
+  override fun render(
+    env: Environment,
+  ): Either<String, String> = `package`.render(versions, MinioVersionFetcher, env)
 
   companion object {
     const val RELEASE_PREFIX = "RELEASE."
@@ -39,20 +33,22 @@ class Minio(val version: String) :
       "2025-07-18T21-56-31Z"
     )
 
+    val latest = DEFAULT_VERSIONS.first()
+
     val `package` = Package(
       packageName = "minio",
-      repo = "https://github.com/minio/minio",
-      repoVersion = { version, toRepo ->
-        if (toRepo) {
-          "$RELEASE_PREFIX$version"
-        } else {
-          version
-        }
-      },
-      availableVersions = { _ ->
-        val client = GithubClient()
-        client.getTags(REPO).map { it.filter { v -> v.startsWith(RELEASE_PREFIX) }.map { v -> v.substringAfter(RELEASE_PREFIX) }}
-      }
+//      repo = "https://github.com/minio/minio",
+//      repoVersion = { version, toRepo ->
+//        if (toRepo) {
+//          "$RELEASE_PREFIX$version"
+//        } else {
+//          version
+//        }
+//      },
+//      availableVersions = { _ ->
+//        val client = GithubClient()
+//        client.getTags(REPO).map { it.filter { v -> v.startsWith(RELEASE_PREFIX) }.map { v -> v.substringAfter(RELEASE_PREFIX) }}
+//      }
     )
   }
 }

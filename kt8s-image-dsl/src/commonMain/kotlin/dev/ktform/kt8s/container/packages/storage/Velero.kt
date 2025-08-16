@@ -15,17 +15,14 @@ import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
+import dev.ktform.kt8s.container.Versions
+import dev.ktform.kt8s.container.fetchers.VeleroVersionFetcher
 
-class Velero(val version: String) :
-  Renderable {
-  override suspend fun versions(env: Environment): Either<String, List<String>> =
-    `package`.versions(env)
+class Velero(val versions: Versions.VeleroVersion) : Renderable  {
 
-  override suspend fun render(version: String, env: Environment): Either<String, String> =
-    `package`.render(version, env)
-
-  override suspend fun versions(): Either<String, List<String>> = `package`.versions(Environment.default)
-  override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
+  override fun render(
+    env: Environment,
+  ): Either<String, String> = `package`.render(versions, VeleroVersionFetcher, env)
 
   companion object {
     val DEFAULT_VERSIONS = listOf(
@@ -33,10 +30,12 @@ class Velero(val version: String) :
       "1.16.1",
     )
 
+    val latest = DEFAULT_VERSIONS.first()
+
     val `package` = Package(
       packageName = "velero",
-      repo = "https://github.com/vmware-tanzu/velero",
-      repoVersion = Package.withVPrefix,
+//      repo = "https://github.com/vmware-tanzu/velero",
+//      repoVersion = Package.withVPrefix,
     )
   }
 }

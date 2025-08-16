@@ -43,6 +43,8 @@ kotlin {
 
   sourceSets {
     commonMain.dependencies {
+      implementation(project(":kt8s-image-dsl"))
+      implementation(project(":kt8s-client"))
       implementation(libs.bundles.common)
       implementation(libs.bundles.arrow)
     }

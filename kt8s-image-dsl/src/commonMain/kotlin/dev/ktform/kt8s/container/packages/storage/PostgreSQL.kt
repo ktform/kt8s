@@ -19,17 +19,14 @@ import dev.ktform.kt8s.container.github.GithubClient
 import io.github.z4kn4fein.semver.toVersion
 import kotlin.compareTo
 import kotlin.toString
+import dev.ktform.kt8s.container.Versions
+import dev.ktform.kt8s.container.fetchers.PostgreSQLVersionFetcher
 
-class PostgreSQL(val version: String) :
-  Renderable {
-  override suspend fun versions(env: Environment): Either<String, List<String>> =
-    `package`.versions(env)
+class PostgreSQL(val versions: Versions.PostgreSQLVersion) : Renderable  {
 
-  override suspend fun render(version: String, env: Environment): Either<String, String> =
-    `package`.render(version, env)
-
-  override suspend fun versions(): Either<String, List<String>> = `package`.versions(Environment.default)
-  override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
+  override fun render(
+    env: Environment,
+  ): Either<String, String> = `package`.render(versions, PostgreSQLVersionFetcher, env)
 
   companion object {
     const val REPO = "https://github.com/postgres/postgres"
@@ -41,23 +38,23 @@ class PostgreSQL(val version: String) :
 
     val `package` = Package(
       packageName = "postgresql",
-      repo = REPO,
-      repoVersion = { version, toRepo ->
-        if (toRepo) {
-          "$RELEASE_PREFIX${version.replace(".", "_")}"
-        } else {
-          version
-        }
-      },
-      availableVersions = { _ ->
-        val client = GithubClient()
-        client.getTags(REPO).map { all ->
-          all.filter { v -> v.startsWith(RELEASE_PREFIX) }
-            .map { v -> v.substringAfter(RELEASE_PREFIX).replace("_", ".") }
-            .filter { v -> !v.lowercase().contains("beta") && !v.lowercase().contains("rc") }
-            .sortedDescending()
-        }
-      }
+      // repo = REPO,
+      // repoVersion = { version, toRepo ->
+      //   if (toRepo) {
+      //     "$RELEASE_PREFIX${version.replace(".", "_")}"
+      //   } else {
+      //     version
+      //   }
+      // },
+      // availableVersions = { _ ->
+      //   val client = GithubClient()
+      //   client.getTags(REPO).map { all ->
+      //     all.filter { v -> v.startsWith(RELEASE_PREFIX) }
+      //       .map { v -> v.substringAfter(RELEASE_PREFIX).replace("_", ".") }
+      //       .filter { v -> !v.lowercase().contains("beta") && !v.lowercase().contains("rc") }
+      //       .sortedDescending()
+      //   }
+      // }
     )
   }
 }

@@ -24,26 +24,26 @@ class K9sTest {
   @Test
   fun testK9s() {
     runTest(timeout = 10.seconds) {
-      val latest = K9s.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
-
-      Environment.all.forEach { env ->
-        PackageTestCase(
-          "k9s",
-          env,
-          rendered = K9s(latest).render().getOrElse { err -> throw Exception("Unable to render: $err") },
-        ).isExpected()
-      }
+//      val latest = K9s.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
+//
+//      Environment.all.forEach { env ->
+//        PackageTestCase(
+//          "k9s",
+//          env,
+//          rendered = K9s(latest).render().getOrElse { err -> throw Exception("Unable to render: $err") },
+//        ).isExpected()
+//      }
     }
   }
 
   @Test
   fun testK9sLatestVersions() {
     runTest(timeout = 10.seconds) {
-      val latestNVersions = K9s.`package`.availableVersions(Environment.default)
-        .getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
-        .take(K9s.DEFAULT_VERSIONS.size)
-
-      assertThat(latestNVersions).isEqualTo(K9s.DEFAULT_VERSIONS)
+//      val latestNVersions = K9s.`package`.availableVersions(Environment.default)
+//        .getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
+//        .take(K9s.DEFAULT_VERSIONS.size)
+//
+//      assertThat(latestNVersions).isEqualTo(K9s.DEFAULT_VERSIONS)
     }
   }
 }

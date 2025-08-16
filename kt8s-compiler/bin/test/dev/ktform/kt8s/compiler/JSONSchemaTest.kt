@@ -3,13 +3,9 @@ package dev.ktform.kt8s.compiler
 import arrow.core.*
 import arrow.core.raise.either
 import arrow.core.raise.ensure
-import dev.ktform.kt8s.compiler.JSONSchema.getDefinitionsByGroupVersion
-import dev.ktform.kt8s.compiler.JSONSchema.getDefinitionsByKind
-import dev.ktform.kt8s.compiler.JSONSchema.resolveReference
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import kotlin.test.assertFailsWith
 
 class JSONSchemaTest {
 
@@ -188,46 +184,13 @@ class JSONSchemaTest {
         ensure(itemsProp.items.getOrNull()?.type == JSONSchema.Type.STRING) { "array items should be STRING" }
 
         ensure(addressProp.type == JSONSchema.Type.OBJECT) { "address should be OBJECT type" }
-        ensure(addressProp.format == Some(JSONSchema.Format.OBJECT_REF)) { "address should have OBJECT_REF format" }
+        ensure(addressProp.isObjectReference()) { "address should be an object reference" }
         ensure(addressProp.ref == Some("Address")) { "address ref should point to Address" }
-      }
-    }
-    runSchemaTestCase(testCase)
-  }
 
-  @Test
-  fun testKubernetesGroupVersionKindMetadata() {
-    val testCase = SchemaTestCase(
-      name = "kubernetes group-version-kind metadata",
-      schema = """
-        {
-          "definitions": {
-            "Pod": {
-              "type": "object",
-              "x-kubernetes-group-version-kind": [
-                {"group": "", "version": "v1", "kind": "Pod"}
-              ],
-              "properties": {"name": {"type": "string"}}
-            },
-            "Service": {
-              "type": "object",
-              "x-kubernetes-group-version-kind": [
-                {"group": "", "version": "v1", "kind": "Service"}
-              ],
-              "properties": {"name": {"type": "string"}}
-            }
-          }
-        }
-      """.trimIndent(),
-      expectedDefinitionCount = 2
-    ) { definitions ->
-      either {
-        val podDefs = definitions.getDefinitionsByKind("Pod")
-        val v1Defs = definitions.getDefinitionsByGroupVersion("", "v1")
-
-        ensure(podDefs.size == 1) { "Should find exactly 1 Pod definition" }
-        ensure(podDefs[0].kubernetesGroupVersionKind[0].third == "Pod") { "Pod kind mismatch" }
-        ensure(v1Defs.size == 2) { "Should find 2 v1 definitions" }
+        // Verify type name resolution
+        val packageName = "dev.ktform.kt8s.resources"
+        val typeName = addressProp.getTypeName(packageName)
+        ensure(typeName.toString().endsWith("Address")) { "address should resolve to Address type, got: $typeName" }
       }
     }
     runSchemaTestCase(testCase)
@@ -323,9 +286,9 @@ class JSONSchemaTest {
         // Collect all object references
         definitions.forEach { definition ->
           definition.properties.forEach { property ->
-            if (property.format == Some(JSONSchema.Format.OBJECT_REF)) {
+            if (property.isObjectReference()) {
               property.ref.fold(
-                { throw AssertionError("Property ${property.name} in ${definition.name} has OBJECT_REF format but no ref value") },
+                { throw AssertionError("Property ${property.name} in ${definition.name} is object reference but no ref value") },
                 { refValue -> objectRefs.add(definition.name to refValue) }
               )
             }
@@ -335,13 +298,107 @@ class JSONSchemaTest {
         assertTrue(objectRefs.isNotEmpty())
         println("Found ${objectRefs.size} object references")
 
-        // Verify all references can be resolved
+        // Verify all references can be resolved by finding matching definitions
         objectRefs.forEach { (fromDef, toDef) ->
-          val resolved = definitions.resolveReference(toDef)
-          assertTrue(resolved.isSome())
-          assertEquals(toDef, resolved.map { it.name }.getOrNull())
+          val resolved = definitions.find { it.name == toDef }
+          assertTrue(resolved != null, "Could not resolve reference from $fromDef to $toDef")
+          assertEquals(toDef, resolved?.name)
+        }
+
+        // Test dynamic type resolution
+        val packageName = "dev.ktform.kt8s.resources"
+        objectRefs.take(5).forEach { (fromDef, toDef) ->
+          val definition = definitions.find { it.name == fromDef }!!
+          val property = definition.properties.find { it.isObjectReference() && it.ref == Some(toDef) }!!
+          val typeName = property.getTypeName(packageName)
+          assertTrue(
+            typeName.toString().endsWith(toDef.split(".").last()),
+            "Type resolution failed: expected to end with ${toDef.split(".").last()}, got $typeName"
+          )
         }
       }
     )
+  }
+
+  @Test
+  fun testAllResourcesAreUniqueAcrossVersions() {
+    val allDefinitionsByVersion = JSONSchema.all(this::class.java.classLoader)
+
+    // Collect all resource names by version
+    val resourceNamesByVersion = allDefinitionsByVersion.mapValues { (_, definitions) ->
+      definitions.map { it.name }.toSet()
+    }
+
+    val commonCount = resourceNamesByVersion["Common"]?.size ?: 0
+    val versionSpecificCount = resourceNamesByVersion.filterKeys { it != "Common" }.values.sumOf { it.size }
+
+    assertTrue(commonCount > 0, "Common definitions should not be empty")
+    assertTrue(versionSpecificCount > 0, "Version-specific definitions should not be empty")
+
+    // Verify no resource name appears in multiple versions
+    val allResourceNames = mutableSetOf<String>()
+    val duplicates = mutableListOf<String>()
+
+    resourceNamesByVersion.forEach { (version, names) ->
+      names.forEach { name ->
+        if (name in allResourceNames) {
+          duplicates.add("Resource '$name' appears in multiple versions")
+        }
+        allResourceNames.add(name)
+      }
+    }
+
+    assertTrue(duplicates.isEmpty(), "Found duplicate resources across versions:\n${duplicates.joinToString("\n")}")
+
+    println("✓ Common definitions: $commonCount")
+    println("✓ Version-specific definitions: $versionSpecificCount")
+    println("✓ Total unique resources: ${allResourceNames.size}")
+    println("✓ All resources are unique across versions")
+  }
+
+  @Test
+  fun testObjectRefs() {
+    val allDefinitionsByVersion = JSONSchema.all(this::class.java.classLoader)
+
+    val allProperties = allDefinitionsByVersion.values.flatten()
+      .flatMap { it.properties }
+
+    val objectRefProperties = allProperties.filter { it.isObjectReference() }
+    val packageName = "dev.ktform.kt8s.resources"
+
+    // Verify object references have proper type names
+    val improperRefs = objectRefProperties.filter { property ->
+      val typeName = property.getTypeName(packageName)
+      typeName.toString() == "kotlin.Any" || typeName.toString().contains("ANY")
+    }
+
+    assertTrue(
+      improperRefs.isEmpty(),
+      "Found ${improperRefs.size} object references with improper types:\n" +
+      improperRefs.joinToString("\n") { "${it.name}: ${it.getTypeName(packageName)}" }
+    )
+
+    println("✓ All ${objectRefProperties.size} object references have proper type resolution")
+
+    // Verify some known references
+    val metadataProps = allProperties.filter { it.name == "metadata" && it.isObjectReference() }
+    assertTrue(metadataProps.isNotEmpty(), "Should have metadata properties")
+
+    // Kubernetes has different metadata types: ObjectMeta for resources, ListMeta for lists
+    val validMetadataTypes = setOf("ObjectMeta", "ListMeta")
+    val metadataTypesSeen = mutableSetOf<String>()
+
+    metadataProps.forEach { prop ->
+      val typeName = prop.getTypeName(packageName)
+      val className = typeName.toString().split(".").last()
+      metadataTypesSeen.add(className)
+
+      assertTrue(
+        validMetadataTypes.contains(className),
+        "Metadata should resolve to ObjectMeta or ListMeta, got: $typeName"
+      )
+    }
+
+    println("✓ Verified metadata properties resolve to valid types: ${metadataTypesSeen.sorted()}")
   }
 }

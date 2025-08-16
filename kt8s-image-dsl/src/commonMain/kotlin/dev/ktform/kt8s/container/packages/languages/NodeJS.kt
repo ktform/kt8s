@@ -15,14 +15,15 @@ import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
+import dev.ktform.kt8s.container.Versions
+import dev.ktform.kt8s.container.fetchers.NodeJsVersionFetcher
 
-class NodeJS(val version: String) :
-  Renderable {
-  override suspend fun versions(env: Environment): Either<String, List<String>> = `package`.versions(env)
-  override suspend fun render(version: String, env: Environment): Either<String, String> = `package`.render(version, env)
+class NodeJS(val versions: Versions.NodeJsVersion) : Renderable  {
 
-  override suspend fun versions(): Either<String, List<String>> = `package`.versions(Environment.default)
-  override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
+  override fun render(
+    env: Environment,
+  ): Either<String, String> = `package`.render(versions, NodeJsVersionFetcher, env)
+
 
   companion object {
     val DEFAULT_VERSIONS = listOf(
@@ -32,9 +33,8 @@ class NodeJS(val version: String) :
 
     val `package` = Package(
       packageName = "nodejs",
-      repo = "https://github.com/nodejs/node",
-
-      repoVersion = Package.withVPrefix,
+//      repo = "https://github.com/nodejs/node",
+//      repoVersion = Package.withVPrefix,
     )
   }
 }

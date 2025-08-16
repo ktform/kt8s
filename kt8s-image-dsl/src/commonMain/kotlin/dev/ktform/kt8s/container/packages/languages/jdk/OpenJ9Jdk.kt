@@ -15,14 +15,14 @@ import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
+import dev.ktform.kt8s.container.Versions
+import dev.ktform.kt8s.container.fetchers.JavaVersionFetcher
 
-class OpenJ9Jdk(val version: String) :
-  Renderable {
-  override suspend fun versions(env: Environment): Either<String, List<String>> = `package`.versions(env)
-  override suspend fun render(version: String, env: Environment): Either<String, String> = `package`.render(version, env)
+class OpenJ9Jdk(val versions: Versions.JavaVersion) : Renderable  {
 
-  override suspend fun versions(): Either<String, List<String>> = `package`.versions(Environment.default)
-  override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
+  override fun render(
+    env: Environment,
+  ): Either<String, String> = `package`.render(versions, JavaVersionFetcher, env)
 
   companion object {
     const val REPO = "https://github.com/eclipse-openj9/openj9"
@@ -33,8 +33,8 @@ class OpenJ9Jdk(val version: String) :
 
     val `package` = Package(
       packageName = "openj9Jdk",
-      repo = REPO,
-      repoVersion = Package.withVPrefix,
+      // repo = REPO,
+      // repoVersion = Package.withVPrefix,
     )
   }
 }

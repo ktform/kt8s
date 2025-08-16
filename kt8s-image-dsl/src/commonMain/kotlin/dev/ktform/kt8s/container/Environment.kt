@@ -19,7 +19,6 @@ import dev.ktform.kt8s.container.packages.languages.jre.GraalVMJre
 import dev.ktform.kt8s.container.packages.languages.jre.OpenJ9Jre
 import dev.ktform.kt8s.container.packages.languages.jre.OpenJdkJre
 import dev.ktform.kt8s.container.packages.languages.python.CPython
-import dev.ktform.kt8s.container.packages.languages.python.GraalPython
 import dev.ktform.kt8s.container.packages.languages.python.PyPy
 import dev.ktform.kt8s.container.packages.languages.ruby.*
 import dev.ktform.kt8s.container.packages.languages.rust.NightlyRust
@@ -61,10 +60,8 @@ data class Environment(
       OpenJ9Jre.`package`,
       OpenJdkJre.`package`,
       CPython.`package`,
-      GraalPython.`package`,
       PyPy.`package`,
       CRuby.`package`,
-      GraalTruffleRuby.`package`,
       JRuby.`package`,
       MRuby.`package`,
       NightlyRust.`package`,

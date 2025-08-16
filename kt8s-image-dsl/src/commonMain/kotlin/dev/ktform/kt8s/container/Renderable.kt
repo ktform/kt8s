@@ -12,18 +12,7 @@
 package dev.ktform.kt8s.container
 
 import arrow.core.Either
-import arrow.core.getOrElse
-import arrow.core.toOption
 
 interface Renderable {
-  suspend fun versions(env: Environment = Environment.default): Either<String, List<String>>
-  suspend fun render(version: String, env: Environment = Environment.default): Either<String, String>
-
-  suspend fun versions(): Either<String, List<String>>
-  suspend fun render(): Either<String, String>
-
-  suspend fun latestVersion(env: Environment = Environment.default): Either<String, String> =
-    versions(env).map {
-      it.maxBy { v -> v }
-    }
+  fun render(env: Environment = Environment.default): Either<String, String>
 }

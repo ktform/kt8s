@@ -15,14 +15,14 @@ import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
+import dev.ktform.kt8s.container.Versions
+import dev.ktform.kt8s.container.fetchers.DenoVersionFetcher
 
-class Deno(val version: String) :
-  Renderable {
-  override suspend fun versions(env: Environment): Either<String, List<String>> = `package`.versions(env)
-  override suspend fun render(version: String, env: Environment): Either<String, String> = `package`.render(version, env)
+class Deno(val versions: Versions.DenoVersion) : Renderable  {
 
-  override suspend fun versions(): Either<String, List<String>> = `package`.versions(Environment.default)
-  override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
+  override fun render(
+    env: Environment,
+  ): Either<String, String> = `package`.render(versions, DenoVersionFetcher, env)
 
   companion object {
     val DEFAULT_VERSIONS = listOf(
@@ -33,9 +33,8 @@ class Deno(val version: String) :
 
     val `package` = Package(
       packageName = "deno",
-      repo = "https://github.com/denoland/deno",
-
-      repoVersion = Package.withVPrefix,
+      // repo = "https://github.com/denoland/deno",
+      // repoVersion = Package.withVPrefix,
     )
   }
 }

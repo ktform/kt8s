@@ -13,6 +13,6 @@ package dev.ktform.kt8s
 
 expect class HttpClient {
   companion object {
-    fun getInstance(): io.ktor.client.HttpClient
+    fun invoke(): io.ktor.client.HttpClient
   }
 }

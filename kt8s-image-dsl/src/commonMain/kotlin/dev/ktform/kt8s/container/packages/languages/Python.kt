@@ -15,14 +15,15 @@ import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
+import dev.ktform.kt8s.container.Versions
+import dev.ktform.kt8s.container.fetchers.PythonVersionFetcher
 
-class Python(val version: String) :
-  Renderable {
-  override suspend fun versions(env: Environment): Either<String, List<String>> = `package`.versions(env)
-  override suspend fun render(version: String, env: Environment): Either<String, String> = `package`.render(version, env)
+class Python(val versions: Versions.PythonVersion) : Renderable  {
 
-  override suspend fun versions(): Either<String, List<String>> = `package`.versions(Environment.default)
-  override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
+  override fun render(
+    env: Environment,
+  ): Either<String, String> = `package`.render(versions, PythonVersionFetcher, env)
+
 
   companion object {
     val DEFAULT_VERSIONS = listOf(
@@ -33,8 +34,8 @@ class Python(val version: String) :
 
     val `package` = Package(
       packageName = "python",
-      repo = "https://github.com/python/cpython",
-      repoVersion = Package.withVPrefix,
+//      repo = "https://github.com/python/cpython",
+//      repoVersion = Package.withVPrefix,
     )
   }
 }

@@ -15,17 +15,18 @@ import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
+import dev.ktform.kt8s.container.Versions
 import dev.ktform.kt8s.container.github.GithubClient
 import io.github.z4kn4fein.semver.Version
 import io.github.z4kn4fein.semver.toVersion
+import dev.ktform.kt8s.container.fetchers.GolangVersionFetcher
 
-class Golang(val version: String) :
-  Renderable {
-  override suspend fun versions(env: Environment): Either<String, List<String>> = `package`.versions(env)
-  override suspend fun render(version: String, env: Environment): Either<String, String> = `package`.render(version, env)
+class Golang(val versions: Versions.GolangVersion) : Renderable  {
 
-  override suspend fun versions(): Either<String, List<String>> = `package`.versions(Environment.default)
-  override suspend fun render(): Either<String, String> = `package`.render(version, Environment.default)
+  override fun render(
+    env: Environment,
+  ): Either<String, String> = `package`.render(versions, GolangVersionFetcher, env)
+
 
   companion object {
     const val REPO = "https://github.com/golang/go"
@@ -38,26 +39,26 @@ class Golang(val version: String) :
 
     val `package` = Package(
       packageName = "go",
-      repo = REPO,
-
-      repoVersion = { version, toRepo ->
-        if (toRepo) {
-          "$RELEASE_PREFIX$version"
-        } else {
-          version
-        }
-      },
-      availableVersions = { _ ->
-        val client = GithubClient()
-        client.getTags(REPO)
-          .map { all -> all.filter { v -> v.startsWith(RELEASE_PREFIX) }.map { v -> v.substringAfter(RELEASE_PREFIX) }
-            .mapNotNull { s -> Either.catch { s.toVersion() }.getOrNull() }
-            .filter { v -> !v.isPreRelease && (v.major == 0 || v.isStable) }
-            .sortedDescending()
-            .map(Version::toString)
-            .toList()
-          }
-      }
+//      repo = REPO,
+//
+//      repoVersion = { version, toRepo ->
+//        if (toRepo) {
+//          "$RELEASE_PREFIX$version"
+//        } else {
+//          version
+//        }
+//      },
+//      availableVersions = { _ ->
+//        val client = GithubClient()
+//        client.getTags(REPO)
+//          .map { all -> all.filter { v -> v.startsWith(RELEASE_PREFIX) }.map { v -> v.substringAfter(RELEASE_PREFIX) }
+//            .mapNotNull { s -> Either.catch { s.toVersion() }.getOrNull() }
+//            .filter { v -> !v.isPreRelease && (v.major == 0 || v.isStable) }
+//            .sortedDescending()
+//            .map(Version::toString)
+//            .toList()
+//          }
+//      }
     )
   }
 }

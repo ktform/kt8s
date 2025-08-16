@@ -17,47 +17,19 @@ import dev.ktform.kt8s.container.dsl.*
 @ImageDsl
 class Image {
   private var packageName: Option<String> = none()
-  private var repo: Option<String> = none()
 
   private val distros = mutableMapOf<Distro, ImageDistroBuilder.DistroConfig>()
   private var endpoints = ImageEndpointsBuilder.Endpoints()
   private var probes = ImageProbesBuilder.Probes()
   private var signals = ImageSignalConfigBuilder.Signals()
 
-  private var runtime: Boolean = false
   private var providers: NonEmptyList<Environment.Provider> = Environment.Provider.all
 
   private var flavours = mutableListOf<Package>()
 
-  private var repoVersion: Option<(String, toRepo: Boolean) -> String> = none()
-  private var availableVersions: Option<(Environment) -> Either<String, List<String>>> = none()
 
   fun name(name: String) {
     packageName = name.some()
-  }
-
-  fun repo(repo: String) {
-    this.repo = repo.some()
-  }
-
-  fun repoVersion(repoVersion: (String, toRepo: Boolean) -> String) {
-    if (this.repoVersion.isNone()) {
-      this.repoVersion = repoVersion.some()
-    } else {
-      throw IllegalArgumentException("Repo version converter already set")
-    }
-  }
-
-  fun availableVersions(availableVersions: (Environment) -> Either<String, List<String>>) {
-    if (this.availableVersions.isNone()) {
-      this.availableVersions = availableVersions.some()
-    } else {
-      throw IllegalArgumentException("Available versions getter already set")
-    }
-  }
-
-  fun runtime() {
-    runtime = true
   }
 
   fun local() {
@@ -197,17 +169,12 @@ class Image {
 
     return Package(
       packageName = packageName.getOrElse { throw Exception("Unable to determine package name") },
-      repo = this.repo.getOrElse { throw Exception("Unable to determine repo") },
-      runtime = this.runtime,
 
       buildDependencies = buildDependencies,
       runDependencies = runDependencies,
 
       buildPackageDependencies = emptyMap(),
       runPackageDependencies = emptyMap(),
-
-      repoVersion = this.repoVersion.getOrElse { { it, _ -> it } },
-      availableVersions = this.availableVersions.getOrElse { throw Exception("Unable to determine available versions") },
 
       providers = this.providers,
       flavours = this.flavours.toSet(),

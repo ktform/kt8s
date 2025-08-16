@@ -11,26 +11,24 @@
 
 package dev.ktform.kt8s
 
-import io.ktor.client.*
-import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 
 class K8SClient(
-    private val apiServerUrl: String,
-    private val bearerToken: String? = null
+  private val apiServerUrl: String,
+  private val bearerToken: String? = null,
 ) {
-    private val httpClient = HttpClient()
+  private val httpClient = HttpClient.invoke()
 
-    suspend fun listPods(namespace: String = "default"): String {
-        val url = "$apiServerUrl/api/v1/namespaces/$namespace/pods"
-        val response: HttpResponse = httpClient.get(url) {
-            bearerToken?.let {
-                header(HttpHeaders.Authorization, "Bearer $it")
-            }
-            accept(ContentType.Application.Json)
-        }
-        return response.bodyAsText()
+  suspend fun listPods(namespace: String = "default"): String {
+    val url = "$apiServerUrl/api/v1/namespaces/$namespace/pods"
+    val response: HttpResponse = httpClient.get(url) {
+      bearerToken?.let {
+        header(HttpHeaders.Authorization, "Bearer $it")
+      }
+      accept(ContentType.Application.Json)
     }
+    return response.bodyAsText()
+  }
 }

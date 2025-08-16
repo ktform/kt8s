@@ -155,7 +155,7 @@ class GithubClient {
       when {
         owner.isBlank() || repo.isBlank() -> "Invalid URL: $url".left()
         else -> {
-          val client = HttpClient.getInstance()
+          val client = HttpClient.invoke()
           getter(owner, repo, authToken, client, limit)
             .map { items ->
               val mapped = items.map(transform).sortedDescending()
