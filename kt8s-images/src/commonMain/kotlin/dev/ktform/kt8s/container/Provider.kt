@@ -8,22 +8,21 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s.container
 
 import arrow.core.NonEmptyList
 import arrow.core.toNonEmptyListOrThrow
 
 enum class Provider {
-  Local,
-  AWS,
-  GCP,
-  DigitalOcean,
-  Azure,
-  Vultr,
-  Hetzner;
+    Local,
+    AWS,
+    GCP,
+    DigitalOcean,
+    Azure,
+    Vultr,
+    Hetzner;
 
-  companion object {
-    val all: NonEmptyList<Provider> = Provider.entries.toNonEmptyListOrThrow()
-  }
+    companion object {
+        val all: NonEmptyList<Provider> = Provider.entries.toNonEmptyListOrThrow()
+    }
 }

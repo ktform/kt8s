@@ -8,33 +8,30 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s.container.packages.languages.jdk
 
 import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
-import dev.ktform.kt8s.container.Versions
 import dev.ktform.kt8s.container.fetchers.JavaVersionFetcher
+import dev.ktform.kt8s.container.versions.JavaVersion
 
-class OpenJ9Jdk(val versions: Versions.JavaVersion) : Renderable {
+class OpenJ9Jdk(val versions: JavaVersion) : Renderable {
 
-  override fun render(
-    env: Environment,
-  ): Either<String, String> = `package`.render(versions, JavaVersionFetcher, env)
+    override fun render(env: Environment): Either<String, String> =
+        `package`.render(versions, JavaVersionFetcher, env)
 
-  companion object {
-    const val REPO = "https://github.com/eclipse-openj9/openj9"
+    companion object {
+        const val REPO = "https://github.com/eclipse-openj9/openj9"
 
-    val DEFAULT_VERSIONS = listOf(
-      "",
-    )
+        val DEFAULT_VERSIONS = listOf("")
 
-    val `package` = Package(
-      packageName = "openj9Jdk",
-      // repo = REPO,
-      // repoVersion = Package.withVPrefix,
-    )
-  }
+        val `package` =
+            Package(
+                packageName = "openj9Jdk"
+                // repo = REPO,
+                // repoVersion = Package.withVPrefix,
+            )
+    }
 }

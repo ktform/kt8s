@@ -8,7 +8,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s
 
 import android.os.Build
@@ -19,12 +18,10 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
-@Config(
-  sdk = [Build.VERSION_CODES.TIRAMISU],
-)
+@Config(sdk = [Build.VERSION_CODES.TIRAMISU])
 class K8SClientAndroidTest {
-  @Test
-  fun addition_isCorrect() {
-      Assert.assertEquals(4, 2 + 2)
-  }
+    @Test
+    fun addition_isCorrect() {
+        Assert.assertEquals(4, 2 + 2)
+    }
 }

@@ -8,43 +8,42 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s.container.packages.storage
 
-import arrow.core.getOrElse
-import com.varabyte.truthish.assertThat
-import dev.ktform.kt8s.container.Environment
-import dev.ktform.kt8s.container.PackageTestCase
-import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.test.runTest
 
 class LocalPathProvisionerTest {
 
-  @Test
-  fun testLocalPathProvisioner() {
-    runTest(timeout = 10.seconds) {
-//      val latest =
-//        LocalPathProvisioner.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
-//
-//      Environment.all.forEach { env ->
-//        PackageTestCase(
-//          "local-path-provisioner",
-//          env,
-//          rendered = LocalPathProvisioner(latest).render().getOrElse { err -> throw Exception("Unable to render: $err") },
-//        ).isExpected()
-//      }
+    @Test
+    fun testLocalPathProvisioner() {
+        runTest(timeout = 10.seconds) {
+            //      val latest =
+            //        LocalPathProvisioner.`package`.latestVersion().getOrElse { err -> throw
+            // Exception("Unable to determine latest version: $err") }
+            //
+            //      Environment.all.forEach { env ->
+            //        PackageTestCase(
+            //          "local-path-provisioner",
+            //          env,
+            //          rendered = LocalPathProvisioner(latest).render().getOrElse { err -> throw
+            // Exception("Unable to render: $err") },
+            //        ).isExpected()
+            //      }
+        }
     }
-  }
 
-  @Test
-  fun testLocalPathProvisionerLatestVersions() {
-    runTest(timeout = 10.seconds) {
-//      val latestNVersions = LocalPathProvisioner.`package`.availableVersions(Environment.default)
-//        .getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
-//        .take(LocalPathProvisioner.DEFAULT_VERSIONS.size)
-//
-//      assertThat(latestNVersions).isEqualTo(LocalPathProvisioner.DEFAULT_VERSIONS)
+    @Test
+    fun testLocalPathProvisionerLatestVersions() {
+        runTest(timeout = 10.seconds) {
+            //      val latestNVersions =
+            // LocalPathProvisioner.`package`.availableVersions(Environment.default)
+            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
+            // $err") }
+            //        .take(LocalPathProvisioner.DEFAULT_VERSIONS.size)
+            //
+            //      assertThat(latestNVersions).isEqualTo(LocalPathProvisioner.DEFAULT_VERSIONS)
+        }
     }
-  }
 }

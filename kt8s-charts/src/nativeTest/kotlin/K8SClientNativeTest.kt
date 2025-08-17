@@ -8,14 +8,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class K8SClientNativeTest {
 
-  @Test
-  fun dumbTest() {
-      assertEquals(4, 2 + 2)
-  }
+    @Test
+    fun dumbTest() {
+        assertEquals(4, 2 + 2)
+    }
 }

@@ -8,36 +8,32 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s.container.packages.compute
 
 import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
-import dev.ktform.kt8s.container.Versions
 import dev.ktform.kt8s.container.fetchers.DeschedulerVersionFetcher
+import dev.ktform.kt8s.container.versions.DeschedulerVersion
 
-class Descheduler(val versions: Versions.DeschedulerVersion) : Renderable {
+class Descheduler(val versions: DeschedulerVersion) : Renderable {
 
-  override fun render(
-    env: Environment,
-  ): Either<String, String> = `package`.render(versions, DeschedulerVersionFetcher, env)
+    override fun render(env: Environment): Either<String, String> =
+        `package`.render(versions, DeschedulerVersionFetcher, env)
 
-  companion object {
-    const val REPO = "https://github.com/kubernetes-sigs/descheduler"
+    companion object {
+        const val REPO = "https://github.com/kubernetes-sigs/descheduler"
 
-    val DEFAULT_VERSIONS = listOf(
-      "0.33.0",
-      "0.32.2",
-    )
+        val DEFAULT_VERSIONS = listOf("0.33.0", "0.32.2")
 
-    val latest = DEFAULT_VERSIONS.first()
+        val latest = DEFAULT_VERSIONS.first()
 
-    val `package` = Package(
-      packageName = "descheduler",
-//      repo = REPO,
-//      repoVersion = Package.withVPrefix,
-    )
-  }
+        val `package` =
+            Package(
+                packageName = "descheduler"
+                //      repo = REPO,
+                //      repoVersion = Package.withVPrefix,
+            )
+    }
 }

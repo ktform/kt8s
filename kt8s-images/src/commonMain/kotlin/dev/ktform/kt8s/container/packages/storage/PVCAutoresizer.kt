@@ -8,37 +8,30 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s.container.packages.storage
 
 import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
-import dev.ktform.kt8s.container.Versions
 import dev.ktform.kt8s.container.fetchers.PVCAutoresizerVersionFetcher
+import dev.ktform.kt8s.container.versions.PVCAutoresizerVersion
 
-class PVCAutoresizer(
-  val versions: Versions.PVCAutoresizerVersion,
-) : Renderable {
+class PVCAutoresizer(val versions: PVCAutoresizerVersion) : Renderable {
 
-  override fun render(
-    env: Environment,
-  ): Either<String, String> = `package`.render(versions, PVCAutoresizerVersionFetcher, env)
+    override fun render(env: Environment): Either<String, String> =
+        `package`.render(versions, PVCAutoresizerVersionFetcher, env)
 
-  companion object {
-    val DEFAULT_VERSIONS = listOf(
-      "0.17.5",
-      "0.17.4",
-      "0.17.3",
-    )
+    companion object {
+        val DEFAULT_VERSIONS = listOf("0.17.5", "0.17.4", "0.17.3")
 
-    val latest = DEFAULT_VERSIONS.first()
+        val latest = DEFAULT_VERSIONS.first()
 
-    val `package` = Package(
-      packageName = "pvc-autoresizer",
-      // repo = "https://github.com/topolvm/pvc-autoresizer",
-      // repoVersion = Package.withVPrefix,
-    )
-  }
+        val `package` =
+            Package(
+                packageName = "pvc-autoresizer"
+                // repo = "https://github.com/topolvm/pvc-autoresizer",
+                // repoVersion = Package.withVPrefix,
+            )
+    }
 }

@@ -8,17 +8,16 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s
 
 enum class ChartGroup(optional: Boolean = false) {
-  Compute,
-  Development(true),
-  FinOps(true),
-  GitOps(true),
-  MlOps(true),
-  Networking,
-  Observability(true),
-  Security,
-  Storage
+    Compute,
+    Development(true),
+    FinOps(true),
+    GitOps(true),
+    MlOps(true),
+    Networking,
+    Observability(true),
+    Security,
+    Storage,
 }

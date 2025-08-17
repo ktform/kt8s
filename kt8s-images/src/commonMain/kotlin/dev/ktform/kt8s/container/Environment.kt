@@ -8,26 +8,28 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s.container
 
-data class Environment(
-  val name: String = "default",
-  val provider: Provider,
-  val distro: Distro,
-  val flavours: List<Component<*>>,
-) {
-  companion object {
-    val all: List<Environment> =
-      Distro.all.flatMap { (_, distro) ->
-        Provider.entries.map { Environment(it.name, it, distro, listOf()) }
-      }
+import dev.ktform.kt8s.container.components.Component
 
-    internal val default = Environment(
-      name = "default",
-      provider = Provider.Local,
-      distro = Distro.Debian,
-      listOf(),
-    )
-  }
+data class Environment(
+    val name: String = "default",
+    val provider: Provider,
+    val distro: Distro,
+    val flavours: List<Component<*>>,
+) {
+    companion object {
+        val all: List<Environment> =
+            Distro.all.flatMap { (_, distro) ->
+                Provider.entries.map { Environment(it.name, it, distro, listOf()) }
+            }
+
+        internal val default =
+            Environment(
+                name = "default",
+                provider = Provider.Local,
+                distro = Distro.Debian,
+                listOf(),
+            )
+    }
 }

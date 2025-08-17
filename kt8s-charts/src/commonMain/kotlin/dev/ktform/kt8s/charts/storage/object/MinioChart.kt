@@ -8,20 +8,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
-
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
 
-data class MinioChart(
-  override val version: String,
-  override val group: ChartGroup,
-) : Chart {
-  override fun dependsOnGroups(): List<ChartGroup> {
-    TODO("Not yet implemented")
-  }
+data class MinioChart(override val version: String, override val group: ChartGroup) : Chart {
+    override fun dependsOnGroups(): List<ChartGroup> {
+        TODO("Not yet implemented")
+    }
 
-  override fun dependsOnCharts(): List<Chart> {
-    TODO("Not yet implemented")
-  }
+    override fun dependsOnCharts(): List<Chart> {
+        TODO("Not yet implemented")
+    }
 }

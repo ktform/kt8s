@@ -8,33 +8,28 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s.container.packages.languages
 
 import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
-import dev.ktform.kt8s.container.Versions
 import dev.ktform.kt8s.container.fetchers.DenoVersionFetcher
+import dev.ktform.kt8s.container.versions.DenoVersion
 
-class Deno(val versions: Versions.DenoVersion) : Renderable {
+class Deno(val versions: DenoVersion) : Renderable {
 
-  override fun render(
-    env: Environment,
-  ): Either<String, String> = `package`.render(versions, DenoVersionFetcher, env)
+    override fun render(env: Environment): Either<String, String> =
+        `package`.render(versions, DenoVersionFetcher, env)
 
-  companion object {
-    val DEFAULT_VERSIONS = listOf(
-      "2.4.3",
-      "2.4.2",
-      "2.4.1",
-    )
+    companion object {
+        val DEFAULT_VERSIONS = listOf("2.4.3", "2.4.2", "2.4.1")
 
-    val `package` = Package(
-      packageName = "deno",
-      // repo = "https://github.com/denoland/deno",
-      // repoVersion = Package.withVPrefix,
-    )
-  }
+        val `package` =
+            Package(
+                packageName = "deno"
+                // repo = "https://github.com/denoland/deno",
+                // repoVersion = Package.withVPrefix,
+            )
+    }
 }

@@ -8,30 +8,26 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s.container.fetchers
 
-import arrow.core.None
 import arrow.core.Option
-import arrow.core.Some
-import dev.ktform.kt8s.container.Component
-import dev.ktform.kt8s.container.Versions
-import dev.ktform.kt8s.container.VersionsFetcher
+import dev.ktform.kt8s.container.components.Component
+import dev.ktform.kt8s.container.versions.KubeCtlVersion
 
-object KubeCtlVersionFetcher : VersionsFetcher<Versions.KubeCtlVersion> {
-  override suspend fun getVersions(last: Int): Map<Component<Versions.KubeCtlVersion>, List<String>> {
-    return emptyMap()
-  }
+object KubeCtlVersionFetcher : VersionsFetcher<KubeCtlVersion> {
+    override suspend fun getVersions(last: Int): Map<Component<KubeCtlVersion>, List<String>> {
+        return emptyMap()
+    }
 
-  override fun repo(component: Component<Versions.KubeCtlVersion>): Option<String> {
-    TODO("Not yet implemented")
-  }
+    override fun repo(component: Component<KubeCtlVersion>): Option<String> {
+        TODO("Not yet implemented")
+    }
 
-  override fun String.toRepoVersion(component: Component<Versions.KubeCtlVersion>): Option<String> {
-    TODO("Not yet implemented")
-  }
+    override fun String.toRepoVersion(component: Component<KubeCtlVersion>): Option<String> {
+        TODO("Not yet implemented")
+    }
 
-  override fun Component<Versions.KubeCtlVersion>.knownLatestVersions(): List<String> {
-    TODO("Not yet implemented")
-  }
+    override fun Component<KubeCtlVersion>.knownLatestVersions(): List<String> {
+        TODO("Not yet implemented")
+    }
 }

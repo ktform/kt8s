@@ -8,7 +8,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s.compiler
 
 import arrow.core.*
@@ -115,6 +114,7 @@ object JSONSchema {
                     val className = refName.split(".").last()
                     ClassName(packageName, className)
                 }
+
                 format.isSome() -> format.getOrNull()!!.typeRef
                 else -> type.typeRef
             }
@@ -283,6 +283,7 @@ object JSONSchema {
                     null ->
                         if (this@parseTypeAndFormat.containsKey($$"$ref")) Type.OBJECT
                         else Type.OBJECT
+
                     else -> raise(ParseError.UnsupportedType(typeStr))
                 }
 

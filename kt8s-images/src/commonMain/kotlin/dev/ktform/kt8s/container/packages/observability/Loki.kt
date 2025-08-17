@@ -8,35 +8,30 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s.container.packages.observability
 
 import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
-import dev.ktform.kt8s.container.Versions
 import dev.ktform.kt8s.container.fetchers.LokiVersionFetcher
+import dev.ktform.kt8s.container.versions.LokiVersion
 
-class Loki(val versions: Versions.LokiVersion) : Renderable {
+class Loki(val versions: LokiVersion) : Renderable {
 
-  override fun render(
-    env: Environment,
-  ): Either<String, String> = `package`.render(versions, LokiVersionFetcher, env)
+    override fun render(env: Environment): Either<String, String> =
+        `package`.render(versions, LokiVersionFetcher, env)
 
-  companion object {
-    val DEFAULT_VERSIONS = listOf(
-      "3.5.3",
-      "3.5.2",
-      "3.5.1",
-    )
+    companion object {
+        val DEFAULT_VERSIONS = listOf("3.5.3", "3.5.2", "3.5.1")
 
-    val latest = DEFAULT_VERSIONS.first()
+        val latest = DEFAULT_VERSIONS.first()
 
-    val `package` = Package(
-      packageName = "loki",
-      // repo = "https://github.com/grafana/loki",
-      // repoVersion = Package.withVPrefix,
-    )
-  }
+        val `package` =
+            Package(
+                packageName = "loki"
+                // repo = "https://github.com/grafana/loki",
+                // repoVersion = Package.withVPrefix,
+            )
+    }
 }

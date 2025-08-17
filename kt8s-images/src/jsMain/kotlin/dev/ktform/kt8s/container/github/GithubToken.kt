@@ -8,14 +8,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s.container.github
 
 actual fun getGithubToken(): String? {
-  return try {
-    // Try to access Node.js process.env
-    js("typeof process !== 'undefined' && process.env && process.env.GITHUB_TOKEN") as? String
-  } catch (e: Exception) {
-    null
-  }
+    return try {
+        // Try to access Node.js process.env
+        js("typeof process !== 'undefined' && process.env && process.env.GITHUB_TOKEN") as? String
+    } catch (e: Exception) {
+        null
+    }
 }

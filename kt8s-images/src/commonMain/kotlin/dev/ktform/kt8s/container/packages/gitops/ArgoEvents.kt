@@ -8,36 +8,22 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s.container.packages.gitops
 
 import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
-import dev.ktform.kt8s.container.Versions
 import dev.ktform.kt8s.container.fetchers.ArgoVersionFetcher
+import dev.ktform.kt8s.container.versions.ArgoVersion
 
-data class ArgoEvents(val versions: Versions.ArgoVersion) : Renderable {
+data class ArgoEvents(val versions: ArgoVersion) : Renderable {
 
-  override fun render(
-    env: Environment,
-  ): Either<String, String> = `package`.render(versions, ArgoVersionFetcher, env)
+    override fun render(env: Environment): Either<String, String> =
+        `package`.render(versions, ArgoVersionFetcher, env)
 
-  companion object {
-    const val REPO = "https://github.com/argoproj/argo-events"
+    companion object {
 
-    val DEFAULT_VERSIONS = listOf(
-      "3.7.0",
-      "3.6.10",
-    )
-
-    val latest = DEFAULT_VERSIONS.first()
-
-    val `package` = Package(
-      packageName = "argo-events",
-//      repo = REPO,
-//      repoVersion = Package.withVPrefix,
-    )
-  }
+        val `package` = Package(packageName = "argo-events")
+    }
 }

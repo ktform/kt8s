@@ -8,30 +8,26 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s.container.fetchers
 
-import arrow.core.None
 import arrow.core.Option
-import arrow.core.Some
-import dev.ktform.kt8s.container.Component
-import dev.ktform.kt8s.container.Versions
-import dev.ktform.kt8s.container.VersionsFetcher
+import dev.ktform.kt8s.container.components.Component
+import dev.ktform.kt8s.container.versions.ScyllaDBVersion
 
-object ScyllaDBVersionFetcher : VersionsFetcher<Versions.ScyllaDBVersion> {
-  override suspend fun getVersions(last: Int): Map<Component<Versions.ScyllaDBVersion>, List<String>> {
-    return emptyMap()
-  }
+object ScyllaDBVersionFetcher : VersionsFetcher<ScyllaDBVersion> {
+    override suspend fun getVersions(last: Int): Map<Component<ScyllaDBVersion>, List<String>> {
+        return emptyMap()
+    }
 
-  override fun repo(component: Component<Versions.ScyllaDBVersion>): Option<String> {
-    TODO("Not yet implemented")
-  }
+    override fun repo(component: Component<ScyllaDBVersion>): Option<String> {
+        TODO("Not yet implemented")
+    }
 
-  override fun String.toRepoVersion(component: Component<Versions.ScyllaDBVersion>): Option<String> {
-    TODO("Not yet implemented")
-  }
+    override fun String.toRepoVersion(component: Component<ScyllaDBVersion>): Option<String> {
+        TODO("Not yet implemented")
+    }
 
-  override fun Component<Versions.ScyllaDBVersion>.knownLatestVersions(): List<String> {
-    TODO("Not yet implemented")
-  }
+    override fun Component<ScyllaDBVersion>.knownLatestVersions(): List<String> {
+        TODO("Not yet implemented")
+    }
 }

@@ -8,42 +8,62 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s.container.fetchers
 
 import arrow.core.None
 import arrow.core.Option
-import arrow.core.Some
-import dev.ktform.kt8s.container.Component
-import dev.ktform.kt8s.container.Versions
-import dev.ktform.kt8s.container.VersionsFetcher
+import arrow.core.some
+import dev.ktform.kt8s.container.components.ArgoComponent
+import dev.ktform.kt8s.container.components.Component
+import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.withVPrefix
+import dev.ktform.kt8s.container.versions.ArgoVersion
 
-object ArgoVersionFetcher : VersionsFetcher<Versions.ArgoVersion> {
-  override suspend fun getVersions(last: Int): Map<Component<Versions.ArgoVersion>, List<String>> {
-    return emptyMap()
-  }
+object ArgoVersionFetcher : VersionsFetcher<ArgoVersion> {
+    override suspend fun getVersions(last: Int): Map<Component<ArgoVersion>, List<String>> =
+        ArgoComponent.entries.associateWith { it.knownLatestVersions() }
 
-  override fun repo(component: Component<Versions.ArgoVersion>): Option<String> = when (component) {
-    is Versions.ArgoComponent if component == Versions.ArgoComponent.ArgoCD -> Some("argoproj")
-    is Versions.ArgoComponent if component == Versions.ArgoComponent.ArgoWorkflows -> Some("argoproj")
-    is Versions.ArgoComponent if component == Versions.ArgoComponent.ArgoEvents -> Some("argoproj")
-    is Versions.ArgoComponent if component == Versions.ArgoComponent.ArgoRollouts -> Some("argoproj")
-    else -> None
-  }
+    override fun repo(component: Component<ArgoVersion>): Option<String> =
+        when (component) {
+            is ArgoComponent if component == ArgoComponent.ArgoCD ->
+                "https://github.com/argoproj/argo-cd".some()
 
-  override fun String.toRepoVersion(component: Component<Versions.ArgoVersion>): Option<String> = when (component) {
-    is Versions.ArgoComponent if component == Versions.ArgoComponent.ArgoCD -> Some("argoproj")
-    is Versions.ArgoComponent if component == Versions.ArgoComponent.ArgoWorkflows -> Some("argoproj")
-    is Versions.ArgoComponent if component == Versions.ArgoComponent.ArgoEvents -> Some("argoproj")
-    is Versions.ArgoComponent if component == Versions.ArgoComponent.ArgoRollouts -> Some("argoproj")
-    else -> None
-  }
+            is ArgoComponent if component == ArgoComponent.ArgoWorkflows ->
+                "https://github.com/argoproj/argo-workflows".some()
 
-  override fun Component<Versions.ArgoVersion>.knownLatestVersions(): List<String> = when (this) {
-    is Versions.ArgoComponent if this == Versions.ArgoComponent.ArgoCD -> emptyList()
-    is Versions.ArgoComponent if this == Versions.ArgoComponent.ArgoWorkflows ->emptyList()
-    is Versions.ArgoComponent if this == Versions.ArgoComponent.ArgoEvents -> emptyList()
-    is Versions.ArgoComponent if this == Versions.ArgoComponent.ArgoRollouts -> emptyList()
-    else -> emptyList()
-  }
+            is ArgoComponent if component == ArgoComponent.ArgoEvents ->
+                "https://github.com/argoproj/argo-events".some()
+
+            is ArgoComponent if component == ArgoComponent.ArgoRollouts ->
+                "https://github.com/argoproj/argo-rollouts".some()
+
+            else -> None
+        }
+
+    override fun String.toRepoVersion(component: Component<ArgoVersion>): Option<String> =
+        when (component) {
+            is ArgoComponent if component == ArgoComponent.ArgoCD -> this.withVPrefix().some()
+
+            is ArgoComponent if component == ArgoComponent.ArgoWorkflows ->
+                this.withVPrefix().some()
+
+            is ArgoComponent if component == ArgoComponent.ArgoEvents -> this.withVPrefix().some()
+
+            is ArgoComponent if component == ArgoComponent.ArgoRollouts -> this.withVPrefix().some()
+
+            else -> None
+        }
+
+    override fun Component<ArgoVersion>.knownLatestVersions(): List<String> =
+        when (this) {
+            is ArgoComponent if this == ArgoComponent.ArgoCD -> listOf("3.0.12", "3.0.11", "3.0.10")
+
+            is ArgoComponent if this == ArgoComponent.ArgoWorkflows -> listOf("3.7.0", "3.6.10")
+
+            is ArgoComponent if this == ArgoComponent.ArgoEvents -> listOf("3.7.0", "3.6.10")
+
+            is ArgoComponent if this == ArgoComponent.ArgoRollouts ->
+                listOf("1.8.3", "1.8.2", "1.8.1")
+
+            else -> emptyList()
+        }
 }

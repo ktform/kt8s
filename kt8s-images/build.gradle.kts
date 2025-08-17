@@ -1,5 +1,4 @@
 import dev.ktform.kt8s.build.kspKmp
-import kotlinx.coroutines.withTimeout
 
 plugins {
   alias(libs.plugins.android.library)
@@ -9,6 +8,17 @@ plugins {
   alias(libs.plugins.maven.publish)
 
   kotlin("multiplatform")
+}
+
+spotless {
+  kotlin {
+    licenseHeaderFile(rootProject.file("header.kt"))
+    target("**/*.kt")
+    targetExclude("**/build/**", "**/.gradle/**", "**/tmp/**", "**/resources/**")
+    ktfmt("0.56").kotlinlangStyle()
+    trimTrailingWhitespace()
+    endWithNewline()
+  }
 }
 
 group = "dev.ktform.kt8s.container"

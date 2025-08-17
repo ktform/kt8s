@@ -8,32 +8,28 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s.container.packages
 
 import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
-import dev.ktform.kt8s.container.Versions
 import dev.ktform.kt8s.container.fetchers.UVVersionFetcher
+import dev.ktform.kt8s.container.versions.UVVersion
 
-class UV(val versions: Versions.UVVersion) : Renderable {
+class UV(val versions: UVVersion) : Renderable {
 
-  override fun render(
-    env: Environment,
-  ): Either<String, String> = `package`.render(versions, UVVersionFetcher, env)
+    override fun render(env: Environment): Either<String, String> =
+        `package`.render(versions, UVVersionFetcher, env)
 
-  companion object {
-    val DEFAULT_VERSIONS = listOf(
-      "0.8.8",
-      "0.8.7",
-    )
+    companion object {
+        val DEFAULT_VERSIONS = listOf("0.8.8", "0.8.7")
 
-    val `package` = Package(
-      packageName = "uv",
-//      repo = "https://github.com/astral-sh/uv",
-//      repoVersion = Package.withVPrefix,
-    )
-  }
+        val `package` =
+            Package(
+                packageName = "uv"
+                //      repo = "https://github.com/astral-sh/uv",
+                //      repoVersion = Package.withVPrefix,
+            )
+    }
 }

@@ -8,21 +8,17 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s.charts.security
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
 
-data class OpenBaoChart(
-  override val version: String,
-  override val group: ChartGroup,
-) : Chart {
-  override fun dependsOnGroups(): List<ChartGroup> {
-    TODO("Not yet implemented")
-  }
+data class OpenBaoChart(override val version: String, override val group: ChartGroup) : Chart {
+    override fun dependsOnGroups(): List<ChartGroup> {
+        TODO("Not yet implemented")
+    }
 
-  override fun dependsOnCharts(): List<Chart> {
-    TODO("Not yet implemented")
-  }
+    override fun dependsOnCharts(): List<Chart> {
+        TODO("Not yet implemented")
+    }
 }

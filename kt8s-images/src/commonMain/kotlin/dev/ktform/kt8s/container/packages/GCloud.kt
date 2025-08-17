@@ -8,32 +8,31 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s.container.packages
 
 import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
-import dev.ktform.kt8s.container.Versions
 import dev.ktform.kt8s.container.fetchers.GCloudVersionFetcher
+import dev.ktform.kt8s.container.versions.GCloudVersion
 
-class GCloud(val versions: Versions.GCloudVersion) : Renderable {
+class GCloud(val versions: GCloudVersion) : Renderable {
 
-  override fun render(env: Environment): Either<String, String> = `package`.render(versions, GCloudVersionFetcher, env)
+    override fun render(env: Environment): Either<String, String> =
+        `package`.render(versions, GCloudVersionFetcher, env)
 
-  companion object {
-    val DEFAULT_VERSIONS = listOf(
-      "",
-    )
+    companion object {
+        val DEFAULT_VERSIONS = listOf("")
 
-    val `package` = Package(
-      packageName = "gcloud",
-      // repo = "",
-      // repoVersion = Package.asIs,
-      // availableVersions = { _ ->
-      //   listOf("1").right()
-      // }
-    )
-  }
+        val `package` =
+            Package(
+                packageName = "gcloud"
+                // repo = "",
+                // repoVersion = Package.asIs,
+                // availableVersions = { _ ->
+                //   listOf("1").right()
+                // }
+            )
+    }
 }

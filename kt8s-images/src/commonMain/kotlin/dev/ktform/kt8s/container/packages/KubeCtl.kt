@@ -8,32 +8,28 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s.container.packages
 
 import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
-import dev.ktform.kt8s.container.Versions
 import dev.ktform.kt8s.container.fetchers.KubeCtlVersionFetcher
+import dev.ktform.kt8s.container.versions.KubeCtlVersion
 
-class KubeCtl(val versions: Versions.KubeCtlVersion) : Renderable {
+class KubeCtl(val versions: KubeCtlVersion) : Renderable {
 
-  override fun render(
-    env: Environment,
-  ): Either<String, String> = `package`.render(versions, KubeCtlVersionFetcher, env)
+    override fun render(env: Environment): Either<String, String> =
+        `package`.render(versions, KubeCtlVersionFetcher, env)
 
-  companion object {
-    val DEFAULT_VERSIONS = listOf(
-      "1.33.3",
-      "1.33.2",
-    )
+    companion object {
+        val DEFAULT_VERSIONS = listOf("1.33.3", "1.33.2")
 
-    val `package` = Package(
-      packageName = "kubectl",
-      // repo = "https://github.com/kubernetes/kubernetes",
-      // repoVersion = Package.withVPrefix,
-    )
-  }
+        val `package` =
+            Package(
+                packageName = "kubectl"
+                // repo = "https://github.com/kubernetes/kubernetes",
+                // repoVersion = Package.withVPrefix,
+            )
+    }
 }

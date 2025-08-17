@@ -8,33 +8,28 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s.container.packages
 
 import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
-import dev.ktform.kt8s.container.Versions
 import dev.ktform.kt8s.container.fetchers.TrivyVersionFetcher
+import dev.ktform.kt8s.container.versions.TrivyVersion
 
-class Trivy(val versions: Versions.TrivyVersion) : Renderable {
+class Trivy(val versions: TrivyVersion) : Renderable {
 
-  override fun render(
-    env: Environment,
-  ): Either<String, String> = `package`.render(versions, TrivyVersionFetcher, env)
+    override fun render(env: Environment): Either<String, String> =
+        `package`.render(versions, TrivyVersionFetcher, env)
 
-  companion object {
-    val DEFAULT_VERSIONS = listOf(
-      "0.65.0",
-      "0.64.1",
-      "0.64.0",
-    )
+    companion object {
+        val DEFAULT_VERSIONS = listOf("0.65.0", "0.64.1", "0.64.0")
 
-    val `package` = Package(
-      packageName = "trivy",
-//      repo = "https://github.com/aquasecurity/trivy",
-//      repoVersion = Package.withVPrefix,
-    )
-  }
+        val `package` =
+            Package(
+                packageName = "trivy"
+                //      repo = "https://github.com/aquasecurity/trivy",
+                //      repoVersion = Package.withVPrefix,
+            )
+    }
 }

@@ -8,32 +8,28 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s.container.packages
 
 import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
-import dev.ktform.kt8s.container.Versions
 import dev.ktform.kt8s.container.fetchers.ScalaVersionFetcher
+import dev.ktform.kt8s.container.versions.ScalaVersion
 
-class Scala(val versions: Versions.ScalaVersion) : Renderable {
+class Scala(val versions: ScalaVersion) : Renderable {
 
-  override fun render(
-    env: Environment,
-  ): Either<String, String> = `package`.render(versions, ScalaVersionFetcher, env)
+    override fun render(env: Environment): Either<String, String> =
+        `package`.render(versions, ScalaVersionFetcher, env)
 
-  companion object {
-    val DEFAULT_VERSIONS = listOf(
-      "1.11.4",
-      "1.11.3",
-    )
+    companion object {
+        val DEFAULT_VERSIONS = listOf("1.11.4", "1.11.3")
 
-    val `package` = Package(
-      packageName = "sbt",
-      // repo = "https://github.com/sbt/sbt",
-      // repoVersion = Package.withVPrefix,
-    )
-  }
+        val `package` =
+            Package(
+                packageName = "sbt"
+                // repo = "https://github.com/sbt/sbt",
+                // repoVersion = Package.withVPrefix,
+            )
+    }
 }

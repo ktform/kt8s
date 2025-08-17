@@ -8,30 +8,26 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s.container.fetchers
 
-import arrow.core.None
 import arrow.core.Option
-import arrow.core.Some
-import dev.ktform.kt8s.container.Component
-import dev.ktform.kt8s.container.Versions
-import dev.ktform.kt8s.container.VersionsFetcher
+import dev.ktform.kt8s.container.components.Component
+import dev.ktform.kt8s.container.versions.CosignVersion
 
-object CosignVersionFetcher : VersionsFetcher<Versions.CosignVersion> {
-  override suspend fun getVersions(last: Int): Map<Component<Versions.CosignVersion>, List<String>> {
-    return emptyMap()
-  }
+object CosignVersionFetcher : VersionsFetcher<CosignVersion> {
+    override suspend fun getVersions(last: Int): Map<Component<CosignVersion>, List<String>> {
+        return emptyMap()
+    }
 
-  override fun repo(component: Component<Versions.CosignVersion>): Option<String> {
-    TODO("Not yet implemented")
-  }
+    override fun repo(component: Component<CosignVersion>): Option<String> {
+        TODO("Not yet implemented")
+    }
 
-  override fun String.toRepoVersion(component: Component<Versions.CosignVersion>): Option<String> {
-    TODO("Not yet implemented")
-  }
+    override fun String.toRepoVersion(component: Component<CosignVersion>): Option<String> {
+        TODO("Not yet implemented")
+    }
 
-  override fun Component<Versions.CosignVersion>.knownLatestVersions(): List<String> {
-    TODO("Not yet implemented")
-  }
+    override fun Component<CosignVersion>.knownLatestVersions(): List<String> {
+        TODO("Not yet implemented")
+    }
 }

@@ -8,16 +8,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class K8SClientAndroidTest  {
+class K8SClientAndroidTest {
 
-  @Test
-  fun testDumbTest() {
-    assertEquals(4, 2 + 2)
-  }
+    @Test
+    fun testDumbTest() {
+        assertEquals(4, 2 + 2)
+    }
 }

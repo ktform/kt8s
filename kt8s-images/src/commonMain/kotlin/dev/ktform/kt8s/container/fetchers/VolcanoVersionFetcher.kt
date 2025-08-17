@@ -8,30 +8,26 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s.container.fetchers
 
-import arrow.core.None
 import arrow.core.Option
-import arrow.core.Some
-import dev.ktform.kt8s.container.Component
-import dev.ktform.kt8s.container.Versions
-import dev.ktform.kt8s.container.VersionsFetcher
+import dev.ktform.kt8s.container.components.Component
+import dev.ktform.kt8s.container.versions.VolcanoVersion
 
-object VolcanoVersionFetcher : VersionsFetcher<Versions.VolcanoVersion> {
-  override suspend fun getVersions(last: Int): Map<Component<Versions.VolcanoVersion>, List<String>> {
-    return emptyMap()
-  }
+object VolcanoVersionFetcher : VersionsFetcher<VolcanoVersion> {
+    override suspend fun getVersions(last: Int): Map<Component<VolcanoVersion>, List<String>> {
+        return emptyMap()
+    }
 
-  override fun repo(component: Component<Versions.VolcanoVersion>): Option<String> {
-    TODO("Not yet implemented")
-  }
+    override fun repo(component: Component<VolcanoVersion>): Option<String> {
+        TODO("Not yet implemented")
+    }
 
-  override fun String.toRepoVersion(component: Component<Versions.VolcanoVersion>): Option<String> {
-    TODO("Not yet implemented")
-  }
+    override fun String.toRepoVersion(component: Component<VolcanoVersion>): Option<String> {
+        TODO("Not yet implemented")
+    }
 
-  override fun Component<Versions.VolcanoVersion>.knownLatestVersions(): List<String> {
-    TODO("Not yet implemented")
-  }
+    override fun Component<VolcanoVersion>.knownLatestVersions(): List<String> {
+        TODO("Not yet implemented")
+    }
 }

@@ -8,11 +8,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s.container
 
 import arrow.core.Either
 
 interface Renderable {
-  fun render(env: Environment = Environment.default): Either<String, String>
+    fun render(env: Environment = Environment.default): Either<String, String>
 }

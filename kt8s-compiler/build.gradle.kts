@@ -8,6 +8,7 @@ plugins {
 
 spotless {
   kotlin {
+    licenseHeaderFile(rootProject.file("header.kt"))
     target("**/*.kt")
     targetExclude("**/build/**", "**/.gradle/**", "**/tmp/**", "**/resources/**")
     ktfmt("0.56").kotlinlangStyle()

@@ -8,43 +8,40 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s.container.packages.observability
 
-
-import arrow.core.getOrElse
-import com.varabyte.truthish.assertThat
-import dev.ktform.kt8s.container.Environment
-import dev.ktform.kt8s.container.PackageTestCase
-import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.test.runTest
 
 class MimirTest {
 
-  @Test
-  fun testMimir() {
-    runTest(timeout = 10.seconds) {
-//      val latest = Mimir.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
-//
-//      Environment.all.forEach { env ->
-//        PackageTestCase(
-//          "mimir",
-//          env,
-//          rendered = Mimir(latest).render().getOrElse { err -> throw Exception("Unable to render: $err") },
-//        ).isExpected()
-//      }
+    @Test
+    fun testMimir() {
+        runTest(timeout = 10.seconds) {
+            //      val latest = Mimir.`package`.latestVersion().getOrElse { err -> throw
+            // Exception("Unable to determine latest version: $err") }
+            //
+            //      Environment.all.forEach { env ->
+            //        PackageTestCase(
+            //          "mimir",
+            //          env,
+            //          rendered = Mimir(latest).render().getOrElse { err -> throw Exception("Unable
+            // to render: $err") },
+            //        ).isExpected()
+            //      }
+        }
     }
-  }
 
-  @Test
-  fun testMimirLatestVersions() {
-    runTest(timeout = 10.seconds) {
-//      val latestNVersions = Mimir.`package`.availableVersions(Environment.default)
-//        .getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
-//        .take(Mimir.DEFAULT_VERSIONS.size)
-//
-//      assertThat(latestNVersions).isEqualTo(Mimir.DEFAULT_VERSIONS)
+    @Test
+    fun testMimirLatestVersions() {
+        runTest(timeout = 10.seconds) {
+            //      val latestNVersions = Mimir.`package`.availableVersions(Environment.default)
+            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
+            // $err") }
+            //        .take(Mimir.DEFAULT_VERSIONS.size)
+            //
+            //      assertThat(latestNVersions).isEqualTo(Mimir.DEFAULT_VERSIONS)
+        }
     }
-  }
 }

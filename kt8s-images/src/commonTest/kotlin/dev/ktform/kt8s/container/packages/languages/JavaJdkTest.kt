@@ -8,43 +8,40 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s.container.packages.languages
 
-import arrow.core.getOrElse
-import com.varabyte.truthish.assertThat
-import dev.ktform.kt8s.container.Environment
-import dev.ktform.kt8s.container.PackageTestCase
-import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.test.runTest
 
 class JavaJdkTest {
 
+    @Test
+    fun testJavaJdk() {
+        runTest(timeout = 10.seconds) {
+            // val latest = JavaJdk.`package`.latestVersion().getOrElse { err -> throw
+            // Exception("Unable to determine latest version: $err") }
 
-  @Test
-  fun testJavaJdk() {
-    runTest(timeout = 10.seconds) {
-      // val latest = JavaJdk.`package`.latestVersion().getOrElse { err -> throw Exception("Unable to determine latest version: $err") }
-
-      // Environment.all.forEach { env ->
-      //   PackageTestCase(
-      //     "java jdk",
-      //     env,
-      //     rendered = JavaJdk(latest).render().getOrElse { err -> throw Exception("Unable to render: $err") },
-      //   ).isExpected()
-      // }
+            // Environment.all.forEach { env ->
+            //   PackageTestCase(
+            //     "java jdk",
+            //     env,
+            //     rendered = JavaJdk(latest).render().getOrElse { err -> throw Exception("Unable to
+            // render: $err") },
+            //   ).isExpected()
+            // }
+        }
     }
-  }
 
-  @Test
-  fun testJavaJdkLatestVersions() {
-    runTest(timeout = 10.seconds) {
-      // val latestNVersions = JavaJdk.`package`.availableVersions(Environment.default)
-      //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
-      //   .take(JavaJdk.DEFAULT_VERSIONS.size)
+    @Test
+    fun testJavaJdkLatestVersions() {
+        runTest(timeout = 10.seconds) {
+            // val latestNVersions = JavaJdk.`package`.availableVersions(Environment.default)
+            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
+            // }
+            //   .take(JavaJdk.DEFAULT_VERSIONS.size)
 
-      // assertThat(latestNVersions).isEqualTo(JavaJdk.DEFAULT_VERSIONS)
+            // assertThat(latestNVersions).isEqualTo(JavaJdk.DEFAULT_VERSIONS)
+        }
     }
-  }
 }

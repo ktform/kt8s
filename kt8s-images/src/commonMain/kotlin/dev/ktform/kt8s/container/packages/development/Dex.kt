@@ -8,37 +8,32 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-
 package dev.ktform.kt8s.container.packages.development
 
 import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
-import dev.ktform.kt8s.container.Versions
 import dev.ktform.kt8s.container.fetchers.DexVersionFetcher
+import dev.ktform.kt8s.container.versions.DexVersion
 
-class Dex(val versions: Versions.DexVersion) : Renderable {
+class Dex(val versions: DexVersion) : Renderable {
 
-  override fun render(
-    env: Environment,
-  ): Either<String, String> = `package`.render(versions, DexVersionFetcher, env)
+    override fun render(env: Environment): Either<String, String> =
+        `package`.render(versions, DexVersionFetcher, env)
 
+    companion object {
+        const val REPO = "https://github.com/dexidp/dex"
 
-  companion object {
-    const val REPO = "https://github.com/dexidp/dex"
+        val DEFAULT_VERSIONS = listOf("2.43.1", "2.43.0")
 
-    val DEFAULT_VERSIONS = listOf(
-      "2.43.1",
-      "2.43.0",
-    )
+        val latest = DEFAULT_VERSIONS.first()
 
-    val latest = DEFAULT_VERSIONS.first()
-
-    val `package` = Package(
-      packageName = "dex",
-//      repo = REPO,
-//      repoVersion = Package.withVPrefix,
-    )
-  }
+        val `package` =
+            Package(
+                packageName = "dex"
+                //      repo = REPO,
+                //      repoVersion = Package.withVPrefix,
+            )
+    }
 }
