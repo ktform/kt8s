@@ -23,15 +23,7 @@ class Falco(val versions: FalcoVersion) : Renderable {
         `package`.render(versions, FalcoVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("0.41.3", "0.41.2")
 
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "falco"
-                //      repo = "https://github.com/falcosecurity/falco",
-                //      repoVersion = Package.asIs,
-            )
+        val `package` = Package(packageName = "falco")
     }
 }

@@ -33,15 +33,4 @@ class JavaJdkTest {
         }
     }
 
-    @Test
-    fun testJavaJdkLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = JavaJdk.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(JavaJdk.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(JavaJdk.DEFAULT_VERSIONS)
-        }
-    }
 }

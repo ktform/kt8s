@@ -32,17 +32,4 @@ class ExternalDNSTest {
             //      }
         }
     }
-
-    @Test
-    fun testExternalDNSLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions =
-            // ExternalDNS.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(ExternalDNS.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(ExternalDNS.DEFAULT_VERSIONS)
-        }
-    }
 }

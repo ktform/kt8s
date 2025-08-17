@@ -32,16 +32,4 @@ class PythonTest {
             // }
         }
     }
-
-    @Test
-    fun testPythonLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = Python.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(Python.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(Python.DEFAULT_VERSIONS)
-        }
-    }
 }

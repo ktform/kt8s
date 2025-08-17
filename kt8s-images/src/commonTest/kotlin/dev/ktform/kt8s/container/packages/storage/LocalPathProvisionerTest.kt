@@ -33,17 +33,4 @@ class LocalPathProvisionerTest {
             //      }
         }
     }
-
-    @Test
-    fun testLocalPathProvisionerLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions =
-            // LocalPathProvisioner.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(LocalPathProvisioner.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(LocalPathProvisioner.DEFAULT_VERSIONS)
-        }
-    }
 }

@@ -32,16 +32,4 @@ class GrafanaTest {
             //      }
         }
     }
-
-    @Test
-    fun testGrafanaLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = Grafana.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(Grafana.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(Grafana.DEFAULT_VERSIONS)
-        }
-    }
 }

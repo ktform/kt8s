@@ -32,17 +32,4 @@ class PVCAutoresizerTest {
             //      }
         }
     }
-
-    @Test
-    fun testPVCAutoresizerLatestVersions() {
-        //    runTest(timeout = 10.seconds) {
-        //      val latestNVersions =
-        // PVCAutoresizer.`package`.availableVersions(Environment.default)
-        //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-        // $err") }
-        //        .take(PVCAutoresizer.DEFAULT_VERSIONS.size)
-        //
-        //      assertThat(latestNVersions).isEqualTo(PVCAutoresizer.DEFAULT_VERSIONS)
-        //    }
-    }
 }

@@ -33,15 +33,4 @@ class NightlyRustTest {
         }
     }
 
-    @Test
-    fun testNightlyRustLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = NightlyRust.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(NightlyRust.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(NightlyRust.DEFAULT_VERSIONS)
-        }
-    }
 }

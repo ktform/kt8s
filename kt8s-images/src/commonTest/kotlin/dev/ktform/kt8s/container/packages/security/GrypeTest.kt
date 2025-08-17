@@ -32,16 +32,4 @@ class GrypeTest {
             //      }
         }
     }
-
-    @Test
-    fun testGrypeLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = Grype.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(Grype.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(Grype.DEFAULT_VERSIONS)
-        }
-    }
 }

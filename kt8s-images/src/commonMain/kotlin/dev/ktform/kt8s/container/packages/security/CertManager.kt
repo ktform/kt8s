@@ -23,15 +23,6 @@ class CertManager(val versions: CertManagerVersion) : Renderable {
         `package`.render(versions, CertManagerVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("1.18.2", "1.18.1")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "certmanager"
-                //      repo = "https://github.com/cert-manager/cert-manager",
-                //      repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "certmanager")
     }
 }

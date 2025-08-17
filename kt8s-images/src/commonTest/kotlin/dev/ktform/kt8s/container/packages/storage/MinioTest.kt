@@ -32,16 +32,4 @@ class MinioTest {
             //      }
         }
     }
-
-    @Test
-    fun testMinioLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = Minio.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(Minio.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(Minio.DEFAULT_VERSIONS)
-        }
-    }
 }

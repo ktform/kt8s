@@ -32,16 +32,4 @@ class ArgoCDTest {
             // }
         }
     }
-
-    @Test
-    fun testArgoCDLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = ArgoCD.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(ArgoCD.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(ArgoCD.DEFAULT_VERSIONS)
-        }
-    }
 }

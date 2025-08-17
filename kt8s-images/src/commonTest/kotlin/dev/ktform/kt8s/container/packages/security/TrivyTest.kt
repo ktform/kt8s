@@ -32,16 +32,4 @@ class TrivyTest {
             //      }
         }
     }
-
-    @Test
-    fun testTrivyLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = Trivy.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(Trivy.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(Trivy.DEFAULT_VERSIONS)
-        }
-    }
 }

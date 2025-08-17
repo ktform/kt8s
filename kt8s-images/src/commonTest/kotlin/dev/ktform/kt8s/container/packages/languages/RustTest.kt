@@ -32,16 +32,4 @@ class RustTest {
             // }
         }
     }
-
-    @Test
-    fun testRustLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = Rust.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(Rust.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(Rust.DEFAULT_VERSIONS)
-        }
-    }
 }

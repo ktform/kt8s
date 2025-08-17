@@ -32,16 +32,4 @@ class VeleroTest {
             //      }
         }
     }
-
-    @Test
-    fun testVeleroLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = Velero.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(Velero.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(Velero.DEFAULT_VERSIONS)
-        }
-    }
 }

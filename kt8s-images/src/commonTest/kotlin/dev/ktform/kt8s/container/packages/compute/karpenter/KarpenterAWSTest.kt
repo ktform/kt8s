@@ -32,16 +32,4 @@ class KarpenterAWSTest {
             // }
         }
     }
-
-    @Test
-    fun testRustLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = KarpenterAWS.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(KarpenterAWS.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(KarpenterAWS.DEFAULT_VERSIONS)
-        }
-    }
 }

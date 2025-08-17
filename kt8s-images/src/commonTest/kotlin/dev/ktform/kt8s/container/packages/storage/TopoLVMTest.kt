@@ -32,16 +32,4 @@ class TopoLVMTest {
             //      }
         }
     }
-
-    @Test
-    fun testTopoLVMLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = TopoLVM.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(TopoLVM.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(TopoLVM.DEFAULT_VERSIONS)
-        }
-    }
 }

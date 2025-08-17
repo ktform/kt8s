@@ -23,15 +23,6 @@ class Cilium(val versions: CiliumVersion) : Renderable {
         `package`.render(versions, CiliumVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("1.18.0", "1.17.6")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "cilium"
-                // repo = "https://github.com/cilium/cilium",
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "cilium")
     }
 }

@@ -32,16 +32,4 @@ class SupabaseTest {
             //      }
         }
     }
-
-    @Test
-    fun testSupabaseLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = Supabase.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(Supabase.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(Supabase.DEFAULT_VERSIONS)
-        }
-    }
 }

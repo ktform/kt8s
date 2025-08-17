@@ -32,16 +32,4 @@ class KarpenterGCPTest {
             // }
         }
     }
-
-    @Test
-    fun testKarpenterGCLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = KarpenterGCP.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(KarpenterGCP.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(KarpenterGCP.DEFAULT_VERSIONS)
-        }
-    }
 }

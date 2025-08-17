@@ -32,16 +32,4 @@ class FeastTest {
             //      }
         }
     }
-
-    @Test
-    fun testFeastLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = Feast.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(Feast.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(Feast.DEFAULT_VERSIONS)
-        }
-    }
 }

@@ -32,16 +32,4 @@ class TerraformTest {
             //      }
         }
     }
-
-    @Test
-    fun testTerraformLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = Terraform.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(Terraform.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(Terraform.DEFAULT_VERSIONS)
-        }
-    }
 }

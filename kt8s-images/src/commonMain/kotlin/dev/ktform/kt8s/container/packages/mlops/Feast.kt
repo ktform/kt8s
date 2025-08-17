@@ -23,15 +23,7 @@ class Feast(val versions: FeastVersion) : Renderable {
         `package`.render(versions, FeastVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("0.51.1", "0.50.0", "0.49.0")
 
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "feast"
-                // repo = "https://github.com/feast-dev/feast",
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "feast")
     }
 }

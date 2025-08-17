@@ -32,16 +32,4 @@ class PodmanTest {
             //      }
         }
     }
-
-    @Test
-    fun testPodmanLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = Podman.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(Podman.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(Podman.DEFAULT_VERSIONS)
-        }
-    }
 }

@@ -23,13 +23,7 @@ class Firebase(val versions: FirebaseVersion) : Renderable {
         `package`.render(versions, FirebaseVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("14.12.0", "14.11.2")
 
-        val `package` =
-            Package(
-                packageName = "firebase"
-                // repo = "https://github.com/firebase/firebase-tools",
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "firebase")
     }
 }

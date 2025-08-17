@@ -23,17 +23,7 @@ class Descheduler(val versions: DeschedulerVersion) : Renderable {
         `package`.render(versions, DeschedulerVersionFetcher, env)
 
     companion object {
-        const val REPO = "https://github.com/kubernetes-sigs/descheduler"
 
-        val DEFAULT_VERSIONS = listOf("0.33.0", "0.32.2")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "descheduler"
-                //      repo = REPO,
-                //      repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "descheduler")
     }
 }

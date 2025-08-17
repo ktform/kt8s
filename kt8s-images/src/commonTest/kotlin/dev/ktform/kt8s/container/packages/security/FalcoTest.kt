@@ -32,16 +32,4 @@ class FalcoTest {
             //      }
         }
     }
-
-    @Test
-    fun testFalcoLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = Falco.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(Falco.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(Falco.DEFAULT_VERSIONS)
-        }
-    }
 }

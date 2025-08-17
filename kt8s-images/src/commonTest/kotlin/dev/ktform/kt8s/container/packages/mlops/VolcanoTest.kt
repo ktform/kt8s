@@ -32,16 +32,4 @@ class VolcanoTest {
             //      }
         }
     }
-
-    @Test
-    fun testVolcanoLatestVersions() {
-        //    runTest(timeout = 10.seconds) {
-        //      val latestNVersions = Volcano.`package`.availableVersions(Environment.default)
-        //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-        // $err") }
-        //        .take(Volcano.DEFAULT_VERSIONS.size)
-        //
-        //      assertThat(latestNVersions).isEqualTo(Volcano.DEFAULT_VERSIONS)
-        //    }
-    }
 }

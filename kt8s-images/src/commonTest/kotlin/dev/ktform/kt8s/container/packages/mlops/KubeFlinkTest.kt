@@ -32,16 +32,4 @@ class KubeFlinkTest {
             //      }
         }
     }
-
-    @Test
-    fun testKubeFlinkLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = KubeFlink.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(KubeFlink.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(KubeFlink.DEFAULT_VERSIONS)
-        }
-    }
 }

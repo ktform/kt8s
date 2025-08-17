@@ -23,15 +23,6 @@ class Grafana(val versions: GrafanaVersion) : Renderable {
         `package`.render(versions, GrafanaVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("12.1.0", "12.0.3", "12.0.2+security-01")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "grafana"
-                // repo = "https://github.com/grafana/grafana",
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "grafana")
     }
 }

@@ -32,16 +32,4 @@ class CosignTest {
             // }
         }
     }
-
-    @Test
-    fun testCosignLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = Cosign.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(Cosign.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(Cosign.DEFAULT_VERSIONS)
-        }
-    }
 }

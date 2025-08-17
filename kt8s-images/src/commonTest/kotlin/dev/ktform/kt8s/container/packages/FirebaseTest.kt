@@ -32,16 +32,4 @@ class FirebaseTest {
             //      }
         }
     }
-
-    @Test
-    fun testFirebaseLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = Firebase.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(Firebase.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(Firebase.DEFAULT_VERSIONS)
-        }
-    }
 }

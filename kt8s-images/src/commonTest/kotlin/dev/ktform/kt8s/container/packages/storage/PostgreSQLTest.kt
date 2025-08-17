@@ -32,17 +32,4 @@ class PostgreSQLTest {
             //      }
         }
     }
-
-    @Test
-    fun testPostgreSQLLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions =
-            // PostgreSQL.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(PostgreSQL.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(PostgreSQL.DEFAULT_VERSIONS)
-        }
-    }
 }

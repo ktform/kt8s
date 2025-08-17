@@ -33,15 +33,4 @@ class GraalVMJreTest {
         }
     }
 
-    @Test
-    fun testGraalVMJreLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = GraalVMJre.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(GraalVMJre.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(GraalVMJre.DEFAULT_VERSIONS)
-        }
-    }
 }

@@ -23,17 +23,6 @@ class Goldilocks(val versions: GoldilocksVersion) : Renderable {
         `package`.render(versions, GoldilocksVersionFetcher, env)
 
     companion object {
-        const val REPO = "https://github.com/FairwindsOps/goldilocks"
-
-        val DEFAULT_VERSIONS = listOf("4.14.2", "4.14.1")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "goldilocks"
-                //      repo = REPO,
-                //      repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "goldilocks")
     }
 }

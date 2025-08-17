@@ -32,16 +32,4 @@ class OpenBaoTest {
             //      }
         }
     }
-
-    @Test
-    fun testOpenBaoLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = OpenBao.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(OpenBao.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(OpenBao.DEFAULT_VERSIONS)
-        }
-    }
 }

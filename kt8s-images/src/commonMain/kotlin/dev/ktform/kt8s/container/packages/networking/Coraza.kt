@@ -23,15 +23,6 @@ class Coraza(val versions: CorazaVersion) : Renderable {
         `package`.render(versions, CorazaVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("3.3.3", "3.3.2", "3.3.1")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "coraza"
-                // repo = "https://github.com/corazawaf/coraza",
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "coraza")
     }
 }

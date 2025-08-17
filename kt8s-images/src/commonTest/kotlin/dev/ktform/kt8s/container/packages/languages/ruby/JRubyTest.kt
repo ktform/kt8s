@@ -33,15 +33,4 @@ class JRubyTest {
         }
     }
 
-    @Test
-    fun testJRubyLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = JRuby.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(JRuby.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(JRuby.DEFAULT_VERSIONS)
-        }
-    }
 }

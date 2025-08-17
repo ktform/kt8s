@@ -32,16 +32,4 @@ class SyftTest {
             //      }
         }
     }
-
-    @Test
-    fun testSyftLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = Syft.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(Syft.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(Syft.DEFAULT_VERSIONS)
-        }
-    }
 }

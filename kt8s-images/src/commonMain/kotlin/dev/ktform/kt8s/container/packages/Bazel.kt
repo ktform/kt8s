@@ -23,13 +23,6 @@ class Bazel(val versions: BazelVersion) : Renderable {
         `package`.render(versions, BazelVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("8.3.1", "8.3.0")
-
-        val `package` =
-            Package(
-                packageName = "bazel"
-                // repo = "https://github.com/bazelbuild/bazel",
-                // repoVersion = Package.asIs,
-            )
+        val `package` = Package(packageName = "bazel")
     }
 }

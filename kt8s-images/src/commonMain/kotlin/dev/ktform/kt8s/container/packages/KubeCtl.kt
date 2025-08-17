@@ -23,13 +23,7 @@ class KubeCtl(val versions: KubeCtlVersion) : Renderable {
         `package`.render(versions, KubeCtlVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("1.33.3", "1.33.2")
 
-        val `package` =
-            Package(
-                packageName = "kubectl"
-                // repo = "https://github.com/kubernetes/kubernetes",
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "kubectl")
     }
 }

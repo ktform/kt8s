@@ -32,16 +32,4 @@ class JavaJreTest {
             // }
         }
     }
-
-    @Test
-    fun testJavaJreLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = JavaJre.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(JavaJre.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(JavaJre.DEFAULT_VERSIONS)
-        }
-    }
 }

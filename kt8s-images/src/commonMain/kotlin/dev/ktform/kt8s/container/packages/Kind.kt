@@ -23,13 +23,7 @@ class Kind(val versions: KindVersion) : Renderable {
         `package`.render(versions, KindVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("0.29.0", "0.28.0")
 
-        val `package` =
-            Package(
-                packageName = "kind"
-                // repo = "https://github.com/kubernetes-sigs/kind",
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "kind")
     }
 }

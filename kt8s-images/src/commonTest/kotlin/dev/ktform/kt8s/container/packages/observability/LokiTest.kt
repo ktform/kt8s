@@ -32,16 +32,4 @@ class LokiTest {
             //      }
         }
     }
-
-    @Test
-    fun testLokiLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = Loki.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(Loki.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(Loki.DEFAULT_VERSIONS)
-        }
-    }
 }

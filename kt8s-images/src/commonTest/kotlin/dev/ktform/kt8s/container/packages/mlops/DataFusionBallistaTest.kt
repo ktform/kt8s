@@ -33,17 +33,4 @@ class DataFusionBallistaTest {
             //      }
         }
     }
-
-    @Test
-    fun testDataFusionBallistaLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions =
-            // DataFusionBallista.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(DataFusionBallista.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(DataFusionBallista.DEFAULT_VERSIONS)
-        }
-    }
 }

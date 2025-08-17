@@ -23,29 +23,6 @@ class GraalVMJdk(val versions: JavaVersion) : Renderable {
         `package`.render(versions, JavaVersionFetcher, env)
 
     companion object {
-        const val REPO = "https://github.com/oracle/graal"
-
-        const val CE_PREFIX = "vm-ce-"
-
-        val DEFAULT_VERSIONS = listOf("")
-
-        val `package` =
-            Package(
-                packageName = "graalvmjdk"
-                // repo = REPO,
-
-                // repoVersion = { version, toRepo ->
-                //   if (toRepo) {
-                //     "$CE_PREFIX$version"
-                //   } else {
-                //     version
-                //   }
-                // },
-                // availableVersions = { _ ->
-                //   val client = GithubClient()
-                //   client.getTags(REPO).map { it.filter { v -> v.startsWith(CE_PREFIX) }.map { v
-                // -> v.substringAfter(CE_PREFIX) }}
-                // }
-            )
+        val `package` = Package(packageName = "graalvmjdk")
     }
 }

@@ -33,15 +33,4 @@ class TektonCliTest {
         }
     }
 
-    @Test
-    fun testTektonCliLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = TektonCli.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(TektonCli.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(TektonCli.DEFAULT_VERSIONS)
-        }
-    }
 }

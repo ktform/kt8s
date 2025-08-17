@@ -32,16 +32,4 @@ class ScyllaDBTest {
             //      }
         }
     }
-
-    @Test
-    fun testScyllaDBLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = ScyllaDB.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(ScyllaDB.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(ScyllaDB.DEFAULT_VERSIONS)
-        }
-    }
 }

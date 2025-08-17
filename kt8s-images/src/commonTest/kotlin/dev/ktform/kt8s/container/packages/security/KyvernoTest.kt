@@ -32,16 +32,4 @@ class KyvernoTest {
             //      }
         }
     }
-
-    @Test
-    fun testKyvernoLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = Kyverno.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(Kyverno.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(Kyverno.DEFAULT_VERSIONS)
-        }
-    }
 }

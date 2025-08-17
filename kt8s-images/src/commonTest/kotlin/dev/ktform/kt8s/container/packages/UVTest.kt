@@ -32,16 +32,4 @@ class UVTest {
             //      }
         }
     }
-
-    @Test
-    fun testUVLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = UV.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(UV.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(UV.DEFAULT_VERSIONS)
-        }
-    }
 }

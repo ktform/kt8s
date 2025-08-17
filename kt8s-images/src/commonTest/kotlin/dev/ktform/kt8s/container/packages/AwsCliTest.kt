@@ -32,16 +32,4 @@ class AwsCliTest {
             //      }
         }
     }
-
-    @Test
-    fun testAwsCliToolsLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = AwsCli.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(AwsCli.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(AwsCli.DEFAULT_VERSIONS)
-        }
-    }
 }

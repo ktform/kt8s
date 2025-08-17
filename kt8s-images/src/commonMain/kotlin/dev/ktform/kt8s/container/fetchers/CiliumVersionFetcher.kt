@@ -10,24 +10,40 @@
  */
 package dev.ktform.kt8s.container.fetchers
 
+import arrow.core.None
 import arrow.core.Option
+import arrow.core.getOrElse
+import arrow.core.some
+import dev.ktform.kt8s.container.components.CiliumComponent
 import dev.ktform.kt8s.container.components.Component
+import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.githubVersions
+import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.withVPrefix
 import dev.ktform.kt8s.container.versions.CiliumVersion
 
 object CiliumVersionFetcher : VersionsFetcher<CiliumVersion> {
-    override suspend fun getVersions(last: Int): Map<Component<CiliumVersion>, List<String>> {
-        return emptyMap()
-    }
+    override suspend fun getVersions(last: Int): Map<Component<CiliumVersion>, List<String>> =
+        CiliumComponent.entries.associateWith {
+            repo(it).fold({ emptyList() }) { repo ->
+                githubVersions(repo).getOrElse { emptyList() }
+            }
+        }
 
-    override fun repo(component: Component<CiliumVersion>): Option<String> {
-        TODO("Not yet implemented")
-    }
+    override fun repo(component: Component<CiliumVersion>): Option<String> =
+        when (component) {
+            is CiliumComponent -> "https://github.com/cilium/cilium".some()
 
-    override fun String.toRepoVersion(component: Component<CiliumVersion>): Option<String> {
-        TODO("Not yet implemented")
-    }
+            else -> None
+        }
 
-    override fun Component<CiliumVersion>.knownLatestVersions(): List<String> {
-        TODO("Not yet implemented")
-    }
+    override fun String.toRepoVersion(component: Component<CiliumVersion>): Option<String> =
+        when (component) {
+            is CiliumComponent -> this.withVPrefix().some()
+            else -> None
+        }
+
+    override fun Component<CiliumVersion>.knownLatestVersions(): List<String> =
+        when (this) {
+            is CiliumComponent -> listOf("1.18.0", "1.17.6")
+            else -> emptyList()
+        }
 }

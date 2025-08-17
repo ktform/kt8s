@@ -32,16 +32,4 @@ class MimirTest {
             //      }
         }
     }
-
-    @Test
-    fun testMimirLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = Mimir.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(Mimir.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(Mimir.DEFAULT_VERSIONS)
-        }
-    }
 }

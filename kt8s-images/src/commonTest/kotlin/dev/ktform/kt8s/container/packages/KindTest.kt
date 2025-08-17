@@ -32,16 +32,4 @@ class KindTest {
             //      }
         }
     }
-
-    @Test
-    fun testKindLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = Kind.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(Kind.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(Kind.DEFAULT_VERSIONS)
-        }
-    }
 }

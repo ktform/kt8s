@@ -32,16 +32,4 @@ class GradleTest {
             //      }
         }
     }
-
-    @Test
-    fun testGradleLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = Gradle.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(Gradle.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(Gradle.DEFAULT_VERSIONS)
-        }
-    }
 }

@@ -23,17 +23,7 @@ class DataFusionBallista(val versions: DataFusionBallistaVersion) : Renderable {
         `package`.render(versions, DataFusionBallistaVersionFetcher, env)
 
     companion object {
-        const val REPO = "https://github.com/apache/datafusion-ballista"
 
-        val DEFAULT_VERSIONS = listOf("48.0.0", "47.0.0", "46.0.0")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "ballista"
-                // repo = REPO,
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "ballista")
     }
 }

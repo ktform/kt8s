@@ -10,24 +10,41 @@
  */
 package dev.ktform.kt8s.container.fetchers
 
+import arrow.core.None
 import arrow.core.Option
+import arrow.core.getOrElse
+import arrow.core.some
 import dev.ktform.kt8s.container.components.Component
+import dev.ktform.kt8s.container.components.ScalaComponent
+import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.githubVersions
+import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.withVPrefix
 import dev.ktform.kt8s.container.versions.ScalaVersion
 
 object ScalaVersionFetcher : VersionsFetcher<ScalaVersion> {
-    override suspend fun getVersions(last: Int): Map<Component<ScalaVersion>, List<String>> {
-        return emptyMap()
-    }
+    override suspend fun getVersions(last: Int): Map<Component<ScalaVersion>, List<String>> =
+        ScalaComponent.entries.associateWith {
+            repo(it).fold({ emptyList() }) { repo ->
+                githubVersions(repo).getOrElse { emptyList() }
+            }
+        }
 
-    override fun repo(component: Component<ScalaVersion>): Option<String> {
-        TODO("Not yet implemented")
-    }
+    override fun repo(component: Component<ScalaVersion>): Option<String> =
+        when (component) {
+            is ScalaComponent if component == ScalaComponent.Scala ->
+                "https://github.com/scala/scala".some()
 
-    override fun String.toRepoVersion(component: Component<ScalaVersion>): Option<String> {
-        TODO("Not yet implemented")
-    }
+            else -> None
+        }
 
-    override fun Component<ScalaVersion>.knownLatestVersions(): List<String> {
-        TODO("Not yet implemented")
-    }
+    override fun String.toRepoVersion(component: Component<ScalaVersion>): Option<String> =
+        when (component) {
+            is ScalaComponent -> this.withVPrefix().some()
+            else -> None
+        }
+
+    override fun Component<ScalaVersion>.knownLatestVersions(): List<String> =
+        when (this) {
+            is ScalaComponent -> listOf()
+            else -> emptyList()
+        }
 }

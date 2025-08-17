@@ -12,15 +12,21 @@ package dev.ktform.kt8s.container.fetchers
 
 import arrow.core.None
 import arrow.core.Option
+import arrow.core.getOrElse
 import arrow.core.some
 import dev.ktform.kt8s.container.components.ArgoComponent
 import dev.ktform.kt8s.container.components.Component
+import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.githubVersions
 import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.withVPrefix
 import dev.ktform.kt8s.container.versions.ArgoVersion
 
 object ArgoVersionFetcher : VersionsFetcher<ArgoVersion> {
     override suspend fun getVersions(last: Int): Map<Component<ArgoVersion>, List<String>> =
-        ArgoComponent.entries.associateWith { it.knownLatestVersions() }
+        ArgoComponent.entries.associateWith {
+            repo(it).fold({ emptyList() }) { repo ->
+                githubVersions(repo).getOrElse { emptyList() }
+            }
+        }
 
     override fun repo(component: Component<ArgoVersion>): Option<String> =
         when (component) {
@@ -41,15 +47,7 @@ object ArgoVersionFetcher : VersionsFetcher<ArgoVersion> {
 
     override fun String.toRepoVersion(component: Component<ArgoVersion>): Option<String> =
         when (component) {
-            is ArgoComponent if component == ArgoComponent.ArgoCD -> this.withVPrefix().some()
-
-            is ArgoComponent if component == ArgoComponent.ArgoWorkflows ->
-                this.withVPrefix().some()
-
-            is ArgoComponent if component == ArgoComponent.ArgoEvents -> this.withVPrefix().some()
-
-            is ArgoComponent if component == ArgoComponent.ArgoRollouts -> this.withVPrefix().some()
-
+            is ArgoComponent -> this.withVPrefix().some()
             else -> None
         }
 

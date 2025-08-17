@@ -23,17 +23,6 @@ class Gitea(val versions: GiteaVersion) : Renderable {
         `package`.render(versions, GiteaVersionFetcher, env)
 
     companion object {
-        const val REPO = "https://github.com/go-gitea/gitea"
-
-        val DEFAULT_VERSIONS = listOf("1.24.4", "1.24.3")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "gitea"
-                //      repo = REPO,
-                //      repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "gitea")
     }
 }

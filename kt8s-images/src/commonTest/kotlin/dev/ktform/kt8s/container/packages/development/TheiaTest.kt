@@ -33,15 +33,4 @@ class TheiaTest {
         }
     }
 
-    @Test
-    fun testTheiaLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = Theia.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(Theia.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(Theia.DEFAULT_VERSIONS)
-        }
-    }
 }

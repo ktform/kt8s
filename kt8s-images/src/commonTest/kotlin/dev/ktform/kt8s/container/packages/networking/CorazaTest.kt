@@ -32,16 +32,4 @@ class CorazaTest {
             //      }
         }
     }
-
-    @Test
-    fun testCorazaLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = Coraza.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(Coraza.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(Coraza.DEFAULT_VERSIONS)
-        }
-    }
 }

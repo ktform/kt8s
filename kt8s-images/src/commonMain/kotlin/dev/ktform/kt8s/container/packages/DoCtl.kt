@@ -23,13 +23,7 @@ class DoCtl(val versions: DoCtlVersion) : Renderable {
         `package`.render(versions, DoCtlVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("1.138.0", "1.137.0")
 
-        val `package` =
-            Package(
-                packageName = "doctl"
-                // repo = "https://github.com/digitalocean/doctl",
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "doctl")
     }
 }

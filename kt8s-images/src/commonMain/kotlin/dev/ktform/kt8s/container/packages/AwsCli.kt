@@ -18,18 +18,10 @@ import dev.ktform.kt8s.container.fetchers.AwsCliVersionFetcher
 import dev.ktform.kt8s.container.versions.AwsCliVersion
 
 class AwsCli(val versions: AwsCliVersion) : Renderable {
-
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, AwsCliVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("2.28.6", "2.28.5", "2.28.4")
-
-        val `package` =
-            Package(
-                packageName = "awscli"
-                // repo = "https://github.com/aws/aws-cli",
-                // repoVersion = Package.asIs,
-            )
+        val `package` = Package(packageName = "awscli")
     }
 }

@@ -32,16 +32,4 @@ class DoCtlTest {
             //      }
         }
     }
-
-    @Test
-    fun testDoCtlLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = DoCtl.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(DoCtl.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(DoCtl.DEFAULT_VERSIONS)
-        }
-    }
 }

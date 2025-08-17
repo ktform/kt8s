@@ -33,15 +33,4 @@ class StableRustTest {
         }
     }
 
-    @Test
-    fun testStableRustLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = StableRust.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(StableRust.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(StableRust.DEFAULT_VERSIONS)
-        }
-    }
 }

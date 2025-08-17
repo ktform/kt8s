@@ -32,16 +32,4 @@ class GiteaTest {
             // }
         }
     }
-
-    @Test
-    fun testGiteaLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = Gitea.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(Gitea.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(Gitea.DEFAULT_VERSIONS)
-        }
-    }
 }

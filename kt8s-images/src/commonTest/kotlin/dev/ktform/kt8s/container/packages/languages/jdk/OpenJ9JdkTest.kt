@@ -33,15 +33,4 @@ class OpenJ9JdkTest {
         }
     }
 
-    @Test
-    fun testOpenJ9JdkLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = OpenJ9Jdk.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(OpenJ9Jdk.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(OpenJ9Jdk.DEFAULT_VERSIONS)
-        }
-    }
 }

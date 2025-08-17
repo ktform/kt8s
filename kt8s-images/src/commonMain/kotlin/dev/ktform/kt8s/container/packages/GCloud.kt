@@ -23,16 +23,6 @@ class GCloud(val versions: GCloudVersion) : Renderable {
         `package`.render(versions, GCloudVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("")
-
-        val `package` =
-            Package(
-                packageName = "gcloud"
-                // repo = "",
-                // repoVersion = Package.asIs,
-                // availableVersions = { _ ->
-                //   listOf("1").right()
-                // }
-            )
+        val `package` = Package(packageName = "gcloud")
     }
 }

@@ -32,16 +32,4 @@ class VPATest {
             // }
         }
     }
-
-    @Test
-    fun testVLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = VPA.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(VPA.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(VPA.DEFAULT_VERSIONS)
-        }
-    }
 }

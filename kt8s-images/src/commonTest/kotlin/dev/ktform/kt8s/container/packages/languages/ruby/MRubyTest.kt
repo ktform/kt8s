@@ -33,15 +33,4 @@ class MRubyTest {
         }
     }
 
-    @Test
-    fun testMRubyLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = MRuby.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(MRuby.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(MRuby.DEFAULT_VERSIONS)
-        }
-    }
 }

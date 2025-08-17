@@ -32,16 +32,4 @@ class DeschedulerTest {
             // }
         }
     }
-
-    @Test
-    fun testDeschedulerLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = Descheduler.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(Descheduler.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(Descheduler.DEFAULT_VERSIONS)
-        }
-    }
 }

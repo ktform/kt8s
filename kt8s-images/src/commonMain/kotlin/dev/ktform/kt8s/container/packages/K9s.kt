@@ -23,13 +23,7 @@ class K9s(val versions: K9sVersion) : Renderable {
         `package`.render(versions, K9sVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("0.50.9", "0.50.8")
 
-        val `package` =
-            Package(
-                packageName = "k9s"
-                // repo = "https://github.com/derailed/k9s",
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "k9s")
     }
 }

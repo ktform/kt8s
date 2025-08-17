@@ -32,17 +32,4 @@ class PrometheusTest {
             //      }
         }
     }
-
-    @Test
-    fun testPrometheusLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions =
-            // Prometheus.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(Prometheus.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(Prometheus.DEFAULT_VERSIONS)
-        }
-    }
 }

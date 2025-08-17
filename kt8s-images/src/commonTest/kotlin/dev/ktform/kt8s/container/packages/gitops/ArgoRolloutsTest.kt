@@ -33,15 +33,4 @@ class ArgoRolloutsTest {
         }
     }
 
-    @Test
-    fun testArgoRolloutsLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = ArgoRollouts.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(ArgoRollouts.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(ArgoRollouts.DEFAULT_VERSIONS)
-        }
-    }
 }

@@ -33,15 +33,4 @@ class TektonChainsTest {
         }
     }
 
-    @Test
-    fun testTektonChainsLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = TektonChains.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(TektonChains.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(TektonChains.DEFAULT_VERSIONS)
-        }
-    }
 }

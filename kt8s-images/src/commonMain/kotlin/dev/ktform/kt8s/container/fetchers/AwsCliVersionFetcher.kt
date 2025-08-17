@@ -10,24 +10,38 @@
  */
 package dev.ktform.kt8s.container.fetchers
 
-import arrow.core.Option
+import arrow.core.None
+import arrow.core.getOrElse
+import arrow.core.some
+import dev.ktform.kt8s.container.components.AwsCliComponent
 import dev.ktform.kt8s.container.components.Component
+import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.githubVersions
+import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.withVPrefix
 import dev.ktform.kt8s.container.versions.AwsCliVersion
 
 object AwsCliVersionFetcher : VersionsFetcher<AwsCliVersion> {
-    override suspend fun getVersions(last: Int): Map<Component<AwsCliVersion>, List<String>> {
-        return emptyMap()
-    }
+    override suspend fun getVersions(last: Int): Map<Component<AwsCliVersion>, List<String>> =
+        AwsCliComponent.entries.associateWith {
+            repo(it).fold({ emptyList() }) { repo ->
+                githubVersions(repo).getOrElse { emptyList() }
+            }
+        }
 
-    override fun repo(component: Component<AwsCliVersion>): Option<String> {
-        TODO("Not yet implemented")
-    }
+    override fun repo(component: Component<AwsCliVersion>) =
+        when (component) {
+            is AwsCliComponent -> "https://github.com/aws/aws-cli".some()
+            else -> None
+        }
 
-    override fun String.toRepoVersion(component: Component<AwsCliVersion>): Option<String> {
-        TODO("Not yet implemented")
-    }
+    override fun String.toRepoVersion(component: Component<AwsCliVersion>) =
+        when (component) {
+            is AwsCliComponent -> this.withVPrefix().some()
+            else -> None
+        }
 
-    override fun Component<AwsCliVersion>.knownLatestVersions(): List<String> {
-        TODO("Not yet implemented")
-    }
+    override fun Component<AwsCliVersion>.knownLatestVersions(): List<String> =
+        when (this) {
+            is AwsCliComponent -> listOf("2.28.6", "2.28.5", "2.28.4")
+            else -> emptyList()
+        }
 }

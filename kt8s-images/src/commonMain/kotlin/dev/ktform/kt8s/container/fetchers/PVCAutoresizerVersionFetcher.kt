@@ -10,26 +10,43 @@
  */
 package dev.ktform.kt8s.container.fetchers
 
+import arrow.core.None
 import arrow.core.Option
+import arrow.core.getOrElse
+import arrow.core.some
 import dev.ktform.kt8s.container.components.Component
+import dev.ktform.kt8s.container.components.PVCAutoresizerComponent
+import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.githubVersions
+import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.withVPrefix
 import dev.ktform.kt8s.container.versions.PVCAutoresizerVersion
 
 object PVCAutoresizerVersionFetcher : VersionsFetcher<PVCAutoresizerVersion> {
     override suspend fun getVersions(
         last: Int
-    ): Map<Component<PVCAutoresizerVersion>, List<String>> {
-        return emptyMap()
-    }
+    ): Map<Component<PVCAutoresizerVersion>, List<String>> =
+        PVCAutoresizerComponent.entries.associateWith {
+            repo(it).fold({ emptyList() }) { repo ->
+                githubVersions(repo).getOrElse { emptyList() }
+            }
+        }
 
-    override fun repo(component: Component<PVCAutoresizerVersion>): Option<String> {
-        TODO("Not yet implemented")
-    }
+    override fun repo(component: Component<PVCAutoresizerVersion>): Option<String> =
+        when (component) {
+            is PVCAutoresizerComponent if component == PVCAutoresizerComponent.PVCAutoresizer ->
+                "https://github.com/topolvm/pvc-autoresizer".some()
 
-    override fun String.toRepoVersion(component: Component<PVCAutoresizerVersion>): Option<String> {
-        TODO("Not yet implemented")
-    }
+            else -> None
+        }
 
-    override fun Component<PVCAutoresizerVersion>.knownLatestVersions(): List<String> {
-        TODO("Not yet implemented")
-    }
+    override fun String.toRepoVersion(component: Component<PVCAutoresizerVersion>): Option<String> =
+        when (component) {
+            is PVCAutoresizerComponent -> this.withVPrefix().some()
+            else -> None
+        }
+
+    override fun Component<PVCAutoresizerVersion>.knownLatestVersions(): List<String> =
+        when (this) {
+            is PVCAutoresizerComponent -> listOf()
+            else -> emptyList()
+        }
 }

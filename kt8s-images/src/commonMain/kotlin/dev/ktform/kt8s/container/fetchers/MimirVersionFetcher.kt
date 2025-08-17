@@ -10,24 +10,41 @@
  */
 package dev.ktform.kt8s.container.fetchers
 
+import arrow.core.None
 import arrow.core.Option
+import arrow.core.getOrElse
+import arrow.core.some
 import dev.ktform.kt8s.container.components.Component
+import dev.ktform.kt8s.container.components.MimirComponent
+import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.githubVersions
+import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.withVPrefix
 import dev.ktform.kt8s.container.versions.MimirVersion
 
 object MimirVersionFetcher : VersionsFetcher<MimirVersion> {
-    override suspend fun getVersions(last: Int): Map<Component<MimirVersion>, List<String>> {
-        return emptyMap()
-    }
+    override suspend fun getVersions(last: Int): Map<Component<MimirVersion>, List<String>> =
+        MimirComponent.entries.associateWith {
+            repo(it).fold({ emptyList() }) { repo ->
+                githubVersions(repo).getOrElse { emptyList() }
+            }
+        }
 
-    override fun repo(component: Component<MimirVersion>): Option<String> {
-        TODO("Not yet implemented")
-    }
+    override fun repo(component: Component<MimirVersion>): Option<String> =
+        when (component) {
+            is MimirComponent if component == MimirComponent.Mimir ->
+                "https://github.com/grafana/mimir".some()
 
-    override fun String.toRepoVersion(component: Component<MimirVersion>): Option<String> {
-        TODO("Not yet implemented")
-    }
+            else -> None
+        }
 
-    override fun Component<MimirVersion>.knownLatestVersions(): List<String> {
-        TODO("Not yet implemented")
-    }
+    override fun String.toRepoVersion(component: Component<MimirVersion>): Option<String> =
+        when (component) {
+            is MimirComponent -> this.withVPrefix().some()
+            else -> None
+        }
+
+    override fun Component<MimirVersion>.knownLatestVersions(): List<String> =
+        when (this) {
+            is MimirComponent -> listOf()
+            else -> emptyList()
+        }
 }

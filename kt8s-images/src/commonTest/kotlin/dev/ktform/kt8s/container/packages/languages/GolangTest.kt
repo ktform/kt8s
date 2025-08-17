@@ -33,15 +33,4 @@ class GolangTest {
         }
     }
 
-    @Test
-    fun testGolangLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = Golang.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(Golang.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(Golang.DEFAULT_VERSIONS)
-        }
-    }
 }

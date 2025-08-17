@@ -32,16 +32,4 @@ class TemurinJdkTest {
             // }
         }
     }
-
-    @Test
-    fun testTemurinJdkLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = OpenJdk.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(OpenJdk.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(OpenJdk.DEFAULT_VERSIONS)
-        }
-    }
 }

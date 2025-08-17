@@ -32,16 +32,4 @@ class HelmTest {
             //      }
         }
     }
-
-    @Test
-    fun testHelmLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = Helm.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(Helm.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(Helm.DEFAULT_VERSIONS)
-        }
-    }
 }

@@ -32,16 +32,4 @@ class PipXTest {
             //      }
         }
     }
-
-    @Test
-    fun testPipXLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = PipX.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(PipX.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(PipX.DEFAULT_VERSIONS)
-        }
-    }
 }

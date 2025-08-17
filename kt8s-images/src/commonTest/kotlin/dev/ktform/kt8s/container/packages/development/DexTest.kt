@@ -32,16 +32,4 @@ class DexTest {
             // }
         }
     }
-
-    @Test
-    fun testDexLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = Dex.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(Dex.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(Dex.DEFAULT_VERSIONS)
-        }
-    }
 }

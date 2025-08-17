@@ -12,16 +12,21 @@ package dev.ktform.kt8s.container.fetchers
 
 import arrow.core.None
 import arrow.core.Option
+import arrow.core.getOrElse
 import arrow.core.some
 import dev.ktform.kt8s.container.components.AlloyComponent
 import dev.ktform.kt8s.container.components.Component
+import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.githubVersions
 import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.withVPrefix
 import dev.ktform.kt8s.container.versions.AlloyVersion
 
 object AlloyVersionFetcher : VersionsFetcher<AlloyVersion> {
-    override suspend fun getVersions(last: Int): Map<Component<AlloyVersion>, List<String>> {
-        return emptyMap()
-    }
+    override suspend fun getVersions(last: Int): Map<Component<AlloyVersion>, List<String>> =
+        AlloyComponent.entries.associateWith {
+            repo(it).fold({ emptyList() }) { repo ->
+                githubVersions(repo).getOrElse { emptyList() }
+            }
+        }
 
     override fun repo(component: Component<AlloyVersion>): Option<String> =
         when (component) {

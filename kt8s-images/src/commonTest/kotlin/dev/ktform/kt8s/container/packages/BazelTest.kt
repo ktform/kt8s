@@ -31,16 +31,4 @@ class BazelTest {
             //      }
         }
     }
-
-    @Test
-    fun testBazelLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = Bazel.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(Bazel.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(Bazel.DEFAULT_VERSIONS)
-        }
-    }
 }

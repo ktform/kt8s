@@ -33,16 +33,4 @@ class TektonPipelineTest {
         }
     }
 
-    @Test
-    fun testTektonPipelineLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions =
-            // TektonPipeline.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(TektonPipeline.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(TektonPipeline.DEFAULT_VERSIONS)
-        }
-    }
 }

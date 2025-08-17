@@ -23,15 +23,6 @@ class ExternalDNS(val versions: ExternalDnsVersion) : Renderable {
         `package`.render(versions, ExternalDnsVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("0.18.0", "0.17.0", "0.16.1")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "external-dns"
-                // repo = "https://github.com/kubernetes-sigs/external-dns",
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "external-dns")
     }
 }

@@ -33,15 +33,4 @@ class CPythonTest {
         }
     }
 
-    @Test
-    fun testCPythonLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = CPython.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(CPython.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(CPython.DEFAULT_VERSIONS)
-        }
-    }
 }

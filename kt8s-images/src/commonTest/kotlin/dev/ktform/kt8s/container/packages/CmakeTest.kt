@@ -32,16 +32,4 @@ class CmakeTest {
             //      }
         }
     }
-
-    @Test
-    fun testCmakeLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = Cmake.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(Cmake.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(Cmake.DEFAULT_VERSIONS)
-        }
-    }
 }

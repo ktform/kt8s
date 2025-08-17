@@ -10,24 +10,41 @@
  */
 package dev.ktform.kt8s.container.fetchers
 
+import arrow.core.None
 import arrow.core.Option
+import arrow.core.getOrElse
+import arrow.core.some
 import dev.ktform.kt8s.container.components.Component
+import dev.ktform.kt8s.container.components.TrivyComponent
+import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.githubVersions
+import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.withVPrefix
 import dev.ktform.kt8s.container.versions.TrivyVersion
 
 object TrivyVersionFetcher : VersionsFetcher<TrivyVersion> {
-    override suspend fun getVersions(last: Int): Map<Component<TrivyVersion>, List<String>> {
-        return emptyMap()
-    }
+    override suspend fun getVersions(last: Int): Map<Component<TrivyVersion>, List<String>> =
+        TrivyComponent.entries.associateWith {
+            repo(it).fold({ emptyList() }) { repo ->
+                githubVersions(repo).getOrElse { emptyList() }
+            }
+        }
 
-    override fun repo(component: Component<TrivyVersion>): Option<String> {
-        TODO("Not yet implemented")
-    }
+    override fun repo(component: Component<TrivyVersion>): Option<String> =
+        when (component) {
+            is TrivyComponent if component == TrivyComponent.Trivy ->
+                "https://github.com/aquasecurity/trivy".some()
 
-    override fun String.toRepoVersion(component: Component<TrivyVersion>): Option<String> {
-        TODO("Not yet implemented")
-    }
+            else -> None
+        }
 
-    override fun Component<TrivyVersion>.knownLatestVersions(): List<String> {
-        TODO("Not yet implemented")
-    }
+    override fun String.toRepoVersion(component: Component<TrivyVersion>): Option<String> =
+        when (component) {
+            is TrivyComponent -> this.withVPrefix().some()
+            else -> None
+        }
+
+    override fun Component<TrivyVersion>.knownLatestVersions(): List<String> =
+        when (this) {
+            is TrivyComponent -> listOf()
+            else -> emptyList()
+        }
 }

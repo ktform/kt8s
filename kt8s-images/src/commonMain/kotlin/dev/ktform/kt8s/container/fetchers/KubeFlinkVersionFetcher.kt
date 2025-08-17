@@ -10,24 +10,41 @@
  */
 package dev.ktform.kt8s.container.fetchers
 
+import arrow.core.None
 import arrow.core.Option
+import arrow.core.getOrElse
+import arrow.core.some
 import dev.ktform.kt8s.container.components.Component
+import dev.ktform.kt8s.container.components.KubeFlinkComponent
+import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.githubVersions
+import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.withVPrefix
 import dev.ktform.kt8s.container.versions.KubeFlinkVersion
 
 object KubeFlinkVersionFetcher : VersionsFetcher<KubeFlinkVersion> {
-    override suspend fun getVersions(last: Int): Map<Component<KubeFlinkVersion>, List<String>> {
-        return emptyMap()
-    }
+    override suspend fun getVersions(last: Int): Map<Component<KubeFlinkVersion>, List<String>> =
+        KubeFlinkComponent.entries.associateWith {
+            repo(it).fold({ emptyList() }) { repo ->
+                githubVersions(repo).getOrElse { emptyList() }
+            }
+        }
 
-    override fun repo(component: Component<KubeFlinkVersion>): Option<String> {
-        TODO("Not yet implemented")
-    }
+    override fun repo(component: Component<KubeFlinkVersion>): Option<String> =
+        when (component) {
+            is KubeFlinkComponent if component == KubeFlinkComponent.KubeFlink ->
+                "https://github.com/apache/flink-kubernetes-operator".some()
 
-    override fun String.toRepoVersion(component: Component<KubeFlinkVersion>): Option<String> {
-        TODO("Not yet implemented")
-    }
+            else -> None
+        }
 
-    override fun Component<KubeFlinkVersion>.knownLatestVersions(): List<String> {
-        TODO("Not yet implemented")
-    }
+    override fun String.toRepoVersion(component: Component<KubeFlinkVersion>): Option<String> =
+        when (component) {
+            is KubeFlinkComponent -> this.withVPrefix().some()
+            else -> None
+        }
+
+    override fun Component<KubeFlinkVersion>.knownLatestVersions(): List<String> =
+        when (this) {
+            is KubeFlinkComponent -> listOf()
+            else -> emptyList()
+        }
 }

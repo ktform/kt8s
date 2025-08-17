@@ -23,17 +23,6 @@ class Keda(val versions: KedaVersion) : Renderable {
         `package`.render(versions, KedaVersionFetcher, env)
 
     companion object {
-        const val REPO = "https://github.com/kedacore/keda"
-
-        val DEFAULT_VERSIONS = listOf("2.17.2", "2.17.1")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "keda"
-                //      repo = REPO,
-                //      repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "keda")
     }
 }

@@ -32,16 +32,4 @@ class ArgoWorkflowsTest {
             // }
         }
     }
-
-    @Test
-    fun testArgoWorkflowsLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = ArgoWorkflows.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(ArgoWorkflows.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(ArgoWorkflows.DEFAULT_VERSIONS)
-        }
-    }
 }

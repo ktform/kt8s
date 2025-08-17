@@ -32,16 +32,4 @@ class GCloudTest {
             //      }
         }
     }
-
-    @Test
-    fun testGCloudLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = GCloud.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(GCloud.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(GCloud.DEFAULT_VERSIONS)
-        }
-    }
 }

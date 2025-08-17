@@ -23,15 +23,6 @@ class DotNet(val versions: DotNetVersion) : Renderable {
         `package`.render(versions, DotNetVersionFetcher, env)
 
     companion object {
-        const val REPO = ""
-
-        val DEFAULT_VERSIONS = listOf("")
-
-        val `package` =
-            Package(
-                packageName = "dotnet"
-                // repo = "",
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "dotnet")
     }
 }

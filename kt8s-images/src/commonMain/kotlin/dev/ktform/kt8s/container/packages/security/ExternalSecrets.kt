@@ -23,15 +23,6 @@ class ExternalSecrets(val versions: ExternalSecretsVersion) : Renderable {
         `package`.render(versions, ExternalSecretsVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("0.19.2", "0.19.1")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "external-secrets"
-                //      repo = "https://github.com/external-secrets/external-secrets",
-                //      repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "external-secrets")
     }
 }

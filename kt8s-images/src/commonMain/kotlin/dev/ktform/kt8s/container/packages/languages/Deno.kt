@@ -23,13 +23,6 @@ class Deno(val versions: DenoVersion) : Renderable {
         `package`.render(versions, DenoVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("2.4.3", "2.4.2", "2.4.1")
-
-        val `package` =
-            Package(
-                packageName = "deno"
-                // repo = "https://github.com/denoland/deno",
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "deno")
     }
 }

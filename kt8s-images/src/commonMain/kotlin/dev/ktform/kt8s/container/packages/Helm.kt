@@ -23,13 +23,7 @@ class Helm(val versions: HelmVersion) : Renderable {
         `package`.render(versions, HelmVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("3.18.4", "3.18.3")
 
-        val `package` =
-            Package(
-                packageName = "helm"
-                // repo = "https://github.com/helm/helm",
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "helm")
     }
 }

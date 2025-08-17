@@ -32,15 +32,4 @@ class GoldilocksTest {
             // }
         }
     }
-
-    @Test
-    fun testGoldilocksLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = Goldilocks.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(Goldilocks.DEFAULT_VERSIONS.size)
-            // assertThat(latestNVersions).isEqualTo(Goldilocks.DEFAULT_VERSIONS)
-        }
-    }
 }

@@ -23,13 +23,6 @@ class Cmake(val versions: CmakeVersion) : Renderable {
         `package`.render(versions, CmakeVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("4.1.0", "4.0.3")
-
-        val `package` =
-            Package(
-                packageName = "cmake"
-                // repo = "https://github.com/Kitware/CMake",
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "cmake")
     }
 }

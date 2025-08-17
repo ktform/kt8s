@@ -23,15 +23,6 @@ class Cosign(val versions: CosignVersion) : Renderable {
         `package`.render(versions, CosignVersionFetcher, env)
 
     companion object {
-        const val REPO = "https://github.com/sigstore/cosign"
-
-        val DEFAULT_VERSIONS = listOf("2.5.3", "2.5.2")
-
-        val `package` =
-            Package(
-                packageName = "cosign"
-                // repo = REPO,
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "cosign")
     }
 }

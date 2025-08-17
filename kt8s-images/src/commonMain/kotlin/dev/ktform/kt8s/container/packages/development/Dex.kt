@@ -23,17 +23,6 @@ class Dex(val versions: DexVersion) : Renderable {
         `package`.render(versions, DexVersionFetcher, env)
 
     companion object {
-        const val REPO = "https://github.com/dexidp/dex"
-
-        val DEFAULT_VERSIONS = listOf("2.43.1", "2.43.0")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "dex"
-                //      repo = REPO,
-                //      repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "dex")
     }
 }

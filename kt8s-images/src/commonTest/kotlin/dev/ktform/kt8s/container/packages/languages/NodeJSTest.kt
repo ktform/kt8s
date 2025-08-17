@@ -32,16 +32,4 @@ class NodeJSTest {
             // }
         }
     }
-
-    @Test
-    fun testNodeJSLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = NodeJS.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(NodeJS.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(NodeJS.DEFAULT_VERSIONS)
-        }
-    }
 }

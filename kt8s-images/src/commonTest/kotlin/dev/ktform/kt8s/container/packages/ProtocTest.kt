@@ -32,16 +32,4 @@ class ProtocTest {
             //      }
         }
     }
-
-    @Test
-    fun testProtocLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = Protoc.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(Protoc.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(Protoc.DEFAULT_VERSIONS)
-        }
-    }
 }

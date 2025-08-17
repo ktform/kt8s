@@ -23,35 +23,7 @@ class Golang(val versions: GolangVersion) : Renderable {
         `package`.render(versions, GolangVersionFetcher, env)
 
     companion object {
-        const val REPO = "https://github.com/golang/go"
-        const val RELEASE_PREFIX = "go"
 
-        val DEFAULT_VERSIONS = listOf("1.24.6", "1.24.5")
-
-        val `package` =
-            Package(
-                packageName = "go"
-                //      repo = REPO,
-                //
-                //      repoVersion = { version, toRepo ->
-                //        if (toRepo) {
-                //          "$RELEASE_PREFIX$version"
-                //        } else {
-                //          version
-                //        }
-                //      },
-                //      availableVersions = { _ ->
-                //        val client = GithubClient()
-                //        client.getTags(REPO)
-                //          .map { all -> all.filter { v -> v.startsWith(RELEASE_PREFIX) }.map { v
-                // -> v.substringAfter(RELEASE_PREFIX) }
-                //            .mapNotNull { s -> Either.catch { s.toVersion() }.getOrNull() }
-                //            .filter { v -> !v.isPreRelease && (v.major == 0 || v.isStable) }
-                //            .sortedDescending()
-                //            .map(Version::toString)
-                //            .toList()
-                //          }
-                //      }
-            )
+        val `package` = Package(packageName = "go")
     }
 }

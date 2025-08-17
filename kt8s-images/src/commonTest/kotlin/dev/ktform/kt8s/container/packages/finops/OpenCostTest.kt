@@ -32,16 +32,4 @@ class OpenCostTest {
             // }
         }
     }
-
-    @Test
-    fun testOpenCostLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = OpenCost.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(OpenCost.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(OpenCost.DEFAULT_VERSIONS)
-        }
-    }
 }

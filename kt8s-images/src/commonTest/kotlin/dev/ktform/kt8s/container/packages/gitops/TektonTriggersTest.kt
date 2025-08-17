@@ -32,15 +32,4 @@ class TektonTriggersTest {
             // }
         }
     }
-
-    @Test
-    fun testTektonTriggersLatestVersions() {
-        // runTest(timeout = 10.seconds) {
-        //   val latestNVersions = TektonTriggers.`package`.availableVersions(Environment.default)
-        //     .getOrElse { err -> throw Exception("Unable to determine available versions: $err") }
-        //     .take(TektonTriggers.DEFAULT_VERSIONS.size)
-
-        //   assertThat(latestNVersions).isEqualTo(TektonTriggers.DEFAULT_VERSIONS)
-        // }
-    }
 }

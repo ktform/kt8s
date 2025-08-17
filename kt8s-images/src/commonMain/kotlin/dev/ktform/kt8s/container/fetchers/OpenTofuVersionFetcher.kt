@@ -10,24 +10,41 @@
  */
 package dev.ktform.kt8s.container.fetchers
 
+import arrow.core.None
 import arrow.core.Option
+import arrow.core.getOrElse
+import arrow.core.some
 import dev.ktform.kt8s.container.components.Component
+import dev.ktform.kt8s.container.components.OpenTofuComponent
+import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.githubVersions
+import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.withVPrefix
 import dev.ktform.kt8s.container.versions.OpenTofuVersion
 
 object OpenTofuVersionFetcher : VersionsFetcher<OpenTofuVersion> {
-    override suspend fun getVersions(last: Int): Map<Component<OpenTofuVersion>, List<String>> {
-        return emptyMap()
-    }
+    override suspend fun getVersions(last: Int): Map<Component<OpenTofuVersion>, List<String>> =
+        OpenTofuComponent.entries.associateWith {
+            repo(it).fold({ emptyList() }) { repo ->
+                githubVersions(repo).getOrElse { emptyList() }
+            }
+        }
 
-    override fun repo(component: Component<OpenTofuVersion>): Option<String> {
-        TODO("Not yet implemented")
-    }
+    override fun repo(component: Component<OpenTofuVersion>): Option<String> =
+        when (component) {
+            is OpenTofuComponent if component == OpenTofuComponent.OpenTofu ->
+                "https://github.com/opentofu/opentofu".some()
 
-    override fun String.toRepoVersion(component: Component<OpenTofuVersion>): Option<String> {
-        TODO("Not yet implemented")
-    }
+            else -> None
+        }
 
-    override fun Component<OpenTofuVersion>.knownLatestVersions(): List<String> {
-        TODO("Not yet implemented")
-    }
+    override fun String.toRepoVersion(component: Component<OpenTofuVersion>): Option<String> =
+        when (component) {
+            is OpenTofuComponent -> this.withVPrefix().some()
+            else -> None
+        }
+
+    override fun Component<OpenTofuVersion>.knownLatestVersions(): List<String> =
+        when (this) {
+            is OpenTofuComponent -> listOf()
+            else -> emptyList()
+        }
 }

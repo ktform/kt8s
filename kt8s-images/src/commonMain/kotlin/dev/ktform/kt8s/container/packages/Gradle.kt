@@ -23,13 +23,7 @@ class Gradle(val versions: GradleVersion) : Renderable {
         `package`.render(versions, GradleVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("9.0.0", "8.14.3")
 
-        val `package` =
-            Package(
-                packageName = "gradle"
-                // repo = "https://github.com/gradle/gradle",
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "gradle")
     }
 }

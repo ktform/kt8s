@@ -32,16 +32,4 @@ class TempoTest {
             //      }
         }
     }
-
-    @Test
-    fun testTempoLatestVersions() {
-        //    runTest(timeout = 10.seconds) {
-        //      val latestNVersions = Tempo.`package`.availableVersions(Environment.default)
-        //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-        // $err") }
-        //        .take(Tempo.DEFAULT_VERSIONS.size)
-        //
-        //      assertThat(latestNVersions).isEqualTo(Tempo.DEFAULT_VERSIONS)
-        //    }
-    }
 }

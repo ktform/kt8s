@@ -32,16 +32,4 @@ class CiliumTest {
             //      }
         }
     }
-
-    @Test
-    fun testCiliumLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = Cilium.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(Cilium.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(Cilium.DEFAULT_VERSIONS)
-        }
-    }
 }

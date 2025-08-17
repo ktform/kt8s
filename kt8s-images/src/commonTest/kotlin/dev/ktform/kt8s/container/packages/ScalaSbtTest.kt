@@ -32,16 +32,4 @@ class ScalaSbtTest {
             //      }
         }
     }
-
-    @Test
-    fun testScalaSbtLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            //      val latestNVersions = Scala.`package`.availableVersions(Environment.default)
-            //        .getOrElse { err -> throw Exception("Unable to determine available versions:
-            // $err") }
-            //        .take(Scala.DEFAULT_VERSIONS.size)
-            //
-            //      assertThat(latestNVersions).isEqualTo(Scala.DEFAULT_VERSIONS)
-        }
-    }
 }

@@ -23,13 +23,6 @@ class Grype(val versions: GrypeVersion) : Renderable {
         `package`.render(versions, GrypeVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("0.97.2", "0.97.1", "0.97.0")
-
-        val `package` =
-            Package(
-                packageName = "grype"
-                // repo = "https://github.com/anchore/grype",
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "grype")
     }
 }

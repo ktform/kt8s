@@ -10,24 +10,41 @@
  */
 package dev.ktform.kt8s.container.fetchers
 
+import arrow.core.None
 import arrow.core.Option
+import arrow.core.getOrElse
+import arrow.core.some
 import dev.ktform.kt8s.container.components.Component
+import dev.ktform.kt8s.container.components.VPAComponent
+import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.githubVersions
+import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.withVPrefix
 import dev.ktform.kt8s.container.versions.VPAVersion
 
 object VpaVersionFetcher : VersionsFetcher<VPAVersion> {
-    override suspend fun getVersions(last: Int): Map<Component<VPAVersion>, List<String>> {
-        return emptyMap()
-    }
+    override suspend fun getVersions(last: Int): Map<Component<VPAVersion>, List<String>> =
+        VPAComponent.entries.associateWith {
+            repo(it).fold({ emptyList() }) { repo ->
+                githubVersions(repo).getOrElse { emptyList() }
+            }
+        }
 
-    override fun repo(component: Component<VPAVersion>): Option<String> {
-        TODO("Not yet implemented")
-    }
+    override fun repo(component: Component<VPAVersion>): Option<String> =
+        when (component) {
+            is VPAComponent if component == VPAComponent.VPA ->
+                "https://github.com/kubernetes/autoscaler".some()
 
-    override fun String.toRepoVersion(component: Component<VPAVersion>): Option<String> {
-        TODO("Not yet implemented")
-    }
+            else -> None
+        }
 
-    override fun Component<VPAVersion>.knownLatestVersions(): List<String> {
-        TODO("Not yet implemented")
-    }
+    override fun String.toRepoVersion(component: Component<VPAVersion>): Option<String> =
+        when (component) {
+            is VPAComponent -> this.withVPrefix().some()
+            else -> None
+        }
+
+    override fun Component<VPAVersion>.knownLatestVersions(): List<String> =
+        when (this) {
+            is VPAComponent -> listOf()
+            else -> emptyList()
+        }
 }

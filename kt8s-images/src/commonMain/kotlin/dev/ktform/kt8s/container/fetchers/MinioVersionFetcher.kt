@@ -10,24 +10,41 @@
  */
 package dev.ktform.kt8s.container.fetchers
 
+import arrow.core.None
 import arrow.core.Option
+import arrow.core.getOrElse
+import arrow.core.some
 import dev.ktform.kt8s.container.components.Component
+import dev.ktform.kt8s.container.components.MinioComponent
+import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.githubVersions
+import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.withVPrefix
 import dev.ktform.kt8s.container.versions.MinioVersion
 
 object MinioVersionFetcher : VersionsFetcher<MinioVersion> {
-    override suspend fun getVersions(last: Int): Map<Component<MinioVersion>, List<String>> {
-        return emptyMap()
-    }
+    override suspend fun getVersions(last: Int): Map<Component<MinioVersion>, List<String>> =
+        MinioComponent.entries.associateWith {
+            repo(it).fold({ emptyList() }) { repo ->
+                githubVersions(repo).getOrElse { emptyList() }
+            }
+        }
 
-    override fun repo(component: Component<MinioVersion>): Option<String> {
-        TODO("Not yet implemented")
-    }
+    override fun repo(component: Component<MinioVersion>): Option<String> =
+        when (component) {
+            is MinioComponent if component == MinioComponent.Minio ->
+                "https://github.com/minio/minio".some()
 
-    override fun String.toRepoVersion(component: Component<MinioVersion>): Option<String> {
-        TODO("Not yet implemented")
-    }
+            else -> None
+        }
 
-    override fun Component<MinioVersion>.knownLatestVersions(): List<String> {
-        TODO("Not yet implemented")
-    }
+    override fun String.toRepoVersion(component: Component<MinioVersion>): Option<String> =
+        when (component) {
+            is MinioComponent -> this.withVPrefix().some()
+            else -> None
+        }
+
+    override fun Component<MinioVersion>.knownLatestVersions(): List<String> =
+        when (this) {
+            is MinioComponent -> listOf()
+            else -> emptyList()
+        }
 }

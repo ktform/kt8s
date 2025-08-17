@@ -32,16 +32,4 @@ class KarpenterAzureTest {
             // }
         }
     }
-
-    @Test
-    fun testKarpenterAzureLatestVersions() {
-        runTest(timeout = 10.seconds) {
-            // val latestNVersions = KarpenterAzure.`package`.availableVersions(Environment.default)
-            //   .getOrElse { err -> throw Exception("Unable to determine available versions: $err")
-            // }
-            //   .take(KarpenterAzure.DEFAULT_VERSIONS.size)
-
-            // assertThat(latestNVersions).isEqualTo(KarpenterAzure.DEFAULT_VERSIONS)
-        }
-    }
 }
