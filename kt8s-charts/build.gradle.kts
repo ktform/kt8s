@@ -30,8 +30,20 @@ kotlin {
   jvm()
   js {
     outputModuleName = "kt8s-charts"
-    browser()
-    nodejs()
+    browser {
+      testTask {
+        useKarma {
+          useFirefox()
+        }
+      }
+    }
+    nodejs {
+      testTask {
+        useMocha {
+          timeout = "10000"
+        }
+      }
+    }
   }
   iosX64()
   iosArm64()
@@ -43,7 +55,7 @@ kotlin {
 
   sourceSets {
     commonMain.dependencies {
-      implementation(project(":kt8s-image-dsl"))
+      implementation(project(":kt8s-images"))
       implementation(project(":kt8s-client"))
       implementation(libs.bundles.common)
       implementation(libs.bundles.arrow)

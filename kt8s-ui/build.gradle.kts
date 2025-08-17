@@ -37,7 +37,13 @@ android {
 kotlin {
   jvm()
   js {
-    browser()
+    browser {
+      testTask {
+        useKarma {
+          useFirefox()
+        }
+      }
+    }
     nodejs()
   }
   iosX64()

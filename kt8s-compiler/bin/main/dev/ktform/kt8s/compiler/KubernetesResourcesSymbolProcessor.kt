@@ -19,36 +19,50 @@ import io.ktor.util.toLowerCasePreservingASCIIRules
 import java.io.OutputStreamWriter
 
 class KubernetesResourcesSymbolProcessor(
-  private val codeGenerator: CodeGenerator,
-  private val logger: KSPLogger,
+    private val codeGenerator: CodeGenerator,
+    private val logger: KSPLogger,
 ) : SymbolProcessor {
 
-  private var hasProcessed = false
+    private var hasProcessed = false
 
-  override fun process(resolver: Resolver): List<KSAnnotated> {
-    if (hasProcessed || resolver.getClassDeclarationByName(resolver.getKSNameFromString("dev.ktform.kt8s.resources.Container")) != null) {
-      return emptyList()
-    }
-    hasProcessed = true
-
-    return either<Throwable, Unit> {
-      JSONSchema.all(this::class.java.classLoader).forEach { (version, definitions) ->
-        val pkg = if (version == "Common") "dev.ktform.kt8s.resources" else "dev.ktform.kt8s.resources.${version.toLowerCasePreservingASCIIRules()}"
-        logger.info("Generating $version: ${definitions.size} definitions")
-
-        definitions.toResources(pkg).forEach { resource ->
-          codeGenerator.createNewFile(Dependencies(false), pkg, resource.kind)
-            .use { outputStream ->
-              OutputStreamWriter(outputStream).use { writer ->
-                writer.write(resource.getFileBuilder().build().toString())
-                writer.flush()
-              }
-            }
+    override fun process(resolver: Resolver): List<KSAnnotated> {
+        if (
+            hasProcessed ||
+                resolver.getClassDeclarationByName(
+                    resolver.getKSNameFromString("dev.ktform.kt8s.resources.Container")
+                ) != null
+        ) {
+            return emptyList()
         }
-      }
-    }.fold({
-      logger.error("KubernetesResourcesSymbolProcessor: code generation error: ${it.message}")
-      emptyList()
-    }, { emptyList() })
-  }
+        hasProcessed = true
+
+        return either<Throwable, Unit> {
+                JSONSchema.all(this::class.java.classLoader).forEach { (version, definitions) ->
+                    val pkg =
+                        if (version == "Common") "dev.ktform.kt8s.resources"
+                        else
+                            "dev.ktform.kt8s.resources.${version.toLowerCasePreservingASCIIRules()}"
+                    logger.info("Generating $version: ${definitions.size} definitions")
+
+                    definitions.toResources(pkg).forEach { resource ->
+                        codeGenerator.createNewFile(Dependencies(false), pkg, resource.kind).use {
+                            outputStream ->
+                            OutputStreamWriter(outputStream).use { writer ->
+                                writer.write(resource.getFileBuilder().build().toString())
+                                writer.flush()
+                            }
+                        }
+                    }
+                }
+            }
+            .fold(
+                {
+                    logger.error(
+                        "KubernetesResourcesSymbolProcessor: code generation error: ${it.message}"
+                    )
+                    emptyList()
+                },
+                { emptyList() },
+            )
+    }
 }

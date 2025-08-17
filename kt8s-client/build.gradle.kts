@@ -31,8 +31,20 @@ android {
 kotlin {
   jvm()
   js {
-    browser()
-    nodejs()
+    browser {
+      testTask {
+        useKarma {
+          useFirefox()
+        }
+      }
+    }
+    nodejs {
+      testTask {
+        useMocha {
+          timeout = "10000"
+        }
+      }
+    }
   }
   iosX64()
   iosArm64()
@@ -90,8 +102,18 @@ dependencies {
   add("kspCommonMainMetadata", project(":kt8s-compiler"))
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
+// Ensure all Kotlin compilation tasks depend on KSP metadata generation
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>().configureEach {
   if (name != "kspCommonMainKotlinMetadata") {
     dependsOn("kspCommonMainKotlinMetadata")
   }
+}
+
+// Additional explicit dependencies for specific task types
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile>().configureEach {
+  dependsOn("kspCommonMainKotlinMetadata")
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile>().configureEach {
+  dependsOn("kspCommonMainKotlinMetadata")
 }

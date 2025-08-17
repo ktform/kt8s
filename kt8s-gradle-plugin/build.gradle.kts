@@ -2,7 +2,6 @@ plugins {
   alias(libs.plugins.spotless)
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.ksp)
-  alias(libs.plugins.ktor)
   alias(libs.plugins.maven.publish)
   kotlin("jvm")
 
@@ -10,7 +9,11 @@ plugins {
 
 spotless {
   kotlin {
+    target("**/*.kt")
+    targetExclude("**/build/**", "**/.gradle/**", "**/tmp/**", "**/resources/**")
     ktfmt("0.56").kotlinlangStyle()
+    trimTrailingWhitespace()
+    endWithNewline()
   }
 }
 

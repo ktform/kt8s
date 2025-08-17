@@ -10,7 +10,11 @@ plugins {
 
 spotless {
   kotlin {
+    target("**/*.kt")
+    targetExclude("**/build/**", "**/.gradle/**", "**/tmp/**", "**/resources/**")
     ktfmt("0.56").kotlinlangStyle()
+    trimTrailingWhitespace()
+    endWithNewline()
   }
 }
 

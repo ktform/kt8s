@@ -32,7 +32,7 @@ include(":kt8s-compiler")
 include(":kt8s-controller")
 include(":kt8s-dashboard")
 include(":kt8s-gradle-plugin")
-include(":kt8s-image-dsl")
+include(":kt8s-images")
 include(":kt8s-ui")
 
 check(JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_21)) {

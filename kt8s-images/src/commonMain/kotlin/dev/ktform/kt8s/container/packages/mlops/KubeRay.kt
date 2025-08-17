@@ -1,0 +1,45 @@
+/*
+ * Copyright (C) 2016-2025 Yuriy Yarosh
+ * All rights reserved.
+ *
+ * SPDX-License-Identifier: MPL-2.0
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+package dev.ktform.kt8s.container.packages.mlops
+
+import arrow.core.Either
+import dev.ktform.kt8s.container.Environment
+import dev.ktform.kt8s.container.Package
+import dev.ktform.kt8s.container.Renderable
+import dev.ktform.kt8s.container.Versions
+import dev.ktform.kt8s.container.fetchers.KubeRayVersionFetcher
+
+class KubeRay(val versions: Versions.KubeRayVersion) : Renderable {
+
+  override fun render(
+    env: Environment,
+  ): Either<String, String> = `package`.render(versions, KubeRayVersionFetcher, env)
+
+
+  companion object {
+    const val REPO = "https://github.com/ray-project/kuberay"
+
+    val DEFAULT_VERSIONS = listOf(
+      "1.4.2",
+      "1.4.1",
+      "1.4.0",
+    )
+
+    val latest = DEFAULT_VERSIONS.first()
+
+    val `package` = Package(
+      packageName = "kuberay",
+      // repo = REPO,
+      // repoVersion = Package.withVPrefix,
+    )
+  }
+}

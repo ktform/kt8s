@@ -1,11 +1,5 @@
 package dev.ktform.kt8s.resources
 
-import dev.ktform.kt8s.resources.IntOrString
-import dev.ktform.kt8s.resources.KubernetesMicroTime
-import dev.ktform.kt8s.resources.KubernetesTime
-import dev.ktform.kt8s.resources.RawJsonObject
-import dev.ktform.kt8s.resources.Resource
-import dev.ktform.kt8s.resources.StringOrNumber
 import kotlin.String
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -16,19 +10,12 @@ import kotlinx.serialization.Transient
  * @param type Node address type, one of Hostname, ExternalIP or InternalIP.
  */
 @Serializable
-public data class NodeAddress(
-  public val address: String,
-  public val type: String,
-) : Resource {
-  @SerialName("apiVersion")
-  override val apiVersion: String = "io.k8s.api.core/v1"
+public data class NodeAddress(public val address: String, public val type: String) : Resource {
+    @SerialName("apiVersion") override val apiVersion: String = "io.k8s.api.core/v1"
 
-  @Transient
-  override val group: String = "io.k8s.api.core"
+    @Transient override val group: String = "io.k8s.api.core"
 
-  @Transient
-  override val version: String = "v1"
+    @Transient override val version: String = "v1"
 
-  @SerialName("kind")
-  override val kind: String = "NodeAddress"
+    @SerialName("kind") override val kind: String = "NodeAddress"
 }

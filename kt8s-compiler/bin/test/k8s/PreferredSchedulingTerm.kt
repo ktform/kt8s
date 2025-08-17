@@ -1,11 +1,5 @@
 package dev.ktform.kt8s.resources
 
-import dev.ktform.kt8s.resources.IntOrString
-import dev.ktform.kt8s.resources.KubernetesMicroTime
-import dev.ktform.kt8s.resources.KubernetesTime
-import dev.ktform.kt8s.resources.RawJsonObject
-import dev.ktform.kt8s.resources.Resource
-import dev.ktform.kt8s.resources.StringOrNumber
 import kotlin.Int
 import kotlin.String
 import kotlinx.serialization.SerialName
@@ -14,22 +8,19 @@ import kotlinx.serialization.Transient
 
 /**
  * @param preference A node selector term, associated with the corresponding weight.
- * @param weight Weight associated with matching the corresponding nodeSelectorTerm, in the range 1-100.
+ * @param weight Weight associated with matching the corresponding nodeSelectorTerm, in the range
+ *   1-100.
  */
 @Serializable
 public data class PreferredSchedulingTerm(
-  public val preference: NodeSelectorTerm,
-  public val weight: Int,
+    public val preference: NodeSelectorTerm,
+    public val weight: Int,
 ) : Resource {
-  @SerialName("apiVersion")
-  override val apiVersion: String = "io.k8s.api.core/v1"
+    @SerialName("apiVersion") override val apiVersion: String = "io.k8s.api.core/v1"
 
-  @Transient
-  override val group: String = "io.k8s.api.core"
+    @Transient override val group: String = "io.k8s.api.core"
 
-  @Transient
-  override val version: String = "v1"
+    @Transient override val version: String = "v1"
 
-  @SerialName("kind")
-  override val kind: String = "PreferredSchedulingTerm"
+    @SerialName("kind") override val kind: String = "PreferredSchedulingTerm"
 }

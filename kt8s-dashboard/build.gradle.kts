@@ -33,8 +33,20 @@ android {
 kotlin {
   jvm()
   js {
-    browser()
-    nodejs()
+    browser {
+      testTask {
+        useKarma {
+          useFirefox()
+        }
+      }
+    }
+    nodejs {
+      testTask {
+        useMocha {
+          timeout = "10000"
+        }
+      }
+    }
   }
   iosX64()
   iosArm64()
