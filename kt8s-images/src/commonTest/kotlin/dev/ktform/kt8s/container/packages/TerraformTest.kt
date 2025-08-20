@@ -10,6 +10,11 @@
  */
 package dev.ktform.kt8s.container.packages
 
+import dev.ktform.kt8s.container.Environment
+import dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
+import dev.ktform.kt8s.container.components.TerraformComponent
+import dev.ktform.kt8s.container.fetchers.TerraformVersionFetcher
+import dev.ktform.kt8s.container.versions.TerraformVersion.Companion.toTerraformVersion
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.test.runTest
@@ -19,17 +24,21 @@ class TerraformTest {
     @Test
     fun testTerraform() {
         runTest(timeout = 10.seconds) {
-            //      val latest = Terraform.`package`.latestVersion().getOrElse { err -> throw
-            // Exception("Unable to determine latest version: $err") }
-            //
-            //      Environment.all.forEach { env ->
-            //        PackageTestCase(
-            //          "terraform",
-            //          env,
-            //          rendered = Terraform(latest).render().getOrElse { err -> throw
-            // Exception("Unable to render: $err") },
-            //        ).isExpected()
-            //      }
+            TerraformVersionFetcher.getVersions().forEach { (component, versions) ->
+                val cli =
+                    when (component) {
+                        is TerraformComponent if (component == TerraformComponent.Terraform) ->
+                            Terraform(versions.last().toTerraformVersion())
+
+                        else -> throw Exception("Unknown component: $component")
+                    }
+
+                cli.render(env = Environment.default)
+                    .fold(
+                        { err -> throw Exception("Unable to render ${component.name}: $err") },
+                        { result -> result.getOrUpdateExpected("Dockerfile.${component.name}") },
+                    )
+            }
         }
     }
 }

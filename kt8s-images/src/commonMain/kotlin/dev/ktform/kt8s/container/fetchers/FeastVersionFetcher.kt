@@ -32,7 +32,6 @@ object FeastVersionFetcher : VersionsFetcher<FeastVersion> {
         when (component) {
             is FeastComponent if component == FeastComponent.Feast ->
                 "https://github.com/feast-dev/feast".some()
-
             else -> None
         }
 

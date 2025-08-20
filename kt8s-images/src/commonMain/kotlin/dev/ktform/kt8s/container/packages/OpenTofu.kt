@@ -23,13 +23,6 @@ class OpenTofu(val versions: OpenTofuVersion) : Renderable {
         `package`.render(versions, OpenTofuVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("1.10.5", "1.10.4")
-
-        val `package` =
-            Package(
-                packageName = "opentofu"
-                // repo = "https://github.com/opentofu/opentofu",
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "opentofu")
     }
 }

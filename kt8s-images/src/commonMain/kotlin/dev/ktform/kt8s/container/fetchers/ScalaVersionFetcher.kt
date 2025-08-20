@@ -44,7 +44,7 @@ object ScalaVersionFetcher : VersionsFetcher<ScalaVersion> {
 
     override fun Component<ScalaVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is ScalaComponent -> listOf()
+            is ScalaComponent -> listOf("1.11.4", "1.11.3")
             else -> emptyList()
         }
 }

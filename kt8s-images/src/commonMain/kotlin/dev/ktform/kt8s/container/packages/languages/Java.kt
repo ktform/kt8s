@@ -24,11 +24,6 @@ class Java(val versions: JavaVersion) : Renderable {
 
     companion object {
 
-        val `package` =
-            Package(
-                packageName = "java"
-                //      repo = "",
-                //      repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "java")
     }
 }

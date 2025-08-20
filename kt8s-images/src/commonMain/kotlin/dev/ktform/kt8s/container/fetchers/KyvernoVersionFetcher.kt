@@ -44,7 +44,7 @@ object KyvernoVersionFetcher : VersionsFetcher<KyvernoVersion> {
 
     override fun Component<KyvernoVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is KyvernoComponent -> listOf()
+            is KyvernoComponent -> listOf("1.15.1", "1.15.0")
             else -> emptyList()
         }
 }

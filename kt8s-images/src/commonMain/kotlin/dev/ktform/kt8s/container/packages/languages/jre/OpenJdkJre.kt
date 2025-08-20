@@ -23,16 +23,7 @@ class OpenJdkJre(val versions: JavaVersion) : Renderable {
         `package`.render(versions, JavaVersionFetcher, env)
 
     companion object {
-        const val REPO = ""
 
-        val DEFAULT_VERSIONS = listOf("")
-
-        val `package` =
-            Package(
-                packageName = "OpenJdkJre"
-                // repo = "",
-
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "OpenJdkJre")
     }
 }

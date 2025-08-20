@@ -23,31 +23,6 @@ class PostgreSQL(val versions: PostgreSQLVersion) : Renderable {
         `package`.render(versions, PostgreSQLVersionFetcher, env)
 
     companion object {
-        const val REPO = "https://github.com/postgres/postgres"
-        const val RELEASE_PREFIX = "REL_"
-        val DEFAULT_VERSIONS = listOf("17.5", "17.4")
-
-        val `package` =
-            Package(
-                packageName = "postgresql"
-                // repo = REPO,
-                // repoVersion = { version, toRepo ->
-                //   if (toRepo) {
-                //     "$RELEASE_PREFIX${version.replace(".", "_")}"
-                //   } else {
-                //     version
-                //   }
-                // },
-                // availableVersions = { _ ->
-                //   val client = GithubClient()
-                //   client.getTags(REPO).map { all ->
-                //     all.filter { v -> v.startsWith(RELEASE_PREFIX) }
-                //       .map { v -> v.substringAfter(RELEASE_PREFIX).replace("_", ".") }
-                //       .filter { v -> !v.lowercase().contains("beta") &&
-                // !v.lowercase().contains("rc") }
-                //       .sortedDescending()
-                //   }
-                // }
-            )
+        val `package` = Package(packageName = "postgresql")
     }
 }

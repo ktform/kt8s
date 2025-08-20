@@ -10,6 +10,11 @@
  */
 package dev.ktform.kt8s.container.packages
 
+import dev.ktform.kt8s.container.Environment
+import dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
+import dev.ktform.kt8s.container.components.ProtocComponent
+import dev.ktform.kt8s.container.fetchers.ProtocVersionFetcher
+import dev.ktform.kt8s.container.versions.ProtocVersion.Companion.toProtocVersion
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.test.runTest
@@ -19,17 +24,21 @@ class ProtocTest {
     @Test
     fun testProtoc() {
         runTest(timeout = 10.seconds) {
-            //      val latest = Protoc.`package`.latestVersion().getOrElse { err -> throw
-            // Exception("Unable to determine latest version: $err") }
-            //
-            //      Environment.all.forEach { env ->
-            //        PackageTestCase(
-            //          "protoc",
-            //          env,
-            //          rendered = Protoc(latest).render().getOrElse { err -> throw
-            // Exception("Unable to render: $err") },
-            //        ).isExpected()
-            //      }
+            ProtocVersionFetcher.getVersions().forEach { (component, versions) ->
+                val cli =
+                    when (component) {
+                        is ProtocComponent if (component == ProtocComponent.Protoc) ->
+                            Protoc(versions.last().toProtocVersion())
+
+                        else -> throw Exception("Unknown component: $component")
+                    }
+
+                cli.render(env = Environment.default)
+                    .fold(
+                        { err -> throw Exception("Unable to render ${component.name}: $err") },
+                        { result -> result.getOrUpdateExpected("Dockerfile.${component.name}") },
+                    )
+            }
         }
     }
 }

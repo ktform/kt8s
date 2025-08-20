@@ -44,7 +44,7 @@ object OpenTofuVersionFetcher : VersionsFetcher<OpenTofuVersion> {
 
     override fun Component<OpenTofuVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is OpenTofuComponent -> listOf()
+            is OpenTofuComponent -> listOf("1.10.5", "1.10.4")
             else -> emptyList()
         }
 }

@@ -10,16 +10,20 @@
  */
 package dev.ktform.kt8s.container.fetchers
 
-import kotlinx.coroutines.test.runTest
+import com.varabyte.truthish.assertThat
+import dev.ktform.kt8s.container.fetchers.AwsCliVersionFetcher.knownLatestVersions
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.test.runTest
 
 class AwsCliVersionFetcherTest {
 
-  @Test
-  fun testAwsCliVersionFetcherLatest() {
-    runTest(timeout = 10.seconds) {
-
+    @Test
+    fun testAwsCliVersionFetcherLatest() {
+        runTest(timeout = 10.seconds) {
+            AwsCliVersionFetcher.getVersions().forEach { (component, versions) ->
+                assertThat(versions).equals(component.knownLatestVersions())
+            }
+        }
     }
-  }
 }

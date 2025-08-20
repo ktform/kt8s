@@ -23,7 +23,6 @@ class Kind(val versions: KindVersion) : Renderable {
         `package`.render(versions, KindVersionFetcher, env)
 
     companion object {
-
         val `package` = Package(packageName = "kind")
     }
 }

@@ -23,13 +23,6 @@ class Trivy(val versions: TrivyVersion) : Renderable {
         `package`.render(versions, TrivyVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("0.65.0", "0.64.1", "0.64.0")
-
-        val `package` =
-            Package(
-                packageName = "trivy"
-                //      repo = "https://github.com/aquasecurity/trivy",
-                //      repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "trivy")
     }
 }

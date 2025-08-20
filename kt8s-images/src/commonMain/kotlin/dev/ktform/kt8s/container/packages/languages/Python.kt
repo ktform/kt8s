@@ -23,13 +23,7 @@ class Python(val versions: PythonVersion) : Renderable {
         `package`.render(versions, PythonVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("3.13.6", "3.13.5", "3.13.4")
 
-        val `package` =
-            Package(
-                packageName = "python"
-                //      repo = "https://github.com/python/cpython",
-                //      repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "python")
     }
 }

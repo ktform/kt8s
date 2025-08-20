@@ -24,7 +24,7 @@ object RubyVersionFetcher : VersionsFetcher<RubyVersion> {
     override suspend fun getVersions(last: Int): Map<Component<RubyVersion>, List<String>> =
         RubyComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo).getOrElse { emptyList() }.map { v -> v.replace("_", ".") }
             }
         }
 
@@ -38,13 +38,13 @@ object RubyVersionFetcher : VersionsFetcher<RubyVersion> {
 
     override fun String.toRepoVersion(component: Component<RubyVersion>): Option<String> =
         when (component) {
-            is RubyComponent -> this.withVPrefix().some()
+            is RubyComponent -> this.withVPrefix().replace(".", "_").some()
             else -> None
         }
 
     override fun Component<RubyVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is RubyComponent -> listOf()
+            is RubyComponent -> listOf("3.4.5", "3.4.4", "3.4.3")
             else -> emptyList()
         }
 }

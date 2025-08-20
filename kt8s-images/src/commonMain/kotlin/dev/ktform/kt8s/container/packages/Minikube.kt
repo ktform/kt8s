@@ -23,13 +23,6 @@ class Minikube(val versions: MinikubeVersion) : Renderable {
         `package`.render(versions, MinikubeVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("1.36.0", "1.35.0", "1.34.0")
-
-        val `package` =
-            Package(
-                packageName = "minikube"
-                // repo = "https://github.com/kubernetes/minikube",
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "minikube")
     }
 }

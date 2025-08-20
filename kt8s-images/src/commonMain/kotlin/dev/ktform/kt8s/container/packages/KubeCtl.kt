@@ -23,7 +23,6 @@ class KubeCtl(val versions: KubeCtlVersion) : Renderable {
         `package`.render(versions, KubeCtlVersionFetcher, env)
 
     companion object {
-
         val `package` = Package(packageName = "kubectl")
     }
 }

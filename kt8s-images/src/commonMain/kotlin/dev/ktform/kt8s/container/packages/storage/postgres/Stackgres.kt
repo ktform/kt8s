@@ -23,15 +23,6 @@ class Stackgres(val versions: PostgreSQLVersion) : Renderable {
         `package`.render(versions, PostgreSQLVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("1.17.1", "1.17.0", "1.16.3")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "stackgres"
-                // repo = "https://github.com/ongres/stackgres",
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "stackgres")
     }
 }

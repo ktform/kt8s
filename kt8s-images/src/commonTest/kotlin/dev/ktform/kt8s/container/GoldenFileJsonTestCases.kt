@@ -24,11 +24,14 @@ import kotlinx.serialization.json.Json
 @Serializable
 data class GoldenFileJsonTestCases(val cases: MutableMap<String, String> = mutableMapOf()) {
     companion object {
-      const val TARGET_DIR = "src/commonTest/resources/containers"
+        const val TARGET_DIR = "src/commonTest/resources/containers"
 
-      private val json = Json { prettyPrint = true }
+        private val json = Json { prettyPrint = true }
 
-        private fun readGoldenFile(goldenFileName: String, goldenFile: Path = Path("${GoldenFileTestCases.TARGET_DIR}/$goldenFileName")): Either<String, GoldenFileJsonTestCases> =
+        private fun readGoldenFile(
+            goldenFileName: String,
+            goldenFile: Path = Path("${GoldenFileTestCases.TARGET_DIR}/$goldenFileName"),
+        ): Either<String, GoldenFileJsonTestCases> =
             if (!SystemFileSystem.exists(goldenFile)) {
                 goldenFile.parent?.let { dir ->
                     if (!SystemFileSystem.exists(dir)) SystemFileSystem.createDirectories(dir)
@@ -52,7 +55,11 @@ data class GoldenFileJsonTestCases(val cases: MutableMap<String, String> = mutab
                     .mapLeft { "Failed to read golden file: ${it.message}" }
             }
 
-        private fun writeGoldenFile(cases: GoldenFileJsonTestCases, goldenFileName: String, goldenFile: Path = Path("$TARGET_DIR/$goldenFileName")): Either<String, Unit> =
+        private fun writeGoldenFile(
+            cases: GoldenFileJsonTestCases,
+            goldenFileName: String,
+            goldenFile: Path = Path("$TARGET_DIR/$goldenFileName"),
+        ): Either<String, Unit> =
             Either.catch {
                     val jsonString = json.encodeToString(cases)
                     val bytes = jsonString.encodeToByteArray()

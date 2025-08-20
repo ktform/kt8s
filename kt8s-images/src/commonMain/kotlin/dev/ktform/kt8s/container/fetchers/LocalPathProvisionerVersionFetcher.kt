@@ -49,7 +49,7 @@ object LocalPathProvisionerVersionFetcher : VersionsFetcher<LocalPathProvisioner
 
     override fun Component<LocalPathProvisionerVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is LocalPathProvisionerComponent -> listOf()
+            is LocalPathProvisionerComponent -> listOf("0.0.32", "0.0.31", "0.0.30")
             else -> emptyList()
         }
 }

@@ -23,30 +23,7 @@ class KubeFlink(val versions: KubeFlinkVersion) : Renderable {
         `package`.render(versions, KubeFlinkVersionFetcher, env)
 
     companion object {
-        const val RELEASE_PREFIX = "release-"
 
-        const val REPO = "https://github.com/apache/flink-kubernetes-operator"
-
-        val DEFAULT_VERSIONS = listOf("1.12.1", "1.12.0", "1.11.0")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "flink-kubernetes-operator"
-                // repo = REPO,
-                // repoVersion = { version, toRepo ->
-                //   if (toRepo) {
-                //     "$RELEASE_PREFIX$version"
-                //   } else {
-                //     version
-                //   }
-                // },
-                // availableVersions = { _ ->
-                //   val client = GithubClient()
-                //   client.getTags(REPO).map { it.filter { v -> v.startsWith(RELEASE_PREFIX) }.map
-                // { v -> v.substringAfter(RELEASE_PREFIX) }}
-                // }
-            )
+        val `package` = Package(packageName = "flink-kubernetes-operator")
     }
 }

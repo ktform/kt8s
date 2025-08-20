@@ -44,7 +44,7 @@ object MinikubeVersionFetcher : VersionsFetcher<MinikubeVersion> {
 
     override fun Component<MinikubeVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is MinikubeComponent -> listOf()
+            is MinikubeComponent -> listOf("1.36.0", "1.35.0", "1.34.0")
             else -> emptyList()
         }
 }

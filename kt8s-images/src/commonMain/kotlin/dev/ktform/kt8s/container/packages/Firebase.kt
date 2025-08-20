@@ -23,7 +23,6 @@ class Firebase(val versions: FirebaseVersion) : Renderable {
         `package`.render(versions, FirebaseVersionFetcher, env)
 
     companion object {
-
         val `package` = Package(packageName = "firebase")
     }
 }

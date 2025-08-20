@@ -10,16 +10,20 @@
  */
 package dev.ktform.kt8s.container.fetchers
 
-import kotlinx.coroutines.test.runTest
+import com.varabyte.truthish.assertThat
+import dev.ktform.kt8s.container.fetchers.KubeFlinkVersionFetcher.knownLatestVersions
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.test.runTest
 
 class KubeFlinkVersionFetcherTest {
 
-  @Test
-  fun testKubeFlinkVersionFetcherLatest() {
-    runTest(timeout = 10.seconds) {
-
+    @Test
+    fun testKubeFlinkVersionFetcherLatest() {
+        runTest(timeout = 10.seconds) {
+            KubeFlinkVersionFetcher.getVersions().forEach { (component, versions) ->
+                assertThat(versions).equals(component.knownLatestVersions())
+            }
+        }
     }
-  }
 }

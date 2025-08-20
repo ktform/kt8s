@@ -32,5 +32,4 @@ class OpenJ9JdkTest {
             // }
         }
     }
-
 }

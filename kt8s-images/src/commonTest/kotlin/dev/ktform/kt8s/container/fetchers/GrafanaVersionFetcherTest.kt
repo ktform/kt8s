@@ -10,16 +10,20 @@
  */
 package dev.ktform.kt8s.container.fetchers
 
-import kotlinx.coroutines.test.runTest
+import com.varabyte.truthish.assertThat
+import dev.ktform.kt8s.container.fetchers.GrafanaVersionFetcher.knownLatestVersions
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.test.runTest
 
 class GrafanaVersionFetcherTest {
 
-  @Test
-  fun testGrafanaVersionFetcherLatest() {
-    runTest(timeout = 10.seconds) {
-
+    @Test
+    fun testGrafanaVersionFetcherLatest() {
+        runTest(timeout = 10.seconds) {
+            GrafanaVersionFetcher.getVersions().forEach { (component, versions) ->
+                assertThat(versions).equals(component.knownLatestVersions())
+            }
+        }
     }
-  }
 }

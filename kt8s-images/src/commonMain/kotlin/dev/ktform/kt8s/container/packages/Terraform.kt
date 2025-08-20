@@ -23,13 +23,6 @@ class Terraform(val versions: TerraformVersion) : Renderable {
         `package`.render(versions, TerraformVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("1.12.2", "1.12.1")
-
-        val `package` =
-            Package(
-                packageName = "terraform"
-                //      repo = "https://github.com/hashicorp/terraform",
-                //      repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "terraform")
     }
 }

@@ -23,15 +23,6 @@ class TopoLVM(val versions: TopoLvmVersion) : Renderable {
         `package`.render(versions, TopoLvmVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("0.37.0", "0.36.5", "0.36.4")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "topolvm"
-                //      repo = "https://github.com/topolvm/topolvm",
-                //      repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "topolvm")
     }
 }

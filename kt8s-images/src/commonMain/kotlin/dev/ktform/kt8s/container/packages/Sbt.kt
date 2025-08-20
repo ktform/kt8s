@@ -14,13 +14,13 @@ import arrow.core.Either
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
-import dev.ktform.kt8s.container.fetchers.PodmanVersionFetcher
-import dev.ktform.kt8s.container.versions.PodmanVersion
+import dev.ktform.kt8s.container.fetchers.ScalaVersionFetcher
+import dev.ktform.kt8s.container.versions.ScalaVersion
 
-class Podman(val versions: PodmanVersion) : Renderable {
+class Sbt(val versions: ScalaVersion) : Renderable {
 
     override fun render(env: Environment): Either<String, String> =
-        `package`.render(versions, PodmanVersionFetcher, env)
+        `package`.render(versions, ScalaVersionFetcher, env)
 
     companion object {
         val `package` = Package(packageName = "podman")

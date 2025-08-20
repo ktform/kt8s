@@ -23,15 +23,6 @@ class Rook(val versions: RookVersion) : Renderable {
         `package`.render(versions, RookVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("1.17.7", "1.17.6")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "rook"
-                //      repo = "https://github.com/rook/rook",
-                //      repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "rook")
     }
 }

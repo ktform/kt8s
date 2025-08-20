@@ -44,7 +44,7 @@ object TerraformVersionFetcher : VersionsFetcher<TerraformVersion> {
 
     override fun Component<TerraformVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is TerraformComponent -> listOf()
+            is TerraformComponent -> listOf("1.12.2", "1.12.1")
             else -> emptyList()
         }
 }

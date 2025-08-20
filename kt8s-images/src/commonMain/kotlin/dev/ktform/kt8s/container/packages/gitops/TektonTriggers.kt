@@ -23,17 +23,7 @@ class TektonTriggers(val versions: TektonVersion) : Renderable {
         `package`.render(versions, TektonVersionFetcher, env)
 
     companion object {
-        const val REPO = "https://github.com/tektoncd/triggers"
 
-        val DEFAULT_VERSIONS = listOf("0.32.0", "0.31.0")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "tektontriggers"
-                //      repo = REPO,
-                //      repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "tektontriggers")
     }
 }

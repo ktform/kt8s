@@ -23,7 +23,6 @@ class K9s(val versions: K9sVersion) : Renderable {
         `package`.render(versions, K9sVersionFetcher, env)
 
     companion object {
-
         val `package` = Package(packageName = "k9s")
     }
 }

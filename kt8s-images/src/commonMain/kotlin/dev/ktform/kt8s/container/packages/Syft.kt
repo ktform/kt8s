@@ -23,13 +23,6 @@ class Syft(val versions: SyftVersion) : Renderable {
         `package`.render(versions, SyftVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("1.30.0", "1.29.1", "1.29.0")
-
-        val `package` =
-            Package(
-                packageName = "syft"
-                //      repo = "https://github.com/anchore/syft",
-                //      repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "syft")
     }
 }

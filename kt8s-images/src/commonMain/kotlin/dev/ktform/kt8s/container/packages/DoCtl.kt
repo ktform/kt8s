@@ -23,7 +23,6 @@ class DoCtl(val versions: DoCtlVersion) : Renderable {
         `package`.render(versions, DoCtlVersionFetcher, env)
 
     companion object {
-
         val `package` = Package(packageName = "doctl")
     }
 }

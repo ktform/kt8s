@@ -23,15 +23,6 @@ class PVCAutoresizer(val versions: PVCAutoresizerVersion) : Renderable {
         `package`.render(versions, PVCAutoresizerVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("0.17.5", "0.17.4", "0.17.3")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "pvc-autoresizer"
-                // repo = "https://github.com/topolvm/pvc-autoresizer",
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "pvc-autoresizer")
     }
 }

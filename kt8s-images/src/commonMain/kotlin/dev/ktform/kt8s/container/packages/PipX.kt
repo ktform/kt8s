@@ -23,13 +23,6 @@ class PipX(val versions: PipXVersion) : Renderable {
         `package`.render(versions, PipXVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("1.7.1", "1.7.0", "1.6.0")
-
-        val `package` =
-            Package(
-                packageName = "pipx"
-                // repo = "https://github.com/pypa/pipx",
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "pipx")
     }
 }

@@ -23,15 +23,6 @@ class Velero(val versions: VeleroVersion) : Renderable {
         `package`.render(versions, VeleroVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("1.16.2", "1.16.1")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "velero"
-                //      repo = "https://github.com/vmware-tanzu/velero",
-                //      repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "velero")
     }
 }

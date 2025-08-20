@@ -23,17 +23,7 @@ class OpenCost(val versions: OpenCostVersion) : Renderable {
         `package`.render(versions, OpenCostVersionFetcher, env)
 
     companion object {
-        const val REPO = "https://github.com/opencost/opencost"
 
-        val DEFAULT_VERSIONS = listOf("2.5.3", "2.5.2")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "opencost"
-                //      repo = REPO,
-                //      repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "opencost")
     }
 }

@@ -19,17 +19,17 @@ class PrometheusTest {
     @Test
     fun testPrometheus() {
         runTest(timeout = 10.seconds) {
-            //      val latest = Prometheus.`package`.latestVersion().getOrElse { err -> throw
-            // Exception("Unable to determine latest version: $err") }
+            //            val latest = PrometheusComponent.Prometheus.latestVersion().getOrElse {
+            // err -> throw Exception("Unable to determine latest version: $err") }
             //
-            //      Environment.all.forEach { env ->
-            //        PackageTestCase(
-            //          "prometheus",
-            //          env,
-            //          rendered = Prometheus(latest).render().getOrElse { err -> throw
+            //            Environment.all.forEach { env ->
+            //                PackageTestCase(
+            //                    "prometheus",
+            //                    env,
+            //                    rendered = Prometheus(latest).render().getOrElse { err -> throw
             // Exception("Unable to render: $err") },
-            //        ).isExpected()
-            //      }
+            //                   ).isExpected()
+            //                 }
         }
     }
 }

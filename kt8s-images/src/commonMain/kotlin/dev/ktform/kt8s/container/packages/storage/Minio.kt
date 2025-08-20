@@ -23,29 +23,6 @@ class Minio(val versions: MinioVersion) : Renderable {
         `package`.render(versions, MinioVersionFetcher, env)
 
     companion object {
-        const val RELEASE_PREFIX = "RELEASE."
-        const val REPO = "minio/minio"
-
-        val DEFAULT_VERSIONS = listOf("2025-07-23T15-54-02Z", "2025-07-18T21-56-31Z")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "minio"
-                //      repo = "https://github.com/minio/minio",
-                //      repoVersion = { version, toRepo ->
-                //        if (toRepo) {
-                //          "$RELEASE_PREFIX$version"
-                //        } else {
-                //          version
-                //        }
-                //      },
-                //      availableVersions = { _ ->
-                //        val client = GithubClient()
-                //        client.getTags(REPO).map { it.filter { v -> v.startsWith(RELEASE_PREFIX)
-                // }.map { v -> v.substringAfter(RELEASE_PREFIX) }}
-                //      }
-            )
+        val `package` = Package(packageName = "minio")
     }
 }

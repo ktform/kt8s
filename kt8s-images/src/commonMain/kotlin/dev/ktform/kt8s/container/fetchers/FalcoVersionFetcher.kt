@@ -32,7 +32,6 @@ object FalcoVersionFetcher : VersionsFetcher<FalcoVersion> {
         when (component) {
             is FalcoComponent if component == FalcoComponent.Falco ->
                 "https://github.com/falcosecurity/falco".some()
-
             else -> None
         }
 

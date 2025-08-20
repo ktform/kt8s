@@ -23,13 +23,6 @@ class Scala(val versions: ScalaVersion) : Renderable {
         `package`.render(versions, ScalaVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("1.11.4", "1.11.3")
-
-        val `package` =
-            Package(
-                packageName = "sbt"
-                // repo = "https://github.com/sbt/sbt",
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "sbt")
     }
 }

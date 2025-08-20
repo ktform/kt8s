@@ -44,7 +44,7 @@ object PythonVersionFetcher : VersionsFetcher<PythonVersion> {
 
     override fun Component<PythonVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is PythonComponent -> listOf()
+            is PythonComponent -> listOf("3.13.6", "3.13.5", "3.13.4")
             else -> emptyList()
         }
 }

@@ -10,16 +10,20 @@
  */
 package dev.ktform.kt8s.container.fetchers
 
-import kotlinx.coroutines.test.runTest
+import com.varabyte.truthish.assertThat
+import dev.ktform.kt8s.container.fetchers.RustVersionFetcher.knownLatestVersions
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.test.runTest
 
 class RustVersionFetcherTest {
 
-  @Test
-  fun testRustVersionFetcherLatest() {
-    runTest(timeout = 10.seconds) {
-
+    @Test
+    fun testRustVersionFetcherLatest() {
+        runTest(timeout = 10.seconds) {
+            RustVersionFetcher.getVersions().forEach { (component, versions) ->
+                assertThat(versions).equals(component.knownLatestVersions())
+            }
+        }
     }
-  }
 }

@@ -23,6 +23,7 @@ class GraalVMJdk(val versions: JavaVersion) : Renderable {
         `package`.render(versions, JavaVersionFetcher, env)
 
     companion object {
+
         val `package` = Package(packageName = "graalvmjdk")
     }
 }

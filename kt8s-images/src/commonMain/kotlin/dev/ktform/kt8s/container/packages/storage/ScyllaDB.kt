@@ -23,15 +23,6 @@ class ScyllaDB(val versions: ScyllaDBVersion) : Renderable {
         `package`.render(versions, ScyllaDBVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "scylladb"
-                //      repo = "https://github.com/scylladb/scylladb",
-                //      repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "scylladb")
     }
 }

@@ -19,12 +19,11 @@ class DataFusionBallistaTest {
     @Test
     fun testDataFusionBallista() {
         runTest(timeout = 10.seconds) {
-            //      val latest =
-            //        DataFusionBallista.`package`.latestVersion().getOrElse { err -> throw
+            // val latest = DataFusionBallista.`package`.latestVersion().getOrElse { err -> throw
             // Exception("Unable to determine latest version: $err") }
-            //
-            //      Environment.all.forEach { env ->
-            //        PackageTestCase(
+
+            // Environment.all.forEach { env ->
+            //   PackageTestCase(
             //          "DataFusionBallista",
             //          env,
             //          rendered = DataFusionBallista(latest).render().getOrElse { err -> throw

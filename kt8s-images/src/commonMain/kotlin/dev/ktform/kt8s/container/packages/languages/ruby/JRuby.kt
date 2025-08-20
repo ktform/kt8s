@@ -23,15 +23,7 @@ class JRuby(val versions: RubyVersion) : Renderable {
         `package`.render(versions, RubyVersionFetcher, env)
 
     companion object {
-        const val REPO = "https://github.com/jruby/jruby"
 
-        val DEFAULT_VERSIONS = listOf("10.0.2.0", "10.0.1.0", "10.0.0.1")
-
-        val `package` =
-            Package(
-                packageName = "jruby"
-                // repo = REPO,
-                // repoVersion = Package.asIs,
-            )
+        val `package` = Package(packageName = "jruby")
     }
 }

@@ -44,7 +44,7 @@ object KubeRayVersionFetcher : VersionsFetcher<KubeRayVersion> {
 
     override fun Component<KubeRayVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is KubeRayComponent -> listOf()
+            is KubeRayComponent -> listOf("1.4.2", "1.4.1", "1.4.0")
             else -> emptyList()
         }
 }

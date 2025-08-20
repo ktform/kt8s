@@ -23,28 +23,6 @@ class PyPy(val versions: PythonVersion) : Renderable {
         `package`.render(versions, PythonVersionFetcher, env)
 
     companion object {
-        const val REPO = "https://github.com/pypy/pypy"
-
-        const val CE_PREFIX = "vm-ce-"
-
-        val DEFAULT_VERSIONS = listOf("")
-
-        val `package` =
-            Package(
-                packageName = "pypy"
-                // repo = "https://github.com/pypy/pypy",
-                // repoVersion = { version, toRepo ->
-                //   if (toRepo) {
-                //     "$CE_PREFIX$version"
-                //   } else {
-                //     version
-                //   }
-                // },
-                // availableVersions = { _ ->
-                //   val client = GithubClient()
-                //   client.getTags(REPO).map { it.filter { v -> v.startsWith(CE_PREFIX) }.map { v
-                // -> v.substringAfter(CE_PREFIX) }}
-                // }
-            )
+        val `package` = Package(packageName = "pypy")
     }
 }

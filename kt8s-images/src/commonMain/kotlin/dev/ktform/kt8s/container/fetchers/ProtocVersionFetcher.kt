@@ -18,12 +18,37 @@ import dev.ktform.kt8s.container.components.Component
 import dev.ktform.kt8s.container.components.ProtocComponent
 import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.githubVersions
 import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.withVPrefix
+import dev.ktform.kt8s.container.github.GithubClient
 import dev.ktform.kt8s.container.versions.ProtocVersion
 
 object ProtocVersionFetcher : VersionsFetcher<ProtocVersion> {
     override suspend fun getVersions(last: Int): Map<Component<ProtocVersion>, List<String>> =
         ProtocComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
+                val client = GithubClient()
+                client.getTags(repo).map { all ->
+                    all.filter { v -> v.startsWith("v") }
+                        .map { v -> v.substringAfter("v").trim() }
+                        .filter { v ->
+                            !v.lowercase().contains("beta") &&
+                                !v.lowercase().contains("rc") &&
+                                !v.lowercase().contains("dev")
+                        }
+                        .sortedWith(
+                            run {
+                                fun numAt(s: String, idx: Int): Int =
+                                    s.split('.', '-', '_')
+                                        .getOrNull(idx)
+                                        ?.takeWhile(Char::isDigit)
+                                        ?.toIntOrNull() ?: 0
+
+                                compareByDescending<String> { n -> numAt(n, 0) }
+                                    .thenByDescending { n -> numAt(n, 1) }
+                                    .thenByDescending { n -> numAt(n, 2) }
+                                    .thenByDescending { n -> numAt(n, 3) }
+                            }
+                        )
+                }
                 githubVersions(repo).getOrElse { emptyList() }
             }
         }

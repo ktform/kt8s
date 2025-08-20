@@ -24,7 +24,10 @@ object GoldenFileTestCases {
 
     const val TARGET_DIR = "src/commonTest/resources/containers"
 
-    private fun readFile(goldenFileName: String, goldenFile: Path = Path("$TARGET_DIR/$goldenFileName")): Either<String, String> =
+    private fun readFile(
+        goldenFileName: String,
+        goldenFile: Path = Path("$TARGET_DIR/$goldenFileName"),
+    ): Either<String, String> =
         if (!SystemFileSystem.exists(goldenFile)) {
             goldenFile.parent?.let { dir ->
                 if (!SystemFileSystem.exists(dir)) SystemFileSystem.createDirectories(dir)
@@ -39,7 +42,11 @@ object GoldenFileTestCases {
                 .mapLeft { "Failed to read golden file: ${it.message}" }
         }
 
-    private fun writeFile(content: String, goldenFileName: String, goldenFile: Path = Path("$TARGET_DIR/$goldenFileName")): Either<String, Unit> =
+    private fun writeFile(
+        content: String,
+        goldenFileName: String,
+        goldenFile: Path = Path("$TARGET_DIR/$goldenFileName"),
+    ): Either<String, Unit> =
         Either.catch {
                 val bytes = content.encodeToByteArray()
                 SystemFileSystem.sink(goldenFile).use { sink ->

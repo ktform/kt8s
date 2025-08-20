@@ -23,44 +23,6 @@ class Protoc(val versions: ProtocVersion) : Renderable {
         `package`.render(versions, ProtocVersionFetcher, env)
 
     companion object {
-        const val REPO = "https://github.com/protocolbuffers/protobuf"
-
-        val DEFAULT_VERSIONS = listOf("31.1", "31.0", "30.2")
-
-        val `package` =
-            Package(
-                packageName = "protoc"
-                // repo = REPO,
-                // repoVersion = { version, toRepo ->
-                //   if (toRepo) {
-                //     "v${version}"
-                //   } else {
-                //     version
-                //   }
-                // },
-                // availableVersions = { _ ->
-                //   val client = GithubClient()
-                //   client.getTags(REPO).map { all ->
-                //     all.filter { v -> v.startsWith("v") }
-                //       .map { v -> v.substringAfter("v").trim()}
-                //       .filter { v -> !v.lowercase().contains("beta") &&
-                // !v.lowercase().contains("rc") && !v.lowercase().contains("dev") }
-                //       .sortedWith(
-                //         run {
-                //           fun numAt(s: String, idx: Int): Int = s
-                //             .split('.', '-', '_')
-                //             .getOrNull(idx)
-                //             ?.takeWhile(Char::isDigit)
-                //             ?.toIntOrNull() ?: 0
-
-                //           compareByDescending<String> { numAt(it, 0) }
-                //             .thenByDescending { numAt(it, 1) }
-                //             .thenByDescending { numAt(it, 2) }
-                //             .thenByDescending { numAt(it, 3) }
-                //         }
-                //       )
-                //   }
-                // }
-            )
+        val `package` = Package(packageName = "protoc")
     }
 }

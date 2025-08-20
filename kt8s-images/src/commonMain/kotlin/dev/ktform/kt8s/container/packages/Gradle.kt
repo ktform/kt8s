@@ -23,7 +23,6 @@ class Gradle(val versions: GradleVersion) : Renderable {
         `package`.render(versions, GradleVersionFetcher, env)
 
     companion object {
-
         val `package` = Package(packageName = "gradle")
     }
 }

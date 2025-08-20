@@ -10,6 +10,11 @@
  */
 package dev.ktform.kt8s.container.packages
 
+import dev.ktform.kt8s.container.Environment
+import dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
+import dev.ktform.kt8s.container.components.GradleComponent
+import dev.ktform.kt8s.container.fetchers.GradleVersionFetcher
+import dev.ktform.kt8s.container.versions.GradleVersion.Companion.toGradleVersion
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.test.runTest
@@ -19,17 +24,21 @@ class GradleTest {
     @Test
     fun testGradle() {
         runTest(timeout = 10.seconds) {
-            //      val latest = Gradle.`package`.latestVersion().getOrElse { err -> throw
-            // Exception("Unable to determine latest version: $err") }
-            //
-            //      Environment.all.forEach { env ->
-            //        PackageTestCase(
-            //          "gradle",
-            //          env,
-            //          rendered = Gradle(latest).render().getOrElse { err -> throw
-            // Exception("Unable to render: $err") },
-            //        ).isExpected()
-            //      }
+            GradleVersionFetcher.getVersions().forEach { (component, versions) ->
+                val cli =
+                    when (component) {
+                        is GradleComponent if (component == GradleComponent.Gradle) ->
+                            Gradle(versions.last().toGradleVersion())
+
+                        else -> throw Exception("Unknown component: $component")
+                    }
+
+                cli.render(env = Environment.default)
+                    .fold(
+                        { err -> throw Exception("Unable to render ${component.name}: $err") },
+                        { result -> result.getOrUpdateExpected("Dockerfile.${component.name}") },
+                    )
+            }
         }
     }
 }

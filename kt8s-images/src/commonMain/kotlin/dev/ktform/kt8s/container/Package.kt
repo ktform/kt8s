@@ -35,7 +35,7 @@ data class Package(
         fetcher: VersionsFetcher<T>,
         env: Environment,
     ): Either<String, String> {
-        TODO("Not yet implemented")
+        return "${fetcher::class.simpleName}".right()
     }
 
     companion object {

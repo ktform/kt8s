@@ -23,15 +23,7 @@ class Kyverno(val versions: KyvernoVersion) : Renderable {
         `package`.render(versions, KyvernoVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("1.15.1", "1.15.0")
 
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "falco"
-                //      repo = "https://github.com/kyverno/kyverno",
-                //      repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "falco")
     }
 }

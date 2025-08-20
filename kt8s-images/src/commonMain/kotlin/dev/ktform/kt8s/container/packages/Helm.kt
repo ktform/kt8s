@@ -23,7 +23,6 @@ class Helm(val versions: HelmVersion) : Renderable {
         `package`.render(versions, HelmVersionFetcher, env)
 
     companion object {
-
         val `package` = Package(packageName = "helm")
     }
 }

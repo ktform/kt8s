@@ -23,15 +23,6 @@ class CNPG(val versions: PostgreSQLVersion) : Renderable {
         `package`.render(versions, PostgreSQLVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("1.26.1", "1.26.0", "1.25.3")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "cloudnative-pg"
-                // repo = "https://github.com/cloudnative-pg/cloudnative-pg",
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "cloudnative-pg")
     }
 }

@@ -10,6 +10,11 @@
  */
 package dev.ktform.kt8s.container.packages
 
+import dev.ktform.kt8s.container.Environment
+import dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
+import dev.ktform.kt8s.container.components.KindComponent
+import dev.ktform.kt8s.container.fetchers.KindVersionFetcher
+import dev.ktform.kt8s.container.versions.KindVersion.Companion.toKindVersion
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.test.runTest
@@ -19,17 +24,21 @@ class KindTest {
     @Test
     fun testKind() {
         runTest(timeout = 10.seconds) {
-            //      val latest = Kind.`package`.latestVersion().getOrElse { err -> throw
-            // Exception("Unable to determine latest version: $err") }
+            KindVersionFetcher.getVersions().forEach { (component, versions) ->
+                val cli =
+                    when (component) {
+                        is KindComponent if (component == KindComponent.Kind) ->
+                            Kind(versions.last().toKindVersion())
 
-            //      Environment.all.forEach { env ->
-            //        PackageTestCase(
-            //          "kind",
-            //          env,
-            //          rendered = Kind(latest).render().getOrElse { err -> throw Exception("Unable
-            // to render: $err") },
-            //        ).isExpected()
-            //      }
+                        else -> throw Exception("Unknown component: $component")
+                    }
+
+                cli.render(env = Environment.default)
+                    .fold(
+                        { err -> throw Exception("Unable to render ${component.name}: $err") },
+                        { result -> result.getOrUpdateExpected("Dockerfile.${component.name}") },
+                    )
+            }
         }
     }
 }

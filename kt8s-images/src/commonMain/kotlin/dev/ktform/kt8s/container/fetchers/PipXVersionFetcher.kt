@@ -44,7 +44,7 @@ object PipXVersionFetcher : VersionsFetcher<PipXVersion> {
 
     override fun Component<PipXVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is PipXComponent -> listOf()
+            is PipXComponent -> listOf("1.7.1", "1.7.0", "1.6.0")
             else -> emptyList()
         }
 }

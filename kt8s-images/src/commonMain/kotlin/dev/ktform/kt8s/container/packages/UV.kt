@@ -23,13 +23,6 @@ class UV(val versions: UVVersion) : Renderable {
         `package`.render(versions, UVVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("0.8.8", "0.8.7")
-
-        val `package` =
-            Package(
-                packageName = "uv"
-                //      repo = "https://github.com/astral-sh/uv",
-                //      repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "uv")
     }
 }

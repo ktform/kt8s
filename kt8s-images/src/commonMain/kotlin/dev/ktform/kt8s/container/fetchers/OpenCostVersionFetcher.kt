@@ -44,7 +44,7 @@ object OpenCostVersionFetcher : VersionsFetcher<OpenCostVersion> {
 
     override fun Component<OpenCostVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is OpenCostComponent -> listOf()
+            is OpenCostComponent -> listOf("2.5.3", "2.5.2")
             else -> emptyList()
         }
 }

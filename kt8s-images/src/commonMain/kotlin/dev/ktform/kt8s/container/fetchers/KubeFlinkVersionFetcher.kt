@@ -17,14 +17,16 @@ import arrow.core.some
 import dev.ktform.kt8s.container.components.Component
 import dev.ktform.kt8s.container.components.KubeFlinkComponent
 import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.githubVersions
-import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.withVPrefix
 import dev.ktform.kt8s.container.versions.KubeFlinkVersion
 
 object KubeFlinkVersionFetcher : VersionsFetcher<KubeFlinkVersion> {
+
+    const val RELEASE_PREFIX = "release-"
+
     override suspend fun getVersions(last: Int): Map<Component<KubeFlinkVersion>, List<String>> =
         KubeFlinkComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, prefix = RELEASE_PREFIX).getOrElse { emptyList() }
             }
         }
 
@@ -38,13 +40,13 @@ object KubeFlinkVersionFetcher : VersionsFetcher<KubeFlinkVersion> {
 
     override fun String.toRepoVersion(component: Component<KubeFlinkVersion>): Option<String> =
         when (component) {
-            is KubeFlinkComponent -> this.withVPrefix().some()
+            is KubeFlinkComponent -> "$RELEASE_PREFIX$this".some()
             else -> None
         }
 
     override fun Component<KubeFlinkVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is KubeFlinkComponent -> listOf()
+            is KubeFlinkComponent -> listOf("1.12.1", "1.12.0", "1.11.0")
             else -> emptyList()
         }
 }

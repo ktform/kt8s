@@ -23,13 +23,7 @@ class MRuby(val versions: RubyVersion) : Renderable {
         `package`.render(versions, RubyVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("3.4.0", "3.3.0", "3.2.0")
 
-        val `package` =
-            Package(
-                packageName = "mruby"
-                // repo = "https://github.com/mruby/mruby",
-                // repoVersion = Package.asIs,
-            )
+        val `package` = Package(packageName = "mruby")
     }
 }

@@ -23,13 +23,6 @@ class NodeJS(val versions: NodeJsVersion) : Renderable {
         `package`.render(versions, NodeJsVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("24.5.0", "24.4.1")
-
-        val `package` =
-            Package(
-                packageName = "nodejs"
-                //      repo = "https://github.com/nodejs/node",
-                //      repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "nodejs")
     }
 }

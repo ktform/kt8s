@@ -23,13 +23,7 @@ class Rust(val versions: RustVersion) : Renderable {
         `package`.render(versions, RustVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("1.89.0", "1.88.0", "1.87.0")
 
-        val `package` =
-            Package(
-                packageName = "rust"
-                //      repo = "https://github.com/rust-lang/rust",
-                //      repoVersion = Package.asIs,
-            )
+        val `package` = Package(packageName = "rust")
     }
 }

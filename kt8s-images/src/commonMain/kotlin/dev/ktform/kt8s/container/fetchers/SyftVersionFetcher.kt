@@ -44,7 +44,7 @@ object SyftVersionFetcher : VersionsFetcher<SyftVersion> {
 
     override fun Component<SyftVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is SyftComponent -> listOf()
+            is SyftComponent -> listOf("1.30.0", "1.29.1", "1.29.0")
             else -> emptyList()
         }
 }

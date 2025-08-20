@@ -44,7 +44,7 @@ object PodmanVersionFetcher : VersionsFetcher<PodmanVersion> {
 
     override fun Component<PodmanVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is PodmanComponent -> listOf()
+            is PodmanComponent -> listOf("5.5.2", "5.5.1")
             else -> emptyList()
         }
 }

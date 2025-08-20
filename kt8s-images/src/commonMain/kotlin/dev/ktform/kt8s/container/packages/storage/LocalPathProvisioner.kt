@@ -23,15 +23,6 @@ class LocalPathProvisioner(val versions: LocalPathProvisionerVersion) : Renderab
         `package`.render(versions, LocalPathProvisionerVersionFetcher, env)
 
     companion object {
-        val DEFAULT_VERSIONS = listOf("0.0.32", "0.0.31", "0.0.30")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "local-path-provisioner"
-                //      repo = "https://github.com/rancher/local-path-provisioner",
-                //      repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "local-path-provisioner")
     }
 }

@@ -23,17 +23,7 @@ class KubeRay(val versions: KubeRayVersion) : Renderable {
         `package`.render(versions, KubeRayVersionFetcher, env)
 
     companion object {
-        const val REPO = "https://github.com/ray-project/kuberay"
 
-        val DEFAULT_VERSIONS = listOf("1.4.2", "1.4.1", "1.4.0")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "kuberay"
-                // repo = REPO,
-                // repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "kuberay")
     }
 }

@@ -23,17 +23,7 @@ class TektonChains(val versions: TektonVersion) : Renderable {
         `package`.render(versions, TektonVersionFetcher, env)
 
     companion object {
-        const val REPO = "https://github.com/tektoncd/chains"
 
-        val DEFAULT_VERSIONS = listOf("0.25.1", "0.25.0")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "tektonchains"
-                //      repo = REPO,
-                //      repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "tektonchains")
     }
 }

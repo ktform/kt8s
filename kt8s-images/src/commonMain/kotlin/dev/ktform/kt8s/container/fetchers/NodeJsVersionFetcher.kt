@@ -44,7 +44,7 @@ object NodeJsVersionFetcher : VersionsFetcher<NodeJsVersion> {
 
     override fun Component<NodeJsVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is NodeJsComponent -> listOf()
+            is NodeJsComponent -> listOf("24.5.0", "24.4.1")
             else -> emptyList()
         }
 }

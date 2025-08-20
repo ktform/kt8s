@@ -11,7 +11,6 @@
 package dev.ktform.kt8s.container.versions
 
 import dev.ktform.kt8s.container.components.Component
-import dev.ktform.kt8s.container.components.PipXComponent
 import dev.ktform.kt8s.container.components.PodmanComponent
 import dev.ktform.kt8s.container.fetchers.PodmanVersionFetcher
 import dev.ktform.kt8s.container.fetchers.VersionsFetcher
@@ -19,6 +18,7 @@ import dev.ktform.kt8s.container.fetchers.VersionsFetcher
 data class PodmanVersion(val podmanVersions: Map<PodmanComponent, String>) :
     Versions<PodmanVersion>(podmanVersions.mapKeys { it.key as Component<PodmanVersion> }) {
     companion object : VersionsFetcher<PodmanVersion> by PodmanVersionFetcher {
-        fun String.toPipXVersion(): PipXVersion = PipXVersion(mapOf(PipXComponent.PipX to this))
+        fun String.toPodmanVersion(): PodmanVersion =
+            PodmanVersion(mapOf(PodmanComponent.Podman to this))
     }
 }

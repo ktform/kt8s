@@ -44,7 +44,7 @@ object VolcanoVersionFetcher : VersionsFetcher<VolcanoVersion> {
 
     override fun Component<VolcanoVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is VolcanoComponent -> listOf()
+            is VolcanoComponent -> listOf("1.12.1", "1.11.2", "1.11.1")
             else -> emptyList()
         }
 }

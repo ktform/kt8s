@@ -10,6 +10,11 @@
  */
 package dev.ktform.kt8s.container.packages
 
+import dev.ktform.kt8s.container.Environment
+import dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
+import dev.ktform.kt8s.container.components.AwsCliComponent
+import dev.ktform.kt8s.container.fetchers.AwsCliVersionFetcher
+import dev.ktform.kt8s.container.versions.AwsCliVersion.Companion.toAwsCliVersion
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.test.runTest
@@ -19,17 +24,21 @@ class AwsCliTest {
     @Test
     fun testAwsCliTools() {
         runTest(timeout = 10.seconds) {
-            //      val latest = AwsCli.`package`.latestVersion().getOrElse { err -> throw
-            // Exception("Unable to determine latest version: $err") }
-            //
-            //      Environment.all.forEach { env ->
-            //        PackageTestCase(
-            //          "awscli",
-            //          env,
-            //          rendered = AwsCli(latest).render().getOrElse { err -> throw
-            // Exception("Unable to render: $err") },
-            //        ).isExpected()
-            //      }
+            AwsCliVersionFetcher.getVersions().forEach { (component, versions) ->
+                val cli =
+                    when (component) {
+                        is AwsCliComponent if (component == AwsCliComponent.AwsCli) ->
+                            AwsCli(versions.last().toAwsCliVersion())
+
+                        else -> throw Exception("Unknown component: $component")
+                    }
+
+                cli.render(env = Environment.default)
+                    .fold(
+                        { err -> throw Exception("Unable to render ${component.name}: $err") },
+                        { result -> result.getOrUpdateExpected("Dockerfile.${component.name}") },
+                    )
+            }
         }
     }
 }

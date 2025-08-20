@@ -23,17 +23,7 @@ class Volcano(val versions: VolcanoVersion) : Renderable {
         `package`.render(versions, VolcanoVersionFetcher, env)
 
     companion object {
-        const val REPO = "https://github.com/volcano-sh/volcano"
 
-        val DEFAULT_VERSIONS = listOf("1.12.1", "1.11.2", "1.11.1")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "volcano"
-                //      repo = REPO,
-                //      repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "volcano")
     }
 }

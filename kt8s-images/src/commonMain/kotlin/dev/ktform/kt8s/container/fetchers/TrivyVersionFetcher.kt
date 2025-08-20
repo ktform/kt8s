@@ -44,7 +44,8 @@ object TrivyVersionFetcher : VersionsFetcher<TrivyVersion> {
 
     override fun Component<TrivyVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is TrivyComponent -> listOf()
+            is TrivyComponent -> listOf("0.65.0", "0.64.1", "0.64.0")
+
             else -> emptyList()
         }
 }

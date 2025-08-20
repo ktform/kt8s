@@ -27,28 +27,6 @@ class CRuby(val versions: RubyVersion) : Renderable {
 
         val DEFAULT_VERSIONS = listOf("3.4.5", "3.4.4", "3.4.3")
 
-        val `package` =
-            Package(
-                packageName = "ruby"
-                // repo = REPO,
-                // repoVersion = { version, toRepo ->
-                //   if (toRepo) {
-                //     "v${version.replace(".", "_")}"
-                //   } else {
-                //     version
-                //   }
-                // },
-                // availableVersions = { _ ->
-                //   val client = GithubClient()
-                //   client.getTags(REPO).map { all ->
-                //     all.map { it.removePrefix("v").replace("_", ".").trim() }
-                //       .mapNotNull { s -> runCatching { s.toVersion() }.getOrNull() }
-                //       .filter { it.isStable }
-                //       .sortedDescending()
-                //       .map { it.toString() }
-                //       .toList()
-                //   }
-                // },
-            )
+        val `package` = Package(packageName = "ruby")
     }
 }

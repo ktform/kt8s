@@ -23,15 +23,6 @@ class TektonCli(val versions: TektonVersion) : Renderable {
         `package`.render(versions, TektonVersionFetcher, env)
 
     companion object {
-        const val REPO = "https://github.com/tektoncd/cli"
-
-        val DEFAULT_VERSIONS = listOf("0.41.1", "0.41.0")
-
-        val `package` =
-            Package(
-                packageName = "tkn"
-                //      repo = REPO,
-                //      repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "tkn")
     }
 }

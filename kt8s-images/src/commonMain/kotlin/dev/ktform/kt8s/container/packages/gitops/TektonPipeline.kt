@@ -23,17 +23,7 @@ class TektonPipeline(val versions: TektonVersion) : Renderable {
         `package`.render(versions, TektonVersionFetcher, env)
 
     companion object {
-        const val REPO = "https://github.com/tektoncd/pipeline"
 
-        val DEFAULT_VERSIONS = listOf("1.3.1", "1.3.0", "1.2.0")
-
-        val latest = DEFAULT_VERSIONS.first()
-
-        val `package` =
-            Package(
-                packageName = "tektonpipeline"
-                //      repo = REPO,
-                //      repoVersion = Package.withVPrefix,
-            )
+        val `package` = Package(packageName = "tektonpipeline")
     }
 }

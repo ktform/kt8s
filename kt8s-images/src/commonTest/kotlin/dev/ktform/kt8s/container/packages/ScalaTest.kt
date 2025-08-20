@@ -12,24 +12,26 @@ package dev.ktform.kt8s.container.packages
 
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
-import dev.ktform.kt8s.container.components.CmakeComponent
-import dev.ktform.kt8s.container.fetchers.CmakeVersionFetcher
-import dev.ktform.kt8s.container.versions.CmakeVersion.Companion.toCmakeVersion
+import dev.ktform.kt8s.container.components.ScalaComponent
+import dev.ktform.kt8s.container.fetchers.ScalaVersionFetcher
+import dev.ktform.kt8s.container.versions.ScalaVersion.Companion.toScalaVersion
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.test.runTest
 
-class CmakeTest {
+class ScalaTest {
 
     @Test
-    fun testCmake() {
+    fun testScala() {
         runTest(timeout = 10.seconds) {
-            CmakeVersionFetcher.getVersions().forEach { (component, versions) ->
+            ScalaVersionFetcher.getVersions().forEach { (component, versions) ->
                 val cli =
                     when (component) {
-                        is CmakeComponent if (component == CmakeComponent.Cmake) ->
-                            Cmake(versions.last().toCmakeVersion())
+                        is ScalaComponent if (component == ScalaComponent.Scala) ->
+                            Scala(versions.last().toScalaVersion())
 
+                        is ScalaComponent if (component == ScalaComponent.Sbt) ->
+                            Sbt(versions.last().toScalaVersion())
                         else -> throw Exception("Unknown component: $component")
                     }
 

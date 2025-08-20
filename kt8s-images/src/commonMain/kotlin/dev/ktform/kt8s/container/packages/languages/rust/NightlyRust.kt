@@ -23,15 +23,7 @@ class NightlyRust(val versions: RustVersion) : Renderable {
         `package`.render(versions, RustVersionFetcher, env)
 
     companion object {
-        const val REPO = "https://github.com/rust-lang/rust"
 
-        val DEFAULT_VERSIONS = listOf("1.89.0", "1.88.0", "1.87.0")
-
-        val `package` =
-            Package(
-                packageName = "nightlyrust"
-                // repo = "",
-                // repoVersion = Package.asIs,
-            )
+        val `package` = Package(packageName = "nightlyrust")
     }
 }
