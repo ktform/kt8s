@@ -10,12 +10,13 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.Provider
+import dev.ktform.kt8s.Chart
+import dev.ktform.kt8s.charts.security.KyvernoChart
 import dev.ktform.kt8s.container.versions.KyvernoVersion
 
-enum class KyvernoComponent(
-    override val applicableFlavours: List<Component<*>> = emptyList(),
-    override val applicableProviders: List<Provider> = Provider.all,
-) : Component<KyvernoVersion> {
-    Kyverno
+enum class KyvernoComponent(val versions: KyvernoVersion) : Component<KyvernoVersion> {
+    Kyverno(versions = KyvernoVersion());
+
+    override val charts: Set<Chart<KyvernoVersion>> = setOf(KyvernoChart(versions = versions))
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

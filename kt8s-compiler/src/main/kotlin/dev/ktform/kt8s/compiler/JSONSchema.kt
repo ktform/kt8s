@@ -193,7 +193,7 @@ object JSONSchema {
             definitionsObj.map { (name, defJson) -> defJson.jsonObject.toDefinition(name).bind() }
         }
 
-    private fun JsonObject.toDefinition(name: String): Either<ParseError, Definition> = either {
+    internal fun JsonObject.toDefinition(name: String): Either<ParseError, Definition> = either {
         val (type, format) = this@toDefinition.parseTypeAndFormat().bind()
         val required =
             this@toDefinition["required"]?.jsonArray?.map { it.jsonPrimitive.content }?.toSet()
@@ -290,7 +290,7 @@ object JSONSchema {
             type to format
         }
 
-    private fun JsonObject.parseKubernetesGVK(
+    internal fun JsonObject.parseKubernetesGVK(
         refName: String
     ): List<Triple<String, String, String>> {
         val chunks = refName.split(".")

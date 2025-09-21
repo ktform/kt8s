@@ -31,7 +31,7 @@ object TopoLvmVersionFetcher : VersionsFetcher<TopoLvmVersion> {
     override fun repo(component: Component<TopoLvmVersion>): Option<String> =
         when (component) {
             is TopoLvmComponent if component == TopoLvmComponent.TopoLvm ->
-                "https://github.com/topolvm/topolvm".some()
+                "https://github.com/TopoLvm/TopoLvm".some()
 
             else -> None
         }

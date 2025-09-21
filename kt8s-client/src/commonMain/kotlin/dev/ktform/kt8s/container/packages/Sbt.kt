@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.ScalaVersionFetcher
 import dev.ktform.kt8s.container.versions.ScalaVersion
+import dev.ktform.kt8s.container.versions.ScalaVersion.Companion.toScalaVersion
 
 class Sbt(val versions: ScalaVersion) : Renderable {
+    constructor(version: String) : this(version.toScalaVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, ScalaVersionFetcher, env)

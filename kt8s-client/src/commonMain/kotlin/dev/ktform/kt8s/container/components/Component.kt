@@ -10,87 +10,125 @@
  */
 package dev.ktform.kt8s.container.components
 
-import arrow.core.NonEmptyList
+import arrow.core.NonEmptySet
 import arrow.core.Option
-import arrow.core.nonEmptyListOf
+import arrow.core.nonEmptySetOf
 import arrow.core.toOption
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.container.Provider
-import dev.ktform.kt8s.container.packages.Firebase
-import dev.ktform.kt8s.container.packages.GCloud
-import dev.ktform.kt8s.container.packages.Grype
-import dev.ktform.kt8s.container.packages.OpenTofu
-import dev.ktform.kt8s.container.packages.UV
 import dev.ktform.kt8s.container.versions.Versions
 import io.ktor.util.*
 
 sealed interface Component<T : Versions<T>> {
     val name: String
-    val applicableFlavours: List<Component<*>>
-    val applicableProviders: List<Provider>
-      get() = Provider.all
+    val applicableFlavours: Set<Component<*>>
+    val applicableProviders: Set<Provider>
+        get() = Provider.all
 
-    val charts: List<Chart<T>>
-      get() = emptyList()
-
-    val cliTools: List<Component<*>>
-      get() = emptyList()
+    val charts: Set<Chart<T>>
+        get() = emptySet()
 
     companion object {
-        val defaultFlavours: NonEmptyList<Component<*>> =
-            nonEmptyListOf(
+        val defaultFlavours: NonEmptySet<Component<*>> by lazy {
+            nonEmptySetOf(
                 JavaComponent.OpenJDK,
                 PythonComponent.CPython,
                 RubyComponent.Ruby,
                 RustComponent.Nightly,
             )
-
-        object Common {
-          val base: NonEmptyList<Component<*>> = nonEmptyListOf(BaseComponent.Base)
-          val baseBuilder: NonEmptyList<Component<*>> = nonEmptyListOf(BaseBuilderComponent.BaseBuilder)
-          val baseDevelopment: NonEmptyList<Component<*>> = nonEmptyListOf(BaseDevelopmentComponent.BaseDevelopment)
-
-          val buildNative: NonEmptyList<Component<*>> = nonEmptyListOf(CmakeComponent.Cmake)
-          val buildJvm: NonEmptyList<Component<*>> = nonEmptyListOf(BazelComponent.Bazel, BazelComponent.Bazelisk, GradleComponent.Gradle)
-          val buildPython: NonEmptyList<Component<*>> = nonEmptyListOf(UVComponent.UV)
-
-          val cloudManagementCli: NonEmptyList<Component<*>> = nonEmptyListOf(GCloudComponent.GCloud, AwsCliComponent.AwsCli,
-            TerraformComponent.Terraform, OpenTofuComponent.OpenTofu, DoCtlComponent.DoCtl, FirebaseComponent.Firebase)
-          val containerSecurityCli: NonEmptyList<Component<*>> = nonEmptyListOf(TrivyComponent.Trivy, GrypeComponent.Grype, SyftComponent.Syft)
         }
 
-        val golangFlavours: NonEmptyList<Component<*>> = nonEmptyListOf(GolangComponent.Golang)
+        val base: NonEmptySet<Component<*>> by lazy { nonEmptySetOf(BaseComponent.Base) }
+        val baseBuilder: NonEmptySet<Component<*>> by lazy {
+            nonEmptySetOf(BaseBuilderComponent.BaseBuilder)
+        }
+        val baseDevelopment: NonEmptySet<Component<*>> by lazy {
+            nonEmptySetOf(BaseDevelopmentComponent.BaseDevelopment)
+        }
 
-        val javaFlavours: NonEmptyList<Component<*>> =
-            nonEmptyListOf(JavaComponent.OpenJDK, JavaComponent.GraalVM, JavaComponent.OpenJ9)
+        val buildNative: NonEmptySet<Component<*>> by lazy {
+            nonEmptySetOf(CmakeComponent.Cmake, ProtocComponent.Protoc)
+        }
+        val buildJvm: NonEmptySet<Component<*>> by lazy {
+            nonEmptySetOf(BazelComponent.Bazel, BazelComponent.Bazelisk, GradleComponent.Gradle)
+        }
+        val buildPython: NonEmptySet<Component<*>> by lazy {
+            nonEmptySetOf(UVComponent.UV, PipXComponent.PipX)
+        }
 
-        val pythonFlavours: NonEmptyList<Component<*>> =
-            nonEmptyListOf(PythonComponent.CPython, PythonComponent.PyPy)
+        val cloudManagementCli: NonEmptySet<Component<*>> by lazy {
+            nonEmptySetOf(
+                GCloudComponent.GCloud,
+                AwsCliComponent.AwsCli,
+                OpenTofuComponent.OpenTofu,
+                DoCtlComponent.DoCtl,
+                FirebaseComponent.Firebase,
+                KubeCtlComponent.KubeCtl,
+                K9sComponent.K9s,
+                TektonComponent.TektonCli,
+                KindComponent.Kind,
+                PodmanComponent.Podman,
+                MinikubeComponent.Minikube,
+                OpenTofuComponent.OpenTofu,
+            )
+        }
+        val containerSecurityCli: NonEmptySet<Component<*>> by lazy {
+            nonEmptySetOf(
+                TrivyComponent.Trivy,
+                GrypeComponent.Grype,
+                SyftComponent.Syft,
+                CosignComponent.Cosign,
+            )
+        }
 
-        val dotNetFlavours: NonEmptyList<Component<*>> = nonEmptyListOf(DotNetComponent.DotNet)
+        val golangFlavours: NonEmptySet<Component<*>> by lazy {
+            nonEmptySetOf(GolangComponent.Golang)
+        }
 
-        val rubyFlavours: NonEmptyList<Component<*>> =
-            nonEmptyListOf(RubyComponent.Ruby, RubyComponent.MRuby)
+        val javaFlavours: NonEmptySet<Component<*>> by lazy {
+            nonEmptySetOf(JavaComponent.OpenJDK, JavaComponent.GraalVM, JavaComponent.OpenJ9)
+        }
 
-        val rustFlavours: NonEmptyList<Component<*>> =
-            nonEmptyListOf(RustComponent.Stable, RustComponent.Nightly)
+        val pythonFlavours: NonEmptySet<Component<*>> by lazy {
+            nonEmptySetOf(PythonComponent.CPython, PythonComponent.PyPy)
+        }
 
-        val postgresFlavours: NonEmptyList<Component<*>> =
-            nonEmptyListOf(PostgreSQLComponent.CNPG, PostgreSQLComponent.Stackgres)
+        val dotNetFlavours: NonEmptySet<Component<*>> by lazy {
+            nonEmptySetOf(DotNetComponent.DotNet)
+        }
 
-        val allSelectableFlavours: NonEmptyList<Component<*>> =
+        val denoFlavours: NonEmptySet<Component<*>> by lazy { nonEmptySetOf(DenoComponent.Deno) }
+
+        val rubyFlavours: NonEmptySet<Component<*>> by lazy {
+            nonEmptySetOf(RubyComponent.Ruby, RubyComponent.MRuby)
+        }
+
+        val rustFlavours: NonEmptySet<Component<*>> by lazy {
+            nonEmptySetOf(RustComponent.Stable, RustComponent.Nightly)
+        }
+
+        val nodeFlavours: NonEmptySet<Component<*>> by lazy {
+            nonEmptySetOf(NodeJsComponent.NodeJs)
+        }
+
+        val postgresFlavours: NonEmptySet<Component<*>> by lazy {
+            nonEmptySetOf(PostgreSQLComponent.CNPG, PostgreSQLComponent.Stackgres)
+        }
+
+        val allSelectableFlavours: NonEmptySet<Component<*>> by lazy {
             javaFlavours + pythonFlavours + rubyFlavours + rustFlavours + postgresFlavours
+        }
 
-        fun conflictingFlavours(proposedFlavours: NonEmptyList<Component<*>>): List<Component<*>> =
-            listOf(golangFlavours, javaFlavours, pythonFlavours, dotNetFlavours, rubyFlavours, rustFlavours).fold(emptyList()) {
-                acc,
-                flavourGroup ->
+        fun conflictingFlavours(proposedFlavours: NonEmptySet<Component<*>>): List<Component<*>> =
+            listOf(javaFlavours, pythonFlavours, rubyFlavours, rustFlavours, postgresFlavours).fold(
+                emptyList()
+            ) { acc, flavourGroup ->
                 val conflictsInGroup = proposedFlavours.filter { it in flavourGroup }
                 if (conflictsInGroup.size > 1) acc + conflictsInGroup else acc
             }
 
         fun flavourByName(name: String): Option<Component<*>> =
-          allSelectableFlavours
+            allSelectableFlavours
                 .find {
                     it.name.toLowerCasePreservingASCIIRules() ==
                         name.toLowerCasePreservingASCIIRules()

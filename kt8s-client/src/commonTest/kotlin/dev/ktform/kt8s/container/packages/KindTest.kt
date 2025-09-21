@@ -8,13 +8,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package dev.ktform.kt8s.dev.ktform.kt8s.container.packages
+package dev.ktform.kt8s.container.packages
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
-import dev.ktform.kt8s.dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
+import dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
 import dev.ktform.kt8s.container.components.KindComponent
 import dev.ktform.kt8s.container.fetchers.KindVersionFetcher
-import dev.ktform.kt8s.container.versions.KindVersion.Companion.toKindVersion
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.test.runTest
@@ -24,11 +24,12 @@ class KindTest {
     @Test
     fun testKind() {
         runTest(timeout = 10.seconds) {
-            KindVersionFetcher.getVersions().forEach { (component, versions) ->
+            assertThat(KindVersionFetcher.getVersions()).isNotEmpty()
+
+            KindVersionFetcher.getLatestVersions().forEach { (component, version) ->
                 val cli =
                     when (component) {
-                        is KindComponent if (component == KindComponent.Kind) ->
-                            Kind(versions.last().toKindVersion())
+                        is KindComponent if (component == KindComponent.Kind) -> Kind(version)
 
                         else -> throw Exception("Unknown component: $component")
                     }

@@ -10,12 +10,13 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.Provider
+import dev.ktform.kt8s.Chart
+import dev.ktform.kt8s.charts.observability.PrometheusChart
 import dev.ktform.kt8s.container.versions.PrometheusVersion
 
-enum class PrometheusComponent(
-    override val applicableFlavours: List<Component<*>> = emptyList(),
-    override val applicableProviders: List<Provider> = Provider.all,
-) : Component<PrometheusVersion> {
-    Prometheus
+enum class PrometheusComponent(val versions: PrometheusVersion) : Component<PrometheusVersion> {
+    Prometheus(versions = PrometheusVersion());
+
+    override val charts: Set<Chart<PrometheusVersion>> = setOf(PrometheusChart(versions = versions))
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

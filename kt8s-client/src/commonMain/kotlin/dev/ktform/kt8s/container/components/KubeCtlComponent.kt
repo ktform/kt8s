@@ -10,12 +10,10 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.KubeCtlVersion
 
-enum class KubeCtlComponent(
-    override val applicableFlavours: List<Component<*>> = emptyList(),
-    override val applicableProviders: List<Provider> = Provider.all,
-) : Component<KubeCtlVersion> {
-    KubeCtl
+enum class KubeCtlComponent(val versions: KubeCtlVersion) : Component<KubeCtlVersion> {
+    KubeCtl(versions = KubeCtlVersion());
+
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

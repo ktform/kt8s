@@ -30,7 +30,7 @@ object ArgoVersionFetcher : VersionsFetcher<ArgoVersion> {
 
     override fun repo(component: Component<ArgoVersion>): Option<String> =
         when (component) {
-            is ArgoComponent if component == ArgoComponent.ArgoCD ->
+            is ArgoComponent if component == ArgoComponent.ArgoCd ->
                 "https://github.com/argoproj/argo-cd".some()
 
             is ArgoComponent if component == ArgoComponent.ArgoWorkflows ->
@@ -53,7 +53,7 @@ object ArgoVersionFetcher : VersionsFetcher<ArgoVersion> {
 
     override fun Component<ArgoVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is ArgoComponent if this == ArgoComponent.ArgoCD -> listOf("3.0.12", "3.0.11", "3.0.10")
+            is ArgoComponent if this == ArgoComponent.ArgoCd -> listOf("3.0.12", "3.0.11", "3.0.10")
 
             is ArgoComponent if this == ArgoComponent.ArgoWorkflows -> listOf("3.7.0", "3.6.10")
 

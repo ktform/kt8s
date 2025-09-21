@@ -15,9 +15,9 @@ import dev.ktform.kt8s.container.components.VPAComponent
 import dev.ktform.kt8s.container.fetchers.VersionsFetcher
 import dev.ktform.kt8s.container.fetchers.VpaVersionFetcher
 
-data class VPAVersion(val vpaVersions: Map<VPAComponent, String> = emptyMap()) :
-    Versions<VPAVersion>(vpaVersions.mapKeys { it.key as Component<VPAVersion> }) {
-    companion object : VersionsFetcher<VPAVersion> by VpaVersionFetcher {
-        fun String.toVpaVersion(): VPAVersion = VPAVersion(mapOf(VPAComponent.VPA to this))
+data class VpaVersion(val VpaVersions: Map<VPAComponent, String> = emptyMap()) :
+    Versions<VpaVersion>(VpaVersions.mapKeys { it.key as Component<VpaVersion> }) {
+    companion object : VersionsFetcher<VpaVersion> by VpaVersionFetcher {
+        fun String.toVpaVersion(): VpaVersion = VpaVersion(mapOf(VPAComponent.VPA to this))
     }
 }

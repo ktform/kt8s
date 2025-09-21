@@ -12,15 +12,16 @@ package dev.ktform.kt8s.charts.gitops
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
+import dev.ktform.kt8s.charts.networking.CiliumChart
+import dev.ktform.kt8s.charts.security.CertManagerChart
 import dev.ktform.kt8s.container.components.ArgoComponent
 import dev.ktform.kt8s.container.versions.ArgoVersion
 
-data class ArgoEventsChart(override val versions: ArgoVersion = ArgoVersion()) : Chart<ArgoVersion> {
-  override val group: ChartGroup = ChartGroup.GitOps
+data class ArgoEventsChart(override val versions: ArgoVersion = ArgoVersion()) :
+    Chart<ArgoVersion> {
+    override val group: ChartGroup = ChartGroup.GitOps
 
-  override fun getComponents(): List<ArgoComponent> = listOf(ArgoComponent.ArgoEvents)
+    override val components: List<ArgoComponent> = listOf(ArgoComponent.ArgoEvents)
 
-  override fun dependsOnGroups(): List<ChartGroup> = emptyList()
-
-  override fun dependsOnCharts(): List<Chart<*>> = emptyList()
-  }
+    override val dependsOnCharts: List<Chart<*>> = listOf(CertManagerChart(), CiliumChart())
+}

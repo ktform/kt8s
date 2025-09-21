@@ -10,17 +10,15 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.TektonVersion
 
-enum class TektonComponent(
-    override val applicableFlavours: List<Component<*>> = emptyList(),
-    override val applicableProviders: List<Provider> = Provider.all,
-) : Component<TektonVersion> {
-    TektonCli,
-    TektonChains,
-    TektonDashboard,
-    TektonPipeline,
-    TektonTriggers,
-    TektonResults,
+enum class TektonComponent(val versions: TektonVersion) : Component<TektonVersion> {
+    TektonCli(versions = TektonVersion()),
+    TektonChains(versions = TektonVersion()),
+    TektonDashboard(versions = TektonVersion()),
+    TektonPipeline(versions = TektonVersion()),
+    TektonTriggers(versions = TektonVersion()),
+    TektonResults(versions = TektonVersion());
+
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

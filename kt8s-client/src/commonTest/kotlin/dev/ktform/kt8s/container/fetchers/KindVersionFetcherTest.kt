@@ -8,7 +8,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package dev.ktform.kt8s.dev.ktform.kt8s.container.fetchers
+package dev.ktform.kt8s.container.fetchers
 
 import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.fetchers.KindVersionFetcher.knownLatestVersions
@@ -21,7 +21,7 @@ class KindVersionFetcherTest {
     @Test
     fun testKindVersionFetcherLatest() {
         runTest(timeout = 10.seconds) {
-            _root_ide_package_.dev.ktform.kt8s.container.fetchers.KindVersionFetcher.getVersions().forEach { (component, versions) ->
+            KindVersionFetcher.getVersions().forEach { (component, versions) ->
                 assertThat(versions).equals(component.knownLatestVersions())
             }
         }

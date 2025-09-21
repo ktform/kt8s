@@ -12,15 +12,17 @@ package dev.ktform.kt8s.charts.storage
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
+import dev.ktform.kt8s.charts.networking.CiliumChart
+import dev.ktform.kt8s.charts.security.CertManagerChart
 import dev.ktform.kt8s.container.components.PVCAutoresizerComponent
 import dev.ktform.kt8s.container.versions.PVCAutoresizerVersion
 
-data class PVCAutoresizerChart(override val versions: PVCAutoresizerVersion) : Chart<PVCAutoresizerVersion> {
+data class PVCAutoresizerChart(override val versions: PVCAutoresizerVersion) :
+    Chart<PVCAutoresizerVersion> {
     override val group: ChartGroup = ChartGroup.Storage
 
-    override fun getComponents(): List<PVCAutoresizerComponent> = listOf(PVCAutoresizerComponent.PVCAutoresizer)
+    override val components: List<PVCAutoresizerComponent> =
+        listOf(PVCAutoresizerComponent.PVCAutoresizer)
 
-    override fun dependsOnGroups(): List<ChartGroup> = emptyList()
-
-    override fun dependsOnCharts(): List<Chart<*>> = emptyList()
+    override val dependsOnCharts: List<Chart<*>> = listOf(CertManagerChart(), CiliumChart())
 }

@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.ExternalSecretsVersionFetcher
 import dev.ktform.kt8s.container.versions.ExternalSecretsVersion
+import dev.ktform.kt8s.container.versions.ExternalSecretsVersion.Companion.toExternalSecretsVersion
 
 class ExternalSecrets(val versions: ExternalSecretsVersion) : Renderable {
+    constructor(version: String) : this(version.toExternalSecretsVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, ExternalSecretsVersionFetcher, env)

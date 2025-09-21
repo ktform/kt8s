@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.GCloudVersionFetcher
 import dev.ktform.kt8s.container.versions.GCloudVersion
+import dev.ktform.kt8s.container.versions.GCloudVersion.Companion.toGCloudVersion
 
 class GCloud(val versions: GCloudVersion) : Renderable {
+    constructor(version: String) : this(version.toGCloudVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, GCloudVersionFetcher, env)

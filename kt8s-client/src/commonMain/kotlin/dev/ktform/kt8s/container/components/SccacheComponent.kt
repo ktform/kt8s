@@ -10,13 +10,10 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.SccacheVersion
-import dev.ktform.kt8s.container.versions.ScyllaDBVersion
 
-enum class SccacheComponent(
-  override val applicableFlavours: List<Component<*>> = emptyList(),
-  override val applicableProviders: List<Provider> = Provider.all,
-) : Component<SccacheVersion> {
-  Sccache
+enum class SccacheComponent(val versions: SccacheVersion) : Component<SccacheVersion> {
+    Sccache(versions = SccacheVersion());
+
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

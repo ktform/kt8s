@@ -12,15 +12,14 @@ package dev.ktform.kt8s.charts.networking
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
+import dev.ktform.kt8s.charts.security.CertManagerChart
 import dev.ktform.kt8s.container.components.ExternalDnsComponent
 import dev.ktform.kt8s.container.versions.ExternalDnsVersion
 
 data class ExternalDnsChart(override val versions: ExternalDnsVersion) : Chart<ExternalDnsVersion> {
     override val group: ChartGroup = ChartGroup.Networking
 
-    override fun getComponents(): List<ExternalDnsComponent> = listOf(ExternalDnsComponent.ExternalDns)
+    override val components: List<ExternalDnsComponent> = listOf(ExternalDnsComponent.ExternalDns)
 
-    override fun dependsOnGroups(): List<ChartGroup> = emptyList()
-
-    override fun dependsOnCharts(): List<Chart<*>> = emptyList()
+    override val dependsOnCharts: List<Chart<*>> = listOf(CertManagerChart(), CiliumChart())
 }

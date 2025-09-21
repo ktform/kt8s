@@ -10,16 +10,10 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.Chart
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.FirebaseVersion
 
-enum class FirebaseComponent(
-     val versions: FirebaseVersion,
-) : Component<FirebaseVersion> {
+enum class FirebaseComponent(val versions: FirebaseVersion) : Component<FirebaseVersion> {
     Firebase(versions = FirebaseVersion());
 
-    override val charts: List<Chart<FirebaseVersion>> = emptyList()
-    override val applicableFlavours: List<Component<*>> = emptyList()
-    override val applicableProviders: List<Provider> = Provider.all
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

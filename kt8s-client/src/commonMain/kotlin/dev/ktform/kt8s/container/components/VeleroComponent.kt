@@ -10,12 +10,10 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.VeleroVersion
 
-enum class VeleroComponent(
-    override val applicableFlavours: List<Component<*>> = emptyList(),
-    override val applicableProviders: List<Provider> = Provider.all,
-) : Component<VeleroVersion> {
-    Velero
+enum class VeleroComponent(val versions: VeleroVersion) : Component<VeleroVersion> {
+    Velero(versions = VeleroVersion());
+
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

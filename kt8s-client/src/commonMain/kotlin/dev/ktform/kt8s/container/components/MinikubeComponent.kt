@@ -10,12 +10,10 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.MinikubeVersion
 
-enum class MinikubeComponent(
-    override val applicableFlavours: List<Component<*>> = emptyList(),
-    override val applicableProviders: List<Provider> = Provider.all,
-) : Component<MinikubeVersion> {
-    Minikube
+enum class MinikubeComponent(val versions: MinikubeVersion) : Component<MinikubeVersion> {
+    Minikube(versions = MinikubeVersion());
+
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

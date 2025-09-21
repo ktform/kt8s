@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.GolangVersionFetcher
 import dev.ktform.kt8s.container.versions.GolangVersion
+import dev.ktform.kt8s.container.versions.GolangVersion.Companion.toGolangVersion
 
 class Golang(val versions: GolangVersion) : Renderable {
+    constructor(version: String) : this(version.toGolangVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, GolangVersionFetcher, env)

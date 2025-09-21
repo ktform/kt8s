@@ -11,18 +11,18 @@
 package dev.ktform.kt8s.container.versions
 
 import dev.ktform.kt8s.container.components.Component
-import dev.ktform.kt8s.container.components.ScalaComponent
 import dev.ktform.kt8s.container.components.SccacheComponent
-import dev.ktform.kt8s.container.fetchers.ScalaVersionFetcher
+import dev.ktform.kt8s.container.fetchers.SccacheVersionFetcher
 import dev.ktform.kt8s.container.fetchers.VersionsFetcher
 
-data class SccacheVersion(val sccacheVersions: Map<ScalaComponent, String> = emptyMap()) :
-  Versions<SccacheVersion>(sccacheVersions.mapKeys { it.key as Component<SccacheVersion> }) {
+data class SccacheVersion(val sccacheVersions: Map<SccacheComponent, String> = emptyMap()) :
+    Versions<SccacheVersion>(sccacheVersions.mapKeys { it.key as Component<SccacheVersion> }) {
 
-  fun plus(other: SccacheVersion): SccacheVersion = SccacheVersion(sccacheVersions + other.sccacheVersions)
+    fun plus(other: SccacheVersion): SccacheVersion =
+        SccacheVersion(sccacheVersions + other.sccacheVersions)
 
-  companion object : VersionsFetcher<SccacheVersion> by SccacheVersionFetcher {
-    fun String.toSccacheVersion(): SccacheVersion =
-      SccacheVersion(mapOf(SccacheComponent.Sccache to this))
-  }
+    companion object : VersionsFetcher<SccacheVersion> by SccacheVersionFetcher {
+        fun String.toSccacheVersion(): SccacheVersion =
+            SccacheVersion(mapOf(SccacheComponent.Sccache to this))
+    }
 }

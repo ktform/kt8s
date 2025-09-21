@@ -12,21 +12,17 @@ package dev.ktform.kt8s.charts.development
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
+import dev.ktform.kt8s.charts.networking.CiliumChart
+import dev.ktform.kt8s.charts.observability.PrometheusChart
+import dev.ktform.kt8s.charts.security.CertManagerChart
 import dev.ktform.kt8s.container.components.DexComponent
 import dev.ktform.kt8s.container.versions.DexVersion
 
 data class DexChart(override val versions: DexVersion) : Chart<DexVersion> {
-    override val group: ChartGroup = ChartGroup.Compute
+    override val group: ChartGroup = ChartGroup.Development
 
-    override fun getComponents(): List<DexComponent> {
-        TODO("Not yet implemented")
-    }
+    override val components: List<DexComponent> = listOf(DexComponent.Dex)
 
-    override fun dependsOnGroups(): List<ChartGroup> {
-        TODO("Not yet implemented")
-    }
-
-    override fun dependsOnCharts(): List<Chart<*>> {
-        TODO("Not yet implemented")
-    }
+    override val dependsOnCharts: List<Chart<*>> =
+        listOf(CertManagerChart(), CiliumChart(), PrometheusChart())
 }

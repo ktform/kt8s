@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.PythonVersionFetcher
 import dev.ktform.kt8s.container.versions.PythonVersion
+import dev.ktform.kt8s.container.versions.PythonVersion.Companion.toPyPyVersion
 
 class PyPy(val versions: PythonVersion) : Renderable {
+    constructor(version: String) : this(version.toPyPyVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, PythonVersionFetcher, env)

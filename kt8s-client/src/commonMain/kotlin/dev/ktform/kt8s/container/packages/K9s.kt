@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.K9sVersionFetcher
 import dev.ktform.kt8s.container.versions.K9sVersion
+import dev.ktform.kt8s.container.versions.K9sVersion.Companion.toK9sVersion
 
 class K9s(val versions: K9sVersion) : Renderable {
+    constructor(version: String) : this(version.toK9sVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, K9sVersionFetcher, env)

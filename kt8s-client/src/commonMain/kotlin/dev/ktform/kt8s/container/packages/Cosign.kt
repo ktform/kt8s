@@ -16,8 +16,11 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.CosignVersionFetcher
 import dev.ktform.kt8s.container.versions.CosignVersion
+import dev.ktform.kt8s.container.versions.CosignVersion.Companion.toCosignVersion
 
 class Cosign(val versions: CosignVersion) : Renderable {
+    constructor(version: String) : this(version.toCosignVersion())
+
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, CosignVersionFetcher, env)
 

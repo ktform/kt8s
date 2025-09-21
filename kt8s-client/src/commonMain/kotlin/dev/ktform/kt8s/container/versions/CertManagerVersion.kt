@@ -15,7 +15,9 @@ import dev.ktform.kt8s.container.components.Component
 import dev.ktform.kt8s.container.fetchers.CertManagerVersionFetcher
 import dev.ktform.kt8s.container.fetchers.VersionsFetcher
 
-data class CertManagerVersion(val certManagerVersions: Map<CertManagerComponent, String> = emptyMap()) :
+data class CertManagerVersion(
+    val certManagerVersions: Map<CertManagerComponent, String> = emptyMap()
+) :
     Versions<CertManagerVersion>(
         certManagerVersions.mapKeys { it.key as Component<CertManagerVersion> }
     ) {

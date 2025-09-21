@@ -12,15 +12,14 @@ package dev.ktform.kt8s.charts.security
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
+import dev.ktform.kt8s.charts.networking.CiliumChart
 import dev.ktform.kt8s.container.components.OpenBaoComponent
 import dev.ktform.kt8s.container.versions.OpenBaoVersion
 
 data class OpenBaoChart(override val versions: OpenBaoVersion) : Chart<OpenBaoVersion> {
     override val group: ChartGroup = ChartGroup.Security
 
-    override fun getComponents(): List<OpenBaoComponent> = listOf(OpenBaoComponent.OpenBao)
+    override val components: List<OpenBaoComponent> = listOf(OpenBaoComponent.OpenBao)
 
-    override fun dependsOnGroups(): List<ChartGroup> = emptyList()
-
-    override fun dependsOnCharts(): List<Chart<*>> = emptyList()
+    override val dependsOnCharts: List<Chart<*>> = listOf(CertManagerChart(), CiliumChart())
 }

@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.RustVersionFetcher
 import dev.ktform.kt8s.container.versions.RustVersion
+import dev.ktform.kt8s.container.versions.RustVersion.Companion.toRustVersion
 
 class StableRust(val versions: RustVersion) : Renderable {
+    constructor(version: String) : this(version.toRustVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, RustVersionFetcher, env)

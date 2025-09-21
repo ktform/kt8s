@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.AlloyVersionFetcher
 import dev.ktform.kt8s.container.versions.AlloyVersion
+import dev.ktform.kt8s.container.versions.AlloyVersion.Companion.toAlloyVersion
 
 class Alloy(val versions: AlloyVersion) : Renderable {
+    constructor(version: String) : this(version.toAlloyVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, AlloyVersionFetcher, env)

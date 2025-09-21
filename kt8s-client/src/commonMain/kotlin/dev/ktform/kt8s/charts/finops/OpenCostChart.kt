@@ -12,19 +12,15 @@ package dev.ktform.kt8s.charts.finops
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
+import dev.ktform.kt8s.charts.observability.PrometheusChart
 import dev.ktform.kt8s.container.components.OpenCostComponent
 import dev.ktform.kt8s.container.versions.OpenCostVersion
 
-data class OpenCostChart(override val versions: OpenCostVersion) : Chart<OpenCostVersion> {
+data class OpenCostChart(override val versions: OpenCostVersion = OpenCostVersion()) :
+    Chart<OpenCostVersion> {
     override val group: ChartGroup = ChartGroup.FinOps
 
-    override fun getComponents(): List<OpenCostComponent> = listOf(OpenCostComponent.OpenCost)
+    override val components: List<OpenCostComponent> = listOf(OpenCostComponent.OpenCost)
 
-    override fun dependsOnGroups(): List<ChartGroup> {
-        TODO("Not yet implemented")
-    }
-
-    override fun dependsOnCharts(): List<Chart<*>> {
-        TODO("Not yet implemented")
-    }
+    override val dependsOnCharts: List<Chart<*>> = listOf(PrometheusChart())
 }

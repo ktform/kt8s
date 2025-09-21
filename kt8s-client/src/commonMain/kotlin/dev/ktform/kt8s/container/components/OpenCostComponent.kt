@@ -10,12 +10,13 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.Provider
+import dev.ktform.kt8s.Chart
+import dev.ktform.kt8s.charts.finops.OpenCostChart
 import dev.ktform.kt8s.container.versions.OpenCostVersion
 
-enum class OpenCostComponent(
-    override val applicableFlavours: List<Component<*>> = emptyList(),
-    override val applicableProviders: List<Provider> = Provider.all,
-) : Component<OpenCostVersion> {
-    OpenCost
+enum class OpenCostComponent(val versions: OpenCostVersion) : Component<OpenCostVersion> {
+    OpenCost(versions = OpenCostVersion());
+
+    override val charts: Set<Chart<OpenCostVersion>> = setOf(OpenCostChart(versions = versions))
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

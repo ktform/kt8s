@@ -11,15 +11,12 @@
 package dev.ktform.kt8s.container.components
 
 import dev.ktform.kt8s.Chart
-import dev.ktform.kt8s.container.Provider
+import dev.ktform.kt8s.charts.observability.GrafanaChart
 import dev.ktform.kt8s.container.versions.GrafanaVersion
 
-enum class GrafanaComponent(
-    val versions: GrafanaVersion,
-) : Component<GrafanaVersion> {
+enum class GrafanaComponent(val versions: GrafanaVersion) : Component<GrafanaVersion> {
     Grafana(versions = GrafanaVersion());
 
-    override val charts: List<Chart<GrafanaVersion>> = emptyList()
-    override val applicableFlavours: List<Component<*>> = emptyList()
-    override val applicableProviders: List<Provider> = Provider.all
+    override val charts: Set<Chart<GrafanaVersion>> = setOf(GrafanaChart(versions = versions))
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

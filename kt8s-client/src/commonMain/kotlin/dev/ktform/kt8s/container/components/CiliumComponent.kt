@@ -14,11 +14,9 @@ import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.charts.networking.CiliumChart
 import dev.ktform.kt8s.container.versions.CiliumVersion
 
-enum class CiliumComponent(
-    val versions: CiliumVersion,
-) : Component<CiliumVersion> {
+enum class CiliumComponent(val versions: CiliumVersion) : Component<CiliumVersion> {
     Cilium(versions = CiliumVersion());
 
-    override val charts: List<Chart<CiliumVersion>> = listOf(CiliumChart(versions = versions))
-    override val applicableFlavours: List<Component<*>> = Component.golangFlavours
+    override val charts: Set<Chart<CiliumVersion>> = setOf(CiliumChart(versions = versions))
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

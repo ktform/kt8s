@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.KedaVersionFetcher
 import dev.ktform.kt8s.container.versions.KedaVersion
+import dev.ktform.kt8s.container.versions.KedaVersion.Companion.toKedaVersion
 
 class Keda(val versions: KedaVersion) : Renderable {
+    constructor(version: String) : this(version.toKedaVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, KedaVersionFetcher, env)

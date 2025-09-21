@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.KarpenterVersionFetcher
 import dev.ktform.kt8s.container.versions.KarpenterVersion
+import dev.ktform.kt8s.container.versions.KarpenterVersion.Companion.toKarpenterAzureVersion
 
 class KarpenterAzure(val versions: KarpenterVersion) : Renderable {
+    constructor(version: String) : this(version.toKarpenterAzureVersion())
 
     override fun render(env: Environment): Either<String, String> =
         KarpenterAWS.`package`.render(versions, KarpenterVersionFetcher, env)

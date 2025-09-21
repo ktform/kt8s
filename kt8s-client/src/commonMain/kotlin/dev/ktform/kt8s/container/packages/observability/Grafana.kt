@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.GrafanaVersionFetcher
 import dev.ktform.kt8s.container.versions.GrafanaVersion
+import dev.ktform.kt8s.container.versions.GrafanaVersion.Companion.toGrafanaVersion
 
 class Grafana(val versions: GrafanaVersion) : Renderable {
+    constructor(version: String) : this(version.toGrafanaVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, GrafanaVersionFetcher, env)

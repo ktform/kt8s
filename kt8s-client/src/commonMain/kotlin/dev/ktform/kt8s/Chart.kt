@@ -17,8 +17,11 @@ interface Chart<T : Versions<T>> {
     val versions: Versions<T>
     val group: ChartGroup
 
-    fun getComponents(): List<Component<T>>
+    val crds: List<String>
+        get() = emptyList()
 
-    fun dependsOnGroups(): List<ChartGroup>
-    fun dependsOnCharts(): List<Chart<*>>
+    val components: List<Component<T>>
+
+    val dependsOnCharts: List<Chart<*>>
+        get() = emptyList()
 }

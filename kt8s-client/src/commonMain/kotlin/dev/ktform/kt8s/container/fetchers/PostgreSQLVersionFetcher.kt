@@ -44,10 +44,13 @@ object PostgreSQLVersionFetcher : VersionsFetcher<PostgreSQLVersion> {
         when (component) {
             is PostgreSQLComponent if component == PostgreSQLComponent.PostgreSQL ->
                 "https://github.com/postgres/postgres".some()
+
             is PostgreSQLComponent if component == PostgreSQLComponent.CNPG ->
                 "https://github.com/cloudnative-pg/cloudnative-pg".some()
+
             is PostgreSQLComponent if component == PostgreSQLComponent.Stackgres ->
                 "https://github.com/ongres/stackgres".some()
+
             else -> None
         }
 
@@ -61,6 +64,7 @@ object PostgreSQLVersionFetcher : VersionsFetcher<PostgreSQLVersion> {
         when (this) {
             is PostgreSQLComponent if this == PostgreSQLComponent.PostgreSQL ->
                 listOf("17.5", "17.4")
+
             is PostgreSQLComponent if this == PostgreSQLComponent.CNPG -> listOf()
             is PostgreSQLComponent if this == PostgreSQLComponent.Stackgres -> listOf()
             else -> emptyList()

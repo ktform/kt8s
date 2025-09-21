@@ -23,7 +23,16 @@ data class KarpenterVersion(val karpenterVersions: Map<KarpenterComponent, Strin
         KarpenterVersion(karpenterVersions + other.karpenterVersions)
 
     companion object : VersionsFetcher<KarpenterVersion> by KarpenterVersionFetcher {
-        fun String.toVersion(component: KarpenterComponent): KarpenterVersion =
-            KarpenterVersion(mapOf(component to this))
+        fun String.toKarpenterVersion(): KarpenterVersion =
+            KarpenterVersion(mapOf(KarpenterComponent.Karpenter to this))
+
+        fun String.toKarpenterAwsVersion(): KarpenterVersion =
+            KarpenterVersion(mapOf(KarpenterComponent.AWS to this))
+
+        fun String.toKarpenterAzureVersion(): KarpenterVersion =
+            KarpenterVersion(mapOf(KarpenterComponent.Azure to this))
+
+        fun String.toKarpenterGcpVersion(): KarpenterVersion =
+            KarpenterVersion(mapOf(KarpenterComponent.GCP to this))
     }
 }

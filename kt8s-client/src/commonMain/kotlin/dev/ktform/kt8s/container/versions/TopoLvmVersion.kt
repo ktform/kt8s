@@ -15,8 +15,8 @@ import dev.ktform.kt8s.container.components.TopoLvmComponent
 import dev.ktform.kt8s.container.fetchers.TopoLvmVersionFetcher
 import dev.ktform.kt8s.container.fetchers.VersionsFetcher
 
-data class TopoLvmVersion(val topoLvmVersions: Map<TopoLvmComponent, String> = emptyMap()) :
-    Versions<TopoLvmVersion>(topoLvmVersions.mapKeys { it.key as Component<TopoLvmVersion> }) {
+data class TopoLvmVersion(val TopoLvmVersions: Map<TopoLvmComponent, String> = emptyMap()) :
+    Versions<TopoLvmVersion>(TopoLvmVersions.mapKeys { it.key as Component<TopoLvmVersion> }) {
     companion object : VersionsFetcher<TopoLvmVersion> by TopoLvmVersionFetcher {
         fun String.toTopoLvmVersion(): TopoLvmVersion =
             TopoLvmVersion(mapOf(TopoLvmComponent.TopoLvm to this))

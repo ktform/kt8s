@@ -13,6 +13,6 @@ package dev.ktform.kt8s.container
 @DslMarker annotation class DockerfileDsl
 
 // Container Dockerfile DSL entry point
-fun dockerfile(block: Dockerfile.() -> Unit): Dockerfile {
-    return Dockerfile().apply(block)
+fun dockerfile(block: DockerfileCommands.() -> Unit): DockerfileCommands {
+    return DockerfileCommands().apply(block)
 }

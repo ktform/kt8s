@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.GrypeVersionFetcher
 import dev.ktform.kt8s.container.versions.GrypeVersion
+import dev.ktform.kt8s.container.versions.GrypeVersion.Companion.toGrypeVersion
 
 class Grype(val versions: GrypeVersion) : Renderable {
+    constructor(version: String) : this(version.toGrypeVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, GrypeVersionFetcher, env)

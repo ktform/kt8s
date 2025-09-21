@@ -18,15 +18,5 @@ import dev.ktform.kt8s.container.versions.DeschedulerVersion
 data class DeschedulerChart(override val versions: DeschedulerVersion) : Chart<DeschedulerVersion> {
     override val group: ChartGroup = ChartGroup.Compute
 
-    override fun getComponents(): List<DeschedulerComponent> {
-        TODO("Not yet implemented")
-    }
-
-    override fun dependsOnGroups(): List<ChartGroup> {
-        TODO("Not yet implemented")
-    }
-
-    override fun dependsOnCharts(): List<Chart<*>> {
-        TODO("Not yet implemented")
-    }
+    override val components: List<DeschedulerComponent> = listOf(DeschedulerComponent.Descheduler)
 }

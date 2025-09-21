@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.GoldilocksVersionFetcher
 import dev.ktform.kt8s.container.versions.GoldilocksVersion
+import dev.ktform.kt8s.container.versions.GoldilocksVersion.Companion.toGoldilocksVersion
 
 class Goldilocks(val versions: GoldilocksVersion) : Renderable {
+    constructor(version: String) : this(version.toGoldilocksVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, GoldilocksVersionFetcher, env)

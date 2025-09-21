@@ -10,12 +10,13 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.Provider
+import dev.ktform.kt8s.Chart
+import dev.ktform.kt8s.charts.mlops.KubeFlinkChart
 import dev.ktform.kt8s.container.versions.KubeFlinkVersion
 
-enum class KubeFlinkComponent(
-    override val applicableFlavours: List<Component<*>> = emptyList(),
-    override val applicableProviders: List<Provider> = Provider.all,
-) : Component<KubeFlinkVersion> {
-    KubeFlink
+enum class KubeFlinkComponent(val versions: KubeFlinkVersion) : Component<KubeFlinkVersion> {
+    KubeFlink(versions = KubeFlinkVersion());
+
+    override val charts: Set<Chart<KubeFlinkVersion>> = setOf(KubeFlinkChart(versions = versions))
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

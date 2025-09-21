@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.TrivyVersionFetcher
 import dev.ktform.kt8s.container.versions.TrivyVersion
+import dev.ktform.kt8s.container.versions.TrivyVersion.Companion.toTrivyVersion
 
 class Trivy(val versions: TrivyVersion) : Renderable {
+    constructor(version: String) : this(version.toTrivyVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, TrivyVersionFetcher, env)

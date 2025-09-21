@@ -10,16 +10,10 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.Chart
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.DenoVersion
 
-enum class DenoComponent(
-  val versions: DenoVersion,
-) : Component<DenoVersion> {
+enum class DenoComponent(val versions: DenoVersion) : Component<DenoVersion> {
     Deno(versions = DenoVersion());
 
-    override val charts: List<Chart<DenoVersion>> = emptyList()
-    override val applicableFlavours: List<Component<*>> = emptyList()
-    override val applicableProviders: List<Provider> = Provider.all
+    override val applicableFlavours: Set<Component<*>> = Component.baseBuilder
 }

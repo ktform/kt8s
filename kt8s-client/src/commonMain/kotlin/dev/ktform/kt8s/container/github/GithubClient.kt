@@ -20,6 +20,20 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 class GithubClient {
+
+    /**
+     * Extracts owner and repository name from a given URL.
+     *
+     * Accepts URLs in the following formats:
+     * - `git@github.com:owner/repo.git`
+     * - `https://github.com/owner/repo.git`
+     * - `https://github.com/owner/repo`
+     *
+     * Returns a pair of owner and repository names. If the URL is invalid, returns an empty pair.
+     *
+     * @param url the URL to parse
+     * @return a pair of owner and repository names
+     */
     fun getOwnerRepoFrom(url: String): Pair<String, String> =
         url.replace("git@github.com:", "")
             .replace("https://github.com/", "")
@@ -157,6 +171,14 @@ class GithubClient {
             }
         }
 
+    /**
+     * Fetches all tags from a given repository URL.
+     *
+     * @param url repository URL
+     * @param authToken optional GitHub authentication token
+     * @param limit optional limit on the number of tags to fetch
+     * @return Either containing error message or list of tag names
+     */
     suspend fun getTags(
         url: String,
         authToken: String? = getGithubToken(),
@@ -172,6 +194,14 @@ class GithubClient {
             transform = { it.ref.removePrefix("refs/tags/") },
         )
 
+    /**
+     * Fetches all releases for a given repository URL.
+     *
+     * @param url repository URL
+     * @param authToken optional GitHub authentication token
+     * @param limit optional limit on the number of releases to fetch
+     * @return Either containing error message or list of release tags
+     */
     suspend fun getReleases(
         url: String,
         authToken: String? = getGithubToken(),

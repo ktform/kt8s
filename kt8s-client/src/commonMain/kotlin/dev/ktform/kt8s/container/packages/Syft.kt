@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.SyftVersionFetcher
 import dev.ktform.kt8s.container.versions.SyftVersion
+import dev.ktform.kt8s.container.versions.SyftVersion.Companion.toSyftVersion
 
 class Syft(val versions: SyftVersion) : Renderable {
+    constructor(version: String) : this(version.toSyftVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, SyftVersionFetcher, env)

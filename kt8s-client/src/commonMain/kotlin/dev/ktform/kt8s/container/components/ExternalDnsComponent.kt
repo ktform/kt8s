@@ -12,15 +12,12 @@ package dev.ktform.kt8s.container.components
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.charts.networking.ExternalDnsChart
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.ExternalDnsVersion
 
-enum class ExternalDnsComponent(
-     val versions: ExternalDnsVersion,
-) : Component<ExternalDnsVersion> {
+enum class ExternalDnsComponent(val versions: ExternalDnsVersion) : Component<ExternalDnsVersion> {
     ExternalDns(versions = ExternalDnsVersion());
 
-    override val charts: List<Chart<ExternalDnsVersion>> = listOf(ExternalDnsChart(versions = versions))
-    override val applicableFlavours: List<Component<*>> = emptyList()
-    override val applicableProviders: List<Provider> = Provider.all
+    override val charts: Set<Chart<ExternalDnsVersion>> =
+        setOf(ExternalDnsChart(versions = versions))
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

@@ -10,14 +10,10 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.container.versions.CmakeVersion
 
-enum class CmakeComponent(
-    val versions: CmakeVersion,
-) : Component<CmakeVersion> {
+enum class CmakeComponent(val versions: CmakeVersion) : Component<CmakeVersion> {
     Cmake(versions = CmakeVersion());
 
-    override val charts: List<Chart<CmakeVersion>> = emptyList()
-    override val applicableFlavours: List<Component<*>> = Component.Companion.Common.baseBuilder
+    override val applicableFlavours: Set<Component<*>> = Component.baseBuilder
 }

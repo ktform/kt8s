@@ -10,18 +10,12 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.Chart
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.JavaVersion
 
-enum class JavaComponent(
-    val versions: JavaVersion,
-) : Component<JavaVersion> {
-    OpenJDK(versions = JavaVersion()) ,
+enum class JavaComponent(val versions: JavaVersion) : Component<JavaVersion> {
+    OpenJDK(versions = JavaVersion()),
     OpenJ9(versions = JavaVersion()),
     GraalVM(versions = JavaVersion());
 
-    override val charts: List<Chart<JavaVersion>> = emptyList()
-    override val applicableFlavours: List<Component<*>> = emptyList()
-    override val applicableProviders: List<Provider> = Provider.all
+    override val applicableFlavours: Set<Component<*>> = Component.baseBuilder
 }

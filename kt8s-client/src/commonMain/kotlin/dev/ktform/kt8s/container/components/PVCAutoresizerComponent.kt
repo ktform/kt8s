@@ -10,12 +10,15 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.Provider
+import dev.ktform.kt8s.Chart
+import dev.ktform.kt8s.charts.storage.PVCAutoresizerChart
 import dev.ktform.kt8s.container.versions.PVCAutoresizerVersion
 
-enum class PVCAutoresizerComponent(
-    override val applicableFlavours: List<Component<*>> = emptyList(),
-    override val applicableProviders: List<Provider> = Provider.all,
-) : Component<PVCAutoresizerVersion> {
-    PVCAutoresizer
+enum class PVCAutoresizerComponent(val versions: PVCAutoresizerVersion) :
+    Component<PVCAutoresizerVersion> {
+    PVCAutoresizer(versions = PVCAutoresizerVersion());
+
+    override val charts: Set<Chart<PVCAutoresizerVersion>> =
+        setOf(PVCAutoresizerChart(versions = versions))
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

@@ -12,15 +12,11 @@ package dev.ktform.kt8s.container.components
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.charts.mlops.FeastChart
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.FeastVersion
 
-enum class FeastComponent(
-     val versions: FeastVersion,
-) : Component<FeastVersion> {
+enum class FeastComponent(val versions: FeastVersion) : Component<FeastVersion> {
     Feast(versions = FeastVersion());
 
-    override val charts: List<Chart<FeastVersion>> = listOf(FeastChart(versions = versions))
-    override val applicableFlavours: List<Component<*>> = emptyList()
-    override val applicableProviders: List<Provider> = Provider.all
+    override val charts: Set<Chart<FeastVersion>> = setOf(FeastChart(versions = versions))
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

@@ -12,6 +12,13 @@ package dev.ktform.kt8s.container
 
 import arrow.core.Either
 
+/** A [Renderable] represents a Dockerfile that can be rendered into a string. */
 interface Renderable {
+    /**
+     * Renders the Dockerfile into a string.
+     *
+     * @param env The environment to render the Dockerfile for.
+     * @return An [Either] containing the rendered Dockerfile or an error message.
+     */
     fun render(env: Environment = Environment.default): Either<String, String>
 }

@@ -51,6 +51,7 @@ object BazelVersionFetcher : VersionsFetcher<BazelVersion> {
             is BazelComponent if this == BazelComponent.Bazel -> listOf("8.3.1", "8.3.0")
             is BazelComponent if this == BazelComponent.Bazelisk ->
                 listOf("1.27.0", "1.26.0", "1.25.0")
+
             else -> emptyList()
         }
 }

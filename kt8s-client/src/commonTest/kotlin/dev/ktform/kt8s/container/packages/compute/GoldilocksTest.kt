@@ -8,8 +8,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package dev.ktform.kt8s.dev.ktform.kt8s.container.packages.compute
+package dev.ktform.kt8s.container.packages.compute
 
+import com.varabyte.truthish.assertThat
+import dev.ktform.kt8s.container.Environment
+import dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
+import dev.ktform.kt8s.container.components.GoldilocksComponent
+import dev.ktform.kt8s.container.fetchers.GoldilocksVersionFetcher
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.test.runTest
@@ -19,17 +24,24 @@ class GoldilocksTest {
     @Test
     fun testGoldilocks() {
         runTest(timeout = 10.seconds) {
-            // val latest = Goldilocks.`package`.latestVersion().getOrElse { err -> throw
-            // Exception("Unable to determine latest version: $err") }
+            assertThat(GoldilocksVersionFetcher.getLatestVersions()).isNotEmpty()
 
-            // Environment.all.forEach { env ->
-            //   PackageTestCase(
-            //     "goldilocks",
-            //     env,
-            //     rendered = Goldilocks(latest).render().getOrElse { err -> throw Exception("Unable
-            // to render: $err") },
-            //   ).isExpected()
-            // }
+            GoldilocksVersionFetcher.getLatestVersions().forEach { (component, version) ->
+                val goldilocks =
+                    when (component) {
+                        is GoldilocksComponent if (component == GoldilocksComponent.Goldilocks) ->
+                            Goldilocks(version)
+
+                        else -> throw Exception("Unknown component: $component")
+                    }
+
+                goldilocks
+                    .render(env = Environment.default)
+                    .fold(
+                        { err -> throw Exception("Unable to render ${component.name}: $err") },
+                        { result -> result.getOrUpdateExpected("Dockerfile.${component.name}") },
+                    )
+            }
         }
     }
 }

@@ -10,16 +10,10 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.Chart
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.CosignVersion
 
-enum class CosignComponent(
-    val versions: CosignVersion,
-) : Component<CosignVersion> {
+enum class CosignComponent(val versions: CosignVersion) : Component<CosignVersion> {
     Cosign(versions = CosignVersion());
 
-    override val charts: List<Chart<CosignVersion>> = emptyList()
-    override val applicableFlavours: List<Component<*>> = emptyList()
-    override val applicableProviders: List<Provider> = Provider.all
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

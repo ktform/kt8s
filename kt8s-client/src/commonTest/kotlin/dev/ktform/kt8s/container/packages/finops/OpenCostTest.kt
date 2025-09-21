@@ -8,8 +8,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package dev.ktform.kt8s.dev.ktform.kt8s.container.packages.finops
+package dev.ktform.kt8s.container.packages.finops
 
+import com.varabyte.truthish.assertThat
+import dev.ktform.kt8s.container.Environment
+import dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
+import dev.ktform.kt8s.container.components.OpenCostComponent
+import dev.ktform.kt8s.container.fetchers.OpenCostVersionFetcher
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.test.runTest
@@ -19,17 +24,24 @@ class OpenCostTest {
     @Test
     fun testOpenCost() {
         runTest(timeout = 10.seconds) {
-            // val latest = OpenCost.`package`.latestVersion().getOrElse { err -> throw
-            // Exception("Unable to determine latest version: $err") }
+            assertThat(OpenCostVersionFetcher.getLatestVersions()).isNotEmpty()
 
-            // Environment.all.forEach { env ->
-            //   PackageTestCase(
-            //     "open cost",
-            //     env,
-            //     rendered = OpenCost(latest).render().getOrElse { err -> throw Exception("Unable
-            // to render: $err") },
-            //   ).isExpected()
-            // }
+            OpenCostVersionFetcher.getLatestVersions().forEach { (component, version) ->
+                val opencost =
+                    when (component) {
+                        is OpenCostComponent if (component == OpenCostComponent.OpenCost) ->
+                            OpenCost(version)
+
+                        else -> throw Exception("Unknown component: $component")
+                    }
+
+                opencost
+                    .render(env = Environment.default)
+                    .fold(
+                        { err -> throw Exception("Unable to render ${component.name}: $err") },
+                        { result -> result.getOrUpdateExpected("Dockerfile.${component.name}") },
+                    )
+            }
         }
     }
 }

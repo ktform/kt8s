@@ -12,21 +12,14 @@ package dev.ktform.kt8s.charts.compute
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
+import dev.ktform.kt8s.charts.observability.PrometheusChart
 import dev.ktform.kt8s.container.components.GoldilocksComponent
 import dev.ktform.kt8s.container.versions.GoldilocksVersion
 
 data class GoldilocksChart(override val versions: GoldilocksVersion) : Chart<GoldilocksVersion> {
     override val group: ChartGroup = ChartGroup.Compute
 
-    override fun getComponents(): List<GoldilocksComponent> {
-        TODO("Not yet implemented")
-    }
+    override val components: List<GoldilocksComponent> = listOf(GoldilocksComponent.Goldilocks)
 
-    override fun dependsOnGroups(): List<ChartGroup> {
-        TODO("Not yet implemented")
-    }
-
-    override fun dependsOnCharts(): List<Chart<*>> {
-        TODO("Not yet implemented")
-    }
+    override val dependsOnCharts: List<Chart<*>> = listOf(PrometheusChart())
 }

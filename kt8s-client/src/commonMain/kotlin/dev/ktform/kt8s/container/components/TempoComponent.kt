@@ -10,12 +10,10 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.TempoVersion
 
-enum class TempoComponent(
-    override val applicableFlavours: List<Component<*>> = emptyList(),
-    override val applicableProviders: List<Provider> = Provider.all,
-) : Component<TempoVersion> {
-    Tempo
+enum class TempoComponent(val versions: TempoVersion) : Component<TempoVersion> {
+    Tempo(versions = TempoVersion());
+
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

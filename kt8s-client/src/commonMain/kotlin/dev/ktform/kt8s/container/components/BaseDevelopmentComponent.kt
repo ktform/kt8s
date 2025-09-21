@@ -10,12 +10,17 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.container.versions.AwsCliVersion
 
 enum class BaseDevelopmentComponent() : Component<AwsCliVersion> {
-  BaseDevelopment;
+    BaseDevelopment;
 
-  override val charts: List<Chart<AwsCliVersion>> = emptyList()
-  override val applicableFlavours: List<Component<*>> = Component.Companion.Common.cloudManagementCli + Component.Companion.Common.containerSecurityCli
+    override val applicableFlavours: Set<Component<*>> = emptySet()
+    //    override val applicableFlavours: Set<Component<*>> = (
+    //        Component.cloudManagementCli +
+    //            Component.containerSecurityCli +
+    //            Component.buildNative +
+    //            Component.buildJvm +
+    //            Component.buildPython
+    //      ).toSet()
 }

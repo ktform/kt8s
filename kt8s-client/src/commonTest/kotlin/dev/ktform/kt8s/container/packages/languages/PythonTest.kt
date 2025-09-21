@@ -8,8 +8,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package dev.ktform.kt8s.dev.ktform.kt8s.container.packages.languages
+package dev.ktform.kt8s.container.packages.languages
 
+import com.varabyte.truthish.assertThat
+import dev.ktform.kt8s.container.Environment
+import dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
+import dev.ktform.kt8s.container.components.PythonComponent
+import dev.ktform.kt8s.container.fetchers.PythonVersionFetcher
+import dev.ktform.kt8s.container.packages.languages.python.CPython
+import dev.ktform.kt8s.container.packages.languages.python.PyPy
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.test.runTest
@@ -19,17 +26,25 @@ class PythonTest {
     @Test
     fun testPython() {
         runTest(timeout = 10.seconds) {
-            // val latest = Python.`package`.latestVersion().getOrElse { err -> throw
-            // Exception("Unable to determine latest version: $err") }
+            assertThat(PythonVersionFetcher.getLatestVersions()).isNotEmpty()
 
-            // Environment.all.forEach { env ->
-            //   PackageTestCase(
-            //     "python",
-            //     env,
-            //     rendered = Python(latest).render().getOrElse { err -> throw Exception("Unable to
-            // render: $err") },
-            //   ).isExpected()
-            // }
+            PythonVersionFetcher.getLatestVersions().forEach { (component, version) ->
+                val cli =
+                    when (component) {
+                        is PythonComponent if (component == PythonComponent.CPython) ->
+                            CPython(version)
+
+                        is PythonComponent if (component == PythonComponent.PyPy) -> PyPy(version)
+
+                        else -> throw Exception("Unknown component: $component")
+                    }
+
+                cli.render(env = Environment.default)
+                    .fold(
+                        { err -> throw Exception("Unable to render ${component.name}: $err") },
+                        { result -> result.getOrUpdateExpected("Dockerfile.${component.name}") },
+                    )
+            }
         }
     }
 }

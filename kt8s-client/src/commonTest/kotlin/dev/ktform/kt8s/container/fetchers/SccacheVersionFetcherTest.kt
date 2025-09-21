@@ -8,23 +8,22 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package dev.ktform.kt8s.dev.ktform.kt8s.container.fetchers
+package dev.ktform.kt8s.container.fetchers
 
+import com.varabyte.truthish.assertThat
+import dev.ktform.kt8s.container.fetchers.SccacheVersionFetcher.knownLatestVersions
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.test.runTest
 
-import com.varabyte.truthish.assertThat
-import dev.ktform.kt8s.container.fetchers.SccacheVersionFetcher.knownLatestVersions
-
 class SccacheVersionFetcherTest {
 
-  @Test
-  fun testSccacheVersionFetcher() = runTest {
-    runTest(timeout = 10.seconds) {
-      dev.ktform.kt8s.container.fetchers.SccacheVersionFetcher.getVersions().forEach { (component, versions) ->
-        assertThat(versions).equals(component.knownLatestVersions())
-      }
+    @Test
+    fun testSccacheVersionFetcher() {
+        runTest(timeout = 10.seconds) {
+            SccacheVersionFetcher.getVersions().forEach { (component, versions) ->
+                assertThat(versions).equals(component.knownLatestVersions())
+            }
+        }
     }
-  }
 }

@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.RubyVersionFetcher
 import dev.ktform.kt8s.container.versions.RubyVersion
+import dev.ktform.kt8s.container.versions.RubyVersion.Companion.toRubyVersion
 
 class CRuby(val versions: RubyVersion) : Renderable {
+    constructor(version: String) : this(version.toRubyVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, RubyVersionFetcher, env)

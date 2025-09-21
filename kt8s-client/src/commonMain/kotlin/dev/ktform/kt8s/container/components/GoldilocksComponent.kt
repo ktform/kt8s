@@ -12,15 +12,11 @@ package dev.ktform.kt8s.container.components
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.charts.compute.GoldilocksChart
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.GoldilocksVersion
 
-enum class GoldilocksComponent(
-     val versions: GoldilocksVersion,
-) : Component<GoldilocksVersion> {
+enum class GoldilocksComponent(val versions: GoldilocksVersion) : Component<GoldilocksVersion> {
     Goldilocks(versions = GoldilocksVersion());
 
-    override val charts: List<Chart<GoldilocksVersion>> = listOf(GoldilocksChart(versions = versions))
-    override val applicableFlavours: List<Component<*>> = emptyList()
-    override val applicableProviders: List<Provider> = Provider.all
+    override val charts: Set<Chart<GoldilocksVersion>> = setOf(GoldilocksChart(versions = versions))
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

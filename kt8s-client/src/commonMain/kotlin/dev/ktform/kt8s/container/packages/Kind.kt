@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.KindVersionFetcher
 import dev.ktform.kt8s.container.versions.KindVersion
+import dev.ktform.kt8s.container.versions.KindVersion.Companion.toKindVersion
 
 class Kind(val versions: KindVersion) : Renderable {
+    constructor(version: String) : this(version.toKindVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, KindVersionFetcher, env)

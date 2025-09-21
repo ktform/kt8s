@@ -15,13 +15,11 @@ import dev.ktform.kt8s.ChartGroup
 import dev.ktform.kt8s.container.components.CertManagerComponent
 import dev.ktform.kt8s.container.versions.CertManagerVersion
 
-data class CertManagerChart(override val versions: CertManagerVersion) : Chart<CertManagerVersion> {
+data class CertManagerChart(override val versions: CertManagerVersion = CertManagerVersion()) :
+    Chart<CertManagerVersion> {
     override val group: ChartGroup = ChartGroup.Security
 
-    override fun getComponents(): List<CertManagerComponent> = listOf(CertManagerComponent.CertManager)
+    override val components: List<CertManagerComponent> = listOf(CertManagerComponent.CertManager)
 
-    override fun dependsOnGroups(): List<ChartGroup> = emptyList()
-
-    override fun dependsOnCharts(): List<Chart<*>> = emptyList()
-    }
+    override val dependsOnCharts: List<Chart<*>> = listOf()
 }

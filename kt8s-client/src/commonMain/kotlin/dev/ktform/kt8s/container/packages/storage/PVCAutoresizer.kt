@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.PVCAutoresizerVersionFetcher
 import dev.ktform.kt8s.container.versions.PVCAutoresizerVersion
+import dev.ktform.kt8s.container.versions.PVCAutoresizerVersion.Companion.toPVCAutoresizerVersion
 
 class PVCAutoresizer(val versions: PVCAutoresizerVersion) : Renderable {
+    constructor(version: String) : this(version.toPVCAutoresizerVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, PVCAutoresizerVersionFetcher, env)

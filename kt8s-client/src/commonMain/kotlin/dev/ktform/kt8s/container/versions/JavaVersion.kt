@@ -25,6 +25,7 @@ data class JavaVersion(val javaVersions: Map<JavaComponent, String> = emptyMap()
         fun String.toOpenJDKVersion(): JavaVersion =
             JavaVersion(mapOf(JavaComponent.OpenJDK to this))
 
-        fun String.toGraalVM(): JavaVersion = JavaVersion(mapOf(JavaComponent.GraalVM to this))
+        fun String.toGraalVmVersion(): JavaVersion =
+            JavaVersion(mapOf(JavaComponent.GraalVM to this))
     }
 }

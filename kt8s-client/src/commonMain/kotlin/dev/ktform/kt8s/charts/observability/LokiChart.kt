@@ -12,16 +12,15 @@ package dev.ktform.kt8s.charts.observability
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
-import dev.ktform.kt8s.container.components.GrafanaComponent
+import dev.ktform.kt8s.charts.networking.CiliumChart
+import dev.ktform.kt8s.charts.security.CertManagerChart
 import dev.ktform.kt8s.container.components.LokiComponent
 import dev.ktform.kt8s.container.versions.LokiVersion
 
 class LokiChart(override val versions: LokiVersion) : Chart<LokiVersion> {
     override val group: ChartGroup = ChartGroup.Observability
 
-    override fun getComponents(): List<LokiComponent> = listOf(LokiComponent.Loki)
+    override val components: List<LokiComponent> = listOf(LokiComponent.Loki)
 
-    override fun dependsOnGroups(): List<ChartGroup> = emptyList()
-
-    override fun dependsOnCharts(): List<Chart<*>> = emptyList()
+    override val dependsOnCharts: List<Chart<*>> = listOf(CertManagerChart(), CiliumChart())
 }

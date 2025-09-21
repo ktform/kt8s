@@ -12,15 +12,15 @@ package dev.ktform.kt8s.charts.mlops
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
+import dev.ktform.kt8s.charts.networking.CiliumChart
+import dev.ktform.kt8s.charts.security.CertManagerChart
 import dev.ktform.kt8s.container.components.FeastComponent
 import dev.ktform.kt8s.container.versions.FeastVersion
 
 data class FeastChart(override val versions: FeastVersion) : Chart<FeastVersion> {
     override val group: ChartGroup = ChartGroup.MlOps
 
-    override fun getComponents(): List<FeastComponent> = listOf(FeastComponent.Feast)
+    override val components: List<FeastComponent> = listOf(FeastComponent.Feast)
 
-    override fun dependsOnGroups(): List<ChartGroup> = emptyList()
-
-    override fun dependsOnCharts(): List<Chart<*>> = emptyList()
+    override val dependsOnCharts: List<Chart<*>> = listOf(CertManagerChart(), CiliumChart())
 }

@@ -10,13 +10,11 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.RustVersion
 
-enum class RustComponent(
-    override val applicableFlavours: List<Component<*>> = emptyList(),
-    override val applicableProviders: List<Provider> = Provider.all,
-) : Component<RustVersion> {
-    Nightly,
-    Stable,
+enum class RustComponent(val versions: RustVersion) : Component<RustVersion> {
+    Nightly(versions = RustVersion()),
+    Stable(versions = RustVersion());
+
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

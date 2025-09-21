@@ -14,25 +14,20 @@ import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.KarpenterVersion
 
-enum class KarpenterComponent(
-    override val versions: KarpenterVersion,
-) : Component<KarpenterVersion> {
+enum class KarpenterComponent(val versions: KarpenterVersion) : Component<KarpenterVersion> {
     Karpenter(versions = KarpenterVersion()) {
-      override val applicableProviders: List<Provider> = Provider.all
-    }
-    AWS(versions = KarpenterVersion(), applicableProviders = listOf(Provider.AWS)) {
-      override val applicableProviders: List<Provider> = Provider.all
+        override val applicableProviders: Set<Provider> = Provider.all
     },
-    AWSNodeTerminatorController(versions = KarpenterVersion(), applicableProviders = listOf(Provider.AWS)) {
-      override val applicableProviders: List<Provider> = Provider.all
+    AWS(versions = KarpenterVersion()) {
+        override val applicableProviders: Set<Provider> = setOf(Provider.AWS)
     },
-    GCP(versions = KarpenterVersion(), applicableProviders = listOf(Provider.GCP)) {
-      override val applicableProviders: List<Provider> = Provider.all
+    GCP(versions = KarpenterVersion()) {
+        override val applicableProviders: Set<Provider> = setOf(Provider.GCP)
     },
-    Azure(versions = KarpenterVersion(), applicableProviders = listOf(Provider.Azure)) {
-      override val applicableProviders: List<Provider> = Provider.all
+    Azure(versions = KarpenterVersion()) {
+        override val applicableProviders: Set<Provider> = setOf(Provider.Azure)
     };
 
-    override val charts: List<Chart<KarpenterVersion>> = emptyList()
-    override val applicableFlavours: List<Component<*>> = emptyList()
+    override val charts: Set<Chart<KarpenterVersion>> = emptySet()
+    override val applicableFlavours: Set<Component<*>> = emptySet()
 }

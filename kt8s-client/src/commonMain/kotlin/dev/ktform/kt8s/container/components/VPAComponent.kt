@@ -10,12 +10,10 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.Provider
-import dev.ktform.kt8s.container.versions.VPAVersion
+import dev.ktform.kt8s.container.versions.VpaVersion
 
-enum class VPAComponent(
-    override val applicableFlavours: List<Component<*>> = emptyList(),
-    override val applicableProviders: List<Provider> = Provider.all,
-) : Component<VPAVersion> {
-    VPA
+enum class VPAComponent(val versions: VpaVersion) : Component<VpaVersion> {
+    VPA(versions = VpaVersion());
+
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.KubeFlinkVersionFetcher
 import dev.ktform.kt8s.container.versions.KubeFlinkVersion
+import dev.ktform.kt8s.container.versions.KubeFlinkVersion.Companion.toKubeFlinkVersion
 
 class KubeFlink(val versions: KubeFlinkVersion) : Renderable {
+    constructor(version: String) : this(version.toKubeFlinkVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, KubeFlinkVersionFetcher, env)

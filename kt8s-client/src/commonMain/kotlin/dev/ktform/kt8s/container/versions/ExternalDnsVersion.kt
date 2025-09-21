@@ -15,7 +15,9 @@ import dev.ktform.kt8s.container.components.ExternalDnsComponent
 import dev.ktform.kt8s.container.fetchers.ExternalDnsVersionFetcher
 import dev.ktform.kt8s.container.fetchers.VersionsFetcher
 
-data class ExternalDnsVersion(val externalDnsVersions: Map<ExternalDnsComponent, String> = emptyMap()) :
+data class ExternalDnsVersion(
+    val externalDnsVersions: Map<ExternalDnsComponent, String> = emptyMap()
+) :
     Versions<ExternalDnsVersion>(
         externalDnsVersions.mapKeys { it.key as Component<ExternalDnsVersion> }
     ) {

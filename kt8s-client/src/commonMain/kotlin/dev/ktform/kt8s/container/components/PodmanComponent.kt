@@ -10,12 +10,10 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.PodmanVersion
 
-enum class PodmanComponent(
-    override val applicableFlavours: List<Component<*>> = emptyList(),
-    override val applicableProviders: List<Provider> = Provider.all,
-) : Component<PodmanVersion> {
-    Podman
+enum class PodmanComponent(val versions: PodmanVersion) : Component<PodmanVersion> {
+    Podman(versions = PodmanVersion());
+
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

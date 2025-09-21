@@ -10,12 +10,13 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.Provider
+import dev.ktform.kt8s.Chart
+import dev.ktform.kt8s.charts.storage.`object`.MinioChart
 import dev.ktform.kt8s.container.versions.MinioVersion
 
-enum class MinioComponent(
-    override val applicableFlavours: List<Component<*>> = emptyList(),
-    override val applicableProviders: List<Provider> = Provider.all,
-) : Component<MinioVersion> {
-    Minio
+enum class MinioComponent(val versions: MinioVersion) : Component<MinioVersion> {
+    Minio(versions = MinioVersion());
+
+    override val charts: Set<Chart<MinioVersion>> = setOf(MinioChart(versions = versions))
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

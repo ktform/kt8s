@@ -8,13 +8,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package dev.ktform.kt8s.dev.ktform.kt8s.container.packages
+package dev.ktform.kt8s.container.packages
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
-import dev.ktform.kt8s.dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
+import dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
 import dev.ktform.kt8s.container.components.OpenTofuComponent
 import dev.ktform.kt8s.container.fetchers.OpenTofuVersionFetcher
-import dev.ktform.kt8s.container.versions.OpenTofuVersion.Companion.toOpenTofuVersion
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.test.runTest
@@ -24,13 +24,15 @@ class OpenTofuTest {
     @Test
     fun testOpenTofu() {
         runTest(timeout = 10.seconds) {
-            OpenTofuVersionFetcher.getVersions().forEach { (component, versions) ->
+            assertThat(OpenTofuVersionFetcher.getLatestVersions()).isNotEmpty()
+
+            OpenTofuVersionFetcher.getLatestVersions().forEach { (component, version) ->
                 val cli =
                     when (component) {
-                        is OpenTofuComponent if (component == OpenTofuComponent.OpenTofu) ->
-                            OpenTofu(versions.last().toOpenTofuVersion())
+                        is OpenTofuComponent if component == OpenTofuComponent.OpenTofu ->
+                            OpenTofu(version)
 
-                        else -> throw Exception("Unknown component: $component")
+                        else -> throw IllegalStateException("Unknown component $component")
                     }
 
                 cli.render(env = Environment.default)

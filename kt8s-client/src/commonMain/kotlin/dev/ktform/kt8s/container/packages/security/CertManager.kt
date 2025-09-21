@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.CertManagerVersionFetcher
 import dev.ktform.kt8s.container.versions.CertManagerVersion
+import dev.ktform.kt8s.container.versions.CertManagerVersion.Companion.toCertManagerVersion
 
 class CertManager(val versions: CertManagerVersion) : Renderable {
+    constructor(version: String) : this(version.toCertManagerVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, CertManagerVersionFetcher, env)

@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.PodmanVersionFetcher
 import dev.ktform.kt8s.container.versions.PodmanVersion
+import dev.ktform.kt8s.container.versions.PodmanVersion.Companion.toPodmanVersion
 
 class Podman(val versions: PodmanVersion) : Renderable {
+    constructor(version: String) : this(version.toPodmanVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, PodmanVersionFetcher, env)

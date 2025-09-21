@@ -12,15 +12,15 @@ package dev.ktform.kt8s.charts.storage
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
+import dev.ktform.kt8s.charts.networking.CiliumChart
+import dev.ktform.kt8s.charts.security.CertManagerChart
 import dev.ktform.kt8s.container.components.RookComponent
 import dev.ktform.kt8s.container.versions.RookVersion
 
 data class RookChart(override val versions: RookVersion) : Chart<RookVersion> {
     override val group: ChartGroup = ChartGroup.Storage
 
-    override fun getComponents(): List<RookComponent> = listOf(RookComponent.Rook)
+    override val components: List<RookComponent> = listOf(RookComponent.Rook)
 
-    override fun dependsOnGroups(): List<ChartGroup> = emptyList()
-
-    override fun dependsOnCharts(): List<Chart<*>> = emptyList()
+    override val dependsOnCharts: List<Chart<*>> = listOf(CertManagerChart(), CiliumChart())
 }

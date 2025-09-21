@@ -3,23 +3,24 @@
 # https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
 [versions]
 arrow = "2.1.2"
-kotlin = "2.2.10"
+compiler-kotlinpoet = "2.2.0"
+compose = "1.9.1"
+kotlin = "2.2.20"
 kotlin-coroutines = "1.10.2"
 kotlin-datetime = "0.7.1"
 kotlin-immutable = "0.4.0"
 kotlin-io = "0.8.0"
 kotlin-io-bytestring = "0.8.0"
 kotlin-serialization-json = "1.9.0"
-ktor = "3.2.3"
+ktor = "3.3.0"
 plugins-android = "8.11.1"
-compiler-kotlinpoet = "2.2.0"
-plugins-ksp = "2.2.10-2.0.2"
+plugins-compose-hot-reload = "1.0.0-beta05"
+plugins-compose-multiplatform = "1.8.2"
+plugins-ksp = "2.2.20-2.0.3"
 plugins-maven-publish = "0.34.0"
 plugins-spotless = "7.2.1"
 plugins-version-catalog-update = "1.0.0"
-plugins-compose-hot-reload = "1.0.0-beta05"
-plugins-compose-multiplatform = "1.8.2"
-
+semver = "3.0.0"
 # @keep
 settings-buildTools = "36.0.0"
 # @keep
@@ -31,44 +32,44 @@ settings-versionName = "1.0.0"
 testing-intstrumented-core = "1.7.0"
 testing-intstrumented-rules = "1.7.0"
 testing-intstrumented-runner = "1.7.0"
-testing-robolectric = "4.15.1"
 testing-junit = "5.13.4"
+testing-robolectric = "4.16"
 testing-truethish = "1.0.3"
-compose = "1.9.0"
-semver = "3.0.0"
+kaml = "0.96.0"
 
 [libraries]
 arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
 arrow-fx-coroutines = { module = "io.arrow-kt:arrow-fx-coroutines", version.ref = "arrow" }
 arrow-optics = { module = "io.arrow-kt:arrow-optics", version.ref = "arrow" }
 arrow-optics-compiler = { module = "io.arrow-kt:arrow-optics-ksp-plugin", version.ref = "arrow" }
+compiler-kotlinpoet = { module = "com.squareup:kotlinpoet", version.ref = "compiler-kotlinpoet" }
 compiler-ksp = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "plugins-ksp" }
+jetpack-compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
-kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlin-datetime" }
 kotlin-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlin-immutable" }
 kotlin-io = { module = "org.jetbrains.kotlinx:kotlinx-io-core", version.ref = "kotlin-io" }
+kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlin-datetime" }
 kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization-json" }
 kotlinx-io-bytestring = { module = "org.jetbrains.kotlinx:kotlinx-io-bytestring", version.ref = "kotlin-io-bytestring" }
 ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 ktor-client-apache = { module = "io.ktor:ktor-client-apache", version.ref = "ktor" }
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
-ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+kaml = { module = "com.charleskorn.kaml:kaml", version.ref = "kaml"}
 ktor-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+semver = { module = "io.github.z4kn4fein:semver", version.ref = "semver" }
 testing-instrumented-core = { module = "androidx.test:core", version.ref = "testing-intstrumented-core" }
 testing-instrumented-core-ktx = { module = "androidx.test:core-ktx", version.ref = "testing-intstrumented-core" }
 testing-instrumented-rules = { module = "androidx.test:rules", version.ref = "testing-intstrumented-rules" }
 testing-instrumented-runner = { module = "androidx.test:runner", version.ref = "testing-intstrumented-runner" }
-testing-robolectric = { module = "org.robolectric:robolectric", version.ref = "testing-robolectric" }
 testing-junit = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "testing-junit" }
 testing-junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "testing-junit" }
 testing-kotlin = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+testing-robolectric = { module = "org.robolectric:robolectric", version.ref = "testing-robolectric" }
 testing-truethish = { module = "com.varabyte.truthish:truthish", version.ref = "testing-truethish" }
-semver = { module = "io.github.z4kn4fein:semver", version.ref = "semver" }
-jetpack-compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
-compiler-kotlinpoet = { module = "com.squareup:kotlinpoet", version.ref = "compiler-kotlinpoet" }
 
 [bundles]
 android = [
@@ -79,9 +80,9 @@ android-testing = [
     "testing-instrumented-core-ktx",
     "testing-instrumented-rules",
     "testing-instrumented-runner",
+    "testing-junit",
     "testing-kotlin",
     "testing-robolectric",
-    "testing-junit"
 ]
 arrow = [
     "arrow-core",
@@ -95,19 +96,20 @@ common = [
     "kotlin-io",
     "kotlin-serialization-json",
     "kotlinx-io-bytestring",
-    "ktor-client-core",
     "ktor-client-content-negotiation",
+    "ktor-client-core",
     "ktor-serialization-json",
     "semver",
 ]
 common-testing = [
     "kotlin-coroutines-test",
     "testing-kotlin",
-    "testing-truethish"
+    "testing-truethish",
 ]
 compiler = [
-    "compiler-ksp",
     "compiler-kotlinpoet",
+    "compiler-ksp",
+    "kaml"
 ]
 ios = [
     "ktor-client-cio",
@@ -122,8 +124,8 @@ jvm = [
     "ktor-client-apache",
 ]
 jvm-testing = [
+    "testing-junit",
     "testing-kotlin",
-    "testing-junit"
 ]
 native = [
     "ktor-client-cio",
@@ -131,6 +133,9 @@ native = [
 
 [plugins]
 android-library = { id = "com.android.library", version.ref = "plugins-android" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+compose-hot-reload = { id = "org.jetbrains.compose.hot-reload", version.ref = "plugins-compose-hot-reload" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "plugins-compose-multiplatform" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "plugins-ksp" }
@@ -138,6 +143,3 @@ ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "plugins-maven-publish" }
 spotless = { id = "com.diffplug.spotless", version.ref = "plugins-spotless" }
 version-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "plugins-version-catalog-update" }
-compose-hot-reload = { id = "org.jetbrains.compose.hot-reload", version.ref = "plugins-compose-hot-reload" }
-compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "plugins-compose-multiplatform" }
-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

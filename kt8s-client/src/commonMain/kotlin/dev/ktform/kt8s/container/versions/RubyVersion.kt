@@ -19,5 +19,7 @@ data class RubyVersion(val rubyVersions: Map<RubyComponent, String> = emptyMap()
     Versions<RubyVersion>(rubyVersions.mapKeys { it.key as Component<RubyVersion> }) {
     companion object : VersionsFetcher<RubyVersion> by RubyVersionFetcher {
         fun String.toRubyVersion(): RubyVersion = RubyVersion(mapOf(RubyComponent.Ruby to this))
+
+        fun String.toMRubyVersion(): RubyVersion = RubyVersion(mapOf(RubyComponent.MRuby to this))
     }
 }

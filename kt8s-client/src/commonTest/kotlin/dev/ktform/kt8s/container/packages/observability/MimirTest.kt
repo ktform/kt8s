@@ -8,8 +8,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package dev.ktform.kt8s.dev.ktform.kt8s.container.packages.observability
+package dev.ktform.kt8s.container.packages.observability
 
+import com.varabyte.truthish.assertThat
+import dev.ktform.kt8s.container.Environment
+import dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
+import dev.ktform.kt8s.container.components.MimirComponent
+import dev.ktform.kt8s.container.fetchers.MimirVersionFetcher
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.test.runTest
@@ -19,17 +24,23 @@ class MimirTest {
     @Test
     fun testMimir() {
         runTest(timeout = 10.seconds) {
-            //      val latest = Mimir.`package`.latestVersion().getOrElse { err -> throw
-            // Exception("Unable to determine latest version: $err") }
-            //
-            //      Environment.all.forEach { env ->
-            //        PackageTestCase(
-            //          "mimir",
-            //          env,
-            //          rendered = Mimir(latest).render().getOrElse { err -> throw Exception("Unable
-            // to render: $err") },
-            //        ).isExpected()
-            //      }
+            assertThat(MimirVersionFetcher.getLatestVersions()).isNotEmpty()
+
+            MimirVersionFetcher.getLatestVersions().forEach { (component, version) ->
+                val mimir =
+                    when (component) {
+                        is MimirComponent if (component == MimirComponent.Mimir) -> Mimir(version)
+
+                        else -> throw Exception("Unknown component: $component")
+                    }
+
+                mimir
+                    .render(env = Environment.default)
+                    .fold(
+                        { err -> throw Exception("Unable to render ${component.name}: $err") },
+                        { result -> result.getOrUpdateExpected("Dockerfile.${component.name}") },
+                    )
+            }
         }
     }
 }

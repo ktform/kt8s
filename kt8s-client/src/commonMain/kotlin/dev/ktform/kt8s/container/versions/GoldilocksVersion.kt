@@ -15,7 +15,9 @@ import dev.ktform.kt8s.container.components.GoldilocksComponent
 import dev.ktform.kt8s.container.fetchers.GoldilocksVersionFetcher
 import dev.ktform.kt8s.container.fetchers.VersionsFetcher
 
-data class GoldilocksVersion(val goldilocksVersions: Map<GoldilocksComponent, String> = emptyMap()) :
+data class GoldilocksVersion(
+    val goldilocksVersions: Map<GoldilocksComponent, String> = emptyMap()
+) :
     Versions<GoldilocksVersion>(
         goldilocksVersions.mapKeys { it.key as Component<GoldilocksVersion> }
     ) {

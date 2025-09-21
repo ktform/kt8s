@@ -8,13 +8,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package dev.ktform.kt8s.dev.ktform.kt8s.container.packages
+package dev.ktform.kt8s.container.packages
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
-import dev.ktform.kt8s.dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
+import dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
 import dev.ktform.kt8s.container.components.KubeCtlComponent
 import dev.ktform.kt8s.container.fetchers.KubeCtlVersionFetcher
-import dev.ktform.kt8s.container.versions.KubeCtlVersion.Companion.toKubeCtlVersion
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.test.runTest
@@ -24,11 +24,13 @@ class KubeCtlTest {
     @Test
     fun testKubeCtl() {
         runTest(timeout = 10.seconds) {
-            KubeCtlVersionFetcher.getVersions().forEach { (component, versions) ->
+            assertThat(KubeCtlVersionFetcher.getLatestVersions()).isNotEmpty()
+
+            KubeCtlVersionFetcher.getLatestVersions().forEach { (component, version) ->
                 val cli =
                     when (component) {
                         is KubeCtlComponent if (component == KubeCtlComponent.KubeCtl) ->
-                            KubeCtl(versions.last().toKubeCtlVersion())
+                            KubeCtl(version)
 
                         else -> throw Exception("Unknown component: $component")
                     }

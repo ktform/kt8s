@@ -8,13 +8,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package dev.ktform.kt8s.dev.ktform.kt8s.container.packages
+package dev.ktform.kt8s.container.packages
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
-import dev.ktform.kt8s.dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
+import dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
 import dev.ktform.kt8s.container.components.ProtocComponent
 import dev.ktform.kt8s.container.fetchers.ProtocVersionFetcher
-import dev.ktform.kt8s.container.versions.ProtocVersion.Companion.toProtocVersion
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.test.runTest
@@ -24,11 +24,13 @@ class ProtocTest {
     @Test
     fun testProtoc() {
         runTest(timeout = 10.seconds) {
-            ProtocVersionFetcher.getVersions().forEach { (component, versions) ->
+            assertThat(ProtocVersionFetcher.getLatestVersions()).isNotEmpty()
+
+            ProtocVersionFetcher.getLatestVersions().forEach { (component, version) ->
                 val cli =
                     when (component) {
                         is ProtocComponent if (component == ProtocComponent.Protoc) ->
-                            Protoc(versions.last().toProtocVersion())
+                            Protoc(version)
 
                         else -> throw Exception("Unknown component: $component")
                     }

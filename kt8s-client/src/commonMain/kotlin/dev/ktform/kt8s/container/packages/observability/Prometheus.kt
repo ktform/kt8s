@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.PrometheusVersionFetcher
 import dev.ktform.kt8s.container.versions.PrometheusVersion
+import dev.ktform.kt8s.container.versions.PrometheusVersion.Companion.toPrometheusVersion
 
 class Prometheus(val versions: PrometheusVersion) : Renderable {
+    constructor(version: String) : this(version.toPrometheusVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, PrometheusVersionFetcher, env)

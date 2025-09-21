@@ -18,11 +18,12 @@ import dev.ktform.kt8s.container.versions.Versions
 import io.github.z4kn4fein.semver.toVersion
 
 interface VersionsFetcher<T : Versions<T>> {
-  suspend fun getVersions(last: Int = 3): Map<Component<T>, List<String>>
+    suspend fun getVersions(last: Int = 3): Map<Component<T>, List<String>>
 
-  suspend fun getLatestVersions(last: Int = 3): Map<Component<T>, String> = getVersions(last).mapValues { (_, v) -> v.last() }
+    suspend fun getLatestVersions(): Map<Component<T>, String> =
+        runCatching { getVersions(1).mapValues { (_, v) -> v.last() } }.getOrElse { emptyMap() }
 
-  fun repo(component: Component<T>): Option<String>
+    fun repo(component: Component<T>): Option<String>
 
     fun String.toRepoVersion(component: Component<T>): Option<String>
 
@@ -33,10 +34,11 @@ interface VersionsFetcher<T : Versions<T>> {
             repo: String,
             prefix: String = "v",
             asIs: Boolean = false,
+            limit: Int = 10,
         ): Either<String, List<String>> {
             val client = GithubClient()
 
-            return client.getTags(repo).map { all ->
+            return client.getTags(repo, limit = limit).map { all ->
                 val trimmed = all.map { it.removePrefix(prefix).trim() }
 
                 if (asIs) {

@@ -12,18 +12,15 @@ package dev.ktform.kt8s.charts.observability
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
-import dev.ktform.kt8s.container.components.AlloyComponent
+import dev.ktform.kt8s.charts.networking.CiliumChart
+import dev.ktform.kt8s.charts.security.CertManagerChart
 import dev.ktform.kt8s.container.components.GrafanaComponent
-import dev.ktform.kt8s.container.versions.AlloyVersion
 import dev.ktform.kt8s.container.versions.GrafanaVersion
 
 data class GrafanaChart(override val versions: GrafanaVersion) : Chart<GrafanaVersion> {
     override val group: ChartGroup = ChartGroup.Observability
 
-    override fun getComponents(): List<GrafanaComponent> = listOf(GrafanaComponent.Grafana)
+    override val components: List<GrafanaComponent> = listOf(GrafanaComponent.Grafana)
 
-    override fun dependsOnGroups(): List<ChartGroup> = emptyList()
-
-    override fun dependsOnCharts(): List<Chart<*>> = emptyList()
-  }
+    override val dependsOnCharts: List<Chart<*>> = listOf(CertManagerChart(), CiliumChart())
 }

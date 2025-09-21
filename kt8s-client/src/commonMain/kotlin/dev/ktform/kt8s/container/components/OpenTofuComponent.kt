@@ -10,12 +10,10 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.OpenTofuVersion
 
-enum class OpenTofuComponent(
-    override val applicableFlavours: List<Component<*>> = emptyList(),
-    override val applicableProviders: List<Provider> = Provider.all,
-) : Component<OpenTofuVersion> {
-    OpenTofu
+enum class OpenTofuComponent(val versions: OpenTofuVersion) : Component<OpenTofuVersion> {
+    OpenTofu(versions = OpenTofuVersion());
+
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

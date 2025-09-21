@@ -30,6 +30,7 @@ object JavaVersionFetcher : VersionsFetcher<JavaVersion> {
             when (it) {
                 JavaComponent.OpenJDK ->
                     githubVersions(repo, "", asIs = true).getOrElse { emptyList() }
+
                 JavaComponent.OpenJ9 -> githubVersions(repo, "openj9-").getOrElse { emptyList() }
                 JavaComponent.GraalVM -> githubVersions(repo, "vm-ce-").getOrElse { emptyList() }
                 else -> emptyList()

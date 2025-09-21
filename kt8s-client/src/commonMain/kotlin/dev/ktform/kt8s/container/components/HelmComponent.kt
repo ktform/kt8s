@@ -10,16 +10,10 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.Chart
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.HelmVersion
 
-enum class HelmComponent(
-    override val versions: HelmVersion,
-) : Component<HelmVersion> {
+enum class HelmComponent(val versions: HelmVersion) : Component<HelmVersion> {
     Helm(versions = HelmVersion());
 
-    override val charts: List<Chart<HelmVersion>> = emptyList()
-    override val applicableFlavours: List<Component<*>> = emptyList()
-    override val applicableProviders: List<Provider> = Provider.all
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

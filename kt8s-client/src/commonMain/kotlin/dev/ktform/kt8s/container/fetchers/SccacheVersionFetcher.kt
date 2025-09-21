@@ -21,30 +21,30 @@ import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.withVPrefix
 import dev.ktform.kt8s.container.versions.SccacheVersion
 
 object SccacheVersionFetcher : VersionsFetcher<SccacheVersion> {
-  override suspend fun getVersions(last: Int): Map<Component<SccacheVersion>, List<String>> =
-    SccacheComponent.entries.associateWith {
-      repo(it).fold({ emptyList() }) { repo ->
-        githubVersions(repo).getOrElse { emptyList() }
-      }
-    }
+    override suspend fun getVersions(last: Int): Map<Component<SccacheVersion>, List<String>> =
+        SccacheComponent.entries.associateWith {
+            repo(it).fold({ emptyList() }) { repo ->
+                githubVersions(repo).getOrElse { emptyList() }
+            }
+        }
 
-  override fun repo(component: Component<SccacheVersion>): Option<String> =
-    when (component) {
-      is SccacheComponent if component == SccacheComponent.Sccache ->
-        "https://github.com/mozilla/sccache".some()
+    override fun repo(component: Component<SccacheVersion>): Option<String> =
+        when (component) {
+            is SccacheComponent if component == SccacheComponent.Sccache ->
+                "https://github.com/mozilla/sccache".some()
 
-      else -> None
-    }
+            else -> None
+        }
 
-  override fun String.toRepoVersion(component: Component<SccacheVersion>): Option<String> =
-    when (component) {
-      is SccacheComponent -> this.withVPrefix().some()
-      else -> None
-    }
+    override fun String.toRepoVersion(component: Component<SccacheVersion>): Option<String> =
+        when (component) {
+            is SccacheComponent -> this.withVPrefix().some()
+            else -> None
+        }
 
-  override fun Component<SccacheVersion>.knownLatestVersions(): List<String> =
-    when (this) {
-      is SccacheComponent -> listOf("0.10.0", "0.10.0")
-      else -> emptyList()
-    }
+    override fun Component<SccacheVersion>.knownLatestVersions(): List<String> =
+        when (this) {
+            is SccacheComponent -> listOf("0.10.0", "0.10.0")
+            else -> emptyList()
+        }
 }

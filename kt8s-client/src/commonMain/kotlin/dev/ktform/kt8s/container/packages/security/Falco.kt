@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.FalcoVersionFetcher
 import dev.ktform.kt8s.container.versions.FalcoVersion
+import dev.ktform.kt8s.container.versions.FalcoVersion.Companion.toFalcoVersion
 
 class Falco(val versions: FalcoVersion) : Renderable {
+    constructor(version: String) : this(version.toFalcoVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, FalcoVersionFetcher, env)

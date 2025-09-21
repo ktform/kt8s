@@ -42,9 +42,6 @@ object KarpenterVersionFetcher : VersionsFetcher<KarpenterVersion> {
             is KarpenterComponent if component == KarpenterComponent.GCP ->
                 "https://github.com/kubernetes-sigs/karpenter".some()
 
-            is KarpenterComponent if component == KarpenterComponent.AWSNodeTerminatorController ->
-                "https://github.com/kubernetes-sigs/karpenter".some()
-
             else -> None
         }
 
@@ -60,8 +57,7 @@ object KarpenterVersionFetcher : VersionsFetcher<KarpenterVersion> {
             is KarpenterComponent if this == KarpenterComponent.AWS -> listOf()
             is KarpenterComponent if this == KarpenterComponent.Azure -> listOf()
             is KarpenterComponent if this == KarpenterComponent.GCP -> listOf()
-            is KarpenterComponent if this == KarpenterComponent.AWSNodeTerminatorController ->
-                listOf()
+
             else -> emptyList()
         }
 }

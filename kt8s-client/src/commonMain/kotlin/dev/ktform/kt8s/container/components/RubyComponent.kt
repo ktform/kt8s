@@ -10,13 +10,11 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.RubyVersion
 
-enum class RubyComponent(
-    override val applicableFlavours: List<Component<*>> = emptyList(),
-    override val applicableProviders: List<Provider> = Provider.all,
-) : Component<RubyVersion> {
-    Ruby,
-    MRuby,
+enum class RubyComponent(val versions: RubyVersion) : Component<RubyVersion> {
+    Ruby(versions = RubyVersion()),
+    MRuby(versions = RubyVersion());
+
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

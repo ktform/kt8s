@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.PipXVersionFetcher
 import dev.ktform.kt8s.container.versions.PipXVersion
+import dev.ktform.kt8s.container.versions.PipXVersion.Companion.toPipXVersion
 
 class PipX(val versions: PipXVersion) : Renderable {
+    constructor(version: String) : this(version.toPipXVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, PipXVersionFetcher, env)

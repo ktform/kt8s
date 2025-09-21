@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.JavaVersionFetcher
 import dev.ktform.kt8s.container.versions.JavaVersion
+import dev.ktform.kt8s.container.versions.JavaVersion.Companion.toGraalVmVersion
 
 class GraalVMJre(val versions: JavaVersion) : Renderable {
+    constructor(version: String) : this(version.toGraalVmVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, JavaVersionFetcher, env)

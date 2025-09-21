@@ -8,8 +8,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package dev.ktform.kt8s.dev.ktform.kt8s.container.packages.security
+package dev.ktform.kt8s.container.packages.security
 
+import com.varabyte.truthish.assertThat
+import dev.ktform.kt8s.container.Environment
+import dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
+import dev.ktform.kt8s.container.components.CertManagerComponent
+import dev.ktform.kt8s.container.fetchers.CertManagerVersionFetcher
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.test.runTest
@@ -19,17 +24,25 @@ class CertManagerTest {
     @Test
     fun testCertManager() {
         runTest(timeout = 10.seconds) {
-            //      val latest = CertManager.`package`.latestVersion().getOrElse { err -> throw
-            // Exception("Unable to determine latest version: $err") }
-            //
-            //      Environment.all.forEach { env ->
-            //        PackageTestCase(
-            //          "cert-manager",
-            //          env,
-            //          rendered = CertManager(latest).render().getOrElse { err -> throw
-            // Exception("Unable to render: $err") },
-            //        ).isExpected()
-            //      }
+            assertThat(CertManagerVersionFetcher.getLatestVersions()).isNotEmpty()
+
+            CertManagerVersionFetcher.getLatestVersions().forEach { (component, version) ->
+                val certManager =
+                    when (component) {
+                        is CertManagerComponent if
+                            (component == CertManagerComponent.CertManager)
+                         -> CertManager(version)
+
+                        else -> throw Exception("Unknown component: $component")
+                    }
+
+                certManager
+                    .render(env = Environment.default)
+                    .fold(
+                        { err -> throw Exception("Unable to render ${component.name}: $err") },
+                        { result -> result.getOrUpdateExpected("Dockerfile.${component.name}") },
+                    )
+            }
         }
     }
 }

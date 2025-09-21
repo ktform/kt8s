@@ -10,12 +10,10 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.KindVersion
 
-enum class KindComponent(
-    override val applicableFlavours: List<Component<*>> = emptyList(),
-    override val applicableProviders: List<Provider> = Provider.all,
-) : Component<KindVersion> {
-    Kind
+enum class KindComponent(val versions: KindVersion) : Component<KindVersion> {
+    Kind(versions = KindVersion());
+
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

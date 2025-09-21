@@ -33,6 +33,7 @@ object MinioVersionFetcher : VersionsFetcher<MinioVersion> {
         when (component) {
             is MinioComponent if component == MinioComponent.Minio ->
                 "https://github.com/minio/minio".some()
+
             else -> None
         }
 

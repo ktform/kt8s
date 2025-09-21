@@ -10,12 +10,10 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.SyftVersion
 
-enum class SyftComponent(
-    override val applicableFlavours: List<Component<*>> = emptyList(),
-    override val applicableProviders: List<Provider> = Provider.all,
-) : Component<SyftVersion> {
-    Syft
+enum class SyftComponent(val versions: SyftVersion) : Component<SyftVersion> {
+    Syft(versions = SyftVersion());
+
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

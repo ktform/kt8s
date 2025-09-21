@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.GiteaVersionFetcher
 import dev.ktform.kt8s.container.versions.GiteaVersion
+import dev.ktform.kt8s.container.versions.GiteaVersion.Companion.toGiteaVersion
 
 class Gitea(val versions: GiteaVersion) : Renderable {
+    constructor(version: String) : this(version.toGiteaVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, GiteaVersionFetcher, env)

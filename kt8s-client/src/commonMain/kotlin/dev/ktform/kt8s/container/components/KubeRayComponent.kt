@@ -10,12 +10,13 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.Provider
+import dev.ktform.kt8s.Chart
+import dev.ktform.kt8s.charts.mlops.KubeRayChart
 import dev.ktform.kt8s.container.versions.KubeRayVersion
 
-enum class KubeRayComponent(
-    override val applicableFlavours: List<Component<*>> = emptyList(),
-    override val applicableProviders: List<Provider> = Provider.all,
-) : Component<KubeRayVersion> {
-    KubeRay
+enum class KubeRayComponent(val versions: KubeRayVersion) : Component<KubeRayVersion> {
+    KubeRay(versions = KubeRayVersion());
+
+    override val charts: Set<Chart<KubeRayVersion>> = setOf(KubeRayChart(versions = versions))
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

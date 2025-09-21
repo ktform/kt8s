@@ -12,15 +12,14 @@ package dev.ktform.kt8s.charts.security
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
+import dev.ktform.kt8s.charts.networking.CiliumChart
 import dev.ktform.kt8s.container.components.FalcoComponent
 import dev.ktform.kt8s.container.versions.FalcoVersion
 
 data class FalcoChart(override val versions: FalcoVersion) : Chart<FalcoVersion> {
     override val group: ChartGroup = ChartGroup.Security
 
-    override fun getComponents(): List<FalcoComponent> = listOf(FalcoComponent.Falco)
+    override val components: List<FalcoComponent> = listOf(FalcoComponent.Falco)
 
-    override fun dependsOnGroups(): List<ChartGroup> = emptyList()
-
-    override fun dependsOnCharts(): List<Chart<*>> = emptyList()
+    override val dependsOnCharts: List<Chart<*>> = listOf(CiliumChart())
 }

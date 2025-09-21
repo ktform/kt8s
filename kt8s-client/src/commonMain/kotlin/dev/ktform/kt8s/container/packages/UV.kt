@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.UVVersionFetcher
 import dev.ktform.kt8s.container.versions.UVVersion
+import dev.ktform.kt8s.container.versions.UVVersion.Companion.toUVVersion
 
 class UV(val versions: UVVersion) : Renderable {
+    constructor(version: String) : this(version.toUVVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, UVVersionFetcher, env)

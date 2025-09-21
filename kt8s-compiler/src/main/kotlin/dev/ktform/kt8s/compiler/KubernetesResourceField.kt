@@ -144,6 +144,7 @@ sealed class KubernetesResourceField(
                                 false,
                             )
                         )
+
                     "Quantity" ->
                         Some(
                             Plain(
@@ -154,6 +155,7 @@ sealed class KubernetesResourceField(
                                 false,
                             )
                         )
+
                     "IntOrString" ->
                         Some(
                             Plain(
@@ -164,6 +166,7 @@ sealed class KubernetesResourceField(
                                 false,
                             )
                         )
+
                     "Time" ->
                         Some(
                             Plain(
@@ -174,6 +177,7 @@ sealed class KubernetesResourceField(
                                 false,
                             )
                         )
+
                     "MicroTime" ->
                         Some(
                             Plain(
@@ -184,6 +188,7 @@ sealed class KubernetesResourceField(
                                 false,
                             )
                         )
+
                     else -> None
                 }
 

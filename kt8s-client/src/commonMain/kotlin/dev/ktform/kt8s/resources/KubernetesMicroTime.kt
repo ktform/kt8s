@@ -35,14 +35,15 @@ data class KubernetesMicroTime(val dateTime: LocalDateTime) {
       char('T')
       time(
         LocalTime.Format {
-        hour()
-        char(':')
-        minute()
-        char(':')
-        second()
-        char('.')
-        secondFraction(6) // microseconds
-      })
+          hour()
+          char(':')
+          minute()
+          char(':')
+          second()
+          char('.')
+          secondFraction(6) // microseconds
+        },
+      )
       char('Z')
     }
   }

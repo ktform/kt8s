@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.KubeCtlVersionFetcher
 import dev.ktform.kt8s.container.versions.KubeCtlVersion
+import dev.ktform.kt8s.container.versions.KubeCtlVersion.Companion.toKubeCtlVersion
 
 class KubeCtl(val versions: KubeCtlVersion) : Renderable {
+    constructor(version: String) : this(version.toKubeCtlVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, KubeCtlVersionFetcher, env)

@@ -15,7 +15,9 @@ import dev.ktform.kt8s.container.components.PVCAutoresizerComponent
 import dev.ktform.kt8s.container.fetchers.PVCAutoresizerVersionFetcher
 import dev.ktform.kt8s.container.fetchers.VersionsFetcher
 
-data class PVCAutoresizerVersion(val pvcAutoresizerVersions: Map<PVCAutoresizerComponent, String> = emptyMap()) :
+data class PVCAutoresizerVersion(
+    val pvcAutoresizerVersions: Map<PVCAutoresizerComponent, String> = emptyMap()
+) :
     Versions<PVCAutoresizerVersion>(
         pvcAutoresizerVersions.mapKeys { it.key as Component<PVCAutoresizerVersion> }
     ) {

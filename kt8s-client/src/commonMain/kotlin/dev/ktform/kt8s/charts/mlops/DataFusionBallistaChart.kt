@@ -12,16 +12,17 @@ package dev.ktform.kt8s.charts.mlops
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
+import dev.ktform.kt8s.charts.networking.CiliumChart
+import dev.ktform.kt8s.charts.security.CertManagerChart
 import dev.ktform.kt8s.container.components.DataFusionBallistaComponent
 import dev.ktform.kt8s.container.versions.DataFusionBallistaVersion
 
-data class DataFusionBallistaChart(override val versions: DataFusionBallistaVersion) : Chart<DataFusionBallistaVersion> {
+data class DataFusionBallistaChart(override val versions: DataFusionBallistaVersion) :
+    Chart<DataFusionBallistaVersion> {
     override val group: ChartGroup = ChartGroup.MlOps
 
-    override fun getComponents(): List<DataFusionBallistaComponent> = listOf(DataFusionBallistaComponent.DataFusionBallista)
+    override val components: List<DataFusionBallistaComponent> =
+        listOf(DataFusionBallistaComponent.DataFusionBallista)
 
-    override fun dependsOnGroups(): List<ChartGroup> = emptyList()
-
-    override fun dependsOnCharts(): List<Chart<*>> = emptyList()
-}
+    override val dependsOnCharts: List<Chart<*>> = listOf(CertManagerChart(), CiliumChart())
 }

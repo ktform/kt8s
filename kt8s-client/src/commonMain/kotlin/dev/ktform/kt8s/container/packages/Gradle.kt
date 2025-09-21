@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.GradleVersionFetcher
 import dev.ktform.kt8s.container.versions.GradleVersion
+import dev.ktform.kt8s.container.versions.GradleVersion.Companion.toGradleVersion
 
 class Gradle(val versions: GradleVersion) : Renderable {
+    constructor(version: String) : this(version.toGradleVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, GradleVersionFetcher, env)

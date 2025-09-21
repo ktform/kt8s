@@ -12,11 +12,18 @@ package dev.ktform.kt8s.charts.storage.postgres
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
+import dev.ktform.kt8s.charts.networking.CiliumChart
+import dev.ktform.kt8s.charts.security.CertManagerChart
+import dev.ktform.kt8s.container.components.Component
+import dev.ktform.kt8s.container.components.PostgreSQLComponent
+import dev.ktform.kt8s.container.versions.PostgreSQLVersion
+import dev.ktform.kt8s.container.versions.Versions
 
-data class CNPGChart(override val version: String) : Chart {
+data class CNPGChart(override val versions: Versions<PostgreSQLVersion>) :
+    Chart<PostgreSQLVersion> {
     override val group: ChartGroup = ChartGroup.Storage
 
-    override fun dependsOnGroups(): List<ChartGroup> = listOf(ChartGroup.Storage)
+    override val components: List<Component<PostgreSQLVersion>> = listOf(PostgreSQLComponent.CNPG)
 
-    override fun dependsOnCharts(): List<Chart> = listOf()
+    override val dependsOnCharts: List<Chart<*>> = listOf(CertManagerChart(), CiliumChart())
 }

@@ -12,15 +12,11 @@ package dev.ktform.kt8s.container.components
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.charts.development.DexChart
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.DexVersion
 
-enum class DexComponent(
-     val versions: DexVersion,
-) : Component<DexVersion> {
+enum class DexComponent(val versions: DexVersion) : Component<DexVersion> {
     Dex(versions = DexVersion());
 
-    override val charts: List<Chart<DexVersion>> = listOf(DexChart(versions = versions))
-    override val applicableFlavours: List<Component<*>> = emptyList()
-    override val applicableProviders: List<Provider> = Provider.all
+    override val charts: Set<Chart<DexVersion>> = setOf(DexChart(versions = versions))
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

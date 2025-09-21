@@ -12,15 +12,17 @@ package dev.ktform.kt8s.charts.storage
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
+import dev.ktform.kt8s.charts.networking.CiliumChart
+import dev.ktform.kt8s.charts.security.CertManagerChart
 import dev.ktform.kt8s.container.components.LocalPathProvisionerComponent
 import dev.ktform.kt8s.container.versions.LocalPathProvisionerVersion
 
-data class LocalPathProvisionerChart(override val versions: LocalPathProvisionerVersion) : Chart<LocalPathProvisionerVersion> {
+data class LocalPathProvisionerChart(override val versions: LocalPathProvisionerVersion) :
+    Chart<LocalPathProvisionerVersion> {
     override val group: ChartGroup = ChartGroup.Storage
 
-    override fun getComponents(): List<LocalPathProvisionerComponent> = listOf(LocalPathProvisionerComponent.LocalPathProvisioner)
+    override val components: List<LocalPathProvisionerComponent> =
+        listOf(LocalPathProvisionerComponent.LocalPathProvisioner)
 
-    override fun dependsOnGroups(): List<ChartGroup> = emptyList()
-
-    override fun dependsOnCharts(): List<Chart<*>> = emptyList()
+    override val dependsOnCharts: List<Chart<*>> = listOf(CertManagerChart(), CiliumChart())
 }

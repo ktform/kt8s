@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.TheiaVersionFetcher
 import dev.ktform.kt8s.container.versions.TheiaVersion
+import dev.ktform.kt8s.container.versions.TheiaVersion.Companion.toTheiaVersion
 
 class Theia(val versions: TheiaVersion) : Renderable {
+    constructor(version: String) : this(version.toTheiaVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, TheiaVersionFetcher, env)

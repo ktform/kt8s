@@ -33,7 +33,7 @@ object PVCAutoresizerVersionFetcher : VersionsFetcher<PVCAutoresizerVersion> {
     override fun repo(component: Component<PVCAutoresizerVersion>): Option<String> =
         when (component) {
             is PVCAutoresizerComponent if component == PVCAutoresizerComponent.PVCAutoresizer ->
-                "https://github.com/topolvm/pvc-autoresizer".some()
+                "https://github.com/TopoLvm/pvc-autoresizer".some()
 
             else -> None
         }

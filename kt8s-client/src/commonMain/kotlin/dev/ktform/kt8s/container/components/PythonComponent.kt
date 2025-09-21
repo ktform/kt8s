@@ -10,13 +10,11 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.PythonVersion
 
-enum class PythonComponent(
-    override val applicableFlavours: List<Component<*>> = emptyList(),
-    override val applicableProviders: List<Provider> = Provider.all,
-) : Component<PythonVersion> {
-    CPython,
-    PyPy,
+enum class PythonComponent(val versions: PythonVersion) : Component<PythonVersion> {
+    CPython(versions = PythonVersion()),
+    PyPy(versions = PythonVersion());
+
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.BazelVersionFetcher
 import dev.ktform.kt8s.container.versions.BazelVersion
+import dev.ktform.kt8s.container.versions.BazelVersion.Companion.toBazelVersion
 
 class Bazel(val versions: BazelVersion) : Renderable {
+    constructor(version: String) : this(version.toBazelVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, BazelVersionFetcher, env)

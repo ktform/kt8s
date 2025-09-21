@@ -12,15 +12,13 @@ package dev.ktform.kt8s.container.components
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.charts.mlops.DataFusionBallistaChart
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.DataFusionBallistaVersion
 
-enum class DataFusionBallistaComponent(
-    val versions: DataFusionBallistaVersion,
-) : Component<DataFusionBallistaVersion> {
+enum class DataFusionBallistaComponent(val versions: DataFusionBallistaVersion) :
+    Component<DataFusionBallistaVersion> {
     DataFusionBallista(versions = DataFusionBallistaVersion());
 
-    override val charts: List<Chart<DataFusionBallistaVersion>> = listOf(DataFusionBallistaChart(versions = versions))
-    override val applicableFlavours: List<Component<*>> = emptyList()
-    override val applicableProviders: List<Provider> = Provider.all
+    override val charts: Set<Chart<DataFusionBallistaVersion>> =
+        setOf(DataFusionBallistaChart(versions = versions))
+    override val applicableFlavours: Set<Component<*>> = Component.rustFlavours
 }

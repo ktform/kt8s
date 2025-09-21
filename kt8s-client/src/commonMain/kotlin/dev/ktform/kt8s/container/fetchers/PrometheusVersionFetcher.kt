@@ -32,6 +32,7 @@ object PrometheusVersionFetcher : VersionsFetcher<PrometheusVersion> {
         when (component) {
             is PrometheusComponent if component == PrometheusComponent.Prometheus ->
                 "https://github.com/prometheus/prometheus".some()
+
             else -> None
         }
 

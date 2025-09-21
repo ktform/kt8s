@@ -10,12 +10,10 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.NodeJsVersion
 
-enum class NodeJsComponent(
-    override val applicableFlavours: List<Component<*>> = emptyList(),
-    override val applicableProviders: List<Provider> = Provider.all,
-) : Component<NodeJsVersion> {
-    NodeJs
+enum class NodeJsComponent(val versions: NodeJsVersion) : Component<NodeJsVersion> {
+    NodeJs(versions = NodeJsVersion());
+
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

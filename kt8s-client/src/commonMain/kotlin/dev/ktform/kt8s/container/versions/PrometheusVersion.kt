@@ -15,7 +15,9 @@ import dev.ktform.kt8s.container.components.PrometheusComponent
 import dev.ktform.kt8s.container.fetchers.PrometheusVersionFetcher
 import dev.ktform.kt8s.container.fetchers.VersionsFetcher
 
-data class PrometheusVersion(val prometheusVersions: Map<PrometheusComponent, String> = emptyMap()) :
+data class PrometheusVersion(
+    val prometheusVersions: Map<PrometheusComponent, String> = emptyMap()
+) :
     Versions<PrometheusVersion>(
         prometheusVersions.mapKeys { it.key as Component<PrometheusVersion> }
     ) {

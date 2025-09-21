@@ -14,11 +14,10 @@ import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.charts.security.CertManagerChart
 import dev.ktform.kt8s.container.versions.CertManagerVersion
 
-enum class CertManagerComponent(
-    val versions: CertManagerVersion,
-) : Component<CertManagerVersion> {
+enum class CertManagerComponent(val versions: CertManagerVersion) : Component<CertManagerVersion> {
     CertManager(versions = CertManagerVersion());
 
-    override val charts: List<Chart<CertManagerVersion>> = listOf(CertManagerChart(versions = versions))
-    override val applicableFlavours: List<Component<*>> = Component.golangFlavours
+    override val charts: Set<Chart<CertManagerVersion>> =
+        setOf(CertManagerChart(versions = versions))
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

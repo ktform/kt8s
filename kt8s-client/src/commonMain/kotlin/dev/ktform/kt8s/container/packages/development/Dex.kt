@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.DexVersionFetcher
 import dev.ktform.kt8s.container.versions.DexVersion
+import dev.ktform.kt8s.container.versions.DexVersion.Companion.toDexVersion
 
 class Dex(val versions: DexVersion) : Renderable {
+    constructor(version: String) : this(version.toDexVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, DexVersionFetcher, env)

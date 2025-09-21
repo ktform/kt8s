@@ -8,8 +8,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package dev.ktform.kt8s.dev.ktform.kt8s.container.packages.mlops
+package dev.ktform.kt8s.container.packages.mlops
 
+import com.varabyte.truthish.assertThat
+import dev.ktform.kt8s.container.Environment
+import dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
+import dev.ktform.kt8s.container.components.DataFusionBallistaComponent
+import dev.ktform.kt8s.container.fetchers.DataFusionBallistaVersionFetcher
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.test.runTest
@@ -19,17 +24,24 @@ class DataFusionBallistaTest {
     @Test
     fun testDataFusionBallista() {
         runTest(timeout = 10.seconds) {
-            // val latest = DataFusionBallista.`package`.latestVersion().getOrElse { err -> throw
-            // Exception("Unable to determine latest version: $err") }
+            assertThat(DataFusionBallistaVersionFetcher.getLatestVersions()).isNotEmpty()
 
-            // Environment.all.forEach { env ->
-            //   PackageTestCase(
-            //          "DataFusionBallista",
-            //          env,
-            //          rendered = DataFusionBallista(latest).render().getOrElse { err -> throw
-            // Exception("Unable to render: $err") },
-            //        ).isExpected()
-            //      }
+            DataFusionBallistaVersionFetcher.getLatestVersions().forEach { (component, version) ->
+                val cli =
+                    when (component) {
+                        is DataFusionBallistaComponent if
+                            (component == DataFusionBallistaComponent.DataFusionBallista)
+                         -> DataFusionBallista(version)
+
+                        else -> throw Exception("Unknown component: $component")
+                    }
+
+                cli.render(env = Environment.default)
+                    .fold(
+                        { err -> throw Exception("Unable to render ${component.name}: $err") },
+                        { result -> result.getOrUpdateExpected("Dockerfile.${component.name}") },
+                    )
+            }
         }
     }
 }

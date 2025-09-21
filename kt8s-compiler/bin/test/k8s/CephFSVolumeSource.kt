@@ -1,11 +1,15 @@
+/*
+ * Copyright (C) 2016-2025 Yuriy Yarosh
+ * All rights reserved.
+ *
+ * SPDX-License-Identifier: MPL-2.0
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 package dev.ktform.kt8s.resources
 
-import dev.ktform.kt8s.resources.IntOrString
-import dev.ktform.kt8s.resources.KubernetesMicroTime
-import dev.ktform.kt8s.resources.KubernetesTime
-import dev.ktform.kt8s.resources.RawJsonObject
-import dev.ktform.kt8s.resources.Resource
-import dev.ktform.kt8s.resources.StringOrNumber
 import kotlin.Boolean
 import kotlin.String
 import kotlin.collections.List
@@ -14,31 +18,35 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 
 /**
- * @param monitors monitors is Required: Monitors is a collection of Ceph monitors More info: https://examples.k8s.io/volumes/cephfs/README.md#how-to-use-it
- * @param path path is Optional: Used as the mounted root, rather than the full Ceph tree, default is /
- * @param readOnly readOnly is Optional: Defaults to false (read/write). ReadOnly here will force the ReadOnly setting in VolumeMounts. More info: https://examples.k8s.io/volumes/cephfs/README.md#how-to-use-it
- * @param secretFile secretFile is Optional: SecretFile is the path to key ring for User, default is /etc/ceph/user.secret More info: https://examples.k8s.io/volumes/cephfs/README.md#how-to-use-it
- * @param secretRef secretRef is Optional: SecretRef is reference to the authentication secret for User, default is empty. More info: https://examples.k8s.io/volumes/cephfs/README.md#how-to-use-it
- * @param user user is optional: User is the rados user name, default is admin More info: https://examples.k8s.io/volumes/cephfs/README.md#how-to-use-it
+ * @param monitors monitors is Required: Monitors is a collection of Ceph monitors More info:
+ *   https://examples.k8s.io/volumes/cephfs/README.md#how-to-use-it
+ * @param path path is Optional: Used as the mounted root, rather than the full Ceph tree, default
+ *   is /
+ * @param readOnly readOnly is Optional: Defaults to false (read/write). ReadOnly here will force
+ *   the ReadOnly setting in VolumeMounts. More info:
+ *   https://examples.k8s.io/volumes/cephfs/README.md#how-to-use-it
+ * @param secretFile secretFile is Optional: SecretFile is the path to key ring for User, default is
+ *   /etc/ceph/user.secret More info: https://examples.k8s.io/volumes/cephfs/README.md#how-to-use-it
+ * @param secretRef secretRef is Optional: SecretRef is reference to the authentication secret for
+ *   User, default is empty. More info:
+ *   https://examples.k8s.io/volumes/cephfs/README.md#how-to-use-it
+ * @param user user is optional: User is the rados user name, default is admin More info:
+ *   https://examples.k8s.io/volumes/cephfs/README.md#how-to-use-it
  */
 @Serializable
 public data class CephFSVolumeSource(
-  public val monitors: List<String>,
-  public val path: String,
-  public val readOnly: Boolean,
-  public val secretFile: String,
-  public val secretRef: LocalObjectReference,
-  public val user: String,
+    public val monitors: List<String>,
+    public val path: String,
+    public val readOnly: Boolean,
+    public val secretFile: String,
+    public val secretRef: LocalObjectReference,
+    public val user: String,
 ) : Resource {
-  @SerialName("apiVersion")
-  override val apiVersion: String = "io.k8s.api.core/v1"
+    @SerialName("apiVersion") override val apiVersion: String = "io.k8s.api.core/v1"
 
-  @Transient
-  override val group: String = "io.k8s.api.core"
+    @Transient override val group: String = "io.k8s.api.core"
 
-  @Transient
-  override val version: String = "v1"
+    @Transient override val version: String = "v1"
 
-  @SerialName("kind")
-  override val kind: String = "CephFSVolumeSource"
+    @SerialName("kind") override val kind: String = "CephFSVolumeSource"
 }

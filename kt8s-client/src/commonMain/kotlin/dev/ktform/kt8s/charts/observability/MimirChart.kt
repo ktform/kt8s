@@ -12,15 +12,15 @@ package dev.ktform.kt8s.charts.observability
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
+import dev.ktform.kt8s.charts.networking.CiliumChart
+import dev.ktform.kt8s.charts.security.CertManagerChart
 import dev.ktform.kt8s.container.components.MimirComponent
 import dev.ktform.kt8s.container.versions.MimirVersion
 
 data class MimirChart(override val versions: MimirVersion) : Chart<MimirVersion> {
     override val group: ChartGroup = ChartGroup.Observability
 
-    override fun getComponents(): List<MimirComponent> = listOf(MimirComponent.Mimir)
+    override val components: List<MimirComponent> = listOf(MimirComponent.Mimir)
 
-    override fun dependsOnGroups(): List<ChartGroup> = emptyList()
-
-    override fun dependsOnCharts(): List<Chart<*>> = emptyList()
+    override val dependsOnCharts: List<Chart<*>> = listOf(CertManagerChart(), CiliumChart())
 }

@@ -16,8 +16,11 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.FirebaseVersionFetcher
 import dev.ktform.kt8s.container.versions.FirebaseVersion
+import dev.ktform.kt8s.container.versions.FirebaseVersion.Companion.toFirebaseVersion
 
 class Firebase(val versions: FirebaseVersion) : Renderable {
+    constructor(version: String) : this(version.toFirebaseVersion())
+
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, FirebaseVersionFetcher, env)
 

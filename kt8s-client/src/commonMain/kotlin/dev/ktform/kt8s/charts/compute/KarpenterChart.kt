@@ -12,21 +12,21 @@ package dev.ktform.kt8s.charts.compute
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
+import dev.ktform.kt8s.charts.finops.OpenCostChart
+import dev.ktform.kt8s.charts.observability.PrometheusChart
 import dev.ktform.kt8s.container.components.KarpenterComponent
 import dev.ktform.kt8s.container.versions.KarpenterVersion
 
 data class KarpenterChart(override val versions: KarpenterVersion) : Chart<KarpenterVersion> {
     override val group: ChartGroup = ChartGroup.Compute
 
-    override fun getComponents(): List<KarpenterComponent> {
-        TODO("Not yet implemented")
-    }
+    override val components: List<KarpenterComponent> =
+        listOf(
+            KarpenterComponent.Karpenter,
+            KarpenterComponent.AWS,
+            KarpenterComponent.Azure,
+            KarpenterComponent.GCP,
+        )
 
-    override fun dependsOnGroups(): List<ChartGroup> {
-        TODO("Not yet implemented")
-    }
-
-    override fun dependsOnCharts(): List<Chart<*>> {
-        TODO("Not yet implemented")
-    }
+    override val dependsOnCharts: List<Chart<*>> = listOf(OpenCostChart(), PrometheusChart())
 }

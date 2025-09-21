@@ -10,13 +10,11 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.ScalaVersion
 
-enum class ScalaComponent(
-    override val applicableFlavours: List<Component<*>> = emptyList(),
-    override val applicableProviders: List<Provider> = Provider.all,
-) : Component<ScalaVersion> {
-    Scala,
-    Sbt,
+enum class ScalaComponent(val versions: ScalaVersion) : Component<ScalaVersion> {
+    Scala(versions = ScalaVersion()),
+    Sbt(versions = ScalaVersion());
+
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

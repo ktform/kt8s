@@ -8,8 +8,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package dev.ktform.kt8s.dev.ktform.kt8s.container.packages.storage
+package dev.ktform.kt8s.container.packages.storage
 
+import com.varabyte.truthish.assertThat
+import dev.ktform.kt8s.container.Environment
+import dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
+import dev.ktform.kt8s.container.components.MinioComponent
+import dev.ktform.kt8s.container.fetchers.MinioVersionFetcher
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.test.runTest
@@ -19,17 +24,23 @@ class MinioTest {
     @Test
     fun testMinio() {
         runTest(timeout = 10.seconds) {
-            //      val latest = Minio.`package`.latestVersion().getOrElse { err -> throw
-            // Exception("Unable to determine latest version: $err") }
-            //
-            //      Environment.all.forEach { env ->
-            //        PackageTestCase(
-            //          "minio",
-            //          env,
-            //          rendered = Minio(latest).render().getOrElse { err -> throw Exception("Unable
-            // to render: $err") },
-            //        ).isExpected()
-            //      }
+            assertThat(MinioVersionFetcher.getLatestVersions()).isNotEmpty()
+
+            MinioVersionFetcher.getLatestVersions().forEach { (component, version) ->
+                val minio =
+                    when (component) {
+                        is MinioComponent if (component == MinioComponent.Minio) -> Minio(version)
+
+                        else -> throw Exception("Unknown component: $component")
+                    }
+
+                minio
+                    .render(env = Environment.default)
+                    .fold(
+                        { err -> throw Exception("Unable to render ${component.name}: $err") },
+                        { result -> result.getOrUpdateExpected("Dockerfile.${component.name}") },
+                    )
+            }
         }
     }
 }

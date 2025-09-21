@@ -15,9 +15,11 @@ import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.VpaVersionFetcher
-import dev.ktform.kt8s.container.versions.VPAVersion
+import dev.ktform.kt8s.container.versions.VpaVersion
+import dev.ktform.kt8s.container.versions.VpaVersion.Companion.toVpaVersion
 
-class VPA(val versions: VPAVersion) : Renderable {
+class VPA(val versions: VpaVersion) : Renderable {
+    constructor(version: String) : this(version.toVpaVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, VpaVersionFetcher, env)

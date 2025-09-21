@@ -10,12 +10,13 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.Provider
+import dev.ktform.kt8s.Chart
+import dev.ktform.kt8s.charts.storage.RookChart
 import dev.ktform.kt8s.container.versions.RookVersion
 
-enum class RookComponent(
-    override val applicableFlavours: List<Component<*>> = emptyList(),
-    override val applicableProviders: List<Provider> = Provider.all,
-) : Component<RookVersion> {
-    Rook(applicableProviders = listOf(Provider.Local))
+enum class RookComponent(val versions: RookVersion) : Component<RookVersion> {
+    Rook(versions = RookVersion());
+
+    override val charts: Set<Chart<RookVersion>> = setOf(RookChart(versions = versions))
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

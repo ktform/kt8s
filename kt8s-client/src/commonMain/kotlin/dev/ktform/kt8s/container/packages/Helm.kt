@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.HelmVersionFetcher
 import dev.ktform.kt8s.container.versions.HelmVersion
+import dev.ktform.kt8s.container.versions.HelmVersion.Companion.toHelmVersion
 
 class Helm(val versions: HelmVersion) : Renderable {
+    constructor(version: String) : this(version.toHelmVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, HelmVersionFetcher, env)

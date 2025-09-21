@@ -17,6 +17,6 @@ import dev.ktform.kt8s.container.versions.AlloyVersion
 enum class AlloyComponent(versions: AlloyVersion) : Component<AlloyVersion> {
     Alloy(versions = AlloyVersion());
 
-  override val applicableFlavours: List<Component<*>> = Component.golangFlavours
-  override val charts: List<Chart<AlloyVersion>> = listOf(AlloyChart(versions = versions))
+    override val charts: Set<Chart<AlloyVersion>> = setOf(AlloyChart(versions = versions))
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

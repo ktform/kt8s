@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.ArgoVersionFetcher
 import dev.ktform.kt8s.container.versions.ArgoVersion
+import dev.ktform.kt8s.container.versions.ArgoVersion.Companion.toArgoEventsVersion
 
 data class ArgoEvents(val versions: ArgoVersion) : Renderable {
+    constructor(version: String) : this(version.toArgoEventsVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, ArgoVersionFetcher, env)

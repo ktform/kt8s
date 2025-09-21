@@ -12,15 +12,15 @@ package dev.ktform.kt8s.charts.storage
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
+import dev.ktform.kt8s.charts.networking.CiliumChart
+import dev.ktform.kt8s.charts.security.CertManagerChart
 import dev.ktform.kt8s.container.components.VeleroComponent
 import dev.ktform.kt8s.container.versions.VeleroVersion
 
 data class VeleroChart(override val versions: VeleroVersion) : Chart<VeleroVersion> {
     override val group: ChartGroup = ChartGroup.Storage
 
-    override fun getComponents(): List<VeleroComponent> = listOf(VeleroComponent.Velero)
+    override val components: List<VeleroComponent> = listOf(VeleroComponent.Velero)
 
-    override fun dependsOnGroups(): List<ChartGroup> = emptyList()
-
-    override fun dependsOnCharts(): List<Chart<*>> = emptyList()
+    override val dependsOnCharts: List<Chart<*>> = listOf(CertManagerChart(), CiliumChart())
 }

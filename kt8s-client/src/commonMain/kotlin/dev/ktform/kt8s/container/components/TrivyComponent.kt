@@ -10,12 +10,10 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.TrivyVersion
 
-enum class TrivyComponent(
-    override val applicableFlavours: List<Component<*>> = emptyList(),
-    override val applicableProviders: List<Provider> = Provider.all,
-) : Component<TrivyVersion> {
-    Trivy
+enum class TrivyComponent(val versions: TrivyVersion) : Component<TrivyVersion> {
+    Trivy(versions = TrivyVersion());
+
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

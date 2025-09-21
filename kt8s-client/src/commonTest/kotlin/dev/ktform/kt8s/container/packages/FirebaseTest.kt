@@ -8,13 +8,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package dev.ktform.kt8s.dev.ktform.kt8s.container.packages
+package dev.ktform.kt8s.container.packages
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
-import dev.ktform.kt8s.dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
+import dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
 import dev.ktform.kt8s.container.components.FirebaseComponent
 import dev.ktform.kt8s.container.fetchers.FirebaseVersionFetcher
-import dev.ktform.kt8s.container.versions.FirebaseVersion.Companion.toFirebaseVersion
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.test.runTest
@@ -24,11 +24,13 @@ class FirebaseTest {
     @Test
     fun testFirebase() {
         runTest(timeout = 10.seconds) {
-            FirebaseVersionFetcher.getVersions().forEach { (component, versions) ->
+            assertThat(FirebaseVersionFetcher.getVersions()).isNotEmpty()
+
+            FirebaseVersionFetcher.getLatestVersions().forEach { (component, version) ->
                 val cli =
                     when (component) {
                         is FirebaseComponent if (component == FirebaseComponent.Firebase) ->
-                            Firebase(versions.last().toFirebaseVersion())
+                            Firebase(version)
 
                         else -> throw Exception("Unknown component: $component")
                     }

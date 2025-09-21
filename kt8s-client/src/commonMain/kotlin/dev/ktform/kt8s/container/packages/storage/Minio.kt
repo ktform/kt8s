@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.MinioVersionFetcher
 import dev.ktform.kt8s.container.versions.MinioVersion
+import dev.ktform.kt8s.container.versions.MinioVersion.Companion.toMinioVersion
 
 class Minio(val versions: MinioVersion) : Renderable {
+    constructor(version: String) : this(version.toMinioVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, MinioVersionFetcher, env)

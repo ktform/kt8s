@@ -12,15 +12,15 @@ package dev.ktform.kt8s.charts.mlops
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
+import dev.ktform.kt8s.charts.networking.CiliumChart
+import dev.ktform.kt8s.charts.security.CertManagerChart
 import dev.ktform.kt8s.container.components.KubeFlinkComponent
 import dev.ktform.kt8s.container.versions.KubeFlinkVersion
 
 data class KubeFlinkChart(override val versions: KubeFlinkVersion) : Chart<KubeFlinkVersion> {
     override val group: ChartGroup = ChartGroup.MlOps
 
-    override fun getComponents(): List<KubeFlinkComponent> = listOf(KubeFlinkComponent.KubeFlink)
+    override val components: List<KubeFlinkComponent> = listOf(KubeFlinkComponent.KubeFlink)
 
-    override fun dependsOnGroups(): List<ChartGroup> = emptyList()
-
-    override fun dependsOnCharts(): List<Chart<*>> = emptyList()
+    override val dependsOnCharts: List<Chart<*>> = listOf(CertManagerChart(), CiliumChart())
 }

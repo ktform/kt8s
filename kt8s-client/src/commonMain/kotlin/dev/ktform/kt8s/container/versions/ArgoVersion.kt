@@ -20,7 +20,7 @@ data class ArgoVersion(val argoVersions: Map<ArgoComponent, String> = emptyMap()
     fun plus(other: ArgoVersion): ArgoVersion = ArgoVersion(argoVersions + other.argoVersions)
 
     companion object : VersionsFetcher<ArgoVersion> by ArgoVersionFetcher {
-        fun String.toArgoCDVersion(): ArgoVersion = ArgoVersion(mapOf(ArgoComponent.ArgoCD to this))
+        fun String.toArgoCdVersion(): ArgoVersion = ArgoVersion(mapOf(ArgoComponent.ArgoCd to this))
 
         fun String.toArgoRolloutsVersion(): ArgoVersion =
             ArgoVersion(mapOf(ArgoComponent.ArgoRollouts to this))

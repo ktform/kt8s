@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.CmakeVersionFetcher
 import dev.ktform.kt8s.container.versions.CmakeVersion
+import dev.ktform.kt8s.container.versions.CmakeVersion.Companion.toCmakeVersion
 
 class Cmake(val versions: CmakeVersion) : Renderable {
+    constructor(version: String) : this(version.toCmakeVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, CmakeVersionFetcher, env)

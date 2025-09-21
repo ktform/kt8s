@@ -10,16 +10,10 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.Chart
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.GCloudVersion
 
-enum class GCloudComponent(
-     val versions: GCloudVersion,
-) : Component<GCloudVersion> {
+enum class GCloudComponent(val versions: GCloudVersion) : Component<GCloudVersion> {
     GCloud(versions = GCloudVersion());
 
-    override val charts: List<Chart<GCloudVersion>> = emptyList()
-    override val applicableFlavours: List<Component<*>> = emptyList()
-    override val applicableProviders: List<Provider> = Provider.all
+    override val applicableFlavours: Set<Component<*>> = Component.base
 }

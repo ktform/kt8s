@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.MinikubeVersionFetcher
 import dev.ktform.kt8s.container.versions.MinikubeVersion
+import dev.ktform.kt8s.container.versions.MinikubeVersion.Companion.toMinikubeVersion
 
 class Minikube(val versions: MinikubeVersion) : Renderable {
+    constructor(version: String) : this(version.toMinikubeVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, MinikubeVersionFetcher, env)

@@ -10,12 +10,10 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.TheiaVersion
 
-enum class TheiaComponent(
-    override val applicableFlavours: List<Component<*>> = emptyList(),
-    override val applicableProviders: List<Provider> = Provider.all,
-) : Component<TheiaVersion> {
-    Theia
+enum class TheiaComponent(val versions: TheiaVersion) : Component<TheiaVersion> {
+    Theia(versions = TheiaVersion());
+
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

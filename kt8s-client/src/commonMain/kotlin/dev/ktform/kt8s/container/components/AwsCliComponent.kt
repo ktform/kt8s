@@ -10,14 +10,10 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.container.versions.AwsCliVersion
 
-enum class AwsCliComponent(
-  versions: AwsCliVersion
-) : Component<AwsCliVersion> {
+enum class AwsCliComponent(versions: AwsCliVersion) : Component<AwsCliVersion> {
     AwsCli(versions = AwsCliVersion());
 
-  override val charts: List<Chart<AwsCliVersion>> = emptyList()
-  override val applicableFlavours: List<Component<*>> = Component.golangFlavours
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

@@ -12,15 +12,15 @@ package dev.ktform.kt8s.charts.gitops
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
+import dev.ktform.kt8s.charts.networking.CiliumChart
+import dev.ktform.kt8s.charts.security.CertManagerChart
 import dev.ktform.kt8s.container.components.TektonComponent
 import dev.ktform.kt8s.container.versions.TektonVersion
 
 data class TektonDashboardChart(override val versions: TektonVersion) : Chart<TektonVersion> {
     override val group: ChartGroup = ChartGroup.GitOps
 
-    override fun getComponents(): List<TektonComponent> = listOf(TektonComponent.TektonDashboard)
+    override val components: List<TektonComponent> = listOf(TektonComponent.TektonDashboard)
 
-    override fun dependsOnGroups(): List<ChartGroup> = emptyList()
-
-    override fun dependsOnCharts(): List<Chart<*>> = emptyList()
+    override val dependsOnCharts: List<Chart<*>> = listOf(CertManagerChart(), CiliumChart())
 }

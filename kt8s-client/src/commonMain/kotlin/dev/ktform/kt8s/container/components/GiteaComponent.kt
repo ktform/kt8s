@@ -12,15 +12,11 @@ package dev.ktform.kt8s.container.components
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.charts.development.GiteaChart
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.GiteaVersion
 
-enum class GiteaComponent(
-     val versions: GiteaVersion,
-) : Component<GiteaVersion> {
+enum class GiteaComponent(val versions: GiteaVersion) : Component<GiteaVersion> {
     Gitea(versions = GiteaVersion());
 
-    override val charts: List<Chart<GiteaVersion>> = listOf(GiteaChart(versions = versions))
-    override val applicableFlavours: List<Component<*>> = emptyList()
-    override val applicableProviders: List<Provider> = Provider.all
+    override val charts: Set<Chart<GiteaVersion>> = setOf(GiteaChart(versions = versions))
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

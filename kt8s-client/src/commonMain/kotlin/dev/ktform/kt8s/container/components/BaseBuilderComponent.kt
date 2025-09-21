@@ -13,7 +13,7 @@ package dev.ktform.kt8s.container.components
 import dev.ktform.kt8s.container.versions.AwsCliVersion
 
 enum class BaseBuilderComponent() : Component<AwsCliVersion> {
-  BaseBuilder;
+    BaseBuilder;
 
-  override val applicableFlavours: List<Component<*>> = Component.base
+    override val applicableFlavours: Set<Component<*>> = Component.base
 }

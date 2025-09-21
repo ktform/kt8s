@@ -65,6 +65,14 @@ kotlin {
     publishLibraryVariantsGroupedByFlavor = true
   }
 
+  targets.configureEach {
+    compilations.configureEach {
+      compileTaskProvider.get().compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+      }
+    }
+  }
+
   sourceSets {
     commonMain {
       kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")

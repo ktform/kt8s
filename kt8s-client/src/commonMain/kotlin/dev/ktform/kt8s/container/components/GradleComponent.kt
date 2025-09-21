@@ -10,16 +10,10 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.Chart
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.GradleVersion
 
-enum class GradleComponent(
-     val versions: GradleVersion,
-) : Component<GradleVersion> {
+enum class GradleComponent(val versions: GradleVersion) : Component<GradleVersion> {
     Gradle(versions = GradleVersion());
 
-    override val charts: List<Chart<GradleVersion>> = emptyList()
-    override val applicableFlavours: List<Component<*>> = emptyList()
-    override val applicableProviders: List<Provider> = Provider.all
+    override val applicableFlavours: Set<Component<*>> = Component.javaFlavours
 }

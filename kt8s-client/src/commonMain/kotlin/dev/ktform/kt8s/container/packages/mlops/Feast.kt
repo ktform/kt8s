@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.FeastVersionFetcher
 import dev.ktform.kt8s.container.versions.FeastVersion
+import dev.ktform.kt8s.container.versions.FeastVersion.Companion.toFeastVersion
 
 class Feast(val versions: FeastVersion) : Renderable {
+    constructor(version: String) : this(version.toFeastVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, FeastVersionFetcher, env)

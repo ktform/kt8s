@@ -14,7 +14,7 @@ import arrow.core.raise.either
 import com.google.devtools.ksp.processing.*
 import com.google.devtools.ksp.symbol.KSAnnotated
 import dev.ktform.kt8s.compiler.JSONSchema.toResources
-import io.ktor.util.toLowerCasePreservingASCIIRules
+import io.ktor.util.*
 import java.io.OutputStreamWriter
 
 class KubernetesResourcesSymbolProcessor(
@@ -22,27 +22,38 @@ class KubernetesResourcesSymbolProcessor(
     private val logger: KSPLogger,
 ) : SymbolProcessor {
 
-    private var hasProcessed = false
-
     override fun process(resolver: Resolver): List<KSAnnotated> {
         if (
-            hasProcessed ||
-                resolver.getClassDeclarationByName(
-                    resolver.getKSNameFromString("dev.ktform.kt8s.resources.Container")
-                ) != null
-        ) {
+            resolver.getClassDeclarationByName(
+                resolver.getKSNameFromString("dev.ktform.kt8s.resources.Container")
+            ) != null
+        )
             return emptyList()
-        }
-        hasProcessed = true
 
         return either<Throwable, Unit> {
-                JSONSchema.all(this::class.java.classLoader).forEach { (version, definitions) ->
-                    val pkg =
+                val standardResources =
+                    JSONSchema.all(this::class.java.classLoader).mapKeys { (version, _) ->
                         if (version == "Common") "dev.ktform.kt8s.resources"
                         else
                             "dev.ktform.kt8s.resources.${version.toLowerCasePreservingASCIIRules()}"
-                    logger.info("Generating $version: ${definitions.size} definitions")
+                    }
 
+                val crdResources =
+                    Crds.all(this::class.java.classLoader)
+                        .fold(
+                            { err ->
+                                logger.error("CRD loading failed: $err")
+                                emptyMap()
+                            },
+                            {
+                                it.mapKeys { (chartName, _) ->
+                                    "dev.ktform.kt8s.resources.crds.${chartName.toLowerCasePreservingASCIIRules()}"
+                                }
+                            },
+                        )
+
+                (standardResources + crdResources).forEach { (pkg, definitions) ->
+                    logger.info("Generating ${definitions.size} definitions in $pkg")
                     definitions.toResources(pkg).forEach { resource ->
                         codeGenerator.createNewFile(Dependencies(false), pkg, resource.kind).use {
                             outputStream ->

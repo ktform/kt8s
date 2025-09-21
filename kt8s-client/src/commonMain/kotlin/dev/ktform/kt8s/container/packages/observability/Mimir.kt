@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.MimirVersionFetcher
 import dev.ktform.kt8s.container.versions.MimirVersion
+import dev.ktform.kt8s.container.versions.MimirVersion.Companion.toMimirVersion
 
 class Mimir(val versions: MimirVersion) : Renderable {
+    constructor(version: String) : this(version.toMimirVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, MimirVersionFetcher, env)

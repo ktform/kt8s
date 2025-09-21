@@ -13,20 +13,10 @@ package dev.ktform.kt8s.charts.compute
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
 import dev.ktform.kt8s.container.components.VPAComponent
-import dev.ktform.kt8s.container.versions.VPAVersion
+import dev.ktform.kt8s.container.versions.VpaVersion
 
-data class VPAChart(override val versions: VPAVersion) : Chart<VPAVersion> {
+data class VPAChart(override val versions: VpaVersion) : Chart<VpaVersion> {
     override val group: ChartGroup = ChartGroup.Compute
 
-    override fun getComponents(): List<VPAComponent> {
-        TODO("Not yet implemented")
-    }
-
-    override fun dependsOnGroups(): List<ChartGroup> {
-        TODO("Not yet implemented")
-    }
-
-    override fun dependsOnCharts(): List<Chart<*>> {
-        TODO("Not yet implemented")
-    }
+    override val components: List<VPAComponent> = listOf(VPAComponent.VPA)
 }

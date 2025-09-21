@@ -8,13 +8,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package dev.ktform.kt8s.dev.ktform.kt8s.container.packages
+package dev.ktform.kt8s.container.packages
 
+import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
-import dev.ktform.kt8s.dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
+import dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
 import dev.ktform.kt8s.container.components.PipXComponent
 import dev.ktform.kt8s.container.fetchers.PipXVersionFetcher
-import dev.ktform.kt8s.container.versions.PipXVersion.Companion.toPipXVersion
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.test.runTest
@@ -24,11 +24,12 @@ class PipXTest {
     @Test
     fun testPipX() {
         runTest(timeout = 10.seconds) {
-            PipXVersionFetcher.getVersions().forEach { (component, versions) ->
+            assertThat(PipXVersionFetcher.getLatestVersions()).isNotEmpty()
+
+            PipXVersionFetcher.getLatestVersions().forEach { (component, version) ->
                 val cli =
                     when (component) {
-                        is PipXComponent if (component == PipXComponent.PipX) ->
-                            PipX(versions.last().toPipXVersion())
+                        is PipXComponent if (component == PipXComponent.PipX) -> PipX(version)
 
                         else -> throw Exception("Unknown component: $component")
                     }

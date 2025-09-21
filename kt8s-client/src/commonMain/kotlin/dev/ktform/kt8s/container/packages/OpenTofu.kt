@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.OpenTofuVersionFetcher
 import dev.ktform.kt8s.container.versions.OpenTofuVersion
+import dev.ktform.kt8s.container.versions.OpenTofuVersion.Companion.toOpenTofuVersion
 
 class OpenTofu(val versions: OpenTofuVersion) : Renderable {
+    constructor(version: String) : this(version.toOpenTofuVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, OpenTofuVersionFetcher, env)

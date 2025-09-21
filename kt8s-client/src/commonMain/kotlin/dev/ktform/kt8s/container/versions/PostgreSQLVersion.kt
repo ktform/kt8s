@@ -15,7 +15,9 @@ import dev.ktform.kt8s.container.components.PostgreSQLComponent
 import dev.ktform.kt8s.container.fetchers.PostgreSQLVersionFetcher
 import dev.ktform.kt8s.container.fetchers.VersionsFetcher
 
-data class PostgreSQLVersion(val postgresqlVersions: Map<PostgreSQLComponent, String> = emptyMap()) :
+data class PostgreSQLVersion(
+    val postgresqlVersions: Map<PostgreSQLComponent, String> = emptyMap()
+) :
     Versions<PostgreSQLVersion>(
         postgresqlVersions.mapKeys { it.key as Component<PostgreSQLVersion> }
     ) {

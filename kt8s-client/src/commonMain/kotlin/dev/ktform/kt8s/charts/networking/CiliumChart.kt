@@ -12,15 +12,15 @@ package dev.ktform.kt8s.charts.networking
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
+import dev.ktform.kt8s.charts.security.CertManagerChart
 import dev.ktform.kt8s.container.components.CiliumComponent
 import dev.ktform.kt8s.container.versions.CiliumVersion
 
-data class CiliumChart(override val versions: CiliumVersion) : Chart<CiliumVersion> {
+data class CiliumChart(override val versions: CiliumVersion = CiliumVersion()) :
+    Chart<CiliumVersion> {
     override val group: ChartGroup = ChartGroup.Networking
 
-    override fun getComponents(): List<CiliumComponent> = listOf(CiliumComponent.Cilium)
+    override val components: List<CiliumComponent> = listOf(CiliumComponent.Cilium)
 
-    override fun dependsOnGroups(): List<ChartGroup> = emptyList()
-
-    override fun dependsOnCharts(): List<Chart<*>> = emptyList()
+    override val dependsOnCharts: List<Chart<*>> = listOf(CertManagerChart())
 }

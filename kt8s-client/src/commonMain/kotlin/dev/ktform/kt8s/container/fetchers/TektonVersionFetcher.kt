@@ -61,13 +61,17 @@ object TektonVersionFetcher : VersionsFetcher<TektonVersion> {
         when (this) {
             is TektonComponent if TektonComponent.TektonPipeline == this ->
                 listOf("1.3.1", "1.3.0", "1.2.0")
+
             is TektonComponent if TektonComponent.TektonTriggers == this ->
                 listOf("0.32.0", "0.31.0")
+
             is TektonComponent if TektonComponent.TektonDashboard == this ->
                 listOf("0.60.0", "0.59.0", "0.58.0")
+
             is TektonComponent if TektonComponent.TektonChains == this -> listOf("0.41.1", "0.41.0")
             is TektonComponent if TektonComponent.TektonResults == this ->
                 listOf("0.15.2", "0.15.1")
+
             is TektonComponent if TektonComponent.TektonCli == this -> listOf("0.41.1", "0.41.0")
             else -> emptyList()
         }

@@ -12,15 +12,16 @@ package dev.ktform.kt8s.charts.security
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
+import dev.ktform.kt8s.charts.networking.CiliumChart
 import dev.ktform.kt8s.container.components.ExternalSecretsComponent
 import dev.ktform.kt8s.container.versions.ExternalSecretsVersion
 
-data class ExternalSecretsChart(override val versions: ExternalSecretsVersion) : Chart<ExternalSecretsVersion> {
+data class ExternalSecretsChart(override val versions: ExternalSecretsVersion) :
+    Chart<ExternalSecretsVersion> {
     override val group: ChartGroup = ChartGroup.Security
 
-    override fun getComponents(): List<ExternalSecretsComponent> = listOf(ExternalSecretsComponent.ExternalSecrets)
+    override val components: List<ExternalSecretsComponent> =
+        listOf(ExternalSecretsComponent.ExternalSecrets)
 
-    override fun dependsOnGroups(): List<ChartGroup> = emptyList()
-
-    override fun dependsOnCharts(): List<Chart<*>> = emptyList()
+    override val dependsOnCharts: List<Chart<*>> = listOf(CertManagerChart(), CiliumChart())
 }

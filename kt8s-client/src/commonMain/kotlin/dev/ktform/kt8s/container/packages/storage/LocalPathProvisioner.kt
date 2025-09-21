@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.LocalPathProvisionerVersionFetcher
 import dev.ktform.kt8s.container.versions.LocalPathProvisionerVersion
+import dev.ktform.kt8s.container.versions.LocalPathProvisionerVersion.Companion.toLocalPathProvisionerVersion
 
 class LocalPathProvisioner(val versions: LocalPathProvisionerVersion) : Renderable {
+    constructor(version: String) : this(version.toLocalPathProvisionerVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, LocalPathProvisionerVersionFetcher, env)

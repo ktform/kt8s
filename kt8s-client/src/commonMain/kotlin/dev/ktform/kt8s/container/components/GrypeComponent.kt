@@ -10,16 +10,10 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.Chart
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.GrypeVersion
 
-enum class GrypeComponent(
-    override val versions: GrypeVersion,
-) : Component<GrypeVersion> {
+enum class GrypeComponent(val versions: GrypeVersion) : Component<GrypeVersion> {
     Grype(versions = GrypeVersion());
 
-    override val charts: List<Chart<GrypeVersion>> = emptyList()
-    override val applicableFlavours: List<Component<*>> = emptyList()
-    override val applicableProviders: List<Provider> = Provider.all
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

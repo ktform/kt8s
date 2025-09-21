@@ -8,8 +8,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-package dev.ktform.kt8s.dev.ktform.kt8s.container.packages.languages
+package dev.ktform.kt8s.container.packages.languages
 
+import com.varabyte.truthish.assertThat
+import dev.ktform.kt8s.container.Environment
+import dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
+import dev.ktform.kt8s.container.components.GolangComponent
+import dev.ktform.kt8s.container.fetchers.GolangVersionFetcher
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.test.runTest
@@ -19,17 +24,24 @@ class GolangTest {
     @Test
     fun testGolang() {
         runTest(timeout = 10.seconds) {
-            // val latest = Golang.`package`.latestVersion().getOrElse { err -> throw
-            // Exception("Unable to determine latest version: $err") }
+            assertThat(GolangVersionFetcher.getLatestVersions()).isNotEmpty()
 
-            // Environment.all.forEach { env ->
-            //   PackageTestCase(
-            //     "golang",
-            //     env,
-            //     rendered = Golang(latest).render().getOrElse { err -> throw Exception("Unable to
-            // render: $err") },
-            //   ).isExpected()
-            // }
+            GolangVersionFetcher.getLatestVersions().forEach { (component, version) ->
+                val golang =
+                    when (component) {
+                        is GolangComponent if (component == GolangComponent.Golang) ->
+                            Golang(version)
+
+                        else -> throw Exception("Unknown component: $component")
+                    }
+
+                golang
+                    .render(env = Environment.default)
+                    .fold(
+                        { err -> throw Exception("Unable to render ${component.name}: $err") },
+                        { result -> result.getOrUpdateExpected("Dockerfile.${component.name}") },
+                    )
+            }
         }
     }
 }

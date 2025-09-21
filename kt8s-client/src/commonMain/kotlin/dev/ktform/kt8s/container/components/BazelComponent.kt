@@ -10,20 +10,13 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.Chart
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.BazelVersion
 
-enum class BazelComponent(
-    val versions: BazelVersion,
-) : Component<BazelVersion> {
+enum class BazelComponent(val versions: BazelVersion) : Component<BazelVersion> {
     Bazel(versions = BazelVersion()) {
-      override val applicableFlavours: List<Component<*>> = Component.javaFlavours
+        override val applicableFlavours: Set<Component<*>> = Component.javaFlavours
     },
-
     Bazelisk(versions = BazelVersion()) {
-      override val applicableFlavours: List<Component<*>> = Component.golangFlavours
-    };
-
-    override val charts: List<Chart<BazelVersion>> = emptyList()
+        override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
+    },
 }

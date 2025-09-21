@@ -16,6 +16,7 @@ import arrow.core.getOrElse
 import arrow.core.some
 import dev.ktform.kt8s.container.components.Component
 import dev.ktform.kt8s.container.components.OpenBaoComponent
+import dev.ktform.kt8s.container.components.OpenTofuComponent
 import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.githubVersions
 import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.withVPrefix
 import dev.ktform.kt8s.container.versions.OpenBaoVersion
@@ -38,13 +39,13 @@ object OpenBaoVersionFetcher : VersionsFetcher<OpenBaoVersion> {
 
     override fun String.toRepoVersion(component: Component<OpenBaoVersion>): Option<String> =
         when (component) {
-            is OpenBaoComponent -> this.withVPrefix().some()
+            is OpenTofuComponent -> this.withVPrefix().some()
             else -> None
         }
 
     override fun Component<OpenBaoVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is OpenBaoComponent -> listOf()
+            is OpenBaoComponent if this == OpenBaoComponent.OpenBao -> listOf("2.4.1", "2.4.0")
             else -> emptyList()
         }
 }

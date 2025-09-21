@@ -11,26 +11,25 @@
 package dev.ktform.kt8s.container.components
 
 import dev.ktform.kt8s.Chart
-import dev.ktform.kt8s.charts.gitops.ArgoCDChart
+import dev.ktform.kt8s.charts.gitops.ArgoCdChart
 import dev.ktform.kt8s.charts.gitops.ArgoEventsChart
 import dev.ktform.kt8s.charts.gitops.ArgoRolloutsChart
 import dev.ktform.kt8s.charts.gitops.ArgoWorkflowsChart
-import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.ArgoVersion
-import dev.ktform.kt8s.container.versions.Versions
 
 enum class ArgoComponent(versions: ArgoVersion) : Component<ArgoVersion> {
-    ArgoCD(versions = ArgoVersion()),
+    ArgoCd(versions = ArgoVersion()),
     ArgoRollouts(versions = ArgoVersion()),
     ArgoWorkflows(versions = ArgoVersion()),
     ArgoEvents(versions = ArgoVersion());
 
-  override val applicableFlavours: List<Component<*>> = Component.golangFlavours
+    override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 
-  override val charts: List<Chart<ArgoVersion>> = listOf(
-    ArgoCDChart(versions = versions),
-    ArgoRolloutsChart(versions = versions),
-    ArgoWorkflowsChart(versions = versions),
-    ArgoEventsChart(versions = versions),
-  )
+    override val charts: Set<Chart<ArgoVersion>> =
+        setOf(
+            ArgoCdChart(versions = versions),
+            ArgoRolloutsChart(versions = versions),
+            ArgoWorkflowsChart(versions = versions),
+            ArgoEventsChart(versions = versions),
+        )
 }

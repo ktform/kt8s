@@ -15,7 +15,9 @@ import dev.ktform.kt8s.container.components.DeschedulerComponent
 import dev.ktform.kt8s.container.fetchers.DeschedulerVersionFetcher
 import dev.ktform.kt8s.container.fetchers.VersionsFetcher
 
-data class DeschedulerVersion(val deschedulerVersions: Map<DeschedulerComponent, String> = emptyMap()) :
+data class DeschedulerVersion(
+    val deschedulerVersions: Map<DeschedulerComponent, String> = emptyMap()
+) :
     Versions<DeschedulerVersion>(
         deschedulerVersions.mapKeys { it.key as Component<DeschedulerVersion> }
     ) {

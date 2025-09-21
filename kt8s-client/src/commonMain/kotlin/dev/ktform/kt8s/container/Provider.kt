@@ -10,11 +10,11 @@
  */
 package dev.ktform.kt8s.container
 
-import arrow.core.NonEmptyList
-import arrow.core.toNonEmptyListOrThrow
+import arrow.core.NonEmptySet
+import arrow.core.toNonEmptySetOrThrow
 
 enum class Provider {
-    Local,
+    Local, // Kind
     AWS,
     GCP,
     DigitalOcean,
@@ -23,6 +23,6 @@ enum class Provider {
     Ovh;
 
     companion object {
-        val all: NonEmptyList<Provider> = Provider.entries.toNonEmptyListOrThrow()
+        val all: NonEmptySet<Provider> = Provider.entries.toNonEmptySetOrThrow()
     }
 }

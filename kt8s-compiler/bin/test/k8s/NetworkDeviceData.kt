@@ -1,11 +1,15 @@
+/*
+ * Copyright (C) 2016-2025 Yuriy Yarosh
+ * All rights reserved.
+ *
+ * SPDX-License-Identifier: MPL-2.0
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 package dev.ktform.kt8s.resources
 
-import dev.ktform.kt8s.resources.IntOrString
-import dev.ktform.kt8s.resources.KubernetesMicroTime
-import dev.ktform.kt8s.resources.KubernetesTime
-import dev.ktform.kt8s.resources.RawJsonObject
-import dev.ktform.kt8s.resources.Resource
-import dev.ktform.kt8s.resources.StringOrNumber
 import kotlin.String
 import kotlin.collections.List
 import kotlinx.serialization.SerialName
@@ -13,31 +17,35 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 
 /**
- * @param hardwareAddress HardwareAddress represents the hardware address (e.g. MAC Address) of the device's network interface.
+ * @param hardwareAddress HardwareAddress represents the hardware address (e.g. MAC Address) of the
+ *   device's network interface.
  *
  * Must not be longer than 128 characters.
- * @param interfaceName InterfaceName specifies the name of the network interface associated with the allocated device. This might be the name of a physical or virtual network interface being configured in the pod.
+ *
+ * @param interfaceName InterfaceName specifies the name of the network interface associated with
+ *   the allocated device. This might be the name of a physical or virtual network interface being
+ *   configured in the pod.
  *
  * Must not be longer than 256 characters.
- * @param ips IPs lists the network addresses assigned to the device's network interface. This can include both IPv4 and IPv6 addresses. The IPs are in the CIDR notation, which includes both the address and the associated subnet mask. e.g.: "192.0.2.5/24" for IPv4 and "2001:db8::5/64" for IPv6.
+ *
+ * @param ips IPs lists the network addresses assigned to the device's network interface. This can
+ *   include both IPv4 and IPv6 addresses. The IPs are in the CIDR notation, which includes both the
+ *   address and the associated subnet mask. e.g.: "192.0.2.5/24" for IPv4 and "2001:db8::5/64" for
+ *   IPv6.
  *
  * Must not contain more than 16 entries.
  */
 @Serializable
 public data class NetworkDeviceData(
-  public val hardwareAddress: String,
-  public val interfaceName: String,
-  public val ips: List<String>,
+    public val hardwareAddress: String,
+    public val interfaceName: String,
+    public val ips: List<String>,
 ) : Resource {
-  @SerialName("apiVersion")
-  override val apiVersion: String = "io.k8s.api.resource/v1alpha3"
+    @SerialName("apiVersion") override val apiVersion: String = "io.k8s.api.resource/v1alpha3"
 
-  @Transient
-  override val group: String = "io.k8s.api.resource"
+    @Transient override val group: String = "io.k8s.api.resource"
 
-  @Transient
-  override val version: String = "v1alpha3"
+    @Transient override val version: String = "v1alpha3"
 
-  @SerialName("kind")
-  override val kind: String = "NetworkDeviceData"
+    @SerialName("kind") override val kind: String = "NetworkDeviceData"
 }

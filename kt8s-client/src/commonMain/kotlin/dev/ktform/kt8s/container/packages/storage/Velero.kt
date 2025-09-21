@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.VeleroVersionFetcher
 import dev.ktform.kt8s.container.versions.VeleroVersion
+import dev.ktform.kt8s.container.versions.VeleroVersion.Companion.toVeleroVersion
 
 class Velero(val versions: VeleroVersion) : Renderable {
+    constructor(version: String) : this(version.toVeleroVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, VeleroVersionFetcher, env)

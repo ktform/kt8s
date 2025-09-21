@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.RookVersionFetcher
 import dev.ktform.kt8s.container.versions.RookVersion
+import dev.ktform.kt8s.container.versions.RookVersion.Companion.toRookVersion
 
 class Rook(val versions: RookVersion) : Renderable {
+    constructor(version: String) : this(version.toRookVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, RookVersionFetcher, env)

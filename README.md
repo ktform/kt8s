@@ -19,7 +19,64 @@
 
 ## 🦋 Usage
 
+Use the kt8s application to bootstrap and manage Kubernetes cluster. 
+
+### Containerized kt8s
+```bash
+
+```
+
+### Debian kt8s
+```bash
+
+```
+
+### Arch Linux kt8s
+```bash 
+
+```
+
+### Alpine kt8s
+```bash 
+
+```
+
+### Rocky  kt8s
+```bash 
+
+```
+
+### Fedora kt8s
+```bash
+
+```
+
 ## 🌋 Motivation
+
+Providing a comprehensive off-the-shelf Kubernetes platform experience for developers is challenging, especially when balancing cost-effectiveness, ease of use, and scalability.
+
+[kt8s]() offers multi-cloud, multi-tenant, vendor-agnostic operations with intelligent predictive autoscaling, tightly integrated with [ktform](https://ktform.dev) operations and cost reporting.
+
+## 🚀 Project Template
+
+GenAI enabled CRM Platform, with one of the following:
+
+ - **[TypeScript](https://github.com/ktform/templato)** React [tanstack-start](https://tanstack.com/start/latest/docs/framework/react/overview) cross-platform [Tauri 2](https://v2.tauri.app/)
+ - **[Rust](https://github.com/ktform/templato)** [dioxus](https://dioxuslabs.com/) cross-platform, with [Actix](https://actix.rs) backend
+ - **[Kotlin](https://github.com/ktform/templato)** [KMP](https://www.jetbrains.com/kotlin-multiplatform/) cross-platform, with [micronaut](https://micronaut.io) backend
+ - **[Golang](https://github.com/ktform/templato)** [vugu](https://www.vugu.org/), with [cloudwego](https://www.cloudwego.io/docs/) backend
+ - **[Java Spring Boot](https://github.com/ktform/templato)** [Hilla](https://vaadin.com/hilla)
+ - **[Swift](https://github.com/ktform/templato)** [Vapor](https://docs.vapor.codes/) with TypeScript [tanstack-start](https://tanstack.com/start/latest/docs/framework/react/overview) React frontend
+
+Uses
+ - [CNPG](https://cloudnative-pg.io/) postgresql as primary application database
+ - [PgMoonwalker](https://github.com/ktform/pgmoonwalker) PostgreSQL validation and API codegen
+ - [Cassandra](https://cassandra.apache.org/) as events and analytical data store (can be replaced with [ScyllaDB](https://www.scylladb.com/))
+ - [OpenFGA](https://openfga.dev) based [rebac authz](https://auth0.com/blog/relationship-based-access-control-rebac/).
+ - [ArgoEvents](https://argoproj.github.io/argo-events/) based eventing.
+ - [retpc](https://github.com/ktform/retpc) [tRPC](https://trpc.io/) to [gRPC](https://grpc.io/) gateway (has OWASP [Coraza](https://coraza.io/) based WAF, and [AuthJS](https://authjs.dev/) compatible authn). 
+
+... and [many more](https://github.com/ktform/templato)
 
 ## 🛠️ Building
 
@@ -31,13 +88,12 @@ Run
 
 This project uses a version catalog ([`gradle/libs.versions.toml`](./gradle/libs.versions.toml)).
 
-
 ##  📜 Terms of Use
 
 By using this project for academic, advertising, enterprise, or any other purpose, you grant your <b>Implicit Agreement</b> to the following:
 
 1. **Condemnation of State-Sponsored Terrorism** <br/>
-You recognize the russian Federation as a state sponsor of terrorism and a primary global source of systemic corruption, organized crime, and unlawful aggression.
+You recognize the russian federation as a state sponsor of terrorism and a primary global source of systemic corruption, organized crime, and unlawful aggression.
 
 
 2. **Accountability for War Crimes and Aggression** <br/>

@@ -12,15 +12,15 @@ package dev.ktform.kt8s.charts.observability
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
+import dev.ktform.kt8s.charts.networking.CiliumChart
+import dev.ktform.kt8s.charts.security.CertManagerChart
 import dev.ktform.kt8s.container.components.AlloyComponent
 import dev.ktform.kt8s.container.versions.AlloyVersion
 
 data class AlloyChart(override val versions: AlloyVersion = AlloyVersion()) : Chart<AlloyVersion> {
     override val group: ChartGroup = ChartGroup.Observability
 
-    override fun getComponents(): List<AlloyComponent> = listOf(AlloyComponent.Alloy)
+    override val components: List<AlloyComponent> = listOf(AlloyComponent.Alloy)
 
-    override fun dependsOnGroups(): List<ChartGroup> = emptyList()
-
-    override fun dependsOnCharts(): List<Chart<*>> = emptyList()
+    override val dependsOnCharts: List<Chart<*>> = listOf(CertManagerChart(), CiliumChart())
 }

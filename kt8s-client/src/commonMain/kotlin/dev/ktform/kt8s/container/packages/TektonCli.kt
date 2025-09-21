@@ -16,8 +16,10 @@ import dev.ktform.kt8s.container.Package
 import dev.ktform.kt8s.container.Renderable
 import dev.ktform.kt8s.container.fetchers.TektonVersionFetcher
 import dev.ktform.kt8s.container.versions.TektonVersion
+import dev.ktform.kt8s.container.versions.TektonVersion.Companion.toTektonCliVersion
 
 class TektonCli(val versions: TektonVersion) : Renderable {
+    constructor(version: String) : this(version.toTektonCliVersion())
 
     override fun render(env: Environment): Either<String, String> =
         `package`.render(versions, TektonVersionFetcher, env)

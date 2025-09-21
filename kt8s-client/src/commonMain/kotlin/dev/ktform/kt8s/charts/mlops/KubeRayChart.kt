@@ -12,15 +12,15 @@ package dev.ktform.kt8s.charts.mlops
 
 import dev.ktform.kt8s.Chart
 import dev.ktform.kt8s.ChartGroup
+import dev.ktform.kt8s.charts.networking.CiliumChart
+import dev.ktform.kt8s.charts.security.CertManagerChart
 import dev.ktform.kt8s.container.components.KubeRayComponent
 import dev.ktform.kt8s.container.versions.KubeRayVersion
 
 data class KubeRayChart(override val versions: KubeRayVersion) : Chart<KubeRayVersion> {
     override val group: ChartGroup = ChartGroup.MlOps
 
-    override fun getComponents(): List<KubeRayComponent> = listOf(KubeRayComponent.KubeRay)
+    override val components: List<KubeRayComponent> = listOf(KubeRayComponent.KubeRay)
 
-    override fun dependsOnGroups(): List<ChartGroup> = emptyList()
-
-    override fun dependsOnCharts(): List<Chart<*>> = emptyList()
+    override val dependsOnCharts: List<Chart<*>> = listOf(CertManagerChart(), CiliumChart())
 }
