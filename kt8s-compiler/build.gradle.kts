@@ -43,13 +43,13 @@ dependencies {
 }
 
 // Create a dedicated task for CRD generation
-val generateCrds by tasks.registering {
+val downloadCrds by tasks.registering {
   description = "Generate CRD files from external sources"
   group = "build"
-  
+
   val outputDir = project.rootDir.resolve("kt8s-compiler/src/main/resources/crds")
   outputs.dir(outputDir)
-  
+
   doLast {
     writeAllCrds(outputDir)
   }
@@ -57,9 +57,9 @@ val generateCrds by tasks.registering {
 
 // Make compileKotlin depend on CRD generation
 tasks.named("compileKotlin") {
-  dependsOn(generateCrds)
+  dependsOn(downloadCrds)
 }
 
 tasks.named("processResources") {
-    dependsOn(generateCrds)
+    dependsOn(downloadCrds)
 }
