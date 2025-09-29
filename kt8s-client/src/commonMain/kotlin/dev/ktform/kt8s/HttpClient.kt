@@ -12,6 +12,6 @@ package dev.ktform.kt8s
 
 expect class HttpClient {
     companion object {
-        fun invoke(): io.ktor.client.HttpClient
+        operator fun invoke(): io.ktor.client.HttpClient
     }
 }

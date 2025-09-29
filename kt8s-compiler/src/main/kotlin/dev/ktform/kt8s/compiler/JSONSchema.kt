@@ -192,176 +192,170 @@ object JSONSchema {
 
             definitionsObj.map { (name, defJson) -> defJson.jsonObject.toDefinition(name).bind() }
         }
+}
 
-    internal fun JsonObject.toDefinition(name: String): Either<ParseError, Definition> = either {
-        val (type, format) = this@toDefinition.parseTypeAndFormat().bind()
-        val required =
-            this@toDefinition["required"]?.jsonArray?.map { it.jsonPrimitive.content }?.toSet()
-                ?: emptySet()
-        val properties =
-            this@toDefinition["properties"]?.jsonObject?.map { (propName, propJson) ->
-                propJson.jsonObject.toProperty(propName, propName in required).bind()
-            } ?: emptyList()
+internal fun JsonObject.toDefinition(
+    name: String
+): Either<JSONSchema.ParseError, JSONSchema.Definition> = either {
+    val (type, format) = this@toDefinition.parseTypeAndFormat().bind()
+    val required =
+        this@toDefinition["required"]?.jsonArray?.map { it.jsonPrimitive.content }?.toSet()
+            ?: emptySet()
+    val properties =
+        this@toDefinition["properties"]?.jsonObject?.map { (propName, propJson) ->
+            propJson.jsonObject.toProperty(propName, propName in required).bind()
+        } ?: emptyList()
 
-        Definition(
+    JSONSchema.Definition(
+        name = name,
+        description = this@toDefinition["description"]?.jsonPrimitive?.content.orEmpty(),
+        properties = properties,
+        required = required,
+        type = type,
+        format = format,
+        kubernetesGroupVersionKind = this@toDefinition.parseKubernetesGVK(name),
+    )
+}
+
+private fun JsonObject.toProperty(
+    name: String,
+    isRequired: Boolean,
+): Either<JSONSchema.ParseError, JSONSchema.Property> = either {
+    // Handle direct $ref
+    this@toProperty["\$ref"]?.jsonPrimitive?.content?.let {
+        return@either JSONSchema.Property(
             name = name,
-            description = this@toDefinition["description"]?.jsonPrimitive?.content.orEmpty(),
-            properties = properties,
-            required = required,
-            type = type,
-            format = format,
-            kubernetesGroupVersionKind = this@toDefinition.parseKubernetesGVK(name),
-        )
-    }
-
-    private fun JsonObject.toProperty(
-        name: String,
-        isRequired: Boolean,
-    ): Either<ParseError, Property> = either {
-        // Handle direct $ref
-        this@toProperty[$$"$ref"]?.jsonPrimitive?.content?.let {
-            return@either Property(
-                name = name,
-                type = Type.OBJECT,
-                description = this@toProperty["description"]?.jsonPrimitive?.content.orEmpty(),
-                required = isRequired,
-                ref = Some(it.removePrefix("#/definitions/")),
-            )
-        }
-
-        // Check for additionalProperties with $ref (like Map<String, Quantity>)
-        this@toProperty["additionalProperties"]?.jsonObject?.let { additionalProps ->
-            additionalProps[$$"$ref"]?.jsonPrimitive?.content?.let { refValue ->
-                return@either Property(
-                    name = name,
-                    type = Type.OBJECT,
-                    description = this@toProperty["description"]?.jsonPrimitive?.content.orEmpty(),
-                    required = isRequired,
-                    ref = Some(refValue.removePrefix("#/definitions/")),
-                )
-            }
-        }
-
-        val (type, format) = this@toProperty.parseTypeAndFormat().bind()
-
-        Property(
-            name = name,
-            type = type,
-            format = format,
+            type = JSONSchema.Type.OBJECT,
             description = this@toProperty["description"]?.jsonPrimitive?.content.orEmpty(),
             required = isRequired,
-            enum =
-                this@toProperty["enum"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
-            items =
-                if (type == Type.ARRAY) {
-                    val itemsObj =
-                        this@toProperty["items"]?.jsonObject
-                            ?: raise(ParseError.InvalidProperty("Array needs 'items'"))
-                    Some(itemsObj.toProperty("item", false).bind())
-                } else None,
+            ref = Some(it.removePrefix("#/definitions/")),
         )
     }
 
-    private fun JsonObject.parseTypeAndFormat(): Either<ParseError, Pair<Type, Option<Format>>> =
-        either {
-            val format =
-                this@parseTypeAndFormat["format"]
-                    ?.jsonPrimitive
-                    ?.content
-                    .toOption()
-                    .map { if (it == "float") "double" else it }
-                    .flatMap(Format::fromString)
+    // Check for additionalProperties with $ref (like Map<String, Quantity>)
+    this@toProperty["additionalProperties"]?.jsonObject?.let { additionalProps ->
+        additionalProps["\$ref"]?.jsonPrimitive?.content?.let { refValue ->
+            return@either JSONSchema.Property(
+                name = name,
+                type = JSONSchema.Type.OBJECT,
+                description = this@toProperty["description"]?.jsonPrimitive?.content.orEmpty(),
+                required = isRequired,
+                ref = Some(refValue.removePrefix("#/definitions/")),
+            )
+        }
+    }
 
-            val type =
-                when (val typeStr = this@parseTypeAndFormat["type"]?.jsonPrimitive?.content) {
-                    "object" -> Type.OBJECT
-                    "array" -> Type.ARRAY
-                    "string" -> Type.STRING
-                    "boolean" -> Type.BOOLEAN
-                    "number" -> format.fold({ Type.NUMBER }) { it.type }
-                    "integer" -> Type.INTEGER
-                    null ->
-                        if (this@parseTypeAndFormat.containsKey($$"$ref")) Type.OBJECT
-                        else Type.OBJECT
+    val (type, format) = this@toProperty.parseTypeAndFormat().bind()
 
-                    else -> raise(ParseError.UnsupportedType(typeStr))
-                }
+    JSONSchema.Property(
+        name = name,
+        type = type,
+        format = format,
+        description = this@toProperty["description"]?.jsonPrimitive?.content.orEmpty(),
+        required = isRequired,
+        enum = this@toProperty["enum"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
+        items =
+            if (type == JSONSchema.Type.ARRAY) {
+                val itemsObj =
+                    this@toProperty["items"]?.jsonObject
+                        ?: raise(JSONSchema.ParseError.InvalidProperty("Array needs 'items'"))
+                Some(itemsObj.toProperty("item", false).bind())
+            } else None,
+    )
+}
 
-            type to format
+private fun JsonObject.parseTypeAndFormat():
+    Either<JSONSchema.ParseError, Pair<JSONSchema.Type, Option<JSONSchema.Format>>> = either {
+    val format =
+        this@parseTypeAndFormat["format"]
+            ?.jsonPrimitive
+            ?.content
+            .toOption()
+            .map { if (it == "float") "double" else it }
+            .flatMap(JSONSchema.Format::fromString)
+
+    val type =
+        when (val typeStr = this@parseTypeAndFormat["type"]?.jsonPrimitive?.content) {
+            "object" -> JSONSchema.Type.OBJECT
+            "array" -> JSONSchema.Type.ARRAY
+            "string" -> JSONSchema.Type.STRING
+            "boolean" -> JSONSchema.Type.BOOLEAN
+            "number" -> format.fold({ JSONSchema.Type.NUMBER }) { it.type }
+            "integer" -> JSONSchema.Type.INTEGER
+            null ->
+                if (this@parseTypeAndFormat.containsKey("\$ref")) JSONSchema.Type.OBJECT
+                else JSONSchema.Type.OBJECT
+
+            else -> raise(JSONSchema.ParseError.UnsupportedType(typeStr))
         }
 
-    internal fun JsonObject.parseKubernetesGVK(
-        refName: String
-    ): List<Triple<String, String, String>> {
-        val chunks = refName.split(".")
-        val (defaultKind, defaultVersion, defaultGroup) =
-            if (chunks.size >= 3) {
-                Triple(
-                    chunks.last(),
-                    chunks.dropLast(1).last(),
-                    chunks.dropLast(2).joinToString("."),
-                )
-            } else {
-                Triple("", "", "")
-            }
+    type to format
+}
 
-        return this["x-kubernetes-group-version-kind"]?.jsonArray?.map { gvkElement ->
-            val gvk = gvkElement.jsonObject
-            Triple(
-                gvk["group"]?.jsonPrimitive?.content ?: defaultGroup,
-                gvk["version"]?.jsonPrimitive?.content ?: defaultVersion,
-                gvk["kind"]?.jsonPrimitive?.content ?: defaultKind,
-            )
-        } ?: listOf(Triple(defaultGroup, defaultVersion, defaultKind))
-    }
+internal fun JsonObject.parseKubernetesGVK(refName: String): List<Triple<String, String, String>> {
+    val chunks = refName.split(".")
+    val (defaultKind, defaultVersion, defaultGroup) =
+        if (chunks.size >= 3) {
+            Triple(chunks.last(), chunks.dropLast(1).last(), chunks.dropLast(2).joinToString("."))
+        } else {
+            Triple("", "", "")
+        }
 
-    internal fun List<Definition>.resolveReference(ref: String): Option<Definition> =
-        find { it.name == ref }.toOption()
+    return this["x-kubernetes-group-version-kind"]?.jsonArray?.map { gvkElement ->
+        val gvk = gvkElement.jsonObject
+        Triple(
+            gvk["group"]?.jsonPrimitive?.content ?: defaultGroup,
+            gvk["version"]?.jsonPrimitive?.content ?: defaultVersion,
+            gvk["kind"]?.jsonPrimitive?.content ?: defaultKind,
+        )
+    } ?: listOf(Triple(defaultGroup, defaultVersion, defaultKind))
+}
 
-    private val skippedKinds = setOf("ParamKind", "JSONSchemaProps")
+internal fun List<JSONSchema.Definition>.resolveReference(
+    ref: String
+): Option<JSONSchema.Definition> = find { it.name == ref }.toOption()
 
-    fun List<Definition>.toResources(packageName: String): List<KubernetesResource> =
-        asSequence()
-            .map { KubernetesResource.fromJsonSchema(it, this@toResources, packageName) }
-            .filter { it.fields.isNotEmpty() && it.kind !in skippedKinds }
-            .distinctBy { it.kind }
-            .toList()
+private val skippedKinds = setOf("ParamKind", "JSONSchemaProps")
 
-    fun all(
-        classLoader: ClassLoader = this::class.java.classLoader
-    ): Map<String, List<Definition>> {
-        val loadedResources =
-            Version.all.associate { version ->
-                version.name to
-                    load(version, classLoader).getOrElse {
-                        throw IllegalArgumentException("Failed to load ${version.name} resources")
-                    }
-            }
+fun List<JSONSchema.Definition>.toResources(packageName: String): List<KubernetesResource> =
+    asSequence()
+        .map { KubernetesResource.fromJsonSchema(it, this@toResources, packageName) }
+        .filter { it.fields.isNotEmpty() && it.kind !in skippedKinds }
+        .distinctBy { it.kind }
+        .toList()
 
-        val allDefinitions = loadedResources.values.toList()
-        val common =
-            allDefinitions
-                .takeIf { it.isNotEmpty() }
-                ?.first()
-                ?.filter { candidate ->
-                    allDefinitions.all { defs -> defs.any { it == candidate } }
+fun JSONSchema.all(
+    classLoader: ClassLoader = this::class.java.classLoader
+): Map<String, List<JSONSchema.Definition>> {
+    val loadedResources =
+        JSONSchema.Version.all.associate { version ->
+            version.name to
+                JSONSchema.load(version, classLoader).getOrElse {
+                    throw IllegalArgumentException("Failed to load ${version.name} resources")
                 }
-                ?.distinctBy { it.name } ?: emptyList()
+        }
 
-        val (versionSpecific, _) =
-            Version.all.fold(emptyMap<String, List<Definition>>() to emptySet<String>()) {
-                (result, seenNames),
-                version ->
-                val current = loadedResources[version.name] ?: emptyList()
-                val unique =
-                    current
-                        .asSequence()
-                        .filterNot { def -> common.any { it == def } || def.name in seenNames }
-                        .distinctBy { it.name }
-                        .toList()
-                (result + (version.name to unique)) to (seenNames + unique.map { it.name })
-            }
+    val allDefinitions = loadedResources.values.toList()
+    val common =
+        allDefinitions
+            .takeIf { it.isNotEmpty() }
+            ?.first()
+            ?.filter { candidate -> allDefinitions.all { defs -> defs.any { it == candidate } } }
+            ?.distinctBy { it.name } ?: emptyList()
 
-        return mapOf("Common" to common) + versionSpecific
-    }
+    val (versionSpecific, _) =
+        JSONSchema.Version.all.fold(
+            emptyMap<String, List<JSONSchema.Definition>>() to emptySet<String>()
+        ) { (result, seenNames), version ->
+            val current = loadedResources[version.name] ?: emptyList()
+            val unique =
+                current
+                    .asSequence()
+                    .filterNot { def -> common.any { it == def } || def.name in seenNames }
+                    .distinctBy { it.name }
+                    .toList()
+            (result + (version.name to unique)) to (seenNames + unique.map { it.name })
+        }
+
+    return mapOf("Common" to common) + versionSpecific
 }

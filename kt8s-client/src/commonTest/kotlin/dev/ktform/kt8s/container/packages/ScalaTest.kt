@@ -29,9 +29,12 @@ class ScalaTest {
             ScalaVersionFetcher.getLatestVersions().forEach { (component, version) ->
                 val cli =
                     when (component) {
+                        is ScalaComponent if (component == ScalaComponent.Scala3) -> Scala(version)
+
                         is ScalaComponent if (component == ScalaComponent.Scala) -> Scala(version)
 
                         is ScalaComponent if (component == ScalaComponent.Sbt) -> Sbt(version)
+
                         else -> throw Exception("Unknown component: $component")
                     }
 

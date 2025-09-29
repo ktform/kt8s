@@ -25,7 +25,7 @@ object OpenBaoVersionFetcher : VersionsFetcher<OpenBaoVersion> {
     override suspend fun getVersions(last: Int): Map<Component<OpenBaoVersion>, List<String>> =
         OpenBaoComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -45,7 +45,9 @@ object OpenBaoVersionFetcher : VersionsFetcher<OpenBaoVersion> {
 
     override fun Component<OpenBaoVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is OpenBaoComponent if this == OpenBaoComponent.OpenBao -> listOf("2.4.1", "2.4.0")
+            is OpenBaoComponent if this == OpenBaoComponent.OpenBao ->
+                listOf("2.4.1", "2.4.0", "2.3.2", "2.3.1", "2.3.0")
+
             else -> emptyList()
         }
 }

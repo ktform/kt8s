@@ -10,11 +10,20 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.RustVersion
 
-enum class RustComponent(val versions: RustVersion) : Component<RustVersion> {
-    Nightly(versions = RustVersion()),
-    Stable(versions = RustVersion());
+enum class RustComponent(override val appliedVersions: RustVersion) : Component<RustVersion> {
+    Nightly(appliedVersions = RustVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    },
+    Stable(appliedVersions = RustVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

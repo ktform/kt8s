@@ -30,6 +30,9 @@ class BazelTest {
                     when (component) {
                         is BazelComponent if (component == BazelComponent.Bazel) -> Bazel(version)
 
+                        is BazelComponent if (component == BazelComponent.Bazelisk) ->
+                            Bazel(version)
+
                         else -> throw Exception("Unknown component: $component")
                     }
 

@@ -24,7 +24,7 @@ object SccacheVersionFetcher : VersionsFetcher<SccacheVersion> {
     override suspend fun getVersions(last: Int): Map<Component<SccacheVersion>, List<String>> =
         SccacheComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object SccacheVersionFetcher : VersionsFetcher<SccacheVersion> {
 
     override fun Component<SccacheVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is SccacheComponent -> listOf("0.10.0", "0.10.0")
+            is SccacheComponent -> listOf("0.10.0", "0.9.1", "0.9.0", "0.8.2", "0.8.1")
             else -> emptyList()
         }
 }

@@ -24,7 +24,7 @@ object TrivyVersionFetcher : VersionsFetcher<TrivyVersion> {
     override suspend fun getVersions(last: Int): Map<Component<TrivyVersion>, List<String>> =
         TrivyComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object TrivyVersionFetcher : VersionsFetcher<TrivyVersion> {
 
     override fun Component<TrivyVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is TrivyComponent -> listOf("0.65.0", "0.64.1", "0.64.0")
+            is TrivyComponent -> listOf("0.66.0", "0.65.0", "0.64.1", "0.64.0", "0.63.0")
 
             else -> emptyList()
         }

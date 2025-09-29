@@ -13,7 +13,6 @@ package dev.ktform.kt8s.compiler
 import arrow.core.raise.either
 import com.google.devtools.ksp.processing.*
 import com.google.devtools.ksp.symbol.KSAnnotated
-import dev.ktform.kt8s.compiler.JSONSchema.toResources
 import io.ktor.util.*
 import java.io.OutputStreamWriter
 

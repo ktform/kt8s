@@ -10,10 +10,26 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.ScyllaDBVersion
 
-enum class ScyllaDBComponent(val versions: ScyllaDBVersion) : Component<ScyllaDBVersion> {
-    ScyllaDB(versions = ScyllaDBVersion());
+enum class ScyllaDBComponent(override val appliedVersions: ScyllaDBVersion) :
+    Component<ScyllaDBVersion> {
+    ScyllaDB(appliedVersions = ScyllaDBVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    },
+    ScyllaManager(appliedVersions = ScyllaDBVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    },
+    ScyllaOperator(appliedVersions = ScyllaDBVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

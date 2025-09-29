@@ -10,13 +10,15 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.Chart
-import dev.ktform.kt8s.charts.observability.AlloyChart
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.AlloyVersion
 
-enum class AlloyComponent(versions: AlloyVersion) : Component<AlloyVersion> {
-    Alloy(versions = AlloyVersion());
+enum class AlloyComponent(override val appliedVersions: AlloyVersion) : Component<AlloyVersion> {
+    Alloy(appliedVersions = AlloyVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
-    override val charts: Set<Chart<AlloyVersion>> = setOf(AlloyChart(versions = versions))
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

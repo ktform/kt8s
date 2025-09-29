@@ -10,13 +10,15 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.Chart
-import dev.ktform.kt8s.charts.networking.CiliumChart
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.CiliumVersion
 
-enum class CiliumComponent(val versions: CiliumVersion) : Component<CiliumVersion> {
-    Cilium(versions = CiliumVersion());
+enum class CiliumComponent(override val appliedVersions: CiliumVersion) : Component<CiliumVersion> {
+    Cilium(appliedVersions = CiliumVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
-    override val charts: Set<Chart<CiliumVersion>> = setOf(CiliumChart(versions = versions))
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

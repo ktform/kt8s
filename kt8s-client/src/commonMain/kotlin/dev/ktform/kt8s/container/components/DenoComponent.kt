@@ -10,10 +10,16 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.DenoVersion
 
-enum class DenoComponent(val versions: DenoVersion) : Component<DenoVersion> {
-    Deno(versions = DenoVersion());
+enum class DenoComponent(override val appliedVersions: DenoVersion) : Component<DenoVersion> {
+    Deno(appliedVersions = DenoVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
-    override val applicableFlavours: Set<Component<*>> = Component.baseBuilder
+    override val applicableFlavours: Set<Component<*>> =
+        Component.buildNative + Component.buildPython
 }

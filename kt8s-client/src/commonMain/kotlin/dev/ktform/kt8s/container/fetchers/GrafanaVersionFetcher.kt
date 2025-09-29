@@ -24,7 +24,7 @@ object GrafanaVersionFetcher : VersionsFetcher<GrafanaVersion> {
     override suspend fun getVersions(last: Int): Map<Component<GrafanaVersion>, List<String>> =
         GrafanaComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object GrafanaVersionFetcher : VersionsFetcher<GrafanaVersion> {
 
     override fun Component<GrafanaVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is GrafanaComponent -> listOf("12.1.0", "12.0.3", "12.0.2+security-01")
+            is GrafanaComponent -> listOf("12.2.0", "12.1.2", "12.1.1", "12.1.0", "12.0.5")
             else -> emptyList()
         }
 }

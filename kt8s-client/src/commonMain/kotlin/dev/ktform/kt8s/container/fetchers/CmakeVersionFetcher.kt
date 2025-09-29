@@ -24,7 +24,7 @@ object CmakeVersionFetcher : VersionsFetcher<CmakeVersion> {
     override suspend fun getVersions(last: Int): Map<Component<CmakeVersion>, List<String>> =
         CmakeComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -43,7 +43,7 @@ object CmakeVersionFetcher : VersionsFetcher<CmakeVersion> {
 
     override fun Component<CmakeVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is CmakeComponent -> listOf("4.1.0", "4.0.3")
+            is CmakeComponent -> listOf("4.1.1", "4.1.0", "4.0.4", "4.0.3", "4.0.2")
             else -> emptyList()
         }
 }

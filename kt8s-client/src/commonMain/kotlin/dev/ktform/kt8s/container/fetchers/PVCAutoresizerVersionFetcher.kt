@@ -26,7 +26,7 @@ object PVCAutoresizerVersionFetcher : VersionsFetcher<PVCAutoresizerVersion> {
     ): Map<Component<PVCAutoresizerVersion>, List<String>> =
         PVCAutoresizerComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -46,7 +46,7 @@ object PVCAutoresizerVersionFetcher : VersionsFetcher<PVCAutoresizerVersion> {
 
     override fun Component<PVCAutoresizerVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is PVCAutoresizerComponent -> listOf()
+            is PVCAutoresizerComponent -> listOf("0.17.5", "0.17.4", "0.17.3", "0.17.2", "0.17.1")
             else -> emptyList()
         }
 }

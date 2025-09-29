@@ -10,10 +10,16 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.SccacheVersion
 
-enum class SccacheComponent(val versions: SccacheVersion) : Component<SccacheVersion> {
-    Sccache(versions = SccacheVersion());
+enum class SccacheComponent(override val appliedVersions: SccacheVersion) :
+    Component<SccacheVersion> {
+    Sccache(appliedVersions = SccacheVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

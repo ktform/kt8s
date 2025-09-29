@@ -10,13 +10,15 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.Chart
-import dev.ktform.kt8s.charts.observability.LokiChart
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.LokiVersion
 
-enum class LokiComponent(val versions: LokiVersion) : Component<LokiVersion> {
-    Loki(versions = LokiVersion());
+enum class LokiComponent(override val appliedVersions: LokiVersion) : Component<LokiVersion> {
+    Loki(appliedVersions = LokiVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
-    override val charts: Set<Chart<LokiVersion>> = setOf(LokiChart(versions = versions))
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

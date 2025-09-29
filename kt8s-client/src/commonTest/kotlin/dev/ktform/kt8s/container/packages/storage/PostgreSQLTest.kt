@@ -32,6 +32,9 @@ class PostgreSQLTest {
                         is PostgreSQLComponent if (component == PostgreSQLComponent.PostgreSQL) ->
                             PostgreSQL(version)
 
+                        is PostgreSQLComponent if (component == PostgreSQLComponent.Stackgres) ->
+                            PostgreSQL(version)
+
                         else -> throw Exception("Unknown component: $component")
                     }
 

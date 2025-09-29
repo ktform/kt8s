@@ -14,7 +14,7 @@ import arrow.core.NonEmptySet
 import arrow.core.Option
 import arrow.core.nonEmptySetOf
 import arrow.core.toOption
-import dev.ktform.kt8s.Chart
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.Provider
 import dev.ktform.kt8s.container.versions.Versions
 import io.ktor.util.*
@@ -25,8 +25,9 @@ sealed interface Component<T : Versions<T>> {
     val applicableProviders: Set<Provider>
         get() = Provider.all
 
-    val charts: Set<Chart<T>>
-        get() = emptySet()
+    val appliedVersions: Versions<T>
+
+    fun image(env: Environment): String
 
     companion object {
         val defaultFlavours: NonEmptySet<Component<*>> by lazy {
@@ -36,14 +37,6 @@ sealed interface Component<T : Versions<T>> {
                 RubyComponent.Ruby,
                 RustComponent.Nightly,
             )
-        }
-
-        val base: NonEmptySet<Component<*>> by lazy { nonEmptySetOf(BaseComponent.Base) }
-        val baseBuilder: NonEmptySet<Component<*>> by lazy {
-            nonEmptySetOf(BaseBuilderComponent.BaseBuilder)
-        }
-        val baseDevelopment: NonEmptySet<Component<*>> by lazy {
-            nonEmptySetOf(BaseDevelopmentComponent.BaseDevelopment)
         }
 
         val buildNative: NonEmptySet<Component<*>> by lazy {

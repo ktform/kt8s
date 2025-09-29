@@ -24,7 +24,7 @@ object CiliumVersionFetcher : VersionsFetcher<CiliumVersion> {
     override suspend fun getVersions(last: Int): Map<Component<CiliumVersion>, List<String>> =
         CiliumComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -43,7 +43,7 @@ object CiliumVersionFetcher : VersionsFetcher<CiliumVersion> {
 
     override fun Component<CiliumVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is CiliumComponent -> listOf("1.18.0", "1.17.6")
+            is CiliumComponent -> listOf("1.18.2", "1.18.2", "1.18.1", "1.18.1", "1.18.0")
             else -> emptyList()
         }
 }

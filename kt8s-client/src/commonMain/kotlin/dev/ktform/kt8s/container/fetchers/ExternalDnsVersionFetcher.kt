@@ -24,7 +24,7 @@ object ExternalDnsVersionFetcher : VersionsFetcher<ExternalDnsVersion> {
     override suspend fun getVersions(last: Int): Map<Component<ExternalDnsVersion>, List<String>> =
         ExternalDnsComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object ExternalDnsVersionFetcher : VersionsFetcher<ExternalDnsVersion> {
 
     override fun Component<ExternalDnsVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is ExternalDnsComponent -> listOf("0.18.0", "0.17.0", "0.16.1")
+            is ExternalDnsComponent -> listOf("0.19.0", "0.18.0", "0.17.0", "0.16.1", "0.16.0")
             else -> emptyList()
         }
 }

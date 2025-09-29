@@ -10,10 +10,15 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.GCloudVersion
 
-enum class GCloudComponent(val versions: GCloudVersion) : Component<GCloudVersion> {
-    GCloud(versions = GCloudVersion());
+enum class GCloudComponent(override val appliedVersions: GCloudVersion) : Component<GCloudVersion> {
+    GCloud(appliedVersions = GCloudVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
-    override val applicableFlavours: Set<Component<*>> = Component.base
+    override val applicableFlavours: Set<Component<*>> = setOf(BaseComponent.Base)
 }

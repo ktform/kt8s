@@ -24,7 +24,7 @@ object TheiaVersionFetcher : VersionsFetcher<TheiaVersion> {
     override suspend fun getVersions(last: Int): Map<Component<TheiaVersion>, List<String>> =
         TheiaComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object TheiaVersionFetcher : VersionsFetcher<TheiaVersion> {
 
     override fun Component<TheiaVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is TheiaComponent -> listOf()
+            is TheiaComponent -> listOf("1.65.0", "1.64.1", "1.64.0", "1.63.3", "1.63.2")
             else -> emptyList()
         }
 }

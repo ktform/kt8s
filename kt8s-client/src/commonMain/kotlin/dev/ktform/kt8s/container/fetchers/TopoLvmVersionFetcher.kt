@@ -24,7 +24,7 @@ object TopoLvmVersionFetcher : VersionsFetcher<TopoLvmVersion> {
     override suspend fun getVersions(last: Int): Map<Component<TopoLvmVersion>, List<String>> =
         TopoLvmComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object TopoLvmVersionFetcher : VersionsFetcher<TopoLvmVersion> {
 
     override fun Component<TopoLvmVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is TopoLvmComponent -> listOf()
+            is TopoLvmComponent -> listOf("0.37.0", "0.36.5", "0.36.4", "0.36.3", "0.36.2")
             else -> emptyList()
         }
 }

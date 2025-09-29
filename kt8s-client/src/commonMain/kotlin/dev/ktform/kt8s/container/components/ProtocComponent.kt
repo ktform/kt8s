@@ -10,10 +10,15 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.ProtocVersion
 
-enum class ProtocComponent(val versions: ProtocVersion) : Component<ProtocVersion> {
-    Protoc(versions = ProtocVersion());
+enum class ProtocComponent(override val appliedVersions: ProtocVersion) : Component<ProtocVersion> {
+    Protoc(appliedVersions = ProtocVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

@@ -17,7 +17,7 @@ import kotlinx.serialization.json.Json
 
 actual class HttpClient {
     actual companion object {
-        actual fun invoke(): io.ktor.client.HttpClient =
+        actual operator fun invoke(): io.ktor.client.HttpClient =
             io.ktor.client.HttpClient(Apache) {
                 install(ContentNegotiation) {
                     json(

@@ -24,7 +24,7 @@ object DoCtlVersionFetcher : VersionsFetcher<DoCtlVersion> {
     override suspend fun getVersions(last: Int): Map<Component<DoCtlVersion>, List<String>> =
         DoCtlComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object DoCtlVersionFetcher : VersionsFetcher<DoCtlVersion> {
 
     override fun Component<DoCtlVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is DoCtlComponent -> listOf("1.138.0", "1.137.0")
+            is DoCtlComponent -> listOf("1.145.0", "1.143.0", "1.142.0", "1.141.0", "1.140.0")
             else -> emptyList()
         }
 }

@@ -10,10 +10,15 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.HelmVersion
 
-enum class HelmComponent(val versions: HelmVersion) : Component<HelmVersion> {
-    Helm(versions = HelmVersion());
+enum class HelmComponent(override val appliedVersions: HelmVersion) : Component<HelmVersion> {
+    Helm(appliedVersions = HelmVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

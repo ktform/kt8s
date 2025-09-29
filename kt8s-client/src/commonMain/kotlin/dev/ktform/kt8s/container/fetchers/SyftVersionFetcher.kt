@@ -24,7 +24,7 @@ object SyftVersionFetcher : VersionsFetcher<SyftVersion> {
     override suspend fun getVersions(last: Int): Map<Component<SyftVersion>, List<String>> =
         SyftComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object SyftVersionFetcher : VersionsFetcher<SyftVersion> {
 
     override fun Component<SyftVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is SyftComponent -> listOf("1.30.0", "1.29.1", "1.29.0")
+            is SyftComponent -> listOf("1.33.0", "1.32.0", "1.31.0", "1.30.0", "1.29.1")
             else -> emptyList()
         }
 }

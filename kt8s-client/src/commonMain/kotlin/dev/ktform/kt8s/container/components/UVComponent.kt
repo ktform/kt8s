@@ -10,10 +10,15 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.UVVersion
 
-enum class UVComponent(val versions: UVVersion) : Component<UVVersion> {
-    UV(versions = UVVersion());
+enum class UVComponent(override val appliedVersions: UVVersion) : Component<UVVersion> {
+    UV(appliedVersions = UVVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

@@ -24,7 +24,7 @@ object GrypeVersionFetcher : VersionsFetcher<GrypeVersion> {
     override suspend fun getVersions(last: Int): Map<Component<GrypeVersion>, List<String>> =
         GrypeComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object GrypeVersionFetcher : VersionsFetcher<GrypeVersion> {
 
     override fun Component<GrypeVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is GrypeComponent -> listOf("0.97.2", "0.97.1", "0.97.0")
+            is GrypeComponent -> listOf("0.100.0", "0.99.1", "0.99.0", "0.98.0", "0.97.2")
             else -> emptyList()
         }
 }

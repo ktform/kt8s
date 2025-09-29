@@ -24,7 +24,7 @@ object MimirVersionFetcher : VersionsFetcher<MimirVersion> {
     override suspend fun getVersions(last: Int): Map<Component<MimirVersion>, List<String>> =
         MimirComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object MimirVersionFetcher : VersionsFetcher<MimirVersion> {
 
     override fun Component<MimirVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is MimirComponent -> listOf()
+            is MimirComponent -> listOf("1.10.0", "1.9.0", "1.8.1", "1.8.0", "1.7.1")
             else -> emptyList()
         }
 }

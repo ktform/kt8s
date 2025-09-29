@@ -10,15 +10,17 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.Chart
-import dev.ktform.kt8s.charts.storage.LocalPathProvisionerChart
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.LocalPathProvisionerVersion
 
-enum class LocalPathProvisionerComponent(val versions: LocalPathProvisionerVersion) :
-    Component<LocalPathProvisionerVersion> {
-    LocalPathProvisioner(versions = LocalPathProvisionerVersion());
+enum class LocalPathProvisionerComponent(
+    override val appliedVersions: LocalPathProvisionerVersion
+) : Component<LocalPathProvisionerVersion> {
+    LocalPathProvisioner(appliedVersions = LocalPathProvisionerVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
-    override val charts: Set<Chart<LocalPathProvisionerVersion>> =
-        setOf(LocalPathProvisionerChart(versions = versions))
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

@@ -24,7 +24,7 @@ object OpenTofuVersionFetcher : VersionsFetcher<OpenTofuVersion> {
     override suspend fun getVersions(last: Int): Map<Component<OpenTofuVersion>, List<String>> =
         OpenTofuComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object OpenTofuVersionFetcher : VersionsFetcher<OpenTofuVersion> {
 
     override fun Component<OpenTofuVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is OpenTofuComponent -> listOf("1.10.5", "1.10.4")
+            is OpenTofuComponent -> listOf("1.10.6", "1.10.5", "1.10.4", "1.10.3", "1.10.2")
             else -> emptyList()
         }
 }

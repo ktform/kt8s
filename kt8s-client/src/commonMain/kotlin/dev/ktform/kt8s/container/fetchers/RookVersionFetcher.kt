@@ -24,7 +24,7 @@ object RookVersionFetcher : VersionsFetcher<RookVersion> {
     override suspend fun getVersions(last: Int): Map<Component<RookVersion>, List<String>> =
         RookComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object RookVersionFetcher : VersionsFetcher<RookVersion> {
 
     override fun Component<RookVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is RookComponent -> listOf()
+            is RookComponent -> listOf("1.18.2", "1.18.1", "1.18.0", "1.17.8", "1.17.7")
             else -> emptyList()
         }
 }

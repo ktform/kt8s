@@ -26,7 +26,7 @@ object LocalPathProvisionerVersionFetcher : VersionsFetcher<LocalPathProvisioner
     ): Map<Component<LocalPathProvisionerVersion>, List<String>> =
         LocalPathProvisionerComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -49,7 +49,9 @@ object LocalPathProvisionerVersionFetcher : VersionsFetcher<LocalPathProvisioner
 
     override fun Component<LocalPathProvisionerVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is LocalPathProvisionerComponent -> listOf("0.0.32", "0.0.31", "0.0.30")
+            is LocalPathProvisionerComponent ->
+                listOf("0.0.32", "0.0.31", "0.0.30", "0.0.29", "0.0.28")
+
             else -> emptyList()
         }
 }

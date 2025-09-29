@@ -10,13 +10,15 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.Chart
-import dev.ktform.kt8s.charts.compute.KedaChart
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.KedaVersion
 
-enum class KedaComponent(val versions: KedaVersion) : Component<KedaVersion> {
-    Keda(versions = KedaVersion());
+enum class KedaComponent(override val appliedVersions: KedaVersion) : Component<KedaVersion> {
+    Keda(appliedVersions = KedaVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
-    override val charts: Set<Chart<KedaVersion>> = setOf(KedaChart(versions = versions))
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

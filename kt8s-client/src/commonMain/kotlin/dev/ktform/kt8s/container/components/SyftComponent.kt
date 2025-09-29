@@ -10,10 +10,15 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.SyftVersion
 
-enum class SyftComponent(val versions: SyftVersion) : Component<SyftVersion> {
-    Syft(versions = SyftVersion());
+enum class SyftComponent(override val appliedVersions: SyftVersion) : Component<SyftVersion> {
+    Syft(appliedVersions = SyftVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

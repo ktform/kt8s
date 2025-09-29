@@ -16,7 +16,6 @@ import arrow.core.getOrElse
 import arrow.core.some
 import dev.ktform.kt8s.container.components.Component
 import dev.ktform.kt8s.container.components.ProtocComponent
-import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.githubVersions
 import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.withVPrefix
 import dev.ktform.kt8s.container.github.GithubClient
 import dev.ktform.kt8s.container.versions.ProtocVersion
@@ -26,30 +25,33 @@ object ProtocVersionFetcher : VersionsFetcher<ProtocVersion> {
         ProtocComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
                 val client = GithubClient()
-                client.getTags(repo).map { all ->
-                    all.filter { v -> v.startsWith("v") }
-                        .map { v -> v.substringAfter("v").trim() }
-                        .filter { v ->
-                            !v.lowercase().contains("beta") &&
-                                !v.lowercase().contains("rc") &&
-                                !v.lowercase().contains("dev")
-                        }
-                        .sortedWith(
-                            run {
-                                fun numAt(s: String, idx: Int): Int =
-                                    s.split('.', '-', '_')
-                                        .getOrNull(idx)
-                                        ?.takeWhile(Char::isDigit)
-                                        ?.toIntOrNull() ?: 0
-
-                                compareByDescending<String> { n -> numAt(n, 0) }
-                                    .thenByDescending { n -> numAt(n, 1) }
-                                    .thenByDescending { n -> numAt(n, 2) }
-                                    .thenByDescending { n -> numAt(n, 3) }
+                client
+                    .getTags(repo)
+                    .map { all ->
+                        all.filter { v -> v.startsWith("v") }
+                            .map { v -> v.substringAfter("v").trim() }
+                            .filter { v ->
+                                !v.lowercase().contains("beta") &&
+                                    !v.lowercase().contains("rc") &&
+                                    !v.lowercase().contains("dev")
                             }
-                        )
-                }
-                githubVersions(repo).getOrElse { emptyList() }
+                            .sortedWith(
+                                run {
+                                    fun numAt(s: String, idx: Int): Int =
+                                        s.split('.', '-', '_')
+                                            .getOrNull(idx)
+                                            ?.takeWhile(Char::isDigit)
+                                            ?.toIntOrNull() ?: 0
+
+                                    compareByDescending<String> { n -> numAt(n, 0) }
+                                        .thenByDescending { n -> numAt(n, 1) }
+                                        .thenByDescending { n -> numAt(n, 2) }
+                                        .thenByDescending { n -> numAt(n, 3) }
+                                }
+                            )
+                    }
+                    .getOrElse { emptyList() }
+                    .take(last)
             }
         }
 
@@ -69,7 +71,7 @@ object ProtocVersionFetcher : VersionsFetcher<ProtocVersion> {
 
     override fun Component<ProtocVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is ProtocComponent -> listOf()
+            is ProtocComponent -> listOf("32.1", "32.0", "31.1", "31.0", "30.2")
             else -> emptyList()
         }
 }

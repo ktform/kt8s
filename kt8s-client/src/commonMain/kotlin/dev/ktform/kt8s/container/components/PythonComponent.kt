@@ -10,11 +10,21 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.PythonVersion
 
-enum class PythonComponent(val versions: PythonVersion) : Component<PythonVersion> {
-    CPython(versions = PythonVersion()),
-    PyPy(versions = PythonVersion());
+enum class PythonComponent(override val appliedVersions: PythonVersion) : Component<PythonVersion> {
+    CPython(appliedVersions = PythonVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    },
+    PyPy(appliedVersions = PythonVersion()) {
+        override fun image(env: Environment): String {
+
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

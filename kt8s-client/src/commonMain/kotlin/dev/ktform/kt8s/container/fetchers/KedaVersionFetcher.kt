@@ -24,7 +24,7 @@ object KedaVersionFetcher : VersionsFetcher<KedaVersion> {
     override suspend fun getVersions(last: Int): Map<Component<KedaVersion>, List<String>> =
         KedaComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object KedaVersionFetcher : VersionsFetcher<KedaVersion> {
 
     override fun Component<KedaVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is KedaComponent -> listOf("2.17.2", "2.17.1")
+            is KedaComponent -> listOf("2.17.2", "2.17.1", "2.17.0", "2.16.1", "2.16.0")
             else -> emptyList()
         }
 }

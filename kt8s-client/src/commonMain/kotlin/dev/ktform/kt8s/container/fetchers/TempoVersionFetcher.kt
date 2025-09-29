@@ -24,7 +24,7 @@ object TempoVersionFetcher : VersionsFetcher<TempoVersion> {
     override suspend fun getVersions(last: Int): Map<Component<TempoVersion>, List<String>> =
         TempoComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object TempoVersionFetcher : VersionsFetcher<TempoVersion> {
 
     override fun Component<TempoVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is TempoComponent -> listOf()
+            is TempoComponent -> listOf("2.8.2", "2.8.1", "2.8.0", "2.7.2", "2.7.1")
             else -> emptyList()
         }
 }

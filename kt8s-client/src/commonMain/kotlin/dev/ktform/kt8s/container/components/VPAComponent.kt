@@ -10,10 +10,25 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.VpaVersion
 
-enum class VPAComponent(val versions: VpaVersion) : Component<VpaVersion> {
-    VPA(versions = VpaVersion());
+enum class VPAComponent(override val appliedVersions: VpaVersion) : Component<VpaVersion> {
+    AdmissionController(appliedVersions = VpaVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    },
+    Recommender(appliedVersions = VpaVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    },
+    Updater(appliedVersions = VpaVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

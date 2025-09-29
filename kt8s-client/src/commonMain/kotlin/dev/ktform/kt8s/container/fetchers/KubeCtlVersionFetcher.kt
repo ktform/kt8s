@@ -24,7 +24,7 @@ object KubeCtlVersionFetcher : VersionsFetcher<KubeCtlVersion> {
     override suspend fun getVersions(last: Int): Map<Component<KubeCtlVersion>, List<String>> =
         KubeCtlComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object KubeCtlVersionFetcher : VersionsFetcher<KubeCtlVersion> {
 
     override fun Component<KubeCtlVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is KubeCtlComponent -> listOf("1.33.3", "1.33.2")
+            is KubeCtlComponent -> listOf("0.34.1", "0.34.0", "0.33.5", "0.33.4", "0.33.3")
             else -> emptyList()
         }
 }

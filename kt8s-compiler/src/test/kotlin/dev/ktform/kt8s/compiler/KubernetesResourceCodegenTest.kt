@@ -13,7 +13,6 @@ package dev.ktform.kt8s.compiler
 import arrow.core.getOrElse
 import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.compiler.CodegenGoldenFileTestCases.getOrUpdateExpected
-import dev.ktform.kt8s.compiler.JSONSchema.toResources
 import kotlin.test.Test
 import kotlinx.io.files.Path
 

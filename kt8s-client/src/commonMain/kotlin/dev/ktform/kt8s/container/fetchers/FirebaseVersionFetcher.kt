@@ -24,7 +24,7 @@ object FirebaseVersionFetcher : VersionsFetcher<FirebaseVersion> {
     override suspend fun getVersions(last: Int): Map<Component<FirebaseVersion>, List<String>> =
         FirebaseComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object FirebaseVersionFetcher : VersionsFetcher<FirebaseVersion> {
 
     override fun Component<FirebaseVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is FirebaseComponent -> listOf("14.12.0", "14.11.2")
+            is FirebaseComponent -> listOf("14.17.0", "14.16.0", "14.15.2", "14.15.1", "14.15.0")
             else -> emptyList()
         }
 }

@@ -21,10 +21,25 @@ import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.withVPrefix
 import dev.ktform.kt8s.container.versions.PythonVersion
 
 object PythonVersionFetcher : VersionsFetcher<PythonVersion> {
+    const val PYPY_PYTHON_VERSION = "3.11"
+
+    private const val PYPY_RELEASE_PREFIX = "release-pypy${PYPY_PYTHON_VERSION}-v"
+
     override suspend fun getVersions(last: Int): Map<Component<PythonVersion>, List<String>> =
-        PythonComponent.entries.associateWith {
-            repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+        PythonComponent.entries.associateWith { component ->
+            when (component) {
+                is PythonComponent if component == PythonComponent.PyPy -> {
+                    repo(component).fold({ emptyList() }) { repo ->
+                        githubVersions(repo, PYPY_RELEASE_PREFIX, limit = last).getOrElse {
+                            emptyList()
+                        }
+                    }
+                }
+
+                else ->
+                    repo(component).fold({ emptyList() }) { repo ->
+                        githubVersions(repo, limit = last).getOrElse { emptyList() }
+                    }
             }
         }
 
@@ -32,6 +47,9 @@ object PythonVersionFetcher : VersionsFetcher<PythonVersion> {
         when (component) {
             is PythonComponent if component == PythonComponent.CPython ->
                 "https://github.com/python/cpython".some()
+
+            is PythonComponent if component == PythonComponent.PyPy ->
+                "https://github.com/pypy/pypy".some()
 
             else -> None
         }
@@ -44,7 +62,12 @@ object PythonVersionFetcher : VersionsFetcher<PythonVersion> {
 
     override fun Component<PythonVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is PythonComponent -> listOf("3.13.6", "3.13.5", "3.13.4")
+            is PythonComponent if this == PythonComponent.CPython ->
+                listOf("3.13.7", "3.13.6", "3.13.5", "3.13.4", "3.13.3")
+
+            is PythonComponent if this == PythonComponent.PyPy ->
+                listOf("7.3.20", "7.3.19", "7.3.18")
+
             else -> emptyList()
         }
 }

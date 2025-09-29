@@ -10,10 +10,15 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.VeleroVersion
 
-enum class VeleroComponent(val versions: VeleroVersion) : Component<VeleroVersion> {
-    Velero(versions = VeleroVersion());
+enum class VeleroComponent(override val appliedVersions: VeleroVersion) : Component<VeleroVersion> {
+    Velero(appliedVersions = VeleroVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

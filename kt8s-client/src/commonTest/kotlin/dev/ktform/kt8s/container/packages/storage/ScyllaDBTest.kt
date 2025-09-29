@@ -32,6 +32,12 @@ class ScyllaDBTest {
                         is ScyllaDBComponent if (component == ScyllaDBComponent.ScyllaDB) ->
                             ScyllaDB(version)
 
+                        is ScyllaDBComponent if (component == ScyllaDBComponent.ScyllaManager) ->
+                            ScyllaDB(version)
+
+                        is ScyllaDBComponent if (component == ScyllaDBComponent.ScyllaOperator) ->
+                            ScyllaDB(version)
+
                         else -> throw Exception("Unknown component: $component")
                     }
 

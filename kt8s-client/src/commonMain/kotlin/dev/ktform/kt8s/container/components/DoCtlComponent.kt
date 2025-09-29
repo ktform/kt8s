@@ -10,10 +10,15 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.DoCtlVersion
 
-enum class DoCtlComponent(val versions: DoCtlVersion) : Component<DoCtlVersion> {
-    DoCtl(versions = DoCtlVersion());
+enum class DoCtlComponent(override val appliedVersions: DoCtlVersion) : Component<DoCtlVersion> {
+    DoCtl(appliedVersions = DoCtlVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

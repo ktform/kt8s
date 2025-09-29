@@ -24,7 +24,7 @@ object VolcanoVersionFetcher : VersionsFetcher<VolcanoVersion> {
     override suspend fun getVersions(last: Int): Map<Component<VolcanoVersion>, List<String>> =
         VolcanoComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object VolcanoVersionFetcher : VersionsFetcher<VolcanoVersion> {
 
     override fun Component<VolcanoVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is VolcanoComponent -> listOf("1.12.1", "1.11.2", "1.11.1")
+            is VolcanoComponent -> listOf("1.13.0", "1.12.2", "1.12.1", "1.12.0", "1.11.2")
             else -> emptyList()
         }
 }

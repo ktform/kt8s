@@ -24,14 +24,20 @@ object ScalaVersionFetcher : VersionsFetcher<ScalaVersion> {
     override suspend fun getVersions(last: Int): Map<Component<ScalaVersion>, List<String>> =
         ScalaComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
     override fun repo(component: Component<ScalaVersion>): Option<String> =
         when (component) {
+            is ScalaComponent if component == ScalaComponent.Scala3 ->
+                "https://github.com/scala/scala3".some()
+
             is ScalaComponent if component == ScalaComponent.Scala ->
                 "https://github.com/scala/scala".some()
+
+            is ScalaComponent if component == ScalaComponent.Sbt ->
+                "https://github.com/sbt/sbt".some()
 
             else -> None
         }
@@ -44,7 +50,15 @@ object ScalaVersionFetcher : VersionsFetcher<ScalaVersion> {
 
     override fun Component<ScalaVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is ScalaComponent -> listOf("1.11.4", "1.11.3")
+            is ScalaComponent if this == ScalaComponent.Scala3 ->
+                listOf("3.7.3", "3.7.2", "3.7.1", "3.7.0", "3.6.4")
+
+            is ScalaComponent if this == ScalaComponent.Scala ->
+                listOf("2.13.16", "2.13.15", "2.13.14", "2.13.13", "2.13.12")
+
+            is ScalaComponent if this == ScalaComponent.Sbt ->
+                listOf("1.11.6", "1.11.5", "1.11.4", "1.11.3", "1.11.2")
+
             else -> emptyList()
         }
 }

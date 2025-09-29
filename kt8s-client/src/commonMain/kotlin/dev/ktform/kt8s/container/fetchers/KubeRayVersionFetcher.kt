@@ -24,7 +24,7 @@ object KubeRayVersionFetcher : VersionsFetcher<KubeRayVersion> {
     override suspend fun getVersions(last: Int): Map<Component<KubeRayVersion>, List<String>> =
         KubeRayComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object KubeRayVersionFetcher : VersionsFetcher<KubeRayVersion> {
 
     override fun Component<KubeRayVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is KubeRayComponent -> listOf("1.4.2", "1.4.1", "1.4.0")
+            is KubeRayComponent -> listOf("1.4.2", "1.4.1", "1.4.0", "1.3.2", "1.3.1")
             else -> emptyList()
         }
 }

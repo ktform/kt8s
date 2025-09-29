@@ -24,7 +24,7 @@ object UVVersionFetcher : VersionsFetcher<UVVersion> {
     override suspend fun getVersions(last: Int): Map<Component<UVVersion>, List<String>> =
         UVComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object UVVersionFetcher : VersionsFetcher<UVVersion> {
 
     override fun Component<UVVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is UVComponent -> listOf()
+            is UVComponent -> listOf("0.8.22", "0.8.21", "0.8.20", "0.8.19", "0.8.18")
             else -> emptyList()
         }
 }

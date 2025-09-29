@@ -10,10 +10,15 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.GrypeVersion
 
-enum class GrypeComponent(val versions: GrypeVersion) : Component<GrypeVersion> {
-    Grype(versions = GrypeVersion());
+enum class GrypeComponent(override val appliedVersions: GrypeVersion) : Component<GrypeVersion> {
+    Grype(appliedVersions = GrypeVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

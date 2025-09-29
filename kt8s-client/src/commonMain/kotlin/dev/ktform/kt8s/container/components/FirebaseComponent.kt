@@ -10,10 +10,16 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.FirebaseVersion
 
-enum class FirebaseComponent(val versions: FirebaseVersion) : Component<FirebaseVersion> {
-    Firebase(versions = FirebaseVersion());
+enum class FirebaseComponent(override val appliedVersions: FirebaseVersion) :
+    Component<FirebaseVersion> {
+    Firebase(appliedVersions = FirebaseVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

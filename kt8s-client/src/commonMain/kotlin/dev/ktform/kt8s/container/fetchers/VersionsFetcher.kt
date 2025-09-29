@@ -18,7 +18,7 @@ import dev.ktform.kt8s.container.versions.Versions
 import io.github.z4kn4fein.semver.toVersion
 
 interface VersionsFetcher<T : Versions<T>> {
-    suspend fun getVersions(last: Int = 3): Map<Component<T>, List<String>>
+    suspend fun getVersions(last: Int = 5): Map<Component<T>, List<String>>
 
     suspend fun getLatestVersions(): Map<Component<T>, String> =
         runCatching { getVersions(1).mapValues { (_, v) -> v.last() } }.getOrElse { emptyMap() }
@@ -34,23 +34,28 @@ interface VersionsFetcher<T : Versions<T>> {
             repo: String,
             prefix: String = "v",
             asIs: Boolean = false,
-            limit: Int = 10,
+            limit: Int = 5,
         ): Either<String, List<String>> {
             val client = GithubClient()
 
-            return client.getTags(repo, limit = limit).map { all ->
-                val trimmed = all.map { it.removePrefix(prefix).trim() }
+            val result =
+                client.getTags(repo).map { all ->
+                    val trimmed = all.map { it.removePrefix(prefix).trim() }
 
-                if (asIs) {
-                    trimmed.sortedDescending()
-                } else {
-                    trimmed
-                        .mapNotNull { s -> Either.catch { s.toVersion() }.getOrNull() }
-                        .filter { v -> !v.isPreRelease && (v.major == 0 || v.isStable) }
-                        .sortedDescending()
-                        .map { it.toString() }
+                    if (asIs) {
+                        trimmed.sortedDescending()
+                    } else {
+                        trimmed
+                            .mapNotNull { s -> Either.catch { s.toVersion() }.getOrNull() }
+                            .filter { v -> !v.isPreRelease && (v.major == 0 || v.isStable) }
+                            .sortedDescending()
+                            .map { it.toString() }
+                    }
                 }
-            }
+
+            return if (limit > 0) {
+                result.map { it.take(limit) }
+            } else result
         }
 
         fun String.withVPrefix() = "v$this"

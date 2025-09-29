@@ -10,13 +10,16 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.Chart
-import dev.ktform.kt8s.charts.security.OpenBaoChart
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.OpenBaoVersion
 
-enum class OpenBaoComponent(val versions: OpenBaoVersion) : Component<OpenBaoVersion> {
-    OpenBao(versions = OpenBaoVersion());
+enum class OpenBaoComponent(override val appliedVersions: OpenBaoVersion) :
+    Component<OpenBaoVersion> {
+    OpenBao(appliedVersions = OpenBaoVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
-    override val charts: Set<Chart<OpenBaoVersion>> = setOf(OpenBaoChart(versions = versions))
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

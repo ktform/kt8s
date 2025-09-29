@@ -10,10 +10,16 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.OpenTofuVersion
 
-enum class OpenTofuComponent(val versions: OpenTofuVersion) : Component<OpenTofuVersion> {
-    OpenTofu(versions = OpenTofuVersion());
+enum class OpenTofuComponent(override val appliedVersions: OpenTofuVersion) :
+    Component<OpenTofuVersion> {
+    OpenTofu(appliedVersions = OpenTofuVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

@@ -16,6 +16,7 @@ import arrow.core.getOrElse
 import arrow.core.some
 import dev.ktform.kt8s.container.components.Component
 import dev.ktform.kt8s.container.components.PostgreSQLComponent
+import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.githubVersions
 import dev.ktform.kt8s.container.github.GithubClient
 import dev.ktform.kt8s.container.versions.PostgreSQLVersion
 
@@ -23,21 +24,35 @@ object PostgreSQLVersionFetcher : VersionsFetcher<PostgreSQLVersion> {
     const val RELEASE_PREFIX = "REL_"
 
     override suspend fun getVersions(last: Int): Map<Component<PostgreSQLVersion>, List<String>> =
-        PostgreSQLComponent.entries.associateWith {
-            repo(it).fold({ emptyList() }) { repo ->
-                val client = GithubClient()
-                client
-                    .getTags(repo)
-                    .map { all ->
-                        all.filter { v -> v.startsWith(RELEASE_PREFIX) }
-                            .map { v -> v.substringAfter(RELEASE_PREFIX).replace("_", ".") }
-                            .filter { v ->
-                                !v.lowercase().contains("beta") && !v.lowercase().contains("rc")
+        PostgreSQLComponent.entries.associateWith { component ->
+            repo(component)
+                .fold(
+                    { emptyList() },
+                    { repo ->
+                        when (component) {
+                            PostgreSQLComponent.PostgreSQL -> {
+                                val client = GithubClient()
+                                client
+                                    .getTags(repo)
+                                    .map { all ->
+                                        all.filter { v -> v.startsWith(RELEASE_PREFIX) }
+                                            .map { v ->
+                                                v.substringAfter(RELEASE_PREFIX).replace("_", ".")
+                                            }
+                                            .filter { v ->
+                                                !v.lowercase().contains("beta") &&
+                                                    !v.lowercase().contains("rc")
+                                            }
+                                            .sortedDescending()
+                                            .take(last)
+                                    }
+                                    .getOrElse { emptyList() }
                             }
-                            .sortedDescending()
-                    }
-                    .getOrElse { emptyList() }
-            }
+
+                            else -> githubVersions(repo, limit = last).getOrElse { emptyList() }
+                        }
+                    },
+                )
         }
 
     override fun repo(component: Component<PostgreSQLVersion>): Option<String> =
@@ -63,10 +78,14 @@ object PostgreSQLVersionFetcher : VersionsFetcher<PostgreSQLVersion> {
     override fun Component<PostgreSQLVersion>.knownLatestVersions(): List<String> =
         when (this) {
             is PostgreSQLComponent if this == PostgreSQLComponent.PostgreSQL ->
-                listOf("17.5", "17.4")
+                listOf("18.0", "17.6", "17.5", "17.4", "17.3")
 
-            is PostgreSQLComponent if this == PostgreSQLComponent.CNPG -> listOf()
-            is PostgreSQLComponent if this == PostgreSQLComponent.Stackgres -> listOf()
+            is PostgreSQLComponent if this == PostgreSQLComponent.CNPG ->
+                listOf("1.27.0", "1.26.1", "1.26.0", "1.25.3", "1.25.2")
+
+            is PostgreSQLComponent if this == PostgreSQLComponent.Stackgres ->
+                listOf("1.17.2", "1.17.1", "1.17.0", "1.16.3", "1.16.2")
+
             else -> emptyList()
         }
 }

@@ -10,10 +10,15 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.TrivyVersion
 
-enum class TrivyComponent(val versions: TrivyVersion) : Component<TrivyVersion> {
-    Trivy(versions = TrivyVersion());
+enum class TrivyComponent(override val appliedVersions: TrivyVersion) : Component<TrivyVersion> {
+    Trivy(appliedVersions = TrivyVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

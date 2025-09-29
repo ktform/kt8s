@@ -10,13 +10,22 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.BazelVersion
 
-enum class BazelComponent(val versions: BazelVersion) : Component<BazelVersion> {
-    Bazel(versions = BazelVersion()) {
+enum class BazelComponent(override val appliedVersions: BazelVersion) : Component<BazelVersion> {
+    Bazel(appliedVersions = BazelVersion()) {
         override val applicableFlavours: Set<Component<*>> = Component.javaFlavours
+
+        override fun image(env: Environment): String {
+            return ""
+        }
     },
-    Bazelisk(versions = BazelVersion()) {
+    Bazelisk(appliedVersions = BazelVersion()) {
         override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
+
+        override fun image(env: Environment): String {
+            return ""
+        }
     },
 }

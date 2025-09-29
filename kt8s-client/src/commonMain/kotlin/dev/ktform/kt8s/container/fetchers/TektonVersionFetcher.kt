@@ -24,7 +24,7 @@ object TektonVersionFetcher : VersionsFetcher<TektonVersion> {
     override suspend fun getVersions(last: Int): Map<Component<TektonVersion>, List<String>> =
         TektonComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -60,19 +60,21 @@ object TektonVersionFetcher : VersionsFetcher<TektonVersion> {
     override fun Component<TektonVersion>.knownLatestVersions(): List<String> =
         when (this) {
             is TektonComponent if TektonComponent.TektonPipeline == this ->
-                listOf("1.3.1", "1.3.0", "1.2.0")
+                listOf("1.4.0", "1.3.2", "1.3.1", "1.3.0", "1.2.0")
 
             is TektonComponent if TektonComponent.TektonTriggers == this ->
-                listOf("0.32.0", "0.31.0")
+                listOf("0.33.0", "0.32.0", "0.31.0", "0.30.1", "0.30.0")
 
             is TektonComponent if TektonComponent.TektonDashboard == this ->
-                listOf("0.60.0", "0.59.0", "0.58.0")
+                listOf("0.61.0", "0.60.0", "0.59.0", "0.58.0", "0.57.1")
 
-            is TektonComponent if TektonComponent.TektonChains == this -> listOf("0.41.1", "0.41.0")
+            is TektonComponent if TektonComponent.TektonChains == this ->
+                listOf("0.25.1", "0.25.0", "0.24.0", "0.23.1", "0.23.0")
             is TektonComponent if TektonComponent.TektonResults == this ->
-                listOf("0.15.2", "0.15.1")
+                listOf("0.16.0", "0.15.3", "0.15.2", "0.15.1", "0.15.0")
 
-            is TektonComponent if TektonComponent.TektonCli == this -> listOf("0.41.1", "0.41.0")
+            is TektonComponent if TektonComponent.TektonCli == this ->
+                listOf("0.42.0", "0.41.1", "0.41.0", "0.40.0", "0.39.1")
             else -> emptyList()
         }
 }

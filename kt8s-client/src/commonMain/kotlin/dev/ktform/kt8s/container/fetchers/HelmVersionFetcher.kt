@@ -24,7 +24,7 @@ object HelmVersionFetcher : VersionsFetcher<HelmVersion> {
     override suspend fun getVersions(last: Int): Map<Component<HelmVersion>, List<String>> =
         HelmComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object HelmVersionFetcher : VersionsFetcher<HelmVersion> {
 
     override fun Component<HelmVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is HelmComponent -> listOf("3.18.4", "3.18.3")
+            is HelmComponent -> listOf("3.19.0", "3.18.6", "3.18.5", "3.18.4", "3.18.3")
             else -> emptyList()
         }
 }

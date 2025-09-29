@@ -24,7 +24,7 @@ object KyvernoVersionFetcher : VersionsFetcher<KyvernoVersion> {
     override suspend fun getVersions(last: Int): Map<Component<KyvernoVersion>, List<String>> =
         KyvernoComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object KyvernoVersionFetcher : VersionsFetcher<KyvernoVersion> {
 
     override fun Component<KyvernoVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is KyvernoComponent -> listOf("1.15.1", "1.15.0")
+            is KyvernoComponent -> listOf("1.15.2", "1.15.1", "1.15.0", "1.14.4", "1.14.3")
             else -> emptyList()
         }
 }

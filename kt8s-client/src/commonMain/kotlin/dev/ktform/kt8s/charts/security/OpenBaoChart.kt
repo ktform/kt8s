@@ -18,8 +18,6 @@ import dev.ktform.kt8s.container.versions.OpenBaoVersion
 
 data class OpenBaoChart(override val versions: OpenBaoVersion) : Chart<OpenBaoVersion> {
     override val group: ChartGroup = ChartGroup.Security
-
     override val components: List<OpenBaoComponent> = listOf(OpenBaoComponent.OpenBao)
-
     override val dependsOnCharts: List<Chart<*>> = listOf(CertManagerChart(), CiliumChart())
 }

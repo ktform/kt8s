@@ -24,7 +24,7 @@ object AlloyVersionFetcher : VersionsFetcher<AlloyVersion> {
     override suspend fun getVersions(last: Int): Map<Component<AlloyVersion>, List<String>> =
         AlloyComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -43,5 +43,5 @@ object AlloyVersionFetcher : VersionsFetcher<AlloyVersion> {
         }
 
     override fun Component<AlloyVersion>.knownLatestVersions(): List<String> =
-        listOf("1.10.1", "1.10.0", "1.9.2")
+        listOf("1.10.2", "1.10.1", "1.10.0", "1.9.2", "1.9.1")
 }

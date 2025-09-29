@@ -10,11 +10,25 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.ScalaVersion
 
-enum class ScalaComponent(val versions: ScalaVersion) : Component<ScalaVersion> {
-    Scala(versions = ScalaVersion()),
-    Sbt(versions = ScalaVersion());
+enum class ScalaComponent(override val appliedVersions: ScalaVersion) : Component<ScalaVersion> {
+    Scala3(appliedVersions = ScalaVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    },
+    Scala(appliedVersions = ScalaVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    },
+    Sbt(appliedVersions = ScalaVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

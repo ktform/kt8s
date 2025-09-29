@@ -24,7 +24,7 @@ object MinikubeVersionFetcher : VersionsFetcher<MinikubeVersion> {
     override suspend fun getVersions(last: Int): Map<Component<MinikubeVersion>, List<String>> =
         MinikubeComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object MinikubeVersionFetcher : VersionsFetcher<MinikubeVersion> {
 
     override fun Component<MinikubeVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is MinikubeComponent -> listOf("1.36.0", "1.35.0", "1.34.0")
+            is MinikubeComponent -> listOf("1.37.0", "1.36.0", "1.35.0", "1.34.0", "1.33.1")
             else -> emptyList()
         }
 }

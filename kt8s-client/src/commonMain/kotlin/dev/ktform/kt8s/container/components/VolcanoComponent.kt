@@ -10,10 +10,16 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.VolcanoVersion
 
-enum class VolcanoComponent(val versions: VolcanoVersion) : Component<VolcanoVersion> {
-    Volcano(versions = VolcanoVersion());
+enum class VolcanoComponent(override val appliedVersions: VolcanoVersion) :
+    Component<VolcanoVersion> {
+    Volcano(appliedVersions = VolcanoVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

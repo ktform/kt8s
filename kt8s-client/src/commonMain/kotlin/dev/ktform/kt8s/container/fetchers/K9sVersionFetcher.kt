@@ -24,7 +24,7 @@ object K9sVersionFetcher : VersionsFetcher<K9sVersion> {
     override suspend fun getVersions(last: Int): Map<Component<K9sVersion>, List<String>> =
         K9sComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object K9sVersionFetcher : VersionsFetcher<K9sVersion> {
 
     override fun Component<K9sVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is K9sComponent -> listOf("0.50.9", "0.50.8")
+            is K9sComponent -> listOf("0.50.13", "0.50.12", "0.50.11", "0.50.10", "0.50.9")
             else -> emptyList()
         }
 }

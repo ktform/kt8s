@@ -10,11 +10,20 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.RubyVersion
 
-enum class RubyComponent(val versions: RubyVersion) : Component<RubyVersion> {
-    Ruby(versions = RubyVersion()),
-    MRuby(versions = RubyVersion());
+enum class RubyComponent(override val appliedVersions: RubyVersion) : Component<RubyVersion> {
+    Ruby(appliedVersions = RubyVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    },
+    MRuby(appliedVersions = RubyVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

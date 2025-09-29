@@ -24,7 +24,7 @@ object DotNetVersionFetcher : VersionsFetcher<DotNetVersion> {
     override suspend fun getVersions(last: Int): Map<Component<DotNetVersion>, List<String>> =
         DotNetComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object DotNetVersionFetcher : VersionsFetcher<DotNetVersion> {
 
     override fun Component<DotNetVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is DotNetComponent -> listOf("")
+            is DotNetComponent -> listOf("9.0.110", "9.0.109", "9.0.101", "9.0.7", "9.0.6")
             else -> emptyList()
         }
 }

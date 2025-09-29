@@ -10,18 +10,26 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.Chart
-import dev.ktform.kt8s.charts.storage.postgres.CNPGChart
-import dev.ktform.kt8s.charts.storage.postgres.StackgresChart
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.PostgreSQLVersion
 
-enum class PostgreSQLComponent(val versions: PostgreSQLVersion) : Component<PostgreSQLVersion> {
-    PostgreSQL(versions = PostgreSQLVersion()),
-    Stackgres(versions = PostgreSQLVersion()),
-    CNPG(versions = PostgreSQLVersion());
-
-    override val charts: Set<Chart<PostgreSQLVersion>> =
-        setOf(StackgresChart(versions = versions), CNPGChart(versions = versions))
+enum class PostgreSQLComponent(override val appliedVersions: PostgreSQLVersion) :
+    Component<PostgreSQLVersion> {
+    PostgreSQL(appliedVersions = PostgreSQLVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    },
+    Stackgres(appliedVersions = PostgreSQLVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    },
+    CNPG(appliedVersions = PostgreSQLVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

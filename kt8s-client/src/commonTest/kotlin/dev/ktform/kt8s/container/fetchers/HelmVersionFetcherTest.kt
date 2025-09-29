@@ -10,7 +10,7 @@
  */
 package dev.ktform.kt8s.container.fetchers
 
-import com.varabyte.truthish.assertThat
+import com.varabyte.truthish.assertWithMessage
 import dev.ktform.kt8s.container.fetchers.HelmVersionFetcher.knownLatestVersions
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
@@ -22,7 +22,9 @@ class HelmVersionFetcherTest {
     fun testHelmVersionFetcherLatest() {
         runTest(timeout = 10.seconds) {
             HelmVersionFetcher.getVersions().forEach { (component, versions) ->
-                assertThat(versions).equals(component.knownLatestVersions())
+                assertWithMessage("${component.name} versions")
+                    .that(versions)
+                    .containsExactly(component.knownLatestVersions())
             }
         }
     }

@@ -10,15 +10,16 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.Chart
-import dev.ktform.kt8s.charts.security.ExternalSecretsChart
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.ExternalSecretsVersion
 
-enum class ExternalSecretsComponent(val versions: ExternalSecretsVersion) :
+enum class ExternalSecretsComponent(override val appliedVersions: ExternalSecretsVersion) :
     Component<ExternalSecretsVersion> {
-    ExternalSecrets(versions = ExternalSecretsVersion());
+    ExternalSecrets(appliedVersions = ExternalSecretsVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
-    override val charts: Set<Chart<ExternalSecretsVersion>> =
-        setOf(ExternalSecretsChart(versions = versions))
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

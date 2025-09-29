@@ -24,7 +24,7 @@ object GiteaVersionFetcher : VersionsFetcher<GiteaVersion> {
     override suspend fun getVersions(last: Int): Map<Component<GiteaVersion>, List<String>> =
         GiteaComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object GiteaVersionFetcher : VersionsFetcher<GiteaVersion> {
 
     override fun Component<GiteaVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is GiteaComponent -> listOf("1.24.4", "1.24.3")
+            is GiteaComponent -> listOf("1.24.6", "1.24.5", "1.24.4", "1.24.3", "1.24.2")
             else -> emptyList()
         }
 }

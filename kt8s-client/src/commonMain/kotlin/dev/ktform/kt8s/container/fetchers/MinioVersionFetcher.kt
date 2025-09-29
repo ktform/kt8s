@@ -18,14 +18,26 @@ import dev.ktform.kt8s.container.components.Component
 import dev.ktform.kt8s.container.components.MinioComponent
 import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.githubVersions
 import dev.ktform.kt8s.container.versions.MinioVersion
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 object MinioVersionFetcher : VersionsFetcher<MinioVersion> {
     const val VERSION_PREFIX = "RELEASE."
 
+    @OptIn(ExperimentalTime::class)
+    private val currentYear: String =
+        Clock.System.now().toLocalDateTime(TimeZone.UTC).date.year.toString()
+
     override suspend fun getVersions(last: Int): Map<Component<MinioVersion>, List<String>> =
         MinioComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                val all =
+                    githubVersions(repo, prefix = VERSION_PREFIX, asIs = true, limit = -1)
+                        .getOrElse { emptyList() }
+                        .filter { v -> v.contains(currentYear) }
+                all.sortedDescending().take(last)
             }
         }
 
@@ -45,7 +57,15 @@ object MinioVersionFetcher : VersionsFetcher<MinioVersion> {
 
     override fun Component<MinioVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is MinioComponent -> listOf("2025-07-23T15-54-02Z", "2025-07-18T21-56-31Z")
+            is MinioComponent ->
+                listOf(
+                    "2025-09-07T16-13-09Z",
+                    "2025-09-06T17-38-46Z",
+                    "2025-07-23T15-54-02Z",
+                    "2025-07-18T21-56-31Z",
+                    "2025-06-13T11-33-47Z",
+                )
+
             else -> emptyList()
         }
 }

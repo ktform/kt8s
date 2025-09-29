@@ -24,7 +24,7 @@ object FeastVersionFetcher : VersionsFetcher<FeastVersion> {
     override suspend fun getVersions(last: Int): Map<Component<FeastVersion>, List<String>> =
         FeastComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object FeastVersionFetcher : VersionsFetcher<FeastVersion> {
 
     override fun Component<FeastVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is FeastComponent -> listOf("0.51.1", "0.50.0", "0.49.0")
+            is FeastComponent -> listOf("0.53.0", "0.52.0", "0.51.0", "0.50.0", "0.49.0")
             else -> emptyList()
         }
 }

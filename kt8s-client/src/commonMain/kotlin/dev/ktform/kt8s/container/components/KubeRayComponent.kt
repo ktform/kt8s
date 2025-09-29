@@ -10,13 +10,16 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.Chart
-import dev.ktform.kt8s.charts.mlops.KubeRayChart
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.KubeRayVersion
 
-enum class KubeRayComponent(val versions: KubeRayVersion) : Component<KubeRayVersion> {
-    KubeRay(versions = KubeRayVersion());
+enum class KubeRayComponent(override val appliedVersions: KubeRayVersion) :
+    Component<KubeRayVersion> {
+    KubeRay(appliedVersions = KubeRayVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
-    override val charts: Set<Chart<KubeRayVersion>> = setOf(KubeRayChart(versions = versions))
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

@@ -24,7 +24,7 @@ object CosignVersionFetcher : VersionsFetcher<CosignVersion> {
     override suspend fun getVersions(last: Int): Map<Component<CosignVersion>, List<String>> =
         CosignComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object CosignVersionFetcher : VersionsFetcher<CosignVersion> {
 
     override fun Component<CosignVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is CosignComponent -> listOf("2.5.3", "2.5.2")
+            is CosignComponent -> listOf("2.6.0", "2.5.3", "2.5.2", "2.5.1", "2.5.0")
             else -> emptyList()
         }
 }

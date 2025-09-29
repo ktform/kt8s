@@ -24,7 +24,7 @@ object PrometheusVersionFetcher : VersionsFetcher<PrometheusVersion> {
     override suspend fun getVersions(last: Int): Map<Component<PrometheusVersion>, List<String>> =
         PrometheusComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object PrometheusVersionFetcher : VersionsFetcher<PrometheusVersion> {
 
     override fun Component<PrometheusVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is PrometheusComponent -> listOf()
+            is PrometheusComponent -> listOf("3.6.0", "3.5.0", "3.4.2", "3.4.1", "3.4.0")
             else -> emptyList()
         }
 }

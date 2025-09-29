@@ -10,10 +10,15 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.K9sVersion
 
-enum class K9sComponent(val versions: K9sVersion) : Component<K9sVersion> {
-    K9s(versions = K9sVersion());
+enum class K9sComponent(override val appliedVersions: K9sVersion) : Component<K9sVersion> {
+    K9s(appliedVersions = K9sVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

@@ -27,7 +27,7 @@ object ExternalSecretsVersionFetcher : VersionsFetcher<ExternalSecretsVersion> {
     ): Map<Component<ExternalSecretsVersion>, List<String>> =
         ExternalSecretsComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -49,7 +49,7 @@ object ExternalSecretsVersionFetcher : VersionsFetcher<ExternalSecretsVersion> {
 
     override fun Component<ExternalSecretsVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is ExternalDnsComponent -> listOf("0.19.2", "0.19.1")
+            is ExternalDnsComponent -> listOf("0.20.1", "0.20.0", "0.19.2", "0.19.1", "0.19.0")
             else -> emptyList()
         }
 }

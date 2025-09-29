@@ -24,7 +24,7 @@ object PodmanVersionFetcher : VersionsFetcher<PodmanVersion> {
     override suspend fun getVersions(last: Int): Map<Component<PodmanVersion>, List<String>> =
         PodmanComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object PodmanVersionFetcher : VersionsFetcher<PodmanVersion> {
 
     override fun Component<PodmanVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is PodmanComponent -> listOf("5.5.2", "5.5.1")
+            is PodmanComponent -> listOf("5.6.1", "5.6.0", "5.5.2", "5.5.1", "5.5.0")
             else -> emptyList()
         }
 }

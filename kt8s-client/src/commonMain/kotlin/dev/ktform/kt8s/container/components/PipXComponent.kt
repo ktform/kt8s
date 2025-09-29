@@ -10,10 +10,15 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.PipXVersion
 
-enum class PipXComponent(val versions: PipXVersion) : Component<PipXVersion> {
-    PipX(versions = PipXVersion());
+enum class PipXComponent(override val appliedVersions: PipXVersion) : Component<PipXVersion> {
+    PipX(appliedVersions = PipXVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

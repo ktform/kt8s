@@ -10,10 +10,16 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.TopoLvmVersion
 
-enum class TopoLvmComponent(val versions: TopoLvmVersion) : Component<TopoLvmVersion> {
-    TopoLvm(versions = TopoLvmVersion());
+enum class TopoLvmComponent(override val appliedVersions: TopoLvmVersion) :
+    Component<TopoLvmVersion> {
+    TopoLvm(appliedVersions = TopoLvmVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

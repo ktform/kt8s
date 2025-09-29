@@ -10,14 +10,16 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.Chart
-import dev.ktform.kt8s.charts.compute.DeschedulerChart
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.DeschedulerVersion
 
-enum class DeschedulerComponent(val versions: DeschedulerVersion) : Component<DeschedulerVersion> {
-    Descheduler(versions = DeschedulerVersion());
+enum class DeschedulerComponent(override val appliedVersions: DeschedulerVersion) :
+    Component<DeschedulerVersion> {
+    Descheduler(appliedVersions = DeschedulerVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
-    override val charts: Set<Chart<DeschedulerVersion>> =
-        setOf(DeschedulerChart(versions = versions))
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

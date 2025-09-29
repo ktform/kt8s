@@ -23,7 +23,7 @@ object AwsCliVersionFetcher : VersionsFetcher<AwsCliVersion> {
     override suspend fun getVersions(last: Int): Map<Component<AwsCliVersion>, List<String>> =
         AwsCliComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -41,7 +41,7 @@ object AwsCliVersionFetcher : VersionsFetcher<AwsCliVersion> {
 
     override fun Component<AwsCliVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is AwsCliComponent -> listOf("2.28.6", "2.28.5", "2.28.4")
+            is AwsCliComponent -> listOf("2.31.3", "2.31.2", "2.31.1", "2.31.0", "2.30.7")
             else -> emptyList()
         }
 }

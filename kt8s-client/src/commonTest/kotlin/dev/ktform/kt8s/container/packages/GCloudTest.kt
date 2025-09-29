@@ -13,7 +13,6 @@ package dev.ktform.kt8s.container.packages
 import com.varabyte.truthish.assertThat
 import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
-import dev.ktform.kt8s.container.components.GCloudComponent
 import dev.ktform.kt8s.container.fetchers.GCloudVersionFetcher
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
@@ -27,13 +26,7 @@ class GCloudTest {
             assertThat(GCloudVersionFetcher.getLatestVersions()).isNotEmpty()
 
             GCloudVersionFetcher.getLatestVersions().forEach { (component, version) ->
-                val cli =
-                    when (component) {
-                        is GCloudComponent if (component == GCloudComponent.GCloud) ->
-                            GCloud(version)
-
-                        else -> throw Exception("Unknown component: $component")
-                    }
+                val cli = GCloud(version)
 
                 cli.render(env = Environment.default)
                     .fold(

@@ -10,10 +10,15 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.AwsCliVersion
 
-enum class AwsCliComponent(versions: AwsCliVersion) : Component<AwsCliVersion> {
-    AwsCli(versions = AwsCliVersion());
+enum class AwsCliComponent(override val appliedVersions: AwsCliVersion) : Component<AwsCliVersion> {
+    AwsCli(appliedVersions = AwsCliVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

@@ -24,7 +24,7 @@ object PipXVersionFetcher : VersionsFetcher<PipXVersion> {
     override suspend fun getVersions(last: Int): Map<Component<PipXVersion>, List<String>> =
         PipXComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object PipXVersionFetcher : VersionsFetcher<PipXVersion> {
 
     override fun Component<PipXVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is PipXComponent -> listOf("1.7.1", "1.7.0", "1.6.0")
+            is PipXComponent -> listOf("1.7.1", "1.7.0", "1.6.0", "1.5.0", "1.4.3")
             else -> emptyList()
         }
 }

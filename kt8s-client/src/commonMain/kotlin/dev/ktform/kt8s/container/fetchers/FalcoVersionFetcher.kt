@@ -24,7 +24,7 @@ object FalcoVersionFetcher : VersionsFetcher<FalcoVersion> {
     override suspend fun getVersions(last: Int): Map<Component<FalcoVersion>, List<String>> =
         FalcoComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object FalcoVersionFetcher : VersionsFetcher<FalcoVersion> {
 
     override fun Component<FalcoVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is FalcoComponent -> listOf("0.41.3", "0.41.2")
+            is FalcoComponent -> listOf("0.41.3", "0.41.2", "0.41.1", "0.41.0", "0.40.0")
             else -> emptyList()
         }
 }

@@ -24,14 +24,14 @@ object LokiVersionFetcher : VersionsFetcher<LokiVersion> {
     override suspend fun getVersions(last: Int): Map<Component<LokiVersion>, List<String>> =
         LokiComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
     override fun repo(component: Component<LokiVersion>): Option<String> =
         when (component) {
             is LokiComponent if component == LokiComponent.Loki ->
-                "https://github.com/loki/loki".some()
+                "https://github.com/grafana/loki".some()
 
             else -> None
         }
@@ -44,7 +44,7 @@ object LokiVersionFetcher : VersionsFetcher<LokiVersion> {
 
     override fun Component<LokiVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is LokiComponent -> listOf()
+            is LokiComponent -> listOf("3.5.5", "3.5.4", "3.5.3", "3.5.2", "3.5.1")
             else -> emptyList()
         }
 }

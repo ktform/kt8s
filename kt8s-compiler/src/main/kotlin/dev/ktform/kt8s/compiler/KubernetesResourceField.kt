@@ -15,7 +15,6 @@ import arrow.core.Option
 import arrow.core.Some
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import dev.ktform.kt8s.compiler.JSONSchema.resolveReference
 
 sealed class KubernetesResourceField(
     val name: String,

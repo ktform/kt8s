@@ -24,7 +24,7 @@ object DenoVersionFetcher : VersionsFetcher<DenoVersion> {
     override suspend fun getVersions(last: Int): Map<Component<DenoVersion>, List<String>> =
         DenoComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object DenoVersionFetcher : VersionsFetcher<DenoVersion> {
 
     override fun Component<DenoVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is DenoComponent -> listOf("2.4.3", "2.4.2", "2.4.1")
+            is DenoComponent -> listOf("2.5.2", "2.5.1", "2.5.0", "2.4.5", "2.4.4")
             else -> emptyList()
         }
 }

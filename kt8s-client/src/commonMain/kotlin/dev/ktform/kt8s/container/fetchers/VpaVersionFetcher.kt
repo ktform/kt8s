@@ -21,17 +21,22 @@ import dev.ktform.kt8s.container.fetchers.VersionsFetcher.Companion.withVPrefix
 import dev.ktform.kt8s.container.versions.VpaVersion
 
 object VpaVersionFetcher : VersionsFetcher<VpaVersion> {
+    private const val RELEASE_PREFIX = "vertical-pod-autoscaler-"
+
     override suspend fun getVersions(last: Int): Map<Component<VpaVersion>, List<String>> =
-        VPAComponent.entries.associateWith {
-            repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
-            }
+        VPAComponent.entries.associateWith { component ->
+            repo(component)
+                .fold(
+                    { emptyList() },
+                    { repo ->
+                        githubVersions(repo, RELEASE_PREFIX, limit = last).getOrElse { emptyList() }
+                    },
+                )
         }
 
     override fun repo(component: Component<VpaVersion>): Option<String> =
         when (component) {
-            is VPAComponent if component == VPAComponent.VPA ->
-                "https://github.com/kubernetes/autoscaler".some()
+            is VPAComponent -> "https://github.com/kubernetes/autoscaler".some()
 
             else -> None
         }
@@ -44,7 +49,8 @@ object VpaVersionFetcher : VersionsFetcher<VpaVersion> {
 
     override fun Component<VpaVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is VPAComponent -> listOf()
+            is VPAComponent -> listOf("1.5.0", "1.4.2", "1.4.1", "1.4.0", "1.3.1")
+
             else -> emptyList()
         }
 }

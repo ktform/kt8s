@@ -10,14 +10,13 @@
  */
 package dev.ktform.kt8s
 
-enum class ChartGroup(optional: Boolean = false) {
+enum class ChartGroup {
     Compute,
-    Development(true),
-    FinOps(true),
-    GitOps(true),
-    MlOps(true),
+    Development,
+    GitOps,
+    MlOps,
     Networking,
-    Observability(true),
+    Observability,
     Security,
     Storage,
 }

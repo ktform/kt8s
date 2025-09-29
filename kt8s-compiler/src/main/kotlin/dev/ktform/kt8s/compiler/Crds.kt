@@ -14,13 +14,19 @@ import arrow.core.Either
 import arrow.core.raise.catch
 import arrow.core.raise.either
 import com.charleskorn.kaml.*
-import dev.ktform.kt8s.compiler.JSONSchema.Definition
-import dev.ktform.kt8s.compiler.JSONSchema.toDefinition
 import java.net.JarURLConnection
 import java.nio.file.Files
 import java.nio.file.Paths
 import kotlin.streams.asSequence
-import kotlinx.serialization.json.*
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonNull
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonArray
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 
 object Crds {
 
@@ -104,7 +110,7 @@ object Crds {
 
     fun all(
         classLoader: ClassLoader = this::class.java.classLoader
-    ): Either<String, Map<String, List<Definition>>> = either {
+    ): Either<String, Map<String, List<JSONSchema.Definition>>> = either {
         chartFiles(classLoader).mapValues { (chartName, chartFiles) ->
             chartFiles.entries.mapNotNull { (fileName, yamlNode) ->
                 try {

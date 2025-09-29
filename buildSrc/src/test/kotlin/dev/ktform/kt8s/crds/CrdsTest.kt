@@ -12,6 +12,7 @@ package dev.ktform.kt8s.crds
 
 import com.varabyte.truthish.assertThat
 import com.varabyte.truthish.assertWithMessage
+import com.varabyte.truthish.assertWithMessage
 import java.io.File
 import java.util.concurrent.TimeUnit
 import kotlin.io.path.createTempDirectory
@@ -27,7 +28,7 @@ class CrdsTest {
       val contents = crds.rawContents()
       val crdsName = crds.javaClass.simpleName.replace("Crds", "")
       assertWithMessage(crdsName).that(contents).isNotEmpty()
-      
+
       contents.forEach { (name, reader) ->
         reader.use { r ->
           val content = r.readText()
@@ -42,7 +43,7 @@ class CrdsTest {
     val (repoName, _) = ArgoCrds.helmRepo.get()
     val chartName = ArgoCrds.chartName.get()
     val process = Crds.templateHelmCrds(repoName, chartName)
-    
+
     try {
       val result = process.inputStream.bufferedReader().use { it.readText() }
       assertThat(result).isNotEmpty()
@@ -87,7 +88,7 @@ class CrdsTest {
       // Ensure all files are created and not empty
       val files = targetDir.walkTopDown().filter { it.isFile }.toList()
       assertWithMessage("Target directory should contain files").that(files).isNotEmpty()
-      
+
       files.forEach { file ->
         val content = file.readText()
         assertWithMessage("File ${file.name} should not be empty").that(content).isNotEmpty()

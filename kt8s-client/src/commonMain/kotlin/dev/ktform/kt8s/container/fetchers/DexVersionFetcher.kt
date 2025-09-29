@@ -24,7 +24,7 @@ object DexVersionFetcher : VersionsFetcher<DexVersion> {
     override suspend fun getVersions(last: Int): Map<Component<DexVersion>, List<String>> =
         DexComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object DexVersionFetcher : VersionsFetcher<DexVersion> {
 
     override fun Component<DexVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is DexComponent -> listOf("2.43.1", "2.43.0")
+            is DexComponent -> listOf("2.44.0", "2.43.1", "2.43.0", "2.42.1", "2.42.0")
             else -> emptyList()
         }
 }

@@ -10,10 +10,15 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.TheiaVersion
 
-enum class TheiaComponent(val versions: TheiaVersion) : Component<TheiaVersion> {
-    Theia(versions = TheiaVersion());
+enum class TheiaComponent(override val appliedVersions: TheiaVersion) : Component<TheiaVersion> {
+    Theia(appliedVersions = TheiaVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

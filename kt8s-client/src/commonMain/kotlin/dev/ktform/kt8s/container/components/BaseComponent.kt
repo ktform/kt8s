@@ -10,10 +10,46 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.container.versions.AwsCliVersion
+import arrow.core.NonEmptySet
+import dev.ktform.kt8s.container.Environment
+import dev.ktform.kt8s.container.versions.BaseVersion
 
-enum class BaseComponent() : Component<AwsCliVersion> {
-    Base;
+enum class BaseComponent(override val appliedVersions: BaseVersion) : Component<BaseVersion> {
+    Base(appliedVersions = BaseVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
 
-    override val applicableFlavours: Set<Component<*>> = emptySet()
+        override val applicableFlavours: Set<Component<*>> = emptySet()
+    },
+    Development(appliedVersions = BaseVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+
+        override val applicableFlavours: Set<Component<*>> =
+            NonEmptySet(
+                Base,
+                Component.buildNative +
+                    Component.buildJvm +
+                    Component.buildPython +
+                    Component.golangFlavours +
+                    Component.javaFlavours +
+                    Component.pythonFlavours +
+                    Component.dotNetFlavours +
+                    Component.denoFlavours +
+                    Component.rubyFlavours +
+                    Component.rustFlavours +
+                    Component.nodeFlavours +
+                    Component.cloudManagementCli +
+                    Component.containerSecurityCli,
+            )
+    },
+    Distroless(appliedVersions = BaseVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+
+        override val applicableFlavours: Set<Component<*>> = setOf(Base)
+    },
 }

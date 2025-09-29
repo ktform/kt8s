@@ -10,12 +10,25 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.JavaVersion
 
-enum class JavaComponent(val versions: JavaVersion) : Component<JavaVersion> {
-    OpenJDK(versions = JavaVersion()),
-    OpenJ9(versions = JavaVersion()),
-    GraalVM(versions = JavaVersion());
+enum class JavaComponent(override val appliedVersions: JavaVersion) : Component<JavaVersion> {
+    OpenJDK(appliedVersions = JavaVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    },
+    OpenJ9(appliedVersions = JavaVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    },
+    GraalVM(appliedVersions = JavaVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
-    override val applicableFlavours: Set<Component<*>> = Component.baseBuilder
+    override val applicableFlavours: Set<Component<*>> = setOf(BaseComponent.Base)
 }

@@ -10,10 +10,15 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.CosignVersion
 
-enum class CosignComponent(val versions: CosignVersion) : Component<CosignVersion> {
-    Cosign(versions = CosignVersion());
+enum class CosignComponent(override val appliedVersions: CosignVersion) : Component<CosignVersion> {
+    Cosign(appliedVersions = CosignVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

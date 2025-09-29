@@ -10,15 +10,40 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.TektonVersion
 
-enum class TektonComponent(val versions: TektonVersion) : Component<TektonVersion> {
-    TektonCli(versions = TektonVersion()),
-    TektonChains(versions = TektonVersion()),
-    TektonDashboard(versions = TektonVersion()),
-    TektonPipeline(versions = TektonVersion()),
-    TektonTriggers(versions = TektonVersion()),
-    TektonResults(versions = TektonVersion());
+enum class TektonComponent(override val appliedVersions: TektonVersion) : Component<TektonVersion> {
+    TektonCli(appliedVersions = TektonVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    },
+    TektonChains(appliedVersions = TektonVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    },
+    TektonDashboard(appliedVersions = TektonVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    },
+    TektonPipeline(appliedVersions = TektonVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    },
+    TektonTriggers(appliedVersions = TektonVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    },
+    TektonResults(appliedVersions = TektonVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

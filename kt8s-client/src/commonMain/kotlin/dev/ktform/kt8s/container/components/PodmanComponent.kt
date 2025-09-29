@@ -10,10 +10,15 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.PodmanVersion
 
-enum class PodmanComponent(val versions: PodmanVersion) : Component<PodmanVersion> {
-    Podman(versions = PodmanVersion());
+enum class PodmanComponent(override val appliedVersions: PodmanVersion) : Component<PodmanVersion> {
+    Podman(appliedVersions = PodmanVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

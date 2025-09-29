@@ -10,10 +10,16 @@
  */
 package dev.ktform.kt8s.container.components
 
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.DotNetVersion
 
-enum class DotNetComponent(val versions: DotNetVersion) : Component<DotNetVersion> {
-    DotNet(versions = DotNetVersion());
+enum class DotNetComponent(override val appliedVersions: DotNetVersion) : Component<DotNetVersion> {
+    DotNet(appliedVersions = DotNetVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
-    override val applicableFlavours: Set<Component<*>> = Component.baseBuilder
+    override val applicableFlavours: Set<Component<*>> =
+        setOf(BaseComponent.Base) + Component.buildNative
 }

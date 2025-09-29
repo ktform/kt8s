@@ -43,7 +43,7 @@ object GolangVersionFetcher : VersionsFetcher<GolangVersion> {
 
     override fun Component<GolangVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is GolangComponent -> listOf("1.24.6", "1.24.5")
+            is GolangComponent -> listOf("1.25.1", "1.25.0", "1.24.7", "1.24.6", "1.24.5")
             else -> emptyList()
         }
 }

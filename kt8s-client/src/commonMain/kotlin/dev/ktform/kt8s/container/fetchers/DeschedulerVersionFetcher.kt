@@ -24,7 +24,7 @@ object DeschedulerVersionFetcher : VersionsFetcher<DeschedulerVersion> {
     override suspend fun getVersions(last: Int): Map<Component<DeschedulerVersion>, List<String>> =
         DeschedulerComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object DeschedulerVersionFetcher : VersionsFetcher<DeschedulerVersion> {
 
     override fun Component<DeschedulerVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is DeschedulerComponent -> listOf("0.33.0", "0.32.2")
+            is DeschedulerComponent -> listOf("0.33.0", "0.32.2", "0.32.1", "0.32.0", "0.31.0")
             else -> emptyList()
         }
 }

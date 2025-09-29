@@ -24,7 +24,7 @@ object CertManagerVersionFetcher : VersionsFetcher<CertManagerVersion> {
     override suspend fun getVersions(last: Int): Map<Component<CertManagerVersion>, List<String>> =
         CertManagerComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object CertManagerVersionFetcher : VersionsFetcher<CertManagerVersion> {
 
     override fun Component<CertManagerVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is CertManagerComponent -> listOf("1.18.2", "1.18.1")
+            is CertManagerComponent -> listOf("1.18.2", "1.18.1", "1.18.0", "1.17.4", "1.17.3")
             else -> emptyList()
         }
 }

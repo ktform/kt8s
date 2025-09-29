@@ -26,7 +26,7 @@ object DataFusionBallistaVersionFetcher : VersionsFetcher<DataFusionBallistaVers
     ): Map<Component<DataFusionBallistaVersion>, List<String>> =
         DataFusionBallistaComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -49,7 +49,9 @@ object DataFusionBallistaVersionFetcher : VersionsFetcher<DataFusionBallistaVers
 
     override fun Component<DataFusionBallistaVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is DataFusionBallistaComponent -> listOf("48.0.0", "47.0.0", "46.0.0")
+            is DataFusionBallistaComponent ->
+                listOf("48.0.0", "47.0.0", "46.0.0", "45.0.0", "44.0.0")
+
             else -> emptyList()
         }
 }

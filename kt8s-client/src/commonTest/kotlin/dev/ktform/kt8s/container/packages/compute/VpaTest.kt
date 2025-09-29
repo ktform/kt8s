@@ -15,6 +15,9 @@ import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.GoldenFileTestCases.getOrUpdateExpected
 import dev.ktform.kt8s.container.components.VPAComponent
 import dev.ktform.kt8s.container.fetchers.VpaVersionFetcher
+import dev.ktform.kt8s.container.versions.VpaVersion.Companion.toVpaAdmissionControllerVersion
+import dev.ktform.kt8s.container.versions.VpaVersion.Companion.toVpaRecommenderVersion
+import dev.ktform.kt8s.container.versions.VpaVersion.Companion.toVpaUpdaterVersion
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.test.runTest
@@ -29,7 +32,14 @@ class VpaTest {
             VpaVersionFetcher.getLatestVersions().forEach { (component, version) ->
                 val vpa =
                     when (component) {
-                        is VPAComponent if (component == VPAComponent.VPA) -> VPA(version)
+                        is VPAComponent if (component == VPAComponent.Recommender) ->
+                            VPA(version.toVpaRecommenderVersion())
+
+                        is VPAComponent if (component == VPAComponent.Updater) ->
+                            VPA(version.toVpaUpdaterVersion())
+
+                        is VPAComponent if (component == VPAComponent.AdmissionController) ->
+                            VPA(version.toVpaAdmissionControllerVersion())
 
                         else -> throw Exception("Unknown component: $component")
                     }

@@ -18,5 +18,6 @@ import dev.ktform.kt8s.container.versions.VpaVersion
 data class VPAChart(override val versions: VpaVersion) : Chart<VpaVersion> {
     override val group: ChartGroup = ChartGroup.Compute
 
-    override val components: List<VPAComponent> = listOf(VPAComponent.VPA)
+    override val components: List<VPAComponent> =
+        listOf(VPAComponent.AdmissionController, VPAComponent.Recommender, VPAComponent.Updater)
 }

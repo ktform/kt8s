@@ -10,13 +10,15 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.Chart
-import dev.ktform.kt8s.charts.security.FalcoChart
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.FalcoVersion
 
-enum class FalcoComponent(val versions: FalcoVersion) : Component<FalcoVersion> {
-    Falco(versions = FalcoVersion());
+enum class FalcoComponent(override val appliedVersions: FalcoVersion) : Component<FalcoVersion> {
+    Falco(appliedVersions = FalcoVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
-    override val charts: Set<Chart<FalcoVersion>> = setOf(FalcoChart(versions = versions))
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

@@ -24,7 +24,7 @@ object NodeJsVersionFetcher : VersionsFetcher<NodeJsVersion> {
     override suspend fun getVersions(last: Int): Map<Component<NodeJsVersion>, List<String>> =
         NodeJsComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object NodeJsVersionFetcher : VersionsFetcher<NodeJsVersion> {
 
     override fun Component<NodeJsVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is NodeJsComponent -> listOf("24.5.0", "24.4.1")
+            is NodeJsComponent -> listOf("24.9.0", "24.8.0", "24.7.0", "24.6.0", "24.5.0")
             else -> emptyList()
         }
 }

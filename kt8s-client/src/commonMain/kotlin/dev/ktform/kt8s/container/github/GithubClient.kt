@@ -121,7 +121,8 @@ class GithubClient {
     ): Either<String, List<T>> {
         if (limit != null && limit <= 0) return emptyList<T>().right()
 
-        var url = "https://api.github.com/repos/$owner/$repo/$endpoint?per_page=1000"
+        var url =
+            "https://api.github.com/repos/$owner/$repo/$endpoint?per_page=1000&sort=created&direction=desc"
         val acc = mutableListOf<T>()
 
         while (true) {

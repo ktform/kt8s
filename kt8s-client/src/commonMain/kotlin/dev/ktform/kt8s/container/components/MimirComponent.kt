@@ -10,13 +10,15 @@
  */
 package dev.ktform.kt8s.container.components
 
-import dev.ktform.kt8s.Chart
-import dev.ktform.kt8s.charts.observability.MimirChart
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.MimirVersion
 
-enum class MimirComponent(val versions: MimirVersion) : Component<MimirVersion> {
-    Mimir(versions = MimirVersion());
+enum class MimirComponent(override val appliedVersions: MimirVersion) : Component<MimirVersion> {
+    Mimir(appliedVersions = MimirVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
-    override val charts: Set<Chart<MimirVersion>> = setOf(MimirChart(versions = versions))
     override val applicableFlavours: Set<Component<*>> = Component.golangFlavours
 }

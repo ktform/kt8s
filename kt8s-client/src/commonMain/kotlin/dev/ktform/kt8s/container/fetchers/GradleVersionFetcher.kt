@@ -24,7 +24,7 @@ object GradleVersionFetcher : VersionsFetcher<GradleVersion> {
     override suspend fun getVersions(last: Int): Map<Component<GradleVersion>, List<String>> =
         GradleComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -44,7 +44,7 @@ object GradleVersionFetcher : VersionsFetcher<GradleVersion> {
 
     override fun Component<GradleVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is GradleComponent -> listOf("9.0.0", "8.14.3")
+            is GradleComponent -> listOf("9.1.0", "9.0.0", "8.14.3", "8.14.2", "8.14.1")
             else -> emptyList()
         }
 }

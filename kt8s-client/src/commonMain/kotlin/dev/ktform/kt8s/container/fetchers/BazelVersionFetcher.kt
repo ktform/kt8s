@@ -24,7 +24,7 @@ object BazelVersionFetcher : VersionsFetcher<BazelVersion> {
     override suspend fun getVersions(last: Int): Map<Component<BazelVersion>, List<String>> =
         BazelComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -48,9 +48,11 @@ object BazelVersionFetcher : VersionsFetcher<BazelVersion> {
 
     override fun Component<BazelVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is BazelComponent if this == BazelComponent.Bazel -> listOf("8.3.1", "8.3.0")
+            is BazelComponent if this == BazelComponent.Bazel ->
+                listOf("8.4.1", "8.4.0", "8.3.1", "8.3.0", "8.2.1")
+
             is BazelComponent if this == BazelComponent.Bazelisk ->
-                listOf("1.27.0", "1.26.0", "1.25.0")
+                listOf("1.27.0", "1.26.0", "1.25.0", "1.24.1", "1.24.0")
 
             else -> emptyList()
         }

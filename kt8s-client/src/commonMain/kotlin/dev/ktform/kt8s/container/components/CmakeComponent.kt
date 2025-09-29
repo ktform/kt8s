@@ -10,10 +10,17 @@
  */
 package dev.ktform.kt8s.container.components
 
+import arrow.core.NonEmptySet
+import dev.ktform.kt8s.container.Environment
 import dev.ktform.kt8s.container.versions.CmakeVersion
 
-enum class CmakeComponent(val versions: CmakeVersion) : Component<CmakeVersion> {
-    Cmake(versions = CmakeVersion());
+enum class CmakeComponent(override val appliedVersions: CmakeVersion) : Component<CmakeVersion> {
+    Cmake(appliedVersions = CmakeVersion()) {
+        override fun image(env: Environment): String {
+            return ""
+        }
+    };
 
-    override val applicableFlavours: Set<Component<*>> = Component.baseBuilder
+    override val applicableFlavours: Set<Component<*>> =
+        NonEmptySet(BaseComponent.Base, Component.buildNative)
 }

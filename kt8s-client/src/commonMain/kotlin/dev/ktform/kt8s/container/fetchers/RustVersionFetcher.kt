@@ -24,7 +24,7 @@ object RustVersionFetcher : VersionsFetcher<RustVersion> {
     override suspend fun getVersions(last: Int): Map<Component<RustVersion>, List<String>> =
         RustComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -45,7 +45,7 @@ object RustVersionFetcher : VersionsFetcher<RustVersion> {
 
     override fun Component<RustVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is RustComponent -> listOf()
+            is RustComponent -> listOf("1.90.0", "1.89.0", "1.88.0", "1.87.0", "1.86.0")
             else -> emptyList()
         }
 }

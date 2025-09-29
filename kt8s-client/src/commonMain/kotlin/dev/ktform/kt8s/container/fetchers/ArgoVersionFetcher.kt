@@ -24,7 +24,7 @@ object ArgoVersionFetcher : VersionsFetcher<ArgoVersion> {
     override suspend fun getVersions(last: Int): Map<Component<ArgoVersion>, List<String>> =
         ArgoComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
@@ -53,14 +53,17 @@ object ArgoVersionFetcher : VersionsFetcher<ArgoVersion> {
 
     override fun Component<ArgoVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is ArgoComponent if this == ArgoComponent.ArgoCd -> listOf("3.0.12", "3.0.11", "3.0.10")
+            is ArgoComponent if this == ArgoComponent.ArgoCd ->
+                listOf("3.1.7", "3.1.6", "3.1.5", "3.1.4", "3.1.3")
 
-            is ArgoComponent if this == ArgoComponent.ArgoWorkflows -> listOf("3.7.0", "3.6.10")
+            is ArgoComponent if this == ArgoComponent.ArgoWorkflows ->
+                listOf("3.7.2", "3.7.1", "3.7.0", "3.6.11", "3.6.10")
 
-            is ArgoComponent if this == ArgoComponent.ArgoEvents -> listOf("3.7.0", "3.6.10")
+            is ArgoComponent if this == ArgoComponent.ArgoEvents ->
+                listOf("1.9.7", "1.9.6", "1.9.5", "1.9.4", "1.9.3")
 
             is ArgoComponent if this == ArgoComponent.ArgoRollouts ->
-                listOf("1.8.3", "1.8.2", "1.8.1")
+                listOf("1.8.3", "1.8.2", "1.8.1", "1.8.0", "1.7.2")
 
             else -> emptyList()
         }

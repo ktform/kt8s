@@ -24,14 +24,14 @@ object VeleroVersionFetcher : VersionsFetcher<VeleroVersion> {
     override suspend fun getVersions(last: Int): Map<Component<VeleroVersion>, List<String>> =
         VeleroComponent.entries.associateWith {
             repo(it).fold({ emptyList() }) { repo ->
-                githubVersions(repo).getOrElse { emptyList() }
+                githubVersions(repo, limit = last).getOrElse { emptyList() }
             }
         }
 
     override fun repo(component: Component<VeleroVersion>): Option<String> =
         when (component) {
             is VeleroComponent if component == VeleroComponent.Velero ->
-                "https://github.com/vmware-tanzu/vmware-tanzu-velero".some()
+                "https://github.com/vmware-tanzu/velero".some()
 
             else -> None
         }
@@ -44,7 +44,7 @@ object VeleroVersionFetcher : VersionsFetcher<VeleroVersion> {
 
     override fun Component<VeleroVersion>.knownLatestVersions(): List<String> =
         when (this) {
-            is VeleroComponent -> listOf()
+            is VeleroComponent -> listOf("1.17.0", "1.16.2", "1.16.1", "1.16.0", "1.15.2")
             else -> emptyList()
         }
 }
